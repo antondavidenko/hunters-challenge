@@ -1,0 +1,4 @@
+-js bin/js/main-javascript.js
+-main Main
+-cp src
+-lib haxe-phaser3

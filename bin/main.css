@@ -1,0 +1,74 @@
+canvas { 
+    padding: 0px;
+}
+
+body {
+    background-color: #000000;
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body::-webkit-scrollbar { width: 0 !important }
+body { -ms-overflow-style: none; }
+body { overflow: -moz-scrollbars-none; }
+
+form {border: 3px solid #f1f1f1;}
+h2 {text-align: center;}
+
+input[type=text], input[type=password], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.container {
+    padding: 16px;
+    background-color: #ffffff;
+}
+
+.expBarBg {
+  height: 10px;
+  width: 100%;
+  background-color: #ddd;
+}
+
+.Player1progress { width: 10%; }
+.Player2progress { width: 20%; }
+.Player3progress { width: 30%; }
+.Player4progress { width: 40%; }
+.Player5progress { width: 50%; }
+
+.expBarBgProgress {
+  height: 100%;
+  background-color: #4CAF50;
+}
+
+.gameCanvas { display:none; }
+.sidePanel { display:none; }
+.containerLogin {
+    width: 50%;
+    margin: auto;
+}
+.classSelectionBlock {
+    width: 16%;
+    float: left;
+    margin-left: 2%;
+    margin-right: 2%;
+}

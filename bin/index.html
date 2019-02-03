@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Hunters Challenge</title>
+    <link rel="stylesheet" href="main.css" type="text/css">
+</head>
+<html>
+    <body>
+        <canvas id="gameCanvas" class="gameCanvas"></canvas>
+
+        <div class="container sidePanel" id="sidePanel">
+            <label id="sidePanel_name1"><b>Player 1 - lvl 1</b></label>
+            <div class="expBarBg">
+                <div class="Player1progress expBarBgProgress" id="sidePanel_Player1progress"></div>
+            </div><br>
+            <label id="sidePanel_name2"><b>Player 2 - lvl 1</b></label>
+            <div class="expBarBg">
+                <div class="Player2progress expBarBgProgress" id="sidePanel_Player2progress"></div>
+            </div><br>
+            <label id="sidePanel_name3"><b>Player 3 - lvl 1</b></label>
+            <div class="expBarBg">
+                <div class="Player3progress expBarBgProgress" id="sidePanel_Player3progress"></div>
+            </div><br>
+            <label id="sidePanel_name4"><b>Player 4 - lvl 1</b></label>
+            <div class="expBarBg">
+                <div class="Player4progress expBarBgProgress" id="sidePanel_Player4progress"></div>
+            </div><br>
+            <label id="sidePanel_name5"><b>Player 5 - lvl 1</b></label>
+            <div class="expBarBg">
+                <div class="Player5progress expBarBgProgress" id="sidePanel_Player5progress"></div>
+            </div>
+        </div>
+
+        <div class="container containerLogin" id="loginPanel">
+            <h2>Welcome to HUNTERS CHALLENGE</h2>
+            <form action="/action_page.php">
+                <div class="container">
+                    <label><b>Player name</b></label>
+                    <input id="playerName" type="text" placeholder="Enter Username" name="uname" value="Player" required>
+
+                    <div class="classSelectionBlock">
+                        <label><b>Player class</b></label>
+                        <select name="charClass" id="playerClass">
+                            <option value="swordman">Swordman</option>
+                            <option value="elf">Elf</option>
+                            <option value="bowman">Bowman</option>
+                            <option value="mage">Mage</option>
+                            <option value="horseman" selected="selected">Horseman</option>
+                        </select>
+                    </div>
+
+                    <div class="classSelectionBlock">
+                        <label><b>Bot1 class</b></label>
+                        <select name="charClass" id="bot1Class">
+                            <option value="swordman">Swordman</option>
+                            <option value="elf">Elf</option>
+                            <option value="bowman">Bowman</option>
+                            <option value="mage">Mage</option>
+                            <option value="horseman">Horseman</option>
+                        </select>
+                    </div>
+
+                    <div class="classSelectionBlock">
+                        <label><b>Bot2 class</b></label>
+                        <select name="charClass" id="bot2Class">
+                            <option value="swordman">Swordman</option>
+                            <option value="elf">Elf</option>
+                            <option value="bowman">Bowman</option>
+                            <option value="mage">Mage</option>
+                            <option value="horseman">Horseman</option>
+                        </select>
+                    </div>
+
+                    <div class="classSelectionBlock">
+                        <label><b>Bot3 class</b></label>
+                        <select name="charClass" id="bot3Class">
+                            <option value="swordman">Swordman</option>
+                            <option value="elf">Elf</option>
+                            <option value="bowman">Bowman</option>
+                            <option value="mage">Mage</option>
+                            <option value="horseman">Horseman</option>
+                        </select>
+                    </div>
+
+                    <div class="classSelectionBlock">
+                        <label><b>Bot4 class</b></label>
+                        <select name="charClass" id="bot4Class">
+                            <option value="swordman">Swordman</option>
+                            <option value="elf">Elf</option>
+                            <option value="bowman">Bowman</option>
+                            <option value="mage">Mage</option>
+                            <option value="horseman"">Horseman</option>
+                        </select>
+                    </div>
+
+                    <label><b>Mobs amount</b></label>
+                    <input id="mobsAmount" type="text" placeholder="Enter mobs amount" value="5" required>
+
+                    <button id="loginButton">Enter</button>
+                </div>
+            </form>
+        </div>
+
+        <script src="js/dist_phaser.js"></script>
+        <script src="js/main-javascript.js"></script>
+    </body>
+</html>
