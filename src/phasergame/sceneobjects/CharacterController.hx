@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import model.PhaserGameModel.CharData;
 import model.PhaserGameModel.CharType;
 import model.PhaserGameModel.CharStartConfig;
 import model.Model;
@@ -25,8 +26,8 @@ class CharacterController {
     }
 
     private function prepareCharackterByConfig(config:CharStartConfig):Character {
-        var character = new Character(phaserScene, config.charType);
-        character.init(config.x, config.y, config.label);
+        var character = new Character(phaserScene, config);
+        character.init();
         allCharacktersList.push(character);
         return character;
     }
@@ -71,10 +72,19 @@ class CharacterController {
 
     public function onCharackterSlayMob(charId:String, mobLvl:Int):Void {
         Model.totalMobSlayedCounter++;
-        if (charId == Model.playerId) { Model.playerMobSlayedCounter++; }
-        else if (charId == Model.botsId[0]) { Model.bot1MobSlayedCounter++; }
-        else if (charId == Model.botsId[1]) { Model.bot2MobSlayedCounter++; }
-        else if (charId == Model.botsId[2]) { Model.bot3MobSlayedCounter++; }
-        else if (charId == Model.botsId[3]) { Model.bot4MobSlayedCounter++; }
+        if (charId == Model.playerId) { updateCharakterDataOnMobSlayed(Model.playerData); }
+        else if (charId == Model.botsId[0]) { updateCharakterDataOnMobSlayed(Model.bot1Data); }
+        else if (charId == Model.botsId[1]) { updateCharakterDataOnMobSlayed(Model.bot2Data); }
+        else if (charId == Model.botsId[2]) { updateCharakterDataOnMobSlayed(Model.bot3Data); }
+        else if (charId == Model.botsId[3]) { updateCharakterDataOnMobSlayed(Model.bot4Data); }
+    }
+
+    private function updateCharakterDataOnMobSlayed(charData:CharData):Void {
+        charData.slayedCounter++;
+        charData.expGained += Model.baseExpGain;
+        if (charData.expGained >= 100) {
+            charData.expGained = 0;
+            charData.currentLevel++;
+        }
     }
 }

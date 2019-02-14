@@ -19,6 +19,7 @@ var Main = function() {
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
 	this.loginPanel = window.document.getElementById("loginPanel");
+	this.HTML5game = window.document.getElementById("HTML5game");
 	window.addEventListener("resize",$bind(this,this.onResize));
 	this.onResize();
 	model_Model.init();
@@ -43,11 +44,17 @@ Main.prototype = {
 		this.sidePanel.style.width = (w - 950 * multiplayer - 32 | 0) + "px";
 	}
 	,onLogin: function() {
-		console.log("onLogin");
 		this.gameCanvas.style.display = "block";
 		this.sidePanel.style.display = "block";
 		this.loginPanel.style.display = "none";
 		this.phaserGame.init(this.gameCanvas,this.sidePanelControl);
+		this.phaserGame.setCallbackOnGameEnd($bind(this,this.onGameEnd));
+		if(model_Model.screenMode == "Fullscreen") {
+			this.HTML5game.requestFullscreen();
+		}
+	}
+	,onGameEnd: function() {
+		console.log("onGameEnd");
 	}
 };
 Math.__name__ = true;
@@ -105,27 +112,37 @@ var htmlcontrols_LoginPanelControl = function(onLogin) {
 	var _gthis = this;
 	var button = window.document.getElementById("loginButton");
 	button.onclick = function(event) {
-		var htmlData = window.document.getElementById("playerName");
-		model_Model.startPlayerConfig.label = htmlData.value;
-		htmlData = window.document.getElementById("playerClass");
-		model_Model.startPlayerConfig.charType = _gthis.getTypeByHtmlData(htmlData.value);
-		htmlData = window.document.getElementById("bot1Class");
-		model_Model.startBootsConfig[0].charType = _gthis.getTypeByHtmlData(htmlData.value);
-		htmlData = window.document.getElementById("bot2Class");
-		model_Model.startBootsConfig[1].charType = _gthis.getTypeByHtmlData(htmlData.value);
-		htmlData = window.document.getElementById("bot3Class");
-		model_Model.startBootsConfig[2].charType = _gthis.getTypeByHtmlData(htmlData.value);
-		htmlData = window.document.getElementById("bot4Class");
-		model_Model.startBootsConfig[3].charType = _gthis.getTypeByHtmlData(htmlData.value);
-		htmlData = window.document.getElementById("mobsAmount");
-		model_Model.mobAmount = Std.parseInt(htmlData.value);
+		model_Model.startPlayerConfig.label = _gthis.getById("playerName");
+		model_Model.startBootsConfig[0].label = _gthis.getById("bot1Name");
+		model_Model.startBootsConfig[1].label = _gthis.getById("bot2Name");
+		model_Model.startBootsConfig[2].label = _gthis.getById("bot3Name");
+		model_Model.startBootsConfig[3].label = _gthis.getById("bot4Name");
+		var tmp = _gthis.getById("playerClass");
+		model_Model.startPlayerConfig.charType = _gthis.getTypeByHtmlData(tmp);
+		var tmp1 = _gthis.getById("bot1Class");
+		model_Model.startBootsConfig[0].charType = _gthis.getTypeByHtmlData(tmp1);
+		var tmp2 = _gthis.getById("bot2Class");
+		model_Model.startBootsConfig[1].charType = _gthis.getTypeByHtmlData(tmp2);
+		var tmp3 = _gthis.getById("bot3Class");
+		model_Model.startBootsConfig[2].charType = _gthis.getTypeByHtmlData(tmp3);
+		var tmp4 = _gthis.getById("bot4Class");
+		model_Model.startBootsConfig[3].charType = _gthis.getTypeByHtmlData(tmp4);
+		model_Model.mobAmount = Std.parseInt(_gthis.getById("mobsAmount"));
+		model_Model.baseExpGain = parseFloat(_gthis.getById("baseExp"));
+		model_Model.maxLvl = Std.parseInt(_gthis.getById("maxLvl"));
+		model_Model.screenMode = _gthis.getById("modeSwitcher");
+		model_Model.showLabel = _gthis.getById("labelsSwitcher") == "ON";
 		onLogin();
 		return false;
 	};
 };
 htmlcontrols_LoginPanelControl.__name__ = true;
 htmlcontrols_LoginPanelControl.prototype = {
-	getTypeByHtmlData: function(data) {
+	getById: function(id) {
+		var htmlData = window.document.getElementById(id);
+		return htmlData.value;
+	}
+	,getTypeByHtmlData: function(data) {
 		var result = model_CharType.SWORDMAN;
 		switch(data) {
 		case "bowman":
@@ -155,11 +172,11 @@ htmlcontrols_SidePanelControl.prototype = {
 		this.mapDataToHTML("sidePanel_name3",model_SidePanelModel.LABEL3);
 		this.mapDataToHTML("sidePanel_name4",model_SidePanelModel.LABEL4);
 		this.mapDataToHTML("sidePanel_name5",model_SidePanelModel.LABEL5);
-		this.mapProgressToHTML("sidePanel_Player1progress",this.getProgressString(model_Model.playerMobSlayedCounter));
-		this.mapProgressToHTML("sidePanel_Player2progress",this.getProgressString(model_Model.bot1MobSlayedCounter));
-		this.mapProgressToHTML("sidePanel_Player3progress",this.getProgressString(model_Model.bot2MobSlayedCounter));
-		this.mapProgressToHTML("sidePanel_Player4progress",this.getProgressString(model_Model.bot3MobSlayedCounter));
-		this.mapProgressToHTML("sidePanel_Player5progress",this.getProgressString(model_Model.bot4MobSlayedCounter));
+		this.mapProgressToHTML("sidePanel_Player1progress",this.getProgressString(model_Model.playerData.expGained));
+		this.mapProgressToHTML("sidePanel_Player2progress",this.getProgressString(model_Model.bot1Data.expGained));
+		this.mapProgressToHTML("sidePanel_Player3progress",this.getProgressString(model_Model.bot2Data.expGained));
+		this.mapProgressToHTML("sidePanel_Player4progress",this.getProgressString(model_Model.bot3Data.expGained));
+		this.mapProgressToHTML("sidePanel_Player5progress",this.getProgressString(model_Model.bot4Data.expGained));
 	}
 	,mapDataToHTML: function(htmlId,data) {
 		var nameHtml = window.document.getElementById(htmlId);
@@ -170,7 +187,7 @@ htmlcontrols_SidePanelControl.prototype = {
 		progressHtml.style.width = data;
 	}
 	,getProgressString: function(current) {
-		var total = model_Model.totalMobSlayedCounter;
+		var total = 100;
 		if(total == 0) {
 			return "0%";
 		} else {
@@ -179,11 +196,11 @@ htmlcontrols_SidePanelControl.prototype = {
 		}
 	}
 	,updateData: function() {
-		model_SidePanelModel.LABEL1 = "" + model_Model.startPlayerConfig.label + " : mob slayed=" + model_Model.playerMobSlayedCounter;
-		model_SidePanelModel.LABEL2 = "" + model_Model.startBootsConfig[0].label + " : mob slayed=" + model_Model.bot1MobSlayedCounter;
-		model_SidePanelModel.LABEL3 = "" + model_Model.startBootsConfig[1].label + " : mob slayed=" + model_Model.bot2MobSlayedCounter;
-		model_SidePanelModel.LABEL4 = "" + model_Model.startBootsConfig[2].label + " : mob slayed=" + model_Model.bot3MobSlayedCounter;
-		model_SidePanelModel.LABEL5 = "" + model_Model.startBootsConfig[3].label + " : mob slayed=" + model_Model.bot4MobSlayedCounter;
+		model_SidePanelModel.LABEL1 = "" + model_Model.startPlayerConfig.label + " : mob slayed=" + model_Model.playerData.slayedCounter + " lvl: " + model_Model.playerData.currentLevel;
+		model_SidePanelModel.LABEL2 = "" + model_Model.startBootsConfig[0].label + " : mob slayed=" + model_Model.bot1Data.slayedCounter + " lvl: " + model_Model.bot1Data.currentLevel;
+		model_SidePanelModel.LABEL3 = "" + model_Model.startBootsConfig[1].label + " : mob slayed=" + model_Model.bot2Data.slayedCounter + " lvl: " + model_Model.bot2Data.currentLevel;
+		model_SidePanelModel.LABEL4 = "" + model_Model.startBootsConfig[2].label + " : mob slayed=" + model_Model.bot3Data.slayedCounter + " lvl: " + model_Model.bot3Data.currentLevel;
+		model_SidePanelModel.LABEL5 = "" + model_Model.startBootsConfig[3].label + " : mob slayed=" + model_Model.bot4Data.slayedCounter + " lvl: " + model_Model.bot4Data.currentLevel;
 	}
 	,update: function() {
 		this.updateData();
@@ -279,6 +296,12 @@ js_Boot.__string_rec = function(o,s) {
 var model_CharacterConfig = function() {
 };
 model_CharacterConfig.__name__ = true;
+var model_CharData = function(slayedCounter,expGained,currentLevel) {
+	this.slayedCounter = slayedCounter;
+	this.expGained = expGained;
+	this.currentLevel = currentLevel;
+};
+model_CharData.__name__ = true;
 var model_Model = function() { };
 model_Model.__name__ = true;
 model_Model.init = function() {
@@ -357,10 +380,18 @@ phasergame_PhaserGame.__name__ = true;
 phasergame_PhaserGame.prototype = {
 	init: function(gameCanvas,sidePanelControl) {
 		this.scene = new phasergame_PhaserScene(sidePanelControl);
+		this.scene.setCallbackOnGameEnd($bind(this,this.onGameEndPhaserGame));
 		this.game = new Phaser.Game({ width : model_Model.phaserGameWidth, height : model_Model.phaserGameHeight, canvas : gameCanvas, scene : this.scene, physics : { "default" : "arcade", "arcade" : { "debug" : false}}});
+	}
+	,setCallbackOnGameEnd: function(callback) {
+		this.onGameEnd = callback;
+	}
+	,onGameEndPhaserGame: function() {
+		this.onGameEnd();
 	}
 };
 var phasergame_PhaserScene = function(sidePanelControl) {
+	this.isPaused = false;
 	Phaser.Scene.call(this);
 	this.background = new phasergame_sceneobjects_Background(this);
 	this.characterController = new phasergame_sceneobjects_CharacterController(this);
@@ -371,7 +402,10 @@ var phasergame_PhaserScene = function(sidePanelControl) {
 phasergame_PhaserScene.__name__ = true;
 phasergame_PhaserScene.__super__ = Phaser.Scene;
 phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
-	preload: function() {
+	setCallbackOnGameEnd: function(callback) {
+		this.onGameEnd = callback;
+	}
+	,preload: function() {
 		this.background.preload();
 		this.characterController.preload();
 		this.mobController.preload();
@@ -388,15 +422,26 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		},this);
 	}
 	,update: function(time,delta) {
-		Phaser.Scene.prototype.update.call(this,time,delta);
-		this.characterController.update(time,delta);
-		this.mobController.update(time,delta);
-		this.sidePanelControl.update();
+		if(!this.isPaused) {
+			Phaser.Scene.prototype.update.call(this,time,delta);
+			this.characterController.update(time,delta);
+			this.mobController.update(time,delta);
+			this.sidePanelControl.update();
+			this.checkGameEndCreteria();
+		}
 	}
 	,onCharackterAndMobCollision: function(dataNameId) {
 		var mobLvl = 1;
 		this.characterController.onCharackterSlayMob(dataNameId.charackter,mobLvl);
 		this.mobController.onMobSlayed(dataNameId.mob);
+	}
+	,checkGameEndCreteria: function() {
+		var isGameEnd = model_Model.playerData.currentLevel == model_Model.maxLvl || model_Model.bot1Data.currentLevel == model_Model.maxLvl || model_Model.bot2Data.currentLevel == model_Model.maxLvl || model_Model.bot3Data.currentLevel == model_Model.maxLvl || model_Model.bot4Data.currentLevel == model_Model.maxLvl;
+		if(isGameEnd) {
+			this.onGameEnd();
+			this.physics.pause();
+			this.isPaused = true;
+		}
 	}
 });
 var phasergame_sceneobjects_Background = function(phaserScene) {
@@ -429,36 +474,37 @@ phasergame_sceneobjects_Background.prototype = {
 		layer.scaleY = 2;
 	}
 };
-var phasergame_sceneobjects_Character = function(phaserScene,typeId) {
+var phasergame_sceneobjects_Character = function(phaserScene,config) {
 	this.MIN_DISTANCE = model_Model.Character.MIN_DISTANCE;
 	this.MOVE_SPEED = model_Model.Character.MOVE_SPEED;
 	this.DEFAULT_POSE_ID = model_Model.Character.DEFAULT_POSE_ID;
 	this.phaserScene = phaserScene;
-	this.typeId = typeId;
+	this.config = config;
 };
 phasergame_sceneobjects_Character.__name__ = true;
 phasergame_sceneobjects_Character.prototype = {
-	init: function(x,y,label) {
+	init: function() {
 		var _g = 0;
 		while(_g < 11) {
 			var i = _g++;
-			this.phaserScene.anims.create(this.getAnimationConfig(this.typeId,i));
+			this.phaserScene.anims.create(this.getAnimationConfig(this.config.charType,i));
 		}
-		this.sprite = this.phaserScene.physics.add.sprite(x,y,this.typeId).setScale(2);
+		this.sprite = this.phaserScene.physics.add.sprite(this.config.x,this.config.y,this.config.charType).setScale(2);
 		this.sprite.name = Utils.getUniqueId();
-		this.sprite.depth = y;
+		this.sprite.depth = this.config.y;
 		this.setAnimation(this.DEFAULT_POSE_ID);
-		this.setLabel(label);
+		this.setLabel(this.config.label);
 	}
 	,setLabel: function(label) {
 		this.text = this.phaserScene.add.text(this.sprite.x,this.sprite.y,label);
+		this.text.visible = model_Model.showLabel;
 		this.updateTextPosition();
 	}
 	,setSpeed: function(speed) {
 		this.MOVE_SPEED = speed;
 	}
 	,setAnimation: function(lineId) {
-		var animationId = this.getIdByTypeIdAndLineId(this.typeId,lineId);
+		var animationId = this.getIdByTypeIdAndLineId(this.config.charType,lineId);
 		this.sprite.anims.load(animationId);
 		this.sprite.anims.play(animationId);
 	}
@@ -555,8 +601,8 @@ phasergame_sceneobjects_CharacterController.prototype = {
 		this.phaserScene.load.spritesheet(model_CharType.HORSEMAN,"assets/char_horseman.png",{ frameWidth : 32, frameHeight : 32});
 	}
 	,prepareCharackterByConfig: function(config) {
-		var character = new phasergame_sceneobjects_Character(this.phaserScene,config.charType);
-		character.init(config.x,config.y,config.label);
+		var character = new phasergame_sceneobjects_Character(this.phaserScene,config);
+		character.init();
 		this.allCharacktersList.push(character);
 		return character;
 	}
@@ -607,15 +653,23 @@ phasergame_sceneobjects_CharacterController.prototype = {
 	,onCharackterSlayMob: function(charId,mobLvl) {
 		model_Model.totalMobSlayedCounter++;
 		if(charId == model_Model.playerId) {
-			model_Model.playerMobSlayedCounter++;
+			this.updateCharakterDataOnMobSlayed(model_Model.playerData);
 		} else if(charId == model_Model.botsId[0]) {
-			model_Model.bot1MobSlayedCounter++;
+			this.updateCharakterDataOnMobSlayed(model_Model.bot1Data);
 		} else if(charId == model_Model.botsId[1]) {
-			model_Model.bot2MobSlayedCounter++;
+			this.updateCharakterDataOnMobSlayed(model_Model.bot2Data);
 		} else if(charId == model_Model.botsId[2]) {
-			model_Model.bot3MobSlayedCounter++;
+			this.updateCharakterDataOnMobSlayed(model_Model.bot3Data);
 		} else if(charId == model_Model.botsId[3]) {
-			model_Model.bot4MobSlayedCounter++;
+			this.updateCharakterDataOnMobSlayed(model_Model.bot4Data);
+		}
+	}
+	,updateCharakterDataOnMobSlayed: function(charData) {
+		charData.slayedCounter++;
+		charData.expGained += model_Model.baseExpGain;
+		if(charData.expGained >= 100) {
+			charData.expGained = 0;
+			charData.currentLevel++;
 		}
 	}
 };
@@ -638,8 +692,9 @@ phasergame_sceneobjects_MobController.prototype = {
 		var _g = model_Model.mobAmount;
 		while(_g1 < _g) {
 			var mob = _g1++;
-			var mob1 = new phasergame_sceneobjects_Character(this.phaserScene,model_MobType.MOB1LVL);
-			mob1.init(Utils.getRandomScreenX(),Utils.getRandomScreenY(),model_MobLabel.MOB1LVL);
+			var mobConfig = new model_CharStartConfig(model_MobType.MOB1LVL,Utils.getRandomScreenX(),Utils.getRandomScreenY(),model_MobLabel.MOB1LVL);
+			var mob1 = new phasergame_sceneobjects_Character(this.phaserScene,mobConfig);
+			mob1.init();
 			mob1.setSpeed(model_Model.MOB_LVL_1_SPEED);
 			this.allMobList.push(mob1);
 		}
@@ -705,12 +760,16 @@ model_Model.MOB_LVL_5_SPEED = 300;
 model_Model.Character = new model_CharacterConfig();
 model_Model.startBootsConfig = [];
 model_Model.mobAmount = 5;
+model_Model.maxLvl = 5;
+model_Model.baseExpGain = 25;
+model_Model.screenMode = "";
+model_Model.showLabel = true;
 model_Model.totalMobSlayedCounter = 0;
-model_Model.playerMobSlayedCounter = 0;
-model_Model.bot1MobSlayedCounter = 0;
-model_Model.bot2MobSlayedCounter = 0;
-model_Model.bot3MobSlayedCounter = 0;
-model_Model.bot4MobSlayedCounter = 0;
+model_Model.playerData = new model_CharData(0,0,1);
+model_Model.bot1Data = new model_CharData(0,0,1);
+model_Model.bot2Data = new model_CharData(0,0,1);
+model_Model.bot3Data = new model_CharData(0,0,1);
+model_Model.bot4Data = new model_CharData(0,0,1);
 model_Model.playerId = "";
 model_Model.botsId = [];
 model_CharType.SWORDMAN = "swordman";

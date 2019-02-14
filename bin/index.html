@@ -1,44 +1,71 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>Hunters Challenge</title>
+    <title>Hunters Challenge v0.4</title>
     <link rel="stylesheet" href="main.css" type="text/css">
 </head>
 <html>
     <body>
-        <canvas id="gameCanvas" class="gameCanvas"></canvas>
+        <div id="HTML5game">
 
-        <div class="container sidePanel" id="sidePanel">
-            <label id="sidePanel_name1"><b>Player 1 - lvl 1</b></label>
-            <div class="expBarBg">
-                <div class="Player1progress expBarBgProgress" id="sidePanel_Player1progress"></div>
-            </div><br>
-            <label id="sidePanel_name2"><b>Player 2 - lvl 1</b></label>
-            <div class="expBarBg">
-                <div class="Player2progress expBarBgProgress" id="sidePanel_Player2progress"></div>
-            </div><br>
-            <label id="sidePanel_name3"><b>Player 3 - lvl 1</b></label>
-            <div class="expBarBg">
-                <div class="Player3progress expBarBgProgress" id="sidePanel_Player3progress"></div>
-            </div><br>
-            <label id="sidePanel_name4"><b>Player 4 - lvl 1</b></label>
-            <div class="expBarBg">
-                <div class="Player4progress expBarBgProgress" id="sidePanel_Player4progress"></div>
-            </div><br>
-            <label id="sidePanel_name5"><b>Player 5 - lvl 1</b></label>
-            <div class="expBarBg">
-                <div class="Player5progress expBarBgProgress" id="sidePanel_Player5progress"></div>
+            <canvas id="gameCanvas" class="gameCanvas"></canvas>
+
+            <div class="container sidePanel" id="sidePanel">
+                <label id="sidePanel_name1"><b>Player 1 - lvl 1</b></label>
+                <div class="expBarBg">
+                    <div class="Player1progress expBarBgProgress" id="sidePanel_Player1progress"></div>
+                </div><br>
+                <label id="sidePanel_name2"><b>Player 2 - lvl 1</b></label>
+                <div class="expBarBg">
+                    <div class="Player2progress expBarBgProgress" id="sidePanel_Player2progress"></div>
+                </div><br>
+                <label id="sidePanel_name3"><b>Player 3 - lvl 1</b></label>
+                <div class="expBarBg">
+                    <div class="Player3progress expBarBgProgress" id="sidePanel_Player3progress"></div>
+                </div><br>
+                <label id="sidePanel_name4"><b>Player 4 - lvl 1</b></label>
+                <div class="expBarBg">
+                    <div class="Player4progress expBarBgProgress" id="sidePanel_Player4progress"></div>
+                </div><br>
+                <label id="sidePanel_name5"><b>Player 5 - lvl 1</b></label>
+                <div class="expBarBg">
+                    <div class="Player5progress expBarBgProgress" id="sidePanel_Player5progress"></div>
+                </div>
             </div>
+
         </div>
 
         <div class="container containerLogin" id="loginPanel">
-            <h2>Welcome to HUNTERS CHALLENGE</h2>
+            <h2>Welcome to HUNTERS CHALLENGE v0.4</h2>
             <form action="/action_page.php">
                 <div class="container">
-                    <label><b>Player name</b></label>
-                    <input id="playerName" type="text" placeholder="Enter Username" name="uname" value="Player" required>
 
-                    <div class="classSelectionBlock">
+                    <div class="smallBlock">
+                        <label><b>Player name</b></label>
+                        <input id="playerName" type="text" placeholder="Enter Username" value="Player" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>Bot1 name</b></label>
+                        <input id="bot1Name" type="text" placeholder="Enter bot1 name" value="bot 1" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>Bot2 name</b></label>
+                        <input id="bot2Name" type="text" placeholder="Enter bot1 name" value="bot 2" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>Bot3 name</b></label>
+                        <input id="bot3Name" type="text" placeholder="Enter bot1 name" value="bot 3" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>Bot4 name</b></label>
+                        <input id="bot4Name" type="text" placeholder="Enter bot1 name" value="bot 4" required>
+                    </div>
+
+                    <div class="smallBlock">
                         <label><b>Player class</b></label>
                         <select name="charClass" id="playerClass">
                             <option value="swordman">Swordman</option>
@@ -49,7 +76,7 @@
                         </select>
                     </div>
 
-                    <div class="classSelectionBlock">
+                    <div class="smallBlock">
                         <label><b>Bot1 class</b></label>
                         <select name="charClass" id="bot1Class">
                             <option value="swordman">Swordman</option>
@@ -60,7 +87,7 @@
                         </select>
                     </div>
 
-                    <div class="classSelectionBlock">
+                    <div class="smallBlock">
                         <label><b>Bot2 class</b></label>
                         <select name="charClass" id="bot2Class">
                             <option value="swordman">Swordman</option>
@@ -71,7 +98,7 @@
                         </select>
                     </div>
 
-                    <div class="classSelectionBlock">
+                    <div class="smallBlock">
                         <label><b>Bot3 class</b></label>
                         <select name="charClass" id="bot3Class">
                             <option value="swordman">Swordman</option>
@@ -82,19 +109,49 @@
                         </select>
                     </div>
 
-                    <div class="classSelectionBlock">
+                    <div class="smallBlock">
                         <label><b>Bot4 class</b></label>
                         <select name="charClass" id="bot4Class">
                             <option value="swordman">Swordman</option>
                             <option value="elf">Elf</option>
                             <option value="bowman">Bowman</option>
                             <option value="mage">Mage</option>
-                            <option value="horseman"">Horseman</option>
+                            <option value="horseman">Horseman</option>
                         </select>
                     </div>
 
-                    <label><b>Mobs amount</b></label>
-                    <input id="mobsAmount" type="text" placeholder="Enter mobs amount" value="5" required>
+                    <hr><b>GAME-PLAY OPTIONS</b><br><br>
+
+                    <div class="smallBlock">
+                        <label><b>Mobs amount</b></label>
+                        <input id="mobsAmount" type="text" placeholder="Enter mobs amount" value="5" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>Base exp</b></label>
+                        <input id="baseExp" type="text" placeholder="Base exp gain" value="25" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>Labels</b></label>
+                        <select id="labelsSwitcher">
+                            <option value="ON">ON</option>
+                            <option value="OFF">OFF</option>
+                        </select>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>Mode</b></label>
+                        <select id="modeSwitcher">
+                            <option value="Windowed">Windowed</option>
+                            <option value="Fullscreen">Fullscreen</option>
+                        </select>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>Max lvl</b></label>
+                        <input id="maxLvl" type="text" placeholder="Enter max level" value="5" required>
+                    </div>
 
                     <button id="loginButton">Enter</button>
                 </div>

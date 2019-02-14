@@ -7,31 +7,34 @@ class LoginPanelControl {
     public function new(onLogin:Void->Void) {
         var button = cast js.Browser.document.getElementById("loginButton");
         button.onclick = function(event) {
-            var htmlData:Dynamic;
-            htmlData = js.Browser.document.getElementById("playerName");
-            Model.startPlayerConfig.label = htmlData.value;
 
-            htmlData = js.Browser.document.getElementById("playerClass");
-            Model.startPlayerConfig.charType = getTypeByHtmlData(htmlData.value);
+            Model.startPlayerConfig.label = getById("playerName");
+            Model.startBootsConfig[0].label = getById("bot1Name");
+            Model.startBootsConfig[1].label = getById("bot2Name");
+            Model.startBootsConfig[2].label = getById("bot3Name");
+            Model.startBootsConfig[3].label = getById("bot4Name");
 
-            htmlData = js.Browser.document.getElementById("bot1Class");
-            Model.startBootsConfig[0].charType = getTypeByHtmlData(htmlData.value);
+            Model.startPlayerConfig.charType = getTypeByHtmlData(getById("playerClass"));
+            Model.startBootsConfig[0].charType = getTypeByHtmlData(getById("bot1Class"));
+            Model.startBootsConfig[1].charType = getTypeByHtmlData(getById("bot2Class"));
+            Model.startBootsConfig[2].charType = getTypeByHtmlData(getById("bot3Class"));
+            Model.startBootsConfig[3].charType = getTypeByHtmlData(getById("bot4Class"));
 
-            htmlData = js.Browser.document.getElementById("bot2Class");
-            Model.startBootsConfig[1].charType = getTypeByHtmlData(htmlData.value);
-
-            htmlData = js.Browser.document.getElementById("bot3Class");
-            Model.startBootsConfig[2].charType = getTypeByHtmlData(htmlData.value);
-
-            htmlData = js.Browser.document.getElementById("bot4Class");
-            Model.startBootsConfig[3].charType = getTypeByHtmlData(htmlData.value);
-
-            htmlData = js.Browser.document.getElementById("mobsAmount");
-            Model.mobAmount = Std.parseInt(htmlData.value);
+            Model.mobAmount = Std.parseInt(getById("mobsAmount"));
+            Model.baseExpGain = Std.parseFloat(getById("baseExp"));
+            Model.maxLvl = Std.parseInt(getById("maxLvl"));
+            Model.screenMode = getById("modeSwitcher");
+            Model.showLabel = (getById("labelsSwitcher")=="ON");
 
             onLogin();
             return false;
         }
+    }
+
+    private function getById(id:String):Dynamic {
+        var htmlData:Dynamic;
+        htmlData = js.Browser.document.getElementById(id);
+        return htmlData.value;
     }
 
     private function getTypeByHtmlData(data:String):String {

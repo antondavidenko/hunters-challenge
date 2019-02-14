@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import model.PhaserGameModel.CharStartConfig;
 import phaser.gameobjects.Text;
 import model.Model;
 import phaser.GenerateFrameNumbersConfig;
@@ -10,7 +11,7 @@ class Character {
 
     private var sprite:Sprite;
     private var phaserScene:phaser.Scene;
-    private var typeId:String;
+    private var config:CharStartConfig;
     private var text:Text;
 
     private var DEFAULT_POSE_ID:Int = Model.Character.DEFAULT_POSE_ID;
@@ -19,25 +20,26 @@ class Character {
     private var xDestination:Int;
     private var yDestination:Int;
 
-    public function new(phaserScene:phaser.Scene, typeId:String) {
+    public function new(phaserScene:phaser.Scene, config:CharStartConfig) {
         this.phaserScene = phaserScene;
-        this.typeId = typeId;
+        this.config = config;
     }
 
-    public function init(x:Int, y:Int, label:String):Void {
+    public function init():Void {
         for (i in 0...11) {
-            phaserScene.anims.create(getAnimationConfig(typeId, i));
+            phaserScene.anims.create(getAnimationConfig(config.charType, i));
         }
         //sprite = phaserScene.add.sprite(x, y, typeId).setScale(2);
-        sprite =  phaserScene.physics.add.sprite(x, y, typeId).setScale(2);
+        sprite =  phaserScene.physics.add.sprite(config.x, config.y, config.charType).setScale(2);
         sprite.name = Utils.getUniqueId();
-        sprite.depth = y;
+        sprite.depth = config.y;
         setAnimation(DEFAULT_POSE_ID);
-        setLabel(label);
+        setLabel(config.label);
     }
 
     public function setLabel(label:String):Void {
         text = phaserScene.add.text(sprite.x, sprite.y, label);
+        text.visible = Model.showLabel;
         updateTextPosition();
     }
 
@@ -46,7 +48,7 @@ class Character {
     }
 
     private function setAnimation(lineId:Int):Void {
-        var animationId:String = getIdByTypeIdAndLineId(typeId,lineId);
+        var animationId:String = getIdByTypeIdAndLineId(config.charType,lineId);
         sprite.anims.load(animationId);
         sprite.anims.play(animationId);
     }
@@ -98,7 +100,7 @@ class Character {
 
     private function detectPosByAngle(angle:Float):Int
     {
-        var	result:Int = 3;
+        var result:Int = 3;
         angle = angle+180;
 
         if ((angle<= 112)&&(angle>= 67)) { result=6; }

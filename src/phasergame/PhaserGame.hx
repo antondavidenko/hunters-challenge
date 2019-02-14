@@ -11,11 +11,13 @@ import phasergame.sceneobjects.Background;
 class PhaserGame {
     private var scene:PhaserScene;
     private var game:phaser.Game;
+    private var onGameEnd:Void->Void;
 
     public function new() {}
 
     public function init(gameCanvas:CanvasElement, sidePanelControl:SidePanelControl) {
         scene = new PhaserScene(sidePanelControl);
+        scene.setCallbackOnGameEnd(onGameEndPhaserGame);
         game  = new phaser.Game({
             width: Model.phaserGameWidth,
             height: Model.phaserGameHeight,
@@ -23,6 +25,14 @@ class PhaserGame {
             scene: scene,
             physics: {"default": "arcade", "arcade": { "debug": false }},
         });
+    }
+
+    public function setCallbackOnGameEnd(callback:Void->Void):Void {
+        onGameEnd = callback;
+    }
+
+    public function onGameEndPhaserGame():Void {
+        onGameEnd();
     }
 }
 
@@ -33,6 +43,8 @@ class PhaserScene extends phaser.Scene {
     private var mobController:MobController;
     private var sidePanelControl:SidePanelControl;
     private var collisionDetector:CollisionDetector;
+    private var onGameEnd:Void->Void;
+    private var isPaused:Bool = false;
 
     public function new(sidePanelControl:SidePanelControl) {
         super();
@@ -41,6 +53,10 @@ class PhaserScene extends phaser.Scene {
         mobController = new MobController(this);
         collisionDetector = new CollisionDetector(this);
         this.sidePanelControl = sidePanelControl;
+    }
+
+    public function setCallbackOnGameEnd(callback:Void->Void):Void {
+        onGameEnd = callback;
     }
 
     public function preload() {
@@ -61,15 +77,32 @@ class PhaserScene extends phaser.Scene {
     }
 
     override public function update(time:Float, delta:Float):Void {
-        super.update(time, delta);
-        characterController.update(time, delta);
-        mobController.update(time, delta);
-        sidePanelControl.update();
+        if (!isPaused) {
+            super.update(time, delta);
+            characterController.update(time, delta);
+            mobController.update(time, delta);
+            sidePanelControl.update();
+            checkGameEndCreteria();
+        }
     }
 
     private function onCharackterAndMobCollision(dataNameId:CharackterAndMobData):Void {
         var mobLvl:Int = 1;//mobController.getLvlById(dataNameId.mob);
         characterController.onCharackterSlayMob(dataNameId.charackter, mobLvl);
         mobController.onMobSlayed(dataNameId.mob);
+    }
+
+    private function checkGameEndCreteria() {
+        var isGameEnd:Bool = ((Model.playerData.currentLevel == Model.maxLvl)||
+            (Model.bot1Data.currentLevel == Model.maxLvl)||
+            (Model.bot2Data.currentLevel == Model.maxLvl)||
+            (Model.bot3Data.currentLevel == Model.maxLvl)||
+            (Model.bot4Data.currentLevel == Model.maxLvl));
+
+        if (isGameEnd) {
+            onGameEnd();
+            this.physics.pause();
+            isPaused = true;
+        }
     }
 }

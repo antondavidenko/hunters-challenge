@@ -10,6 +10,7 @@ class Main {
     private var gameCanvas:CanvasElement;
     private var sidePanel:HtmlElement;
     private var loginPanel:HtmlElement;
+    private var HTML5game:HtmlElement;
 
     private var phaserGame:PhaserGame;
     private var sidePanelControl:SidePanelControl;
@@ -23,6 +24,7 @@ class Main {
         gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
         sidePanel = cast js.Browser.document.getElementById("sidePanel");
         loginPanel = cast js.Browser.document.getElementById("loginPanel");
+        HTML5game = cast js.Browser.document.getElementById("HTML5game");
         js.Browser.window.addEventListener("resize", onResize);
         onResize();
         Model.init();
@@ -47,10 +49,17 @@ class Main {
     }
 
     private function onLogin() {
-        trace("onLogin");
         gameCanvas.style.display = "block";
         sidePanel.style.display = "block";
         loginPanel.style.display = "none";
         phaserGame.init(gameCanvas, sidePanelControl);
+        phaserGame.setCallbackOnGameEnd(onGameEnd);
+        if (Model.screenMode == "Fullscreen") {
+            HTML5game.requestFullscreen();
+        }
+    }
+
+    private function onGameEnd() {
+        trace("onGameEnd");
     }
 }

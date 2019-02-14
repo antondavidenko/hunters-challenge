@@ -55,3 +55,15 @@ class CharStartConfig {
     public var y:Int;
     public var label:String;
 }
+
+class CharData {
+    public function new(slayedCounter:Int, expGained:Float, currentLevel:Int) {
+        this.slayedCounter = slayedCounter;
+        this.expGained = expGained;
+        this.currentLevel = currentLevel;
+    }
+
+    public var slayedCounter:Int;
+    public var expGained:Float;
+    public var currentLevel:Int;
+}

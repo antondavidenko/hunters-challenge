@@ -1,5 +1,6 @@
 package model;
 
+import model.PhaserGameModel.CharData;
 import model.PhaserGameModel.CharType;
 import model.PhaserGameModel.CharacterConfig;
 import model.PhaserGameModel.CharStartConfig;
@@ -21,12 +22,16 @@ class Model {
     static public var startPlayerConfig:CharStartConfig;
 
     static public var mobAmount:Int = 5;
+    static public var maxLvl:Int = 5;
+    static public var baseExpGain:Float = 25;
+    static public var screenMode:String = "";
+    static public var showLabel:Bool = true;
     static public var totalMobSlayedCounter = 0;
-    static public var playerMobSlayedCounter = 0;
-    static public var bot1MobSlayedCounter = 0;
-    static public var bot2MobSlayedCounter = 0;
-    static public var bot3MobSlayedCounter = 0;
-    static public var bot4MobSlayedCounter = 0;
+    static public var playerData:CharData = new CharData(0,0,1);
+    static public var bot1Data:CharData = new CharData(0,0,1);
+    static public var bot2Data:CharData = new CharData(0,0,1);
+    static public var bot3Data:CharData = new CharData(0,0,1);
+    static public var bot4Data:CharData = new CharData(0,0,1);
 
     static public var playerId:String = "";
     static public var botsId:Array<String> = [];
