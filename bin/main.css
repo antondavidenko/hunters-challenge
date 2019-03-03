@@ -63,11 +63,11 @@ button:hover {
 .gameCanvas { display:none; }
 .sidePanel { display:none; }
 .containerLogin {
-    width: 50%;
+    width: 70%;
     margin: auto;
 }
 .smallBlock {
-    width: 16%;
+    width: 12%;
     float: left;
     margin-left: 2%;
     margin-right: 2%;

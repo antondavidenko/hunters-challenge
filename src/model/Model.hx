@@ -1,7 +1,6 @@
 package model;
 
 import model.PhaserGameModel.CharData;
-import model.PhaserGameModel.CharType;
 import model.PhaserGameModel.CharacterConfig;
 import model.PhaserGameModel.CharStartConfig;
 
@@ -11,40 +10,44 @@ class Model {
 
     static public var botTimeoutDelay:Int = 1000;
     static public var mobTimeoutDelay:Int = 100;
-    static public var MOB_LVL_1_SPEED = 25;
-    static public var MOB_LVL_2_SPEED = 50;
-    static public var MOB_LVL_3_SPEED = 100;
-    static public var MOB_LVL_4_SPEED = 200;
-    static public var MOB_LVL_5_SPEED = 300;
 
-    static public var Character:CharacterConfig = new CharacterConfig();
-    static public var startBootsConfig:Array<CharStartConfig> = [];
-    static public var startPlayerConfig:CharStartConfig;
+    static public var character:CharacterConfig = new CharacterConfig();
+    static public var charsStartConfig:Array<CharStartConfig> = [];
 
-    static public var mobAmount:Int = 5;
-    static public var maxLvl:Int = 5;
-    static public var baseExpGain:Float = 25;
-    static public var screenMode:String = "";
-    static public var showLabel:Bool = true;
+    static public var mobAmount:Int;
+    static public var maxLvl:Int;
+    static public var baseExpGain:Float;
+    static public var screenMode:String;
+    static public var showLabel:Bool;
+
     static public var totalMobSlayedCounter = 0;
-    static public var playerData:CharData = new CharData(0,0,1);
-    static public var bot1Data:CharData = new CharData(0,0,1);
-    static public var bot2Data:CharData = new CharData(0,0,1);
-    static public var bot3Data:CharData = new CharData(0,0,1);
-    static public var bot4Data:CharData = new CharData(0,0,1);
+    static public var charsData:Array<CharData> = [];
 
     static public var playerId:String = "";
     static public var botsId:Array<String> = [];
 
     static public function init():Void {
-        Character.DEFAULT_POSE_ID = 7;
-        Character.MOVE_SPEED = 150;
-        Character.MIN_DISTANCE = 3;
+        character.DEFAULT_POSE_ID = 7;
+        character.MOVE_SPEED = 150;
+        character.MIN_DISTANCE = 3;
 
-        startPlayerConfig = new CharStartConfig(CharType.HORSEMAN, 400, 300, "Player");
-        startBootsConfig.push(new CharStartConfig(CharType.SWORDMAN, 200, 300, "bot 1"));
-        startBootsConfig.push(new CharStartConfig(CharType.SWORDMAN, 300, 300, "bot 2"));
-        startBootsConfig.push(new CharStartConfig(CharType.SWORDMAN, 500, 300, "bot 3"));
-        startBootsConfig.push(new CharStartConfig(CharType.SWORDMAN, 600, 300, "bot 4"));
+        mobAmount = DefaultValues.mobAmount;
+        maxLvl = DefaultValues.maxLvl;
+        baseExpGain = DefaultValues.baseExpGain;
+        screenMode = DefaultValues.screenMode;
+        showLabel = DefaultValues.showLabel;
+
+        for (i in 0...6) {
+            charsData.push(new CharData(0,0,1));
+            charsStartConfig.push(getCharStartConfigByDefaultValues(i));
+        }
+    }
+
+    static private function getCharStartConfigByDefaultValues(id:Int):CharStartConfig {
+        var charType:String = DefaultValues.slots[id].charType;
+        var name:String = DefaultValues.slots[id].name;
+        var x:Int = DefaultValues.slots[id].x;
+        var y:Int = DefaultValues.slots[id].y;
+        return new CharStartConfig(charType,x,y,name);
     }
 }

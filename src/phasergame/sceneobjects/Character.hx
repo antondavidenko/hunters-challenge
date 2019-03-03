@@ -14,9 +14,9 @@ class Character {
     private var config:CharStartConfig;
     private var text:Text;
 
-    private var DEFAULT_POSE_ID:Int = Model.Character.DEFAULT_POSE_ID;
-    private var MOVE_SPEED:Int = Model.Character.MOVE_SPEED;
-    private var MIN_DISTANCE:Int = Model.Character.MIN_DISTANCE;
+    private var DEFAULT_POSE_ID:Int = Model.character.DEFAULT_POSE_ID;
+    private var MOVE_SPEED:Int = Model.character.MOVE_SPEED;
+    private var MIN_DISTANCE:Int = Model.character.MIN_DISTANCE;
     private var xDestination:Int;
     private var yDestination:Int;
 

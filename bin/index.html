@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>Hunters Challenge v0.4</title>
+    <title>Hunters Challenge v0.5</title>
     <link rel="stylesheet" href="main.css" type="text/css">
 </head>
 <html>
@@ -30,55 +30,53 @@
                 <label id="sidePanel_name5"><b>Player 5 - lvl 1</b></label>
                 <div class="expBarBg">
                     <div class="Player5progress expBarBgProgress" id="sidePanel_Player5progress"></div>
+                </div><br>
+                <label id="sidePanel_name6"><b>Player 6 - lvl 1</b></label>
+                <div class="expBarBg">
+                    <div class="Player6progress expBarBgProgress" id="sidePanel_Player6progress"></div>
                 </div>
             </div>
 
         </div>
 
         <div class="container containerLogin" id="loginPanel">
-            <h2>Welcome to HUNTERS CHALLENGE v0.4</h2>
+            <h2>Welcome to HUNTERS CHALLENGE v0.5</h2>
             <form action="/action_page.php">
                 <div class="container">
 
                     <div class="smallBlock">
-                        <label><b>Player name</b></label>
-                        <input id="playerName" type="text" placeholder="Enter Username" value="Player" required>
+                        <label><b>SLOT 1<br>name</b></label>
+                        <input id="slot1Name" type="text" placeholder="Enter slot1 name" required>
                     </div>
 
                     <div class="smallBlock">
-                        <label><b>Bot1 name</b></label>
-                        <input id="bot1Name" type="text" placeholder="Enter bot1 name" value="bot 1" required>
+                        <label><b>SLOT 2<br>name</b></label>
+                        <input id="slot2Name" type="text" placeholder="Enter slot2 name" required>
                     </div>
 
                     <div class="smallBlock">
-                        <label><b>Bot2 name</b></label>
-                        <input id="bot2Name" type="text" placeholder="Enter bot1 name" value="bot 2" required>
+                        <label><b>SLOT 3<br>name</b></label>
+                        <input id="slot3Name" type="text" placeholder="Enter slot3 name" required>
                     </div>
 
                     <div class="smallBlock">
-                        <label><b>Bot3 name</b></label>
-                        <input id="bot3Name" type="text" placeholder="Enter bot1 name" value="bot 3" required>
+                        <label><b>SLOT 4<br>name</b></label>
+                        <input id="slot4Name" type="text" placeholder="Enter slot4 name" required>
                     </div>
 
                     <div class="smallBlock">
-                        <label><b>Bot4 name</b></label>
-                        <input id="bot4Name" type="text" placeholder="Enter bot1 name" value="bot 4" required>
+                        <label><b>SLOT 5<br>name</b></label>
+                        <input id="slot5Name" type="text" placeholder="Enter slot5 name" required>
                     </div>
 
                     <div class="smallBlock">
-                        <label><b>Player class</b></label>
-                        <select name="charClass" id="playerClass">
-                            <option value="swordman">Swordman</option>
-                            <option value="elf">Elf</option>
-                            <option value="bowman">Bowman</option>
-                            <option value="mage">Mage</option>
-                            <option value="horseman" selected="selected">Horseman</option>
-                        </select>
+                        <label><b>SLOT 6<br>name</b></label>
+                        <input id="slot6Name" type="text" placeholder="Enter slot6 name" required>
                     </div>
 
                     <div class="smallBlock">
-                        <label><b>Bot1 class</b></label>
-                        <select name="charClass" id="bot1Class">
+                        <label><b>class</b></label>
+                        <select name="charClass" id="slot1Class">
                             <option value="swordman">Swordman</option>
                             <option value="elf">Elf</option>
                             <option value="bowman">Bowman</option>
@@ -88,8 +86,8 @@
                     </div>
 
                     <div class="smallBlock">
-                        <label><b>Bot2 class</b></label>
-                        <select name="charClass" id="bot2Class">
+                        <label><b>class</b></label>
+                        <select name="charClass" id="slot2Class">
                             <option value="swordman">Swordman</option>
                             <option value="elf">Elf</option>
                             <option value="bowman">Bowman</option>
@@ -99,8 +97,8 @@
                     </div>
 
                     <div class="smallBlock">
-                        <label><b>Bot3 class</b></label>
-                        <select name="charClass" id="bot3Class">
+                        <label><b>class</b></label>
+                        <select name="charClass" id="slot3Class">
                             <option value="swordman">Swordman</option>
                             <option value="elf">Elf</option>
                             <option value="bowman">Bowman</option>
@@ -110,8 +108,8 @@
                     </div>
 
                     <div class="smallBlock">
-                        <label><b>Bot4 class</b></label>
-                        <select name="charClass" id="bot4Class">
+                        <label><b>class</b></label>
+                        <select name="charClass" id="slot4Class">
                             <option value="swordman">Swordman</option>
                             <option value="elf">Elf</option>
                             <option value="bowman">Bowman</option>
@@ -120,7 +118,131 @@
                         </select>
                     </div>
 
-                    <hr><b>GAME-PLAY OPTIONS</b><br><br>
+                    <div class="smallBlock">
+                        <label><b>class</b></label>
+                        <select name="charClass" id="slot5Class">
+                            <option value="swordman">Swordman</option>
+                            <option value="elf">Elf</option>
+                            <option value="bowman">Bowman</option>
+                            <option value="mage">Mage</option>
+                            <option value="horseman">Horseman</option>
+                        </select>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>class</b></label>
+                        <select name="charClass" id="slot6Class">
+                            <option value="swordman">Swordman</option>
+                            <option value="elf">Elf</option>
+                            <option value="bowman">Bowman</option>
+                            <option value="mage">Mage</option>
+                            <option value="horseman">Horseman</option>
+                        </select>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>control</b></label>
+                        <select name="charControl" id="slot1Control">
+                            <option value="mouse">mouse</option>
+                            <option value="keys_arrows">keys:arrows</option>
+                            <option value="keys_awsd">keys:awsd</option>
+                            <option value="bot_simple">bot:simple</option>
+                            <option value="bot_hard">bot:hard</option>
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>control</b></label>
+                        <select name="charControl" id="slot2Control">
+                            <option value="mouse">mouse</option>
+                            <option value="keys_arrows">keys:arrows</option>
+                            <option value="keys_awsd">keys:awsd</option>
+                            <option value="bot_simple">bot:simple</option>
+                            <option value="bot_hard">bot:hard</option>
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>control</b></label>
+                        <select name="charControl" id="slot3Control">
+                            <option value="mouse">mouse</option>
+                            <option value="keys_arrows">keys:arrows</option>
+                            <option value="keys_awsd">keys:awsd</option>
+                            <option value="bot_simple">bot:simple</option>
+                            <option value="bot_hard">bot:hard</option>
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>control</b></label>
+                        <select name="charControl" id="slot4Control">
+                            <option value="mouse">mouse</option>
+                            <option value="keys_arrows">keys:arrows</option>
+                            <option value="keys_awsd">keys:awsd</option>
+                            <option value="bot_simple">bot:simple</option>
+                            <option value="bot_hard">bot:hard</option>
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>control</b></label>
+                        <select name="charControl" id="slot5Control">
+                            <option value="mouse">mouse</option>
+                            <option value="keys_arrows">keys:arrows</option>
+                            <option value="keys_awsd">keys:awsd</option>
+                            <option value="bot_simple">bot:simple</option>
+                            <option value="bot_hard">bot:hard</option>
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>control</b></label>
+                        <select name="charControl" id="slot6Control">
+                            <option value="mouse">mouse</option>
+                            <option value="keys_arrows">keys:arrows</option>
+                            <option value="keys_awsd">keys:awsd</option>
+                            <option value="bot_simple">bot:simple</option>
+                            <option value="bot_hard">bot:hard</option>
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>spawn: x,y</b></label>
+                        <input id="slot1Spawn" type="text" placeholder="Enter slot1 name" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>spawn: x,y</b></label>
+                        <input id="slot2Spawn" type="text" placeholder="Enter slot1 name" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>spawn: x,y</b></label>
+                        <input id="slot3Spawn" type="text" placeholder="Enter slot1 name" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>spawn: x,y</b></label>
+                        <input id="slot4Spawn" type="text" placeholder="Enter slot1 name" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>spawn: x,y</b></label>
+                        <input id="slot5Spawn" type="text" placeholder="Enter slot1 name" required>
+                    </div>
+
+                    <div class="smallBlock">
+                        <label><b>spawn: x,y</b></label>
+                        <input id="slot6Spawn" type="text" placeholder="Enter slot1 name" required>
+                    </div>
+
+                    <br><b>GAME-PLAY OPTIONS</b><br><br>
 
                     <div class="smallBlock">
                         <label><b>Mobs amount</b></label>

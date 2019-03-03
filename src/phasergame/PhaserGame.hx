@@ -93,11 +93,12 @@ class PhaserScene extends phaser.Scene {
     }
 
     private function checkGameEndCreteria() {
-        var isGameEnd:Bool = ((Model.playerData.currentLevel == Model.maxLvl)||
-            (Model.bot1Data.currentLevel == Model.maxLvl)||
-            (Model.bot2Data.currentLevel == Model.maxLvl)||
-            (Model.bot3Data.currentLevel == Model.maxLvl)||
-            (Model.bot4Data.currentLevel == Model.maxLvl));
+        var isGameEnd:Bool = ((Model.charsData[0].currentLevel == Model.maxLvl)||
+            (Model.charsData[1].currentLevel == Model.maxLvl)||
+            (Model.charsData[2].currentLevel == Model.maxLvl)||
+            (Model.charsData[3].currentLevel == Model.maxLvl)||
+            (Model.charsData[4].currentLevel == Model.maxLvl)||
+            (Model.charsData[5].currentLevel == Model.maxLvl));
 
         if (isGameEnd) {
             onGameEnd();

@@ -1,34 +1,46 @@
 package htmlcontrols;
 
-import model.PhaserGameModel.CharType;
-import model.Model;
+import model.DefaultValues;
 class LoginPanelControl {
 
     public function new(onLogin:Void->Void) {
+        updateInputByDefaultValues();
         var button = cast js.Browser.document.getElementById("loginButton");
         button.onclick = function(event) {
-
-            Model.startPlayerConfig.label = getById("playerName");
-            Model.startBootsConfig[0].label = getById("bot1Name");
-            Model.startBootsConfig[1].label = getById("bot2Name");
-            Model.startBootsConfig[2].label = getById("bot3Name");
-            Model.startBootsConfig[3].label = getById("bot4Name");
-
-            Model.startPlayerConfig.charType = getTypeByHtmlData(getById("playerClass"));
-            Model.startBootsConfig[0].charType = getTypeByHtmlData(getById("bot1Class"));
-            Model.startBootsConfig[1].charType = getTypeByHtmlData(getById("bot2Class"));
-            Model.startBootsConfig[2].charType = getTypeByHtmlData(getById("bot3Class"));
-            Model.startBootsConfig[3].charType = getTypeByHtmlData(getById("bot4Class"));
-
-            Model.mobAmount = Std.parseInt(getById("mobsAmount"));
-            Model.baseExpGain = Std.parseFloat(getById("baseExp"));
-            Model.maxLvl = Std.parseInt(getById("maxLvl"));
-            Model.screenMode = getById("modeSwitcher");
-            Model.showLabel = (getById("labelsSwitcher")=="ON");
-
+            updateDefaultValuesByInput();
             onLogin();
             return false;
         }
+    }
+
+    private function updateInputByDefaultValues():Void {
+        for (i in 1...7) {
+            setById('slot${i}Name', DefaultValues.slots[i-1].name);
+            setById('slot${i}Class', DefaultValues.slots[i-1].charType);
+            setById('slot${i}Control', DefaultValues.slots[i-1].controlType);
+            var spawnXY:String = '${DefaultValues.slots[i-1].x};${DefaultValues.slots[i-1].y}';
+            setById('slot${i}Spawn', spawnXY);
+        }
+        setById('mobsAmount', Std.string(DefaultValues.mobAmount));
+        setById('maxLvl', Std.string(DefaultValues.maxLvl));
+        setById('baseExp', Std.string(DefaultValues.baseExpGain));
+    }
+
+    private function updateDefaultValuesByInput():Void {
+        for (i in 1...7) {
+            DefaultValues.slots[i-1].name = getById('slot${i}Name');
+            DefaultValues.slots[i-1].charType = getById('slot${i}Class');
+            DefaultValues.slots[i-1].controlType = getById('slot${i}Control');
+            var spawnXY:Array<String> = Std.string(getById('slot${i}Spawn')).split(";");
+            DefaultValues.slots[i-1].x = Std.parseInt(spawnXY[0]);
+            DefaultValues.slots[i-1].y = Std.parseInt(spawnXY[1]);
+        }
+
+        DefaultValues.mobAmount = Std.parseInt(getById("mobsAmount"));
+        DefaultValues.baseExpGain = Std.parseFloat(getById("baseExp"));
+        DefaultValues.maxLvl = Std.parseInt(getById("maxLvl"));
+        DefaultValues.screenMode = getById("modeSwitcher");
+        DefaultValues.showLabel = (getById("labelsSwitcher")=="ON");
     }
 
     private function getById(id:String):Dynamic {
@@ -37,14 +49,9 @@ class LoginPanelControl {
         return htmlData.value;
     }
 
-    private function getTypeByHtmlData(data:String):String {
-        var result:String = CharType.SWORDMAN;
-        switch data {
-            case "horseman": result = CharType.HORSEMAN;
-            case "mage": result = CharType.MAGE;
-            case "elf": result = CharType.ELF;
-            case "bowman": result = CharType.BOWMAN;
-        }
-        return result;
+    private function setById(id:String, value:String):Void {
+        var htmlData:Dynamic;
+        htmlData = js.Browser.document.getElementById(id);
+        htmlData.value = value;
     }
 }

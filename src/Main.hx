@@ -1,3 +1,4 @@
+import model.DefaultValues;
 import htmlcontrols.LoginPanelControl;
 import htmlcontrols.SidePanelControl;
 import js.html.HtmlElement;
@@ -21,13 +22,13 @@ class Main {
     }
 
     public function new() {
+        DefaultValues.init();
         gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
         sidePanel = cast js.Browser.document.getElementById("sidePanel");
         loginPanel = cast js.Browser.document.getElementById("loginPanel");
         HTML5game = cast js.Browser.document.getElementById("HTML5game");
         js.Browser.window.addEventListener("resize", onResize);
         onResize();
-        Model.init();
         sidePanelControl = new SidePanelControl();
         loginPanelControl = new LoginPanelControl(onLogin);
         phaserGame = new PhaserGame();
@@ -49,6 +50,7 @@ class Main {
     }
 
     private function onLogin() {
+        Model.init();
         gameCanvas.style.display = "block";
         sidePanel.style.display = "block";
         loginPanel.style.display = "none";

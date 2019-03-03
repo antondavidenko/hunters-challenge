@@ -22,6 +22,17 @@ class CharType {
     static public var HORSEMAN = "horseman";
 }
 
+class ControlType {
+    public function new() {}
+
+    static public var MOUSE = "mouse";
+    static public var ARROWS = "keys_arrows";
+    static public var WASD = "keys_awsd";
+    static public var BOT_SIMPLE = "bot_simple";
+    static public var BOT_HARD = "bot_hard";
+    static public var NONE = "none";
+}
+
 class MobLabel {
     public function new() {}
 
@@ -40,6 +51,16 @@ class MobType {
     static public var MOB3LVL = "mob3lvl";
     static public var MOB4LVL = "mob4lvl";
     static public var MOB5LVL = "mob5lvl";
+}
+
+class MobSpeed {
+    public function new() {}
+
+    static public var MOB1LVL = 25;
+    static public var MOB2LVL = 50;
+    static public var MOB3LVL = 100;
+    static public var MOB4LVL = 200;
+    static public var MOB5LVL = 300;
 }
 
 class CharStartConfig {

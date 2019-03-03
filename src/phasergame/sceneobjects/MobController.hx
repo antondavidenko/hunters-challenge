@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import model.PhaserGameModel.MobSpeed;
 import model.PhaserGameModel.CharStartConfig;
 import model.PhaserGameModel.MobLabel;
 import model.PhaserGameModel.MobType;
@@ -33,7 +34,7 @@ class MobController {
             );
             var mob = new Character(phaserScene, mobConfig);
             mob.init();
-            mob.setSpeed(Model.MOB_LVL_1_SPEED);
+            mob.setSpeed(MobSpeed.MOB1LVL);
             allMobList.push(mob);
         }
 

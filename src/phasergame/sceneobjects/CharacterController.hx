@@ -33,10 +33,11 @@ class CharacterController {
     }
 
     public function init() {
-        playerCharackter = prepareCharackterByConfig(Model.startPlayerConfig);
+        playerCharackter = prepareCharackterByConfig(Model.charsStartConfig[0]);
         Model.playerId = playerCharackter.getPhysicBody().name;
 
-        for (botCharackterConfig in Model.startBootsConfig) {
+        for (i in 1...6) {
+            var botCharackterConfig:CharStartConfig = Model.charsStartConfig[i];
             var bot:Character = prepareCharackterByConfig(botCharackterConfig);
             Model.botsId.push(bot.getPhysicBody().name);
         }
@@ -72,11 +73,12 @@ class CharacterController {
 
     public function onCharackterSlayMob(charId:String, mobLvl:Int):Void {
         Model.totalMobSlayedCounter++;
-        if (charId == Model.playerId) { updateCharakterDataOnMobSlayed(Model.playerData); }
-        else if (charId == Model.botsId[0]) { updateCharakterDataOnMobSlayed(Model.bot1Data); }
-        else if (charId == Model.botsId[1]) { updateCharakterDataOnMobSlayed(Model.bot2Data); }
-        else if (charId == Model.botsId[2]) { updateCharakterDataOnMobSlayed(Model.bot3Data); }
-        else if (charId == Model.botsId[3]) { updateCharakterDataOnMobSlayed(Model.bot4Data); }
+        if (charId == Model.playerId) {updateCharakterDataOnMobSlayed(Model.charsData[0]);}
+        else if (charId == Model.botsId[0]) {updateCharakterDataOnMobSlayed(Model.charsData[1]);}
+        else if (charId == Model.botsId[1]) {updateCharakterDataOnMobSlayed(Model.charsData[2]);}
+        else if (charId == Model.botsId[2]) {updateCharakterDataOnMobSlayed(Model.charsData[3]);}
+        else if (charId == Model.botsId[3]) {updateCharakterDataOnMobSlayed(Model.charsData[4]);}
+        else if (charId == Model.botsId[4]) {updateCharakterDataOnMobSlayed(Model.charsData[5]);}
     }
 
     private function updateCharakterDataOnMobSlayed(charData:CharData):Void {
