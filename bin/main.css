@@ -17,7 +17,7 @@ h2 {text-align: center;}
 
 input[type=text], input[type=password], select {
     width: 100%;
-    padding: 12px 20px;
+    padding: 6px 10px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
@@ -63,12 +63,21 @@ button:hover {
 .gameCanvas { display:none; }
 .sidePanel { display:none; }
 .containerLogin {
-    width: 70%;
+    width: 50%;
     margin: auto;
 }
 .smallBlock {
-    width: 12%;
+    width: 16%;
     float: left;
     margin-left: 2%;
     margin-right: 2%;
+}
+
+table {
+    border: 0px;
+    border-collapse:collapse;
+}
+
+th {
+    width: 18%;
 }

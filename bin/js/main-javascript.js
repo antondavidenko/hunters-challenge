@@ -17,6 +17,7 @@ HxOverrides.cca = function(s,index) {
 };
 var Main = function() {
 	model_DefaultValues.init();
+	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_lobby_LobbyPanel, props : { slots : model_DefaultValues.slots}, key : null, ref : null},window.document.getElementById("lobby"));
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
 	this.loginPanel = window.document.getElementById("loginPanel");
@@ -111,7 +112,6 @@ haxe_Timer.prototype = {
 };
 var htmlcontrols_LoginPanelControl = function(onLogin) {
 	var _gthis = this;
-	this.updateInputByDefaultValues();
 	var button = window.document.getElementById("loginButton");
 	button.onclick = function(event) {
 		_gthis.updateDefaultValuesByInput();
@@ -121,30 +121,16 @@ var htmlcontrols_LoginPanelControl = function(onLogin) {
 };
 htmlcontrols_LoginPanelControl.__name__ = true;
 htmlcontrols_LoginPanelControl.prototype = {
-	updateInputByDefaultValues: function() {
-		var _g = 1;
-		while(_g < 7) {
+	updateDefaultValuesByInput: function() {
+		var _g = 0;
+		while(_g < 6) {
 			var i = _g++;
-			this.setById("slot" + i + "Name",model_DefaultValues.slots[i - 1].name);
-			this.setById("slot" + i + "Class",model_DefaultValues.slots[i - 1].charType);
-			this.setById("slot" + i + "Control",model_DefaultValues.slots[i - 1].controlType);
-			var spawnXY = "" + model_DefaultValues.slots[i - 1].x + ";" + model_DefaultValues.slots[i - 1].y;
-			this.setById("slot" + i + "Spawn",spawnXY);
-		}
-		this.setById("mobsAmount",Std.string(model_DefaultValues.mobAmount));
-		this.setById("maxLvl",Std.string(model_DefaultValues.maxLvl));
-		this.setById("baseExp",Std.string(model_DefaultValues.baseExpGain));
-	}
-	,updateDefaultValuesByInput: function() {
-		var _g = 1;
-		while(_g < 7) {
-			var i = _g++;
-			model_DefaultValues.slots[i - 1].name = this.getById("slot" + i + "Name");
-			model_DefaultValues.slots[i - 1].charType = this.getById("slot" + i + "Class");
-			model_DefaultValues.slots[i - 1].controlType = this.getById("slot" + i + "Control");
-			var spawnXY = Std.string(this.getById("slot" + i + "Spawn")).split(";");
-			model_DefaultValues.slots[i - 1].x = Std.parseInt(spawnXY[0]);
-			model_DefaultValues.slots[i - 1].y = Std.parseInt(spawnXY[1]);
+			model_DefaultValues.slots[i].name = this.getById("slot" + i + "Name");
+			model_DefaultValues.slots[i].charType = this.getById("slot" + i + "Class");
+			model_DefaultValues.slots[i].controlType = this.getById("slot" + i + "Control");
+			var spawnXY = Std.string(this.getById("slot" + i + "Spawn")).split(",");
+			model_DefaultValues.slots[i].x = Std.parseInt(spawnXY[0]);
+			model_DefaultValues.slots[i].y = Std.parseInt(spawnXY[1]);
 		}
 		model_DefaultValues.mobAmount = Std.parseInt(this.getById("mobsAmount"));
 		model_DefaultValues.baseExpGain = parseFloat(this.getById("baseExp"));
@@ -209,6 +195,79 @@ htmlcontrols_SidePanelControl.prototype = {
 		this.updateView();
 	}
 };
+var htmlcontrols_lobby_LobbyPanel = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_lobby_LobbyPanel.__name__ = true;
+htmlcontrols_lobby_LobbyPanel.__super__ = React.Component;
+htmlcontrols_lobby_LobbyPanel.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "table", props : { cellPadding : "0", cellSpacing : "0", children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Name"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Class"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Control"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Spawn: x,y"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},this.createChildren()]}, key : null, ref : null}}, key : null, ref : null};
+	}
+	,createChildren: function() {
+		var _g = [];
+		var _g2 = 0;
+		var _g1 = this.props.slots.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_TextInput, props : { defaultValue : this.props.slots[i].name, id : this.getNameId(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_SelectInput, props : { defaultValue : this.props.slots[i].controlType, id : this.getControlId(i), options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i)}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
+		}
+		return _g;
+	}
+	,getNameId: function(i) {
+		return "slot" + i + "Name";
+	}
+	,getClassId: function(i) {
+		return "slot" + i + "Class";
+	}
+	,getControlId: function(i) {
+		return "slot" + i + "Control";
+	}
+	,getSpawnId: function(i) {
+		return "slot" + i + "Spawn";
+	}
+	,getXY: function(i) {
+		return "" + this.props.slots[i].x + "," + this.props.slots[i].y;
+	}
+	,getOptionsClass: function() {
+		return [model_CharType.HORSEMAN,model_CharType.BOWMAN,model_CharType.ELF,model_CharType.MAGE,model_CharType.SWORDMAN];
+	}
+	,getOptionsControl: function() {
+		return [model_ControlType.MOUSE,model_ControlType.WASD,model_ControlType.ARROWS,model_ControlType.BOT_SIMPLE,model_ControlType.BOT_HARD,model_ControlType.NONE];
+	}
+});
+var htmlcontrols_lobby_SelectInput = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_lobby_SelectInput.__name__ = true;
+htmlcontrols_lobby_SelectInput.__super__ = React.Component;
+htmlcontrols_lobby_SelectInput.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "select", props : { defaultValue : this.props.defaultValue, id : this.props.id, children : this.createOptions()}, key : null, ref : null};
+	}
+	,createOptions: function() {
+		var _g = [];
+		var _g2 = 0;
+		var _g1 = this.props.options.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			var tmp = this.props.options[i];
+			var tmp1 = this.props.options[i];
+			_g.push({ "$$typeof" : $$tre, type : "option", props : { value : tmp, children : tmp1}, key : null, ref : null});
+		}
+		return _g;
+	}
+});
+var htmlcontrols_lobby_TextInput = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_lobby_TextInput.__name__ = true;
+htmlcontrols_lobby_TextInput.__super__ = React.Component;
+htmlcontrols_lobby_TextInput.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, defaultValue : this.props.defaultValue, type : "text"}, key : null, ref : null};
+	}
+});
 var js_Boot = function() { };
 js_Boot.__name__ = true;
 js_Boot.__string_rec = function(o,s) {
@@ -783,11 +842,17 @@ phasergame_sceneobjects_MobController.prototype = {
 		return null;
 	}
 };
+var react_ReactMacro = function() { };
+react_ReactMacro.__name__ = true;
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
 String.__name__ = true;
 Array.__name__ = true;
+var $$tre = (typeof Symbol === "function" && Symbol.for && Symbol.for("react.element")) || 0xeac7;
 Utils.uniqueId = 0;
+htmlcontrols_lobby_LobbyPanel.displayName = "LobbyPanel";
+htmlcontrols_lobby_SelectInput.displayName = "SelectInput";
+htmlcontrols_lobby_TextInput.displayName = "TextInput";
 model_DefaultValues.slots = [];
 model_DefaultValues.mobAmount = 5;
 model_DefaultValues.maxLvl = 5;

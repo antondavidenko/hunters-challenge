@@ -16,8 +16,6 @@ OPTIONS:
 + select amount of bot: 1,2,3,4  = v0.5
 - in-game option to show\hide labels
 - save options on first screen in cookies
-- make HTML generic to be automatically to avoid string mistakes and make it clear
-- make dynamic number of yje player slot. Make them as an lines
 
 UI:
 - sort realtime player-bot list by leader criteria  = v0.5

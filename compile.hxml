@@ -1,4 +1,6 @@
 -js bin/js/main-javascript.js
 -main Main
 -cp src
+-lib react
 -lib haxe-phaser3
+-D react_global

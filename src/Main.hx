@@ -1,3 +1,5 @@
+import htmlcontrols.lobby.LobbyPanel;
+import react.ReactDOM;
 import model.DefaultValues;
 import htmlcontrols.LoginPanelControl;
 import htmlcontrols.SidePanelControl;
@@ -5,6 +7,7 @@ import js.html.HtmlElement;
 import model.Model;
 import phasergame.PhaserGame;
 import js.html.CanvasElement;
+import react.ReactMacro.jsx;
 
 class Main {
 
@@ -23,6 +26,7 @@ class Main {
 
     public function new() {
         DefaultValues.init();
+        ReactDOM.render(jsx('<$LobbyPanel slots=${DefaultValues.slots}/>'), js.Browser.document.getElementById('lobby'));
         gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
         sidePanel = cast js.Browser.document.getElementById("sidePanel");
         loginPanel = cast js.Browser.document.getElementById("loginPanel");
