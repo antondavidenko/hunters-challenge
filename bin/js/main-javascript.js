@@ -585,7 +585,10 @@ phasergame_sceneobjects_Character.prototype = {
 		var _g = 0;
 		while(_g < 11) {
 			var i = _g++;
-			this.phaserScene.anims.create(this.getAnimationConfig(this.config.charType,i));
+			var key = this.getIdByTypeIdAndLineId(this.config.charType,i);
+			if(this.phaserScene.anims.get(key) == null) {
+				this.phaserScene.anims.create(this.getAnimationConfig(this.config.charType,i));
+			}
 		}
 		this.sprite = this.phaserScene.physics.add.sprite(this.config.x,this.config.y,this.config.charType).setScale(2);
 		this.sprite.name = Utils.getUniqueId();

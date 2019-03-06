@@ -27,10 +27,13 @@ class Character {
 
     public function init():Void {
         for (i in 0...11) {
-            phaserScene.anims.create(getAnimationConfig(config.charType, i));
+            var key:String = getIdByTypeIdAndLineId(config.charType, i);
+            if (phaserScene.anims.get(key) == null) {
+                phaserScene.anims.create(getAnimationConfig(config.charType, i));
+            }
         }
         //sprite = phaserScene.add.sprite(x, y, typeId).setScale(2);
-        sprite =  phaserScene.physics.add.sprite(config.x, config.y, config.charType).setScale(2);
+        sprite = phaserScene.physics.add.sprite(config.x, config.y, config.charType).setScale(2);
         sprite.name = Utils.getUniqueId();
         sprite.depth = config.y;
         setAnimation(DEFAULT_POSE_ID);
@@ -48,18 +51,18 @@ class Character {
     }
 
     private function setAnimation(lineId:Int):Void {
-        var animationId:String = getIdByTypeIdAndLineId(config.charType,lineId);
+        var animationId:String = getIdByTypeIdAndLineId(config.charType, lineId);
         sprite.anims.load(animationId);
         sprite.anims.play(animationId);
     }
 
     private function getIdByTypeIdAndLineId(typeId:String, lineId:Int):String {
-        return 'typeId:'+typeId+"_lineId:"+lineId;
+        return 'typeId:' + typeId + "_lineId:" + lineId;
     }
 
     private function getAnimationConfig(typeId:String, lineId:Int):AnimationConfig {
         var result:AnimationConfig = {
-            key: getIdByTypeIdAndLineId(typeId,lineId),
+            key: getIdByTypeIdAndLineId(typeId, lineId),
             frames: phaserScene.anims.generateFrameNumbers(typeId, getFrameConfigByLineId(lineId)),
             frameRate: 6,
             yoyo: true,
@@ -68,12 +71,12 @@ class Character {
         return result;
     }
 
-    private function getFrameConfigByLineId(lineId:Int): GenerateFrameNumbersConfig {
-        lineId = (lineId-1)*4;
-        return getFrameConfig(lineId, lineId+3);
+    private function getFrameConfigByLineId(lineId:Int):GenerateFrameNumbersConfig {
+        lineId = (lineId - 1) * 4;
+        return getFrameConfig(lineId, lineId + 3);
     }
 
-    private function getFrameConfig(start:Int, end:Int): GenerateFrameNumbersConfig {
+    private function getFrameConfig(start:Int, end:Int):GenerateFrameNumbersConfig {
         var result:GenerateFrameNumbersConfig = {
             start:start,
             end:end
@@ -84,9 +87,9 @@ class Character {
     public function setGoToXY(x:Int, y:Int):Void {
         var tx:Float = x - sprite.x;
         var ty:Float = y - sprite.y;
-        var dist:Float = Math.sqrt(tx*tx+ty*ty);
-        var rad:Float = Math.atan2(ty,tx);
-        var angle:Float = rad/Math.PI * 180;
+        var dist:Float = Math.sqrt(tx * tx + ty * ty);
+        var rad:Float = Math.atan2(ty, tx);
+        var angle:Float = rad / Math.PI * 180;
         setAnimation(detectPosByAngle(angle));
         phaserScene.physics.moveTo(sprite, x, y, MOVE_SPEED);
         xDestination = x;
@@ -98,18 +101,17 @@ class Character {
         sprite.y = y;
     }
 
-    private function detectPosByAngle(angle:Float):Int
-    {
+    private function detectPosByAngle(angle:Float):Int {
         var result:Int = 3;
-        angle = angle+180;
+        angle = angle + 180;
 
-        if ((angle<= 112)&&(angle>= 67)) { result=6; }
-        if ((angle<= 67)&&(angle>= 22)) { result=10; }
-        if ((angle<= 157)&&(angle>= 112)) { result=9; }
-        if ((angle<= 202)&&(angle>= 157)) { result=4; }
-        if ((angle<= 247)&&(angle>= 202)) { result=7; }
-        if ((angle<= 292)&&(angle>= 247)) { result=5; }
-        if ((angle<= 337)&&(angle>= 292)) { result=8; }
+        if (angle <= 112 && angle >= 67) { result = 6; }
+        if (angle <= 67 && angle >= 22) { result = 10; }
+        if (angle <= 157 && angle >= 112) { result = 9; }
+        if (angle <= 202 && angle >= 157) { result = 4; }
+        if (angle <= 247 && angle >= 202) { result = 7; }
+        if (angle <= 292 && angle >= 247) { result = 5; }
+        if (angle <= 337 && angle >= 292) { result = 8; }
         return result;
     }
 
@@ -120,14 +122,14 @@ class Character {
     }
 
     private function updateTextPosition() {
-        text.x = sprite.x - text.width/2;
-        text.y = sprite.y - sprite.height*1.35;
-        text.depth = sprite.y+1;
+        text.x = sprite.x - text.width / 2;
+        text.y = sprite.y - sprite.height * 1.35;
+        text.depth = sprite.y + 1;
     }
 
     private function checkDestinationReached():Void {
         var distance:Float = Utils.distanceBetween(sprite.x, sprite.y, xDestination, yDestination);
-        if (distance<MIN_DISTANCE) {
+        if (distance < MIN_DISTANCE) {
             sprite.body.velocity.x = 0;
             sprite.body.velocity.y = 0;
             sprite.x = xDestination;
