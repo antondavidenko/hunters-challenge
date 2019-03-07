@@ -99,6 +99,8 @@ Utils.getUniqueId = function() {
 	Utils.uniqueId++;
 	return Std.string(Utils.uniqueId);
 };
+var haxe_IMap = function() { };
+haxe_IMap.__name__ = true;
 var haxe_Timer = function(time_ms) {
 	var me = this;
 	this.id = setInterval(function() {
@@ -108,6 +110,26 @@ var haxe_Timer = function(time_ms) {
 haxe_Timer.__name__ = true;
 haxe_Timer.prototype = {
 	run: function() {
+	}
+};
+var haxe_ds_StringMap = function() {
+	this.h = { };
+};
+haxe_ds_StringMap.__name__ = true;
+haxe_ds_StringMap.__interfaces__ = [haxe_IMap];
+haxe_ds_StringMap.prototype = {
+	setReserved: function(key,value) {
+		if(this.rh == null) {
+			this.rh = { };
+		}
+		this.rh["$" + key] = value;
+	}
+	,getReserved: function(key) {
+		if(this.rh == null) {
+			return null;
+		} else {
+			return this.rh["$" + key];
+		}
 	}
 };
 var htmlcontrols_LoginPanelControl = function(onLogin) {
@@ -158,12 +180,18 @@ htmlcontrols_SidePanelControl.prototype = {
 		this.mapDataToHTML("sidePanel_name4",model_SidePanelModel.LABEL4);
 		this.mapDataToHTML("sidePanel_name5",model_SidePanelModel.LABEL5);
 		this.mapDataToHTML("sidePanel_name6",model_SidePanelModel.LABEL6);
-		this.mapProgressToHTML("sidePanel_Player1progress",this.getProgressString(model_Model.charsData[0].expGained));
-		this.mapProgressToHTML("sidePanel_Player2progress",this.getProgressString(model_Model.charsData[1].expGained));
-		this.mapProgressToHTML("sidePanel_Player3progress",this.getProgressString(model_Model.charsData[2].expGained));
-		this.mapProgressToHTML("sidePanel_Player4progress",this.getProgressString(model_Model.charsData[3].expGained));
-		this.mapProgressToHTML("sidePanel_Player5progress",this.getProgressString(model_Model.charsData[4].expGained));
-		this.mapProgressToHTML("sidePanel_Player6progress",this.getProgressString(model_Model.charsData[5].expGained));
+		var _this = model_Model.playersData;
+		this.mapProgressToHTML("sidePanel_Player1progress",this.getProgressString((__map_reserved["1"] != null ? _this.getReserved("1") : _this.h["1"]).expGained));
+		var _this1 = model_Model.playersData;
+		this.mapProgressToHTML("sidePanel_Player2progress",this.getProgressString((__map_reserved["2"] != null ? _this1.getReserved("2") : _this1.h["2"]).expGained));
+		var _this2 = model_Model.playersData;
+		this.mapProgressToHTML("sidePanel_Player3progress",this.getProgressString((__map_reserved["3"] != null ? _this2.getReserved("3") : _this2.h["3"]).expGained));
+		var _this3 = model_Model.playersData;
+		this.mapProgressToHTML("sidePanel_Player4progress",this.getProgressString((__map_reserved["4"] != null ? _this3.getReserved("4") : _this3.h["4"]).expGained));
+		var _this4 = model_Model.playersData;
+		this.mapProgressToHTML("sidePanel_Player5progress",this.getProgressString((__map_reserved["5"] != null ? _this4.getReserved("5") : _this4.h["5"]).expGained));
+		var _this5 = model_Model.playersData;
+		this.mapProgressToHTML("sidePanel_Player6progress",this.getProgressString((__map_reserved["6"] != null ? _this5.getReserved("6") : _this5.h["6"]).expGained));
 	}
 	,mapDataToHTML: function(htmlId,data) {
 		var nameHtml = window.document.getElementById(htmlId);
@@ -183,12 +211,30 @@ htmlcontrols_SidePanelControl.prototype = {
 		}
 	}
 	,updateData: function() {
-		model_SidePanelModel.LABEL1 = "" + model_Model.charsStartConfig[0].label + " : mob slayed=" + model_Model.charsData[0].slayedCounter + " lvl: " + model_Model.charsData[0].currentLevel;
-		model_SidePanelModel.LABEL2 = "" + model_Model.charsStartConfig[1].label + " : mob slayed=" + model_Model.charsData[1].slayedCounter + " lvl: " + model_Model.charsData[1].currentLevel;
-		model_SidePanelModel.LABEL3 = "" + model_Model.charsStartConfig[2].label + " : mob slayed=" + model_Model.charsData[2].slayedCounter + " lvl: " + model_Model.charsData[2].currentLevel;
-		model_SidePanelModel.LABEL4 = "" + model_Model.charsStartConfig[3].label + " : mob slayed=" + model_Model.charsData[3].slayedCounter + " lvl: " + model_Model.charsData[3].currentLevel;
-		model_SidePanelModel.LABEL5 = "" + model_Model.charsStartConfig[4].label + " : mob slayed=" + model_Model.charsData[4].slayedCounter + " lvl: " + model_Model.charsData[4].currentLevel;
-		model_SidePanelModel.LABEL6 = "" + model_Model.charsStartConfig[5].label + " : mob slayed=" + model_Model.charsData[5].slayedCounter + " lvl: " + model_Model.charsData[5].currentLevel;
+		var _this = model_Model.playersData;
+		var tmp = "" + model_Model.charsStartConfig[0].label + " : mob slayed=" + (__map_reserved["1"] != null ? _this.getReserved("1") : _this.h["1"]).slayedCounter + " lvl: ";
+		var _this1 = model_Model.playersData;
+		model_SidePanelModel.LABEL1 = tmp + (__map_reserved["1"] != null ? _this1.getReserved("1") : _this1.h["1"]).currentLevel;
+		var _this2 = model_Model.playersData;
+		var tmp1 = "" + model_Model.charsStartConfig[1].label + " : mob slayed=" + (__map_reserved["2"] != null ? _this2.getReserved("2") : _this2.h["2"]).slayedCounter + " lvl: ";
+		var _this3 = model_Model.playersData;
+		model_SidePanelModel.LABEL2 = tmp1 + (__map_reserved["2"] != null ? _this3.getReserved("2") : _this3.h["2"]).currentLevel;
+		var _this4 = model_Model.playersData;
+		var tmp2 = "" + model_Model.charsStartConfig[2].label + " : mob slayed=" + (__map_reserved["3"] != null ? _this4.getReserved("3") : _this4.h["3"]).slayedCounter + " lvl: ";
+		var _this5 = model_Model.playersData;
+		model_SidePanelModel.LABEL3 = tmp2 + (__map_reserved["3"] != null ? _this5.getReserved("3") : _this5.h["3"]).currentLevel;
+		var _this6 = model_Model.playersData;
+		var tmp3 = "" + model_Model.charsStartConfig[3].label + " : mob slayed=" + (__map_reserved["4"] != null ? _this6.getReserved("4") : _this6.h["4"]).slayedCounter + " lvl: ";
+		var _this7 = model_Model.playersData;
+		model_SidePanelModel.LABEL4 = tmp3 + (__map_reserved["4"] != null ? _this7.getReserved("4") : _this7.h["4"]).currentLevel;
+		var _this8 = model_Model.playersData;
+		var tmp4 = "" + model_Model.charsStartConfig[4].label + " : mob slayed=" + (__map_reserved["5"] != null ? _this8.getReserved("5") : _this8.h["5"]).slayedCounter + " lvl: ";
+		var _this9 = model_Model.playersData;
+		model_SidePanelModel.LABEL5 = tmp4 + (__map_reserved["5"] != null ? _this9.getReserved("5") : _this9.h["5"]).currentLevel;
+		var _this10 = model_Model.playersData;
+		var tmp5 = "" + model_Model.charsStartConfig[5].label + " : mob slayed=" + (__map_reserved["6"] != null ? _this10.getReserved("6") : _this10.h["6"]).slayedCounter + " lvl: ";
+		var _this11 = model_Model.playersData;
+		model_SidePanelModel.LABEL6 = tmp5 + (__map_reserved["6"] != null ? _this11.getReserved("6") : _this11.h["6"]).currentLevel;
 	}
 	,update: function() {
 		this.updateData();
@@ -389,7 +435,6 @@ model_Model.init = function() {
 	var _g = 0;
 	while(_g < 6) {
 		var i = _g++;
-		model_Model.charsData.push(new model_CharData(0,0,1));
 		model_Model.charsStartConfig.push(model_Model.getCharStartConfigByDefaultValues(i));
 	}
 };
@@ -409,15 +454,6 @@ model_CharType.__name__ = true;
 var model_ControlType = function() {
 };
 model_ControlType.__name__ = true;
-var model_MobLabel = function() {
-};
-model_MobLabel.__name__ = true;
-var model_MobType = function() {
-};
-model_MobType.__name__ = true;
-var model_MobSpeed = function() {
-};
-model_MobSpeed.__name__ = true;
 var model_CharStartConfig = function(charType,x,y,label) {
 	this.charType = charType;
 	this.x = x;
@@ -431,6 +467,10 @@ var model_CharData = function(slayedCounter,expGained,currentLevel) {
 	this.currentLevel = currentLevel;
 };
 model_CharData.__name__ = true;
+var model_MobData = function(currentLevel) {
+	this.currentLevel = currentLevel;
+};
+model_MobData.__name__ = true;
 var model_SidePanelModel = function() { };
 model_SidePanelModel.__name__ = true;
 var phasergame_CharackterAndMobData = function(charackter,mob) {
@@ -529,12 +569,14 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		}
 	}
 	,onCharackterAndMobCollision: function(dataNameId) {
-		var mobLvl = 1;
+		var key = dataNameId.mob;
+		var _this = model_Model.mobsData;
+		var mobLvl = (__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]).currentLevel;
 		this.characterController.onCharackterSlayMob(dataNameId.charackter,mobLvl);
 		this.mobController.onMobSlayed(dataNameId.mob);
 	}
 	,checkGameEndCreteria: function() {
-		var isGameEnd = model_Model.charsData[0].currentLevel == model_Model.maxLvl || model_Model.charsData[1].currentLevel == model_Model.maxLvl || model_Model.charsData[2].currentLevel == model_Model.maxLvl || model_Model.charsData[3].currentLevel == model_Model.maxLvl || model_Model.charsData[4].currentLevel == model_Model.maxLvl || model_Model.charsData[5].currentLevel == model_Model.maxLvl;
+		var isGameEnd = model_Model.maxLvlInGame == model_Model.maxLvl;
 		if(isGameEnd) {
 			this.onGameEnd();
 			this.physics.pause();
@@ -595,6 +637,20 @@ phasergame_sceneobjects_Character.prototype = {
 		this.sprite.depth = this.config.y;
 		this.setAnimation(this.DEFAULT_POSE_ID);
 		this.setLabel(this.config.label);
+	}
+	,reinit: function(config) {
+		this.config = config;
+		var _g = 0;
+		while(_g < 11) {
+			var i = _g++;
+			var key = this.getIdByTypeIdAndLineId(config.charType,i);
+			if(this.phaserScene.anims.get(key) == null) {
+				this.phaserScene.anims.create(this.getAnimationConfig(config.charType,i));
+			}
+		}
+		this.setAnimation(this.DEFAULT_POSE_ID);
+		this.text.text = config.label;
+		this.text.updateText();
 	}
 	,setLabel: function(label) {
 		this.text = this.phaserScene.add.text(this.sprite.x,this.sprite.y,label);
@@ -709,34 +765,40 @@ phasergame_sceneobjects_CharacterController.prototype = {
 	}
 	,init: function() {
 		var _gthis = this;
-		this.playerCharackter = this.prepareCharackterByConfig(model_Model.charsStartConfig[0]);
-		model_Model.playerId = this.playerCharackter.getPhysicBody().name;
-		var _g = 1;
+		var _g = 0;
 		while(_g < 6) {
 			var i = _g++;
 			var botCharackterConfig = model_Model.charsStartConfig[i];
 			var bot = this.prepareCharackterByConfig(botCharackterConfig);
-			model_Model.botsId.push(bot.getPhysicBody().name);
+			var this1 = model_Model.playersData;
+			var k = bot.getPhysicBody().name;
+			var v = new model_CharData(0,0,1);
+			var _this = this1;
+			if(__map_reserved[k] != null) {
+				_this.setReserved(k,v);
+			} else {
+				_this.h[k] = v;
+			}
 		}
 		var _g1 = 0;
 		var _g11 = this.allCharacktersList;
 		while(_g1 < _g11.length) {
 			var currentCharackter = _g11[_g1];
 			++_g1;
-			if(currentCharackter != this.playerCharackter) {
+			if(currentCharackter != this.allCharacktersList[0]) {
 				currentCharackter.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 			}
 		}
 		var timer = new haxe_Timer(model_Model.botTimeoutDelay);
 		timer.run = function() {
 			var randomChar = _gthis.allCharacktersList[Std.random(_gthis.allCharacktersList.length)];
-			if(randomChar != _gthis.playerCharackter) {
+			if(randomChar != _gthis.allCharacktersList[0]) {
 				randomChar.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 			}
 		};
 	}
 	,onPointerdown: function(pointer) {
-		this.playerCharackter.setGoToXY(pointer.x,pointer.y);
+		this.allCharacktersList[0].setGoToXY(pointer.x,pointer.y);
 	}
 	,update: function(time,delta) {
 		var _g = 0;
@@ -752,26 +814,16 @@ phasergame_sceneobjects_CharacterController.prototype = {
 	}
 	,onCharackterSlayMob: function(charId,mobLvl) {
 		model_Model.totalMobSlayedCounter++;
-		if(charId == model_Model.playerId) {
-			this.updateCharakterDataOnMobSlayed(model_Model.charsData[0]);
-		} else if(charId == model_Model.botsId[0]) {
-			this.updateCharakterDataOnMobSlayed(model_Model.charsData[1]);
-		} else if(charId == model_Model.botsId[1]) {
-			this.updateCharakterDataOnMobSlayed(model_Model.charsData[2]);
-		} else if(charId == model_Model.botsId[2]) {
-			this.updateCharakterDataOnMobSlayed(model_Model.charsData[3]);
-		} else if(charId == model_Model.botsId[3]) {
-			this.updateCharakterDataOnMobSlayed(model_Model.charsData[4]);
-		} else if(charId == model_Model.botsId[4]) {
-			this.updateCharakterDataOnMobSlayed(model_Model.charsData[5]);
-		}
+		var _this = model_Model.playersData;
+		this.updateCharakterDataOnMobSlayed(__map_reserved[charId] != null ? _this.getReserved(charId) : _this.h[charId],mobLvl);
 	}
-	,updateCharakterDataOnMobSlayed: function(charData) {
+	,updateCharakterDataOnMobSlayed: function(charData,mobLvl) {
 		charData.slayedCounter++;
-		charData.expGained += model_Model.baseExpGain;
+		charData.expGained += model_Model.baseExpGain * mobLvl / charData.currentLevel;
 		if(charData.expGained >= 100) {
 			charData.expGained = 0;
 			charData.currentLevel++;
+			model_Model.maxLvlInGame = model_Model.maxLvlInGame > charData.currentLevel ? model_Model.maxLvlInGame : charData.currentLevel;
 		}
 	}
 };
@@ -782,23 +834,33 @@ var phasergame_sceneobjects_MobController = function(phaserScene) {
 phasergame_sceneobjects_MobController.__name__ = true;
 phasergame_sceneobjects_MobController.prototype = {
 	preload: function() {
-		this.phaserScene.load.spritesheet(model_MobType.MOB1LVL,"assets/mob1lvl.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_MobType.MOB2LVL,"assets/mob2lvl.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_MobType.MOB3LVL,"assets/mob3lvl.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_MobType.MOB4LVL,"assets/mob4lvl.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_MobType.MOB5LVL,"assets/mob5lvl.png",{ frameWidth : 32, frameHeight : 32});
+		this.phaserScene.load.spritesheet(model_Model.mobTypes[0],"assets/mob1lvl.png",{ frameWidth : 32, frameHeight : 32});
+		this.phaserScene.load.spritesheet(model_Model.mobTypes[1],"assets/mob2lvl.png",{ frameWidth : 32, frameHeight : 32});
+		this.phaserScene.load.spritesheet(model_Model.mobTypes[2],"assets/mob3lvl.png",{ frameWidth : 32, frameHeight : 32});
+		this.phaserScene.load.spritesheet(model_Model.mobTypes[3],"assets/mob4lvl.png",{ frameWidth : 32, frameHeight : 32});
+		this.phaserScene.load.spritesheet(model_Model.mobTypes[4],"assets/mob5lvl.png",{ frameWidth : 32, frameHeight : 32});
 	}
 	,init: function() {
 		var _gthis = this;
+		var lvlId = 0;
 		var _g1 = 0;
 		var _g = model_Model.mobAmount;
 		while(_g1 < _g) {
 			var mob = _g1++;
-			var mobConfig = new model_CharStartConfig(model_MobType.MOB1LVL,Utils.getRandomScreenX(),Utils.getRandomScreenY(),model_MobLabel.MOB1LVL);
+			var mobConfig = this.getMobConfigByLvl(lvlId);
 			var mob1 = new phasergame_sceneobjects_Character(this.phaserScene,mobConfig);
 			mob1.init();
-			mob1.setSpeed(model_MobSpeed.MOB1LVL);
+			mob1.setSpeed(model_Model.mobSpeeds[lvlId]);
 			this.allMobList.push(mob1);
+			var this1 = model_Model.mobsData;
+			var k = mob1.getPhysicBody().name;
+			var v = new model_MobData(1);
+			var _this = this1;
+			if(__map_reserved[k] != null) {
+				_this.setReserved(k,v);
+			} else {
+				_this.h[k] = v;
+			}
 		}
 		var _g2 = 0;
 		var _g11 = this.allMobList;
@@ -812,6 +874,11 @@ phasergame_sceneobjects_MobController.prototype = {
 			var randomChar = _gthis.allMobList[Std.random(_gthis.allMobList.length)];
 			randomChar.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 		};
+	}
+	,getMobConfigByLvl: function(lvlId) {
+		var mobX = Utils.getRandomScreenX();
+		var mobY = Utils.getRandomScreenY();
+		return new model_CharStartConfig(model_Model.mobTypes[lvlId],mobX,mobY,model_Model.mobLabels[lvlId]);
 	}
 	,update: function(time,delta) {
 		var _g = 0;
@@ -828,8 +895,16 @@ phasergame_sceneobjects_MobController.prototype = {
 	,onMobSlayed: function(mobId) {
 		var mob = this.findMobById(mobId);
 		if(mob != null) {
+			var lvlId = Std.random(model_Model.maxLvlInGame + 1);
+			var mobConfig = this.getMobConfigByLvl(lvlId);
+			mob.reinit(mobConfig);
+			mob.setSpeed(model_Model.mobSpeeds[lvlId]);
 			mob.setXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 			mob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
+			var this1 = model_Model.mobsData;
+			var key = mob.getPhysicBody().name;
+			var _this = this1;
+			(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]).currentLevel = lvlId + 1;
 		}
 	}
 	,findMobById: function(mobId) {
@@ -851,6 +926,7 @@ var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
 String.__name__ = true;
 Array.__name__ = true;
+var __map_reserved = {};
 var $$tre = (typeof Symbol === "function" && Symbol.for && Symbol.for("react.element")) || 0xeac7;
 Utils.uniqueId = 0;
 htmlcontrols_lobby_LobbyPanel.displayName = "LobbyPanel";
@@ -868,10 +944,13 @@ model_Model.botTimeoutDelay = 1000;
 model_Model.mobTimeoutDelay = 100;
 model_Model.character = new model_CharacterConfig();
 model_Model.charsStartConfig = [];
+model_Model.maxLvlInGame = 1;
+model_Model.mobTypes = ["mob1lvl","mob2lvl","mob3lvl","mob4lvl","mob5lvl"];
+model_Model.mobLabels = ["lvl 1","lvl 2","lvl 3","lvl 4","lvl 5"];
+model_Model.mobSpeeds = [100,5,25,300,300];
 model_Model.totalMobSlayedCounter = 0;
-model_Model.charsData = [];
-model_Model.playerId = "";
-model_Model.botsId = [];
+model_Model.playersData = new haxe_ds_StringMap();
+model_Model.mobsData = new haxe_ds_StringMap();
 model_CharType.SWORDMAN = "swordman";
 model_CharType.BOWMAN = "bowman";
 model_CharType.ELF = "elf";
@@ -883,21 +962,6 @@ model_ControlType.WASD = "keys_awsd";
 model_ControlType.BOT_SIMPLE = "bot_simple";
 model_ControlType.BOT_HARD = "bot_hard";
 model_ControlType.NONE = "none";
-model_MobLabel.MOB1LVL = "lvl 1";
-model_MobLabel.MOB2LVL = "lvl 2";
-model_MobLabel.MOB3LVL = "lvl 3";
-model_MobLabel.MOB4LVL = "lvl 4";
-model_MobLabel.MOB5LVL = "lvl 5";
-model_MobType.MOB1LVL = "mob1lvl";
-model_MobType.MOB2LVL = "mob2lvl";
-model_MobType.MOB3LVL = "mob3lvl";
-model_MobType.MOB4LVL = "mob4lvl";
-model_MobType.MOB5LVL = "mob5lvl";
-model_MobSpeed.MOB1LVL = 25;
-model_MobSpeed.MOB2LVL = 50;
-model_MobSpeed.MOB3LVL = 100;
-model_MobSpeed.MOB4LVL = 200;
-model_MobSpeed.MOB5LVL = 300;
 model_SidePanelModel.LABEL1 = "LABEL1";
 model_SidePanelModel.LABEL2 = "LABEL2";
 model_SidePanelModel.LABEL3 = "LABEL3";

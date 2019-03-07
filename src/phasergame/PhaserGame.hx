@@ -87,18 +87,13 @@ class PhaserScene extends phaser.Scene {
     }
 
     private function onCharackterAndMobCollision(dataNameId:CharackterAndMobData):Void {
-        var mobLvl:Int = 1;//mobController.getLvlById(dataNameId.mob);
+        var mobLvl:Int = Model.mobsData[dataNameId.mob].currentLevel;
         characterController.onCharackterSlayMob(dataNameId.charackter, mobLvl);
         mobController.onMobSlayed(dataNameId.mob);
     }
 
     private function checkGameEndCreteria() {
-        var isGameEnd:Bool = ((Model.charsData[0].currentLevel == Model.maxLvl)||
-            (Model.charsData[1].currentLevel == Model.maxLvl)||
-            (Model.charsData[2].currentLevel == Model.maxLvl)||
-            (Model.charsData[3].currentLevel == Model.maxLvl)||
-            (Model.charsData[4].currentLevel == Model.maxLvl)||
-            (Model.charsData[5].currentLevel == Model.maxLvl));
+        var isGameEnd:Bool = Model.maxLvlInGame == Model.maxLvl;
 
         if (isGameEnd) {
             onGameEnd();

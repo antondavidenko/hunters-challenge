@@ -16,12 +16,12 @@ class SidePanelControl {
         mapDataToHTML("sidePanel_name5", SidePanelModel.LABEL5);
         mapDataToHTML("sidePanel_name6", SidePanelModel.LABEL6);
 
-        mapProgressToHTML("sidePanel_Player1progress", getProgressString(Model.charsData[0].expGained));
-        mapProgressToHTML("sidePanel_Player2progress", getProgressString(Model.charsData[1].expGained));
-        mapProgressToHTML("sidePanel_Player3progress", getProgressString(Model.charsData[2].expGained));
-        mapProgressToHTML("sidePanel_Player4progress", getProgressString(Model.charsData[3].expGained));
-        mapProgressToHTML("sidePanel_Player5progress", getProgressString(Model.charsData[4].expGained));
-        mapProgressToHTML("sidePanel_Player6progress", getProgressString(Model.charsData[5].expGained));
+        mapProgressToHTML("sidePanel_Player1progress", getProgressString(Model.playersData["1"].expGained));
+        mapProgressToHTML("sidePanel_Player2progress", getProgressString(Model.playersData["2"].expGained));
+        mapProgressToHTML("sidePanel_Player3progress", getProgressString(Model.playersData["3"].expGained));
+        mapProgressToHTML("sidePanel_Player4progress", getProgressString(Model.playersData["4"].expGained));
+        mapProgressToHTML("sidePanel_Player5progress", getProgressString(Model.playersData["5"].expGained));
+        mapProgressToHTML("sidePanel_Player6progress", getProgressString(Model.playersData["6"].expGained));
     }
 
     private function mapDataToHTML(htmlId:String, data:String):Void {
@@ -45,12 +45,12 @@ class SidePanelControl {
     }
 
     public function updateData():Void {
-        SidePanelModel.LABEL1 = '${Model.charsStartConfig[0].label} : mob slayed=${Model.charsData[0].slayedCounter} lvl: ${Model.charsData[0].currentLevel}';
-        SidePanelModel.LABEL2 = '${Model.charsStartConfig[1].label} : mob slayed=${Model.charsData[1].slayedCounter} lvl: ${Model.charsData[1].currentLevel}';
-        SidePanelModel.LABEL3 = '${Model.charsStartConfig[2].label} : mob slayed=${Model.charsData[2].slayedCounter} lvl: ${Model.charsData[2].currentLevel}';
-        SidePanelModel.LABEL4 = '${Model.charsStartConfig[3].label} : mob slayed=${Model.charsData[3].slayedCounter} lvl: ${Model.charsData[3].currentLevel}';
-        SidePanelModel.LABEL5 = '${Model.charsStartConfig[4].label} : mob slayed=${Model.charsData[4].slayedCounter} lvl: ${Model.charsData[4].currentLevel}';
-        SidePanelModel.LABEL6 = '${Model.charsStartConfig[5].label} : mob slayed=${Model.charsData[5].slayedCounter} lvl: ${Model.charsData[5].currentLevel}';
+        SidePanelModel.LABEL1 = '${Model.charsStartConfig[0].label} : mob slayed=${Model.playersData["1"].slayedCounter} lvl: ${Model.playersData["1"].currentLevel}';
+        SidePanelModel.LABEL2 = '${Model.charsStartConfig[1].label} : mob slayed=${Model.playersData["2"].slayedCounter} lvl: ${Model.playersData["2"].currentLevel}';
+        SidePanelModel.LABEL3 = '${Model.charsStartConfig[2].label} : mob slayed=${Model.playersData["3"].slayedCounter} lvl: ${Model.playersData["3"].currentLevel}';
+        SidePanelModel.LABEL4 = '${Model.charsStartConfig[3].label} : mob slayed=${Model.playersData["4"].slayedCounter} lvl: ${Model.playersData["4"].currentLevel}';
+        SidePanelModel.LABEL5 = '${Model.charsStartConfig[4].label} : mob slayed=${Model.playersData["5"].slayedCounter} lvl: ${Model.playersData["5"].currentLevel}';
+        SidePanelModel.LABEL6 = '${Model.charsStartConfig[5].label} : mob slayed=${Model.playersData["6"].slayedCounter} lvl: ${Model.playersData["6"].currentLevel}';
     }
 
     public function update():Void {

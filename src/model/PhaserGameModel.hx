@@ -33,36 +33,6 @@ class ControlType {
     static public var NONE = "none";
 }
 
-class MobLabel {
-    public function new() {}
-
-    static public var MOB1LVL = "lvl 1";
-    static public var MOB2LVL = "lvl 2";
-    static public var MOB3LVL = "lvl 3";
-    static public var MOB4LVL = "lvl 4";
-    static public var MOB5LVL = "lvl 5";
-}
-
-class MobType {
-    public function new() {}
-
-    static public var MOB1LVL = "mob1lvl";
-    static public var MOB2LVL = "mob2lvl";
-    static public var MOB3LVL = "mob3lvl";
-    static public var MOB4LVL = "mob4lvl";
-    static public var MOB5LVL = "mob5lvl";
-}
-
-class MobSpeed {
-    public function new() {}
-
-    static public var MOB1LVL = 25;
-    static public var MOB2LVL = 50;
-    static public var MOB3LVL = 100;
-    static public var MOB4LVL = 200;
-    static public var MOB5LVL = 300;
-}
-
 class CharStartConfig {
     public function new(charType:String, x:Int, y:Int, label:String) {
         this.charType = charType;
@@ -86,5 +56,12 @@ class CharData {
 
     public var slayedCounter:Int;
     public var expGained:Float;
+    public var currentLevel:Int;
+}
+
+class MobData {
+    public function new(currentLevel:Int) {
+        this.currentLevel = currentLevel;
+    }
     public var currentLevel:Int;
 }

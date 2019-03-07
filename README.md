@@ -3,7 +3,6 @@
 FUTURE IMPROVE PLAN
 
 GAME LOOP:
-- use mobs different levels (progressive exp gain system) = v 0.5
 + add smart bot who directly hunt for mob as an option = v 0.5
 + add keyboard1 and keyboard2 scheme = v0.5
 + add local multiplayer posibility = v0.5

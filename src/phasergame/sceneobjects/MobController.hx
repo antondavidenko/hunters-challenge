@@ -1,9 +1,7 @@
 package phasergame.sceneobjects;
 
-import model.PhaserGameModel.MobSpeed;
+import model.PhaserGameModel.MobData;
 import model.PhaserGameModel.CharStartConfig;
-import model.PhaserGameModel.MobLabel;
-import model.PhaserGameModel.MobType;
 import model.Model;
 import phasergame.sceneobjects.Character;
 
@@ -17,25 +15,22 @@ class MobController {
     }
 
     public function preload() {
-        phaserScene.load.spritesheet(MobType.MOB1LVL, 'assets/mob1lvl.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(MobType.MOB2LVL, 'assets/mob2lvl.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(MobType.MOB3LVL, 'assets/mob3lvl.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(MobType.MOB4LVL, 'assets/mob4lvl.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(MobType.MOB5LVL, 'assets/mob5lvl.png', { frameWidth: 32, frameHeight: 32 });
+        phaserScene.load.spritesheet(Model.mobTypes[0], 'assets/mob1lvl.png', { frameWidth: 32, frameHeight: 32 });
+        phaserScene.load.spritesheet(Model.mobTypes[1], 'assets/mob2lvl.png', { frameWidth: 32, frameHeight: 32 });
+        phaserScene.load.spritesheet(Model.mobTypes[2], 'assets/mob3lvl.png', { frameWidth: 32, frameHeight: 32 });
+        phaserScene.load.spritesheet(Model.mobTypes[3], 'assets/mob4lvl.png', { frameWidth: 32, frameHeight: 32 });
+        phaserScene.load.spritesheet(Model.mobTypes[4], 'assets/mob5lvl.png', { frameWidth: 32, frameHeight: 32 });
     }
 
     public function init() {
+        var lvlId:Int = 0;
         for (mob in 0...Model.mobAmount) {
-            var mobConfig:CharStartConfig = new CharStartConfig(
-                MobType.MOB1LVL,
-                Utils.getRandomScreenX(),
-                Utils.getRandomScreenY(),
-                MobLabel.MOB1LVL
-            );
+            var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId);
             var mob = new Character(phaserScene, mobConfig);
             mob.init();
-            mob.setSpeed(MobSpeed.MOB1LVL);
+            mob.setSpeed(Model.mobSpeeds[lvlId]);
             allMobList.push(mob);
+            Model.mobsData[mob.getPhysicBody().name] = new MobData(1);
         }
 
         for (currentMob in allMobList) {
@@ -47,6 +42,12 @@ class MobController {
             var randomChar:Character = allMobList[Std.random(allMobList.length)];
             randomChar.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
         }
+    }
+
+    private function getMobConfigByLvl(lvlId:Int):CharStartConfig {
+        var mobX:Int = Utils.getRandomScreenX();
+        var mobY:Int = Utils.getRandomScreenY();
+        return new CharStartConfig(Model.mobTypes[lvlId], mobX, mobY, Model.mobLabels[lvlId]);
     }
 
     public function update(time:Float, delta:Float):Void {
@@ -62,10 +63,14 @@ class MobController {
     public function onMobSlayed(mobId:String):Void {
         var mob:Character = findMobById(mobId);
         if (mob != null) {
+            var lvlId:Int = Std.random(Model.maxLvlInGame+1);
+            var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId);
+            mob.reinit(mobConfig);
+            mob.setSpeed(Model.mobSpeeds[lvlId]);
             mob.setXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
             mob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+            Model.mobsData[mob.getPhysicBody().name].currentLevel = lvlId+1;
         }
-
     }
 
     private function findMobById(mobId:String):Character {

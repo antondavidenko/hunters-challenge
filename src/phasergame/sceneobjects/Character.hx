@@ -32,12 +32,24 @@ class Character {
                 phaserScene.anims.create(getAnimationConfig(config.charType, i));
             }
         }
-        //sprite = phaserScene.add.sprite(x, y, typeId).setScale(2);
         sprite = phaserScene.physics.add.sprite(config.x, config.y, config.charType).setScale(2);
         sprite.name = Utils.getUniqueId();
         sprite.depth = config.y;
         setAnimation(DEFAULT_POSE_ID);
         setLabel(config.label);
+    }
+
+    public function reinit(config:CharStartConfig):Void {
+        this.config = config;
+        for (i in 0...11) {
+            var key:String = getIdByTypeIdAndLineId(config.charType, i);
+            if (phaserScene.anims.get(key) == null) {
+                phaserScene.anims.create(getAnimationConfig(config.charType, i));
+            }
+        }
+        setAnimation(DEFAULT_POSE_ID);
+        text.text = config.label;
+        text.updateText();
     }
 
     public function setLabel(label:String):Void {

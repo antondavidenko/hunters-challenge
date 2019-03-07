@@ -9,8 +9,6 @@ import phasergame.sceneobjects.Character;
 class CharacterController {
 
     private var phaserScene:phaser.Scene;
-
-    private var playerCharackter:Character;
     private var allCharacktersList:Array<Character> = [];
 
     public function new(phaserScene:phaser.Scene) {
@@ -33,17 +31,14 @@ class CharacterController {
     }
 
     public function init() {
-        playerCharackter = prepareCharackterByConfig(Model.charsStartConfig[0]);
-        Model.playerId = playerCharackter.getPhysicBody().name;
-
-        for (i in 1...6) {
+        for (i in 0...6) {
             var botCharackterConfig:CharStartConfig = Model.charsStartConfig[i];
             var bot:Character = prepareCharackterByConfig(botCharackterConfig);
-            Model.botsId.push(bot.getPhysicBody().name);
+            Model.playersData[bot.getPhysicBody().name] = new CharData(0,0,1);
         }
 
         for (currentCharackter in allCharacktersList) {
-            if (currentCharackter != playerCharackter) {
+            if (currentCharackter != allCharacktersList[0]) {
                 currentCharackter.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
             }
         }
@@ -51,14 +46,14 @@ class CharacterController {
         var timer = new haxe.Timer(Model.botTimeoutDelay);
         timer.run = function() {
             var randomChar:Character = allCharacktersList[Std.random(allCharacktersList.length)];
-            if (randomChar != playerCharackter) {
+            if (randomChar != allCharacktersList[0]) {
                 randomChar.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
             }
         }
     }
 
     public function onPointerdown(pointer):Void {
-        playerCharackter.setGoToXY(pointer.x, pointer.y);
+        allCharacktersList[0].setGoToXY(pointer.x, pointer.y);
     }
 
     public function update(time:Float, delta:Float):Void {
@@ -73,20 +68,16 @@ class CharacterController {
 
     public function onCharackterSlayMob(charId:String, mobLvl:Int):Void {
         Model.totalMobSlayedCounter++;
-        if (charId == Model.playerId) {updateCharakterDataOnMobSlayed(Model.charsData[0]);}
-        else if (charId == Model.botsId[0]) {updateCharakterDataOnMobSlayed(Model.charsData[1]);}
-        else if (charId == Model.botsId[1]) {updateCharakterDataOnMobSlayed(Model.charsData[2]);}
-        else if (charId == Model.botsId[2]) {updateCharakterDataOnMobSlayed(Model.charsData[3]);}
-        else if (charId == Model.botsId[3]) {updateCharakterDataOnMobSlayed(Model.charsData[4]);}
-        else if (charId == Model.botsId[4]) {updateCharakterDataOnMobSlayed(Model.charsData[5]);}
+        updateCharakterDataOnMobSlayed(Model.playersData[charId],mobLvl);
     }
 
-    private function updateCharakterDataOnMobSlayed(charData:CharData):Void {
+    private function updateCharakterDataOnMobSlayed(charData:CharData, mobLvl:Int):Void {
         charData.slayedCounter++;
-        charData.expGained += Model.baseExpGain;
+        charData.expGained += Model.baseExpGain*mobLvl/charData.currentLevel;
         if (charData.expGained >= 100) {
             charData.expGained = 0;
             charData.currentLevel++;
+            Model.maxLvlInGame = (Model.maxLvlInGame>charData.currentLevel)?Model.maxLvlInGame:charData.currentLevel;
         }
     }
 }
