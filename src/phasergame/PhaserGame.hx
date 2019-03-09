@@ -41,8 +41,11 @@ class PhaserScene extends phaser.Scene {
     private var background:Background;
     private var playersCollection:PlayersCollection;
     private var mobsCollection:MobsCollection;
+
     private var sidePanelControl:SidePanelControl;
     private var collisionDetector:CollisionDetector;
+    private var moverCharacters:MoverCharacters;
+
     private var onGameEnd:Void -> Void;
     private var isPaused:Bool = false;
 
@@ -52,6 +55,7 @@ class PhaserScene extends phaser.Scene {
         playersCollection = new PlayersCollection(this);
         mobsCollection = new MobsCollection(this);
         collisionDetector = new CollisionDetector(this);
+        moverCharacters = new MoverCharacters();
         this.sidePanelControl = sidePanelControl;
     }
 
@@ -67,12 +71,12 @@ class PhaserScene extends phaser.Scene {
 
     public function create() {
         background.init();
-        playersCollection.init();
-        mobsCollection.init();
+        playersCollection.init(moverCharacters.initPlayers);
+        mobsCollection.init(moverCharacters.initMobs);
         collisionDetector.init(playersCollection.getAllPlayersList(), mobsCollection.getAllMobList());
         collisionDetector.onCharackterAndMob(onCharackterAndMobCollision);
         this.input.on('pointerdown', function(pointer) {
-            playersCollection.onPointerdown(pointer);
+            moverCharacters.onPointerdown(pointer);
         }, this);
     }
 

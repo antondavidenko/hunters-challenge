@@ -22,7 +22,7 @@ class MobsCollection {
         phaserScene.load.spritesheet(Model.mobTypes[4], 'assets/mob5lvl.png', { frameWidth: 32, frameHeight: 32 });
     }
 
-    public function init() {
+    public function init(onReadyToMove:Array<Character> -> Void) {
         var lvlId:Int = 0;
         for (mob in 0...Model.mobAmount) {
             var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId);
@@ -33,15 +33,7 @@ class MobsCollection {
             Model.mobsData[mob.getPhysicBody().name] = new MobData(1);
         }
 
-        for (currentMob in allMobList) {
-            currentMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-        }
-
-        var timer = new haxe.Timer(Model.mobTimeoutDelay);
-        timer.run = function() {
-            var randomMob:Character = allMobList[Std.random(allMobList.length)];
-            randomMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-        }
+        onReadyToMove(allMobList);
     }
 
     private function getMobConfigByLvl(lvlId:Int):CharStartConfig {

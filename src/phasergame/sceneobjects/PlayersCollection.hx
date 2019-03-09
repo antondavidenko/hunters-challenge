@@ -30,30 +30,14 @@ class PlayersCollection {
         return player;
     }
 
-    public function init() {
+    public function init(onReadyToMove:Array<Character> -> Void) {
         for (i in 0...6) {
             var playerConfig:CharStartConfig = Model.playersStartConfig[i];
             var player:Character = preparePlayerByConfig(playerConfig);
             Model.playersData[player.getPhysicBody().name] = new PlayerData(0, 0, 1);
         }
 
-        for (currentPlayer in allPlayersList) {
-            if (currentPlayer != allPlayersList[0]) {
-                currentPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-            }
-        }
-
-        var timer = new haxe.Timer(Model.botTimeoutDelay);
-        timer.run = function() {
-            var randomPlayer:Character = allPlayersList[Std.random(allPlayersList.length)];
-            if (randomPlayer != allPlayersList[0]) {
-                randomPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-            }
-        }
-    }
-
-    public function onPointerdown(pointer):Void {
-        allPlayersList[0].setGoToXY(pointer.x, pointer.y);
+        onReadyToMove(allPlayersList);
     }
 
     public function update(time:Float, delta:Float):Void {

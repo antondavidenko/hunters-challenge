@@ -512,6 +512,50 @@ phasergame_CollisionDetector.prototype = {
 		}
 	}
 };
+var phasergame_MoverCharacters = function() {
+	this.allPlayersList = [];
+	this.allMobList = [];
+};
+phasergame_MoverCharacters.__name__ = true;
+phasergame_MoverCharacters.prototype = {
+	initMobs: function(allMobList) {
+		this.allMobList = allMobList;
+		var _g = 0;
+		while(_g < allMobList.length) {
+			var currentMob = allMobList[_g];
+			++_g;
+			currentMob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
+		}
+		var timer = new haxe_Timer(model_Model.mobTimeoutDelay);
+		timer.run = function() {
+			var randomMob = Std.random(allMobList.length);
+			var randomMob1 = allMobList[randomMob];
+			randomMob1.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
+		};
+	}
+	,initPlayers: function(allPlayersList) {
+		this.allPlayersList = allPlayersList;
+		var _g = 0;
+		while(_g < allPlayersList.length) {
+			var currentPlayer = allPlayersList[_g];
+			++_g;
+			if(currentPlayer != allPlayersList[0]) {
+				currentPlayer.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
+			}
+		}
+		var timer = new haxe_Timer(model_Model.botTimeoutDelay);
+		timer.run = function() {
+			var randomPlayer = Std.random(allPlayersList.length);
+			var randomPlayer1 = allPlayersList[randomPlayer];
+			if(randomPlayer1 != allPlayersList[0]) {
+				randomPlayer1.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
+			}
+		};
+	}
+	,onPointerdown: function(pointer) {
+		this.allPlayersList[0].setGoToXY(pointer.x,pointer.y);
+	}
+};
 var phasergame_PhaserGame = function() {
 };
 phasergame_PhaserGame.__name__ = true;
@@ -535,6 +579,7 @@ var phasergame_PhaserScene = function(sidePanelControl) {
 	this.playersCollection = new phasergame_sceneobjects_PlayersCollection(this);
 	this.mobsCollection = new phasergame_sceneobjects_MobsCollection(this);
 	this.collisionDetector = new phasergame_CollisionDetector(this);
+	this.moverCharacters = new phasergame_MoverCharacters();
 	this.sidePanelControl = sidePanelControl;
 };
 phasergame_PhaserScene.__name__ = true;
@@ -551,12 +596,12 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 	,create: function() {
 		var _gthis = this;
 		this.background.init();
-		this.playersCollection.init();
-		this.mobsCollection.init();
+		this.playersCollection.init(($_=this.moverCharacters,$bind($_,$_.initPlayers)));
+		this.mobsCollection.init(($_=this.moverCharacters,$bind($_,$_.initMobs)));
 		this.collisionDetector.init(this.playersCollection.getAllPlayersList(),this.mobsCollection.getAllMobList());
 		this.collisionDetector.onCharackterAndMob($bind(this,this.onCharackterAndMobCollision));
 		this.input.on("pointerdown",function(pointer) {
-			_gthis.playersCollection.onPointerdown(pointer);
+			_gthis.moverCharacters.onPointerdown(pointer);
 		},this);
 	}
 	,update: function(time,delta) {
@@ -757,8 +802,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 		this.phaserScene.load.spritesheet(model_Model.mobTypes[3],"assets/mob4lvl.png",{ frameWidth : 32, frameHeight : 32});
 		this.phaserScene.load.spritesheet(model_Model.mobTypes[4],"assets/mob5lvl.png",{ frameWidth : 32, frameHeight : 32});
 	}
-	,init: function() {
-		var _gthis = this;
+	,init: function(onReadyToMove) {
 		var lvlId = 0;
 		var _g1 = 0;
 		var _g = model_Model.mobAmount;
@@ -779,18 +823,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 				_this.h[k] = v;
 			}
 		}
-		var _g2 = 0;
-		var _g11 = this.allMobList;
-		while(_g2 < _g11.length) {
-			var currentMob = _g11[_g2];
-			++_g2;
-			currentMob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
-		}
-		var timer = new haxe_Timer(model_Model.mobTimeoutDelay);
-		timer.run = function() {
-			var randomMob = _gthis.allMobList[Std.random(_gthis.allMobList.length)];
-			randomMob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
-		};
+		onReadyToMove(this.allMobList);
 	}
 	,getMobConfigByLvl: function(lvlId) {
 		var mobX = Utils.getRandomScreenX();
@@ -861,8 +894,7 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 		this.allPlayersList.push(player);
 		return player;
 	}
-	,init: function() {
-		var _gthis = this;
+	,init: function(onReadyToMove) {
 		var _g = 0;
 		while(_g < 6) {
 			var i = _g++;
@@ -878,25 +910,7 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 				_this.h[k] = v;
 			}
 		}
-		var _g1 = 0;
-		var _g11 = this.allPlayersList;
-		while(_g1 < _g11.length) {
-			var currentPlayer = _g11[_g1];
-			++_g1;
-			if(currentPlayer != this.allPlayersList[0]) {
-				currentPlayer.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
-			}
-		}
-		var timer = new haxe_Timer(model_Model.botTimeoutDelay);
-		timer.run = function() {
-			var randomPlayer = _gthis.allPlayersList[Std.random(_gthis.allPlayersList.length)];
-			if(randomPlayer != _gthis.allPlayersList[0]) {
-				randomPlayer.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
-			}
-		};
-	}
-	,onPointerdown: function(pointer) {
-		this.allPlayersList[0].setGoToXY(pointer.x,pointer.y);
+		onReadyToMove(this.allPlayersList);
 	}
 	,update: function(time,delta) {
 		var _g = 0;
