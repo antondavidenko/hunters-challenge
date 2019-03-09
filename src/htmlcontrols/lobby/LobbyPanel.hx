@@ -2,7 +2,7 @@ package htmlcontrols.lobby;
 
 import model.DefaultValues.Slot;
 import model.PhaserGameModel.ControlType;
-import model.PhaserGameModel.CharType;
+import model.PhaserGameModel.PlayerType;
 import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;
@@ -52,11 +52,11 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
     }
 
     function getOptionsClass():Array<String> { return [
-        CharType.HORSEMAN,
-        CharType.BOWMAN,
-        CharType.ELF,
-        CharType.MAGE,
-        CharType.SWORDMAN]; }
+        PlayerType.HORSEMAN,
+        PlayerType.BOWMAN,
+        PlayerType.ELF,
+        PlayerType.MAGE,
+        PlayerType.SWORDMAN]; }
     function getOptionsControl():Array<String> { return [
         ControlType.MOUSE,
         ControlType.WASD,

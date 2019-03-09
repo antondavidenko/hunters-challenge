@@ -1,7 +1,7 @@
 package model;
 
+import model.PhaserGameModel.PlayerData;
 import model.PhaserGameModel.MobData;
-import model.PhaserGameModel.CharData;
 import model.PhaserGameModel.CharacterConfig;
 import model.PhaserGameModel.CharStartConfig;
 
@@ -13,7 +13,7 @@ class Model {
     static public var mobTimeoutDelay:Int = 100;
 
     static public var character:CharacterConfig = new CharacterConfig();
-    static public var charsStartConfig:Array<CharStartConfig> = [];
+    static public var playersStartConfig:Array<CharStartConfig> = [];
 
     static public var mobAmount:Int;
     static public var maxLvl:Int;
@@ -23,13 +23,14 @@ class Model {
     static public var showLabel:Bool;
 
     static public var mobTypes:Array<String> = ["mob1lvl", "mob2lvl", "mob3lvl", "mob4lvl", "mob5lvl"];
-    static public var mobLabels:Array<String> = ["lvl 1", "lvl 2", "lvl 3", "lvl 4","lvl 5"];
+    static public var mobLabels:Array<String> = ["lvl 1", "lvl 2", "lvl 3", "lvl 4", "lvl 5"];
     static public var mobSpeeds:Array<Int> = [100, 5, 25, 300, 300];
+    static public var maxMobLvlId = 4;
 
     static public var totalMobSlayedCounter = 0;
 
-    static public var playersData:Map<String, CharData> = new Map<String, CharData>();
-    static public var mobsData:Map<String, MobData> =  new Map<String, MobData>();
+    static public var playersData:Map<String, PlayerData> = new Map<String, PlayerData>();
+    static public var mobsData:Map<String, MobData> = new Map<String, MobData>();
 
     static public function init():Void {
         character.DEFAULT_POSE_ID = 7;
@@ -43,7 +44,7 @@ class Model {
         showLabel = DefaultValues.showLabel;
 
         for (i in 0...6) {
-            charsStartConfig.push(getCharStartConfigByDefaultValues(i));
+            playersStartConfig.push(getCharStartConfigByDefaultValues(i));
         }
     }
 
@@ -52,6 +53,6 @@ class Model {
         var name:String = DefaultValues.slots[id].name;
         var x:Int = DefaultValues.slots[id].x;
         var y:Int = DefaultValues.slots[id].y;
-        return new CharStartConfig(charType,x,y,name);
+        return new CharStartConfig(charType, x, y, name);
     }
 }

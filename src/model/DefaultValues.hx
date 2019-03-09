@@ -1,7 +1,7 @@
 package model;
 
 import model.PhaserGameModel.ControlType;
-import model.PhaserGameModel.CharType;
+import model.PhaserGameModel.PlayerType;
 
 class DefaultValues {
     static public var slots:Array<Slot> = [];
@@ -12,12 +12,12 @@ class DefaultValues {
     static public var showLabel:Bool = true;
 
     static public function init():Void {
-        slots.push(new Slot("Player 1", CharType.HORSEMAN, ControlType.MOUSE, 400, 300));
-        slots.push(new Slot("bot 1", CharType.SWORDMAN, ControlType.BOT_SIMPLE, 200, 300));
-        slots.push(new Slot("bot 2", CharType.SWORDMAN, ControlType.BOT_SIMPLE, 300, 300));
-        slots.push(new Slot("bot 3", CharType.SWORDMAN, ControlType.BOT_SIMPLE, 500, 300));
-        slots.push(new Slot("bot 4", CharType.SWORDMAN, ControlType.BOT_SIMPLE, 600, 300));
-        slots.push(new Slot("bot 5", CharType.SWORDMAN, ControlType.BOT_SIMPLE, 700, 300));
+        slots.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300));
+        slots.push(new Slot("bot 1", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 200, 300));
+        slots.push(new Slot("bot 2", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 300, 300));
+        slots.push(new Slot("bot 3", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 500, 300));
+        slots.push(new Slot("bot 4", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 600, 300));
+        slots.push(new Slot("bot 5", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 700, 300));
     }
 }
 

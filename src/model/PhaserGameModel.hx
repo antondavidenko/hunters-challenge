@@ -1,8 +1,7 @@
 package model;
 
 class PhaserGameModel {
-    public function new() {
-    }
+    public function new() {}
 }
 
 class CharacterConfig {
@@ -12,7 +11,7 @@ class CharacterConfig {
     public var MIN_DISTANCE : Int;
 }
 
-class CharType {
+class PlayerType {
     public function new() {}
 
     static public var SWORDMAN = "swordman";
@@ -47,7 +46,7 @@ class CharStartConfig {
     public var label:String;
 }
 
-class CharData {
+class PlayerData {
     public function new(slayedCounter:Int, expGained:Float, currentLevel:Int) {
         this.slayedCounter = slayedCounter;
         this.expGained = expGained;

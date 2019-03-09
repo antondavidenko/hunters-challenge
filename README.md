@@ -5,7 +5,6 @@ FUTURE IMPROVE PLAN
 GAME LOOP:
 + add smart bot who directly hunt for mob as an option = v 0.5
 + add keyboard1 and keyboard2 scheme = v0.5
-+ add local multiplayer posibility = v0.5
 - end game screen = v0.5
 - manual\help page
 - re-init game

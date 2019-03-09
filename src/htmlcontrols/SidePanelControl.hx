@@ -45,12 +45,12 @@ class SidePanelControl {
     }
 
     public function updateData():Void {
-        SidePanelModel.LABEL1 = '${Model.charsStartConfig[0].label} : mob slayed=${Model.playersData["1"].slayedCounter} lvl: ${Model.playersData["1"].currentLevel}';
-        SidePanelModel.LABEL2 = '${Model.charsStartConfig[1].label} : mob slayed=${Model.playersData["2"].slayedCounter} lvl: ${Model.playersData["2"].currentLevel}';
-        SidePanelModel.LABEL3 = '${Model.charsStartConfig[2].label} : mob slayed=${Model.playersData["3"].slayedCounter} lvl: ${Model.playersData["3"].currentLevel}';
-        SidePanelModel.LABEL4 = '${Model.charsStartConfig[3].label} : mob slayed=${Model.playersData["4"].slayedCounter} lvl: ${Model.playersData["4"].currentLevel}';
-        SidePanelModel.LABEL5 = '${Model.charsStartConfig[4].label} : mob slayed=${Model.playersData["5"].slayedCounter} lvl: ${Model.playersData["5"].currentLevel}';
-        SidePanelModel.LABEL6 = '${Model.charsStartConfig[5].label} : mob slayed=${Model.playersData["6"].slayedCounter} lvl: ${Model.playersData["6"].currentLevel}';
+        SidePanelModel.LABEL1 = '${Model.playersStartConfig[0].label} : mob slayed=${Model.playersData["1"].slayedCounter} lvl: ${Model.playersData["1"].currentLevel}';
+        SidePanelModel.LABEL2 = '${Model.playersStartConfig[1].label} : mob slayed=${Model.playersData["2"].slayedCounter} lvl: ${Model.playersData["2"].currentLevel}';
+        SidePanelModel.LABEL3 = '${Model.playersStartConfig[2].label} : mob slayed=${Model.playersData["3"].slayedCounter} lvl: ${Model.playersData["3"].currentLevel}';
+        SidePanelModel.LABEL4 = '${Model.playersStartConfig[3].label} : mob slayed=${Model.playersData["4"].slayedCounter} lvl: ${Model.playersData["4"].currentLevel}';
+        SidePanelModel.LABEL5 = '${Model.playersStartConfig[4].label} : mob slayed=${Model.playersData["5"].slayedCounter} lvl: ${Model.playersData["5"].currentLevel}';
+        SidePanelModel.LABEL6 = '${Model.playersStartConfig[5].label} : mob slayed=${Model.playersData["6"].slayedCounter} lvl: ${Model.playersData["6"].currentLevel}';
     }
 
     public function update():Void {

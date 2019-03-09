@@ -5,7 +5,7 @@ import model.PhaserGameModel.CharStartConfig;
 import model.Model;
 import phasergame.sceneobjects.Character;
 
-class MobController {
+class MobsCollection {
 
     private var phaserScene:phaser.Scene;
     private var allMobList:Array<Character> = [];
@@ -39,8 +39,8 @@ class MobController {
 
         var timer = new haxe.Timer(Model.mobTimeoutDelay);
         timer.run = function() {
-            var randomChar:Character = allMobList[Std.random(allMobList.length)];
-            randomChar.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+            var randomMob:Character = allMobList[Std.random(allMobList.length)];
+            randomMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
         }
     }
 
@@ -63,13 +63,14 @@ class MobController {
     public function onMobSlayed(mobId:String):Void {
         var mob:Character = findMobById(mobId);
         if (mob != null) {
-            var lvlId:Int = Std.random(Model.maxLvlInGame+1);
+            var lvlId:Int = Std.random(Model.maxLvlInGame + 1);
+            lvlId = (lvlId > Model.maxMobLvlId) ? Model.maxMobLvlId : lvlId;
             var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId);
             mob.reinit(mobConfig);
             mob.setSpeed(Model.mobSpeeds[lvlId]);
             mob.setXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
             mob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-            Model.mobsData[mob.getPhysicBody().name].currentLevel = lvlId+1;
+            Model.mobsData[mob.getPhysicBody().name].currentLevel = lvlId + 1;
         }
     }
 
