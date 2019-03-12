@@ -33,6 +33,9 @@ class Character {
             }
         }
         sprite = phaserScene.physics.add.sprite(config.x, config.y, config.charType).setScale(2);
+        sprite.setSize(16, 16);
+        sprite.body.offset.x = 8;
+        sprite.body.offset.y = 8;
         sprite.name = Utils.getUniqueId();
         sprite.depth = config.y;
         setAnimation(DEFAULT_POSE_ID);

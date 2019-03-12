@@ -678,6 +678,9 @@ phasergame_sceneobjects_Character.prototype = {
 			}
 		}
 		this.sprite = this.phaserScene.physics.add.sprite(this.config.x,this.config.y,this.config.charType).setScale(2);
+		this.sprite.setSize(16,16);
+		this.sprite.body.offset.x = 8;
+		this.sprite.body.offset.y = 8;
 		this.sprite.name = Utils.getUniqueId();
 		this.sprite.depth = this.config.y;
 		this.setAnimation(this.DEFAULT_POSE_ID);
