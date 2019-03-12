@@ -14,7 +14,7 @@ class LoginPanelControl {
 
     private function updateDefaultValuesByInput():Void {
         for (i in 0...6) {
-            DefaultValues.slots[i].name = getById('slot${i}Name');
+            DefaultValues.slots[i].label = getById('slot${i}Label');
             DefaultValues.slots[i].charType = getById('slot${i}Class');
             DefaultValues.slots[i].controlType = getById('slot${i}Control');
             var spawnXY:Array<String> = Std.string(getById('slot${i}Spawn')).split(",");

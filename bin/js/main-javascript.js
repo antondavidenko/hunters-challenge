@@ -95,10 +95,6 @@ Utils.getRandomScreenX = function() {
 Utils.getRandomScreenY = function() {
 	return Std.random(model_Model.phaserGameHeight);
 };
-Utils.getUniqueId = function() {
-	Utils.uniqueId++;
-	return Std.string(Utils.uniqueId);
-};
 var haxe_IMap = function() { };
 haxe_IMap.__name__ = true;
 var haxe_Timer = function(time_ms) {
@@ -147,7 +143,7 @@ htmlcontrols_LoginPanelControl.prototype = {
 		var _g = 0;
 		while(_g < 6) {
 			var i = _g++;
-			model_DefaultValues.slots[i].name = this.getById("slot" + i + "Name");
+			model_DefaultValues.slots[i].label = this.getById("slot" + i + "Label");
 			model_DefaultValues.slots[i].charType = this.getById("slot" + i + "Class");
 			model_DefaultValues.slots[i].controlType = this.getById("slot" + i + "Control");
 			var spawnXY = Std.string(this.getById("slot" + i + "Spawn")).split(",");
@@ -181,17 +177,17 @@ htmlcontrols_SidePanelControl.prototype = {
 		this.mapDataToHTML("sidePanel_name5",model_SidePanelModel.LABEL5);
 		this.mapDataToHTML("sidePanel_name6",model_SidePanelModel.LABEL6);
 		var _this = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player1progress",this.getProgressString((__map_reserved["1"] != null ? _this.getReserved("1") : _this.h["1"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player1progress",this.getProgressString((__map_reserved["p1"] != null ? _this.getReserved("p1") : _this.h["p1"]).expGained));
 		var _this1 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player2progress",this.getProgressString((__map_reserved["2"] != null ? _this1.getReserved("2") : _this1.h["2"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player2progress",this.getProgressString((__map_reserved["p2"] != null ? _this1.getReserved("p2") : _this1.h["p2"]).expGained));
 		var _this2 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player3progress",this.getProgressString((__map_reserved["3"] != null ? _this2.getReserved("3") : _this2.h["3"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player3progress",this.getProgressString((__map_reserved["p3"] != null ? _this2.getReserved("p3") : _this2.h["p3"]).expGained));
 		var _this3 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player4progress",this.getProgressString((__map_reserved["4"] != null ? _this3.getReserved("4") : _this3.h["4"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player4progress",this.getProgressString((__map_reserved["p4"] != null ? _this3.getReserved("p4") : _this3.h["p4"]).expGained));
 		var _this4 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player5progress",this.getProgressString((__map_reserved["5"] != null ? _this4.getReserved("5") : _this4.h["5"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player5progress",this.getProgressString((__map_reserved["p5"] != null ? _this4.getReserved("p5") : _this4.h["p5"]).expGained));
 		var _this5 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player6progress",this.getProgressString((__map_reserved["6"] != null ? _this5.getReserved("6") : _this5.h["6"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player6progress",this.getProgressString((__map_reserved["p6"] != null ? _this5.getReserved("p6") : _this5.h["p6"]).expGained));
 	}
 	,mapDataToHTML: function(htmlId,data) {
 		var nameHtml = window.document.getElementById(htmlId);
@@ -203,38 +199,25 @@ htmlcontrols_SidePanelControl.prototype = {
 	}
 	,getProgressString: function(current) {
 		var total = 100;
-		if(total == 0) {
-			return "0%";
-		} else {
-			var result = current / total * 100;
-			return result + "%";
-		}
+		var result = current / total * 100;
+		return result + "%";
 	}
 	,updateData: function() {
 		var _this = model_Model.playersData;
-		var tmp = "" + model_Model.playersStartConfig[0].label + " : mob slayed=" + (__map_reserved["1"] != null ? _this.getReserved("1") : _this.h["1"]).slayedCounter + " lvl: ";
+		model_SidePanelModel.LABEL1 = this.getLabelValueByPlayerData(__map_reserved["p1"] != null ? _this.getReserved("p1") : _this.h["p1"]);
 		var _this1 = model_Model.playersData;
-		model_SidePanelModel.LABEL1 = tmp + (__map_reserved["1"] != null ? _this1.getReserved("1") : _this1.h["1"]).currentLevel;
+		model_SidePanelModel.LABEL2 = this.getLabelValueByPlayerData(__map_reserved["p2"] != null ? _this1.getReserved("p2") : _this1.h["p2"]);
 		var _this2 = model_Model.playersData;
-		var tmp1 = "" + model_Model.playersStartConfig[1].label + " : mob slayed=" + (__map_reserved["2"] != null ? _this2.getReserved("2") : _this2.h["2"]).slayedCounter + " lvl: ";
+		model_SidePanelModel.LABEL3 = this.getLabelValueByPlayerData(__map_reserved["p3"] != null ? _this2.getReserved("p3") : _this2.h["p3"]);
 		var _this3 = model_Model.playersData;
-		model_SidePanelModel.LABEL2 = tmp1 + (__map_reserved["2"] != null ? _this3.getReserved("2") : _this3.h["2"]).currentLevel;
+		model_SidePanelModel.LABEL4 = this.getLabelValueByPlayerData(__map_reserved["p4"] != null ? _this3.getReserved("p4") : _this3.h["p4"]);
 		var _this4 = model_Model.playersData;
-		var tmp2 = "" + model_Model.playersStartConfig[2].label + " : mob slayed=" + (__map_reserved["3"] != null ? _this4.getReserved("3") : _this4.h["3"]).slayedCounter + " lvl: ";
+		model_SidePanelModel.LABEL5 = this.getLabelValueByPlayerData(__map_reserved["p5"] != null ? _this4.getReserved("p5") : _this4.h["p5"]);
 		var _this5 = model_Model.playersData;
-		model_SidePanelModel.LABEL3 = tmp2 + (__map_reserved["3"] != null ? _this5.getReserved("3") : _this5.h["3"]).currentLevel;
-		var _this6 = model_Model.playersData;
-		var tmp3 = "" + model_Model.playersStartConfig[3].label + " : mob slayed=" + (__map_reserved["4"] != null ? _this6.getReserved("4") : _this6.h["4"]).slayedCounter + " lvl: ";
-		var _this7 = model_Model.playersData;
-		model_SidePanelModel.LABEL4 = tmp3 + (__map_reserved["4"] != null ? _this7.getReserved("4") : _this7.h["4"]).currentLevel;
-		var _this8 = model_Model.playersData;
-		var tmp4 = "" + model_Model.playersStartConfig[4].label + " : mob slayed=" + (__map_reserved["5"] != null ? _this8.getReserved("5") : _this8.h["5"]).slayedCounter + " lvl: ";
-		var _this9 = model_Model.playersData;
-		model_SidePanelModel.LABEL5 = tmp4 + (__map_reserved["5"] != null ? _this9.getReserved("5") : _this9.h["5"]).currentLevel;
-		var _this10 = model_Model.playersData;
-		var tmp5 = "" + model_Model.playersStartConfig[5].label + " : mob slayed=" + (__map_reserved["6"] != null ? _this10.getReserved("6") : _this10.h["6"]).slayedCounter + " lvl: ";
-		var _this11 = model_Model.playersData;
-		model_SidePanelModel.LABEL6 = tmp5 + (__map_reserved["6"] != null ? _this11.getReserved("6") : _this11.h["6"]).currentLevel;
+		model_SidePanelModel.LABEL6 = this.getLabelValueByPlayerData(__map_reserved["p6"] != null ? _this5.getReserved("p6") : _this5.h["p6"]);
+	}
+	,getLabelValueByPlayerData: function(data) {
+		return "" + data.label + " : mob slayed=" + data.slayedCounter + " lvl: " + data.currentLevel;
 	}
 	,update: function() {
 		this.updateData();
@@ -256,12 +239,12 @@ htmlcontrols_lobby_LobbyPanel.prototype = $extend(React.Component.prototype,{
 		var _g1 = this.props.slots.length;
 		while(_g2 < _g1) {
 			var i = _g2++;
-			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_TextInput, props : { defaultValue : this.props.slots[i].name, id : this.getNameId(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_SelectInput, props : { defaultValue : this.props.slots[i].controlType, id : this.getControlId(i), options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i)}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
+			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_SelectInput, props : { defaultValue : this.props.slots[i].controlType, id : this.getControlId(i), options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i)}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
 		}
 		return _g;
 	}
 	,getNameId: function(i) {
-		return "slot" + i + "Name";
+		return "slot" + i + "Label";
 	}
 	,getClassId: function(i) {
 		return "slot" + i + "Class";
@@ -403,19 +386,20 @@ js_Boot.__string_rec = function(o,s) {
 var model_DefaultValues = function() { };
 model_DefaultValues.__name__ = true;
 model_DefaultValues.init = function() {
-	model_DefaultValues.slots.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300));
-	model_DefaultValues.slots.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300));
-	model_DefaultValues.slots.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300));
-	model_DefaultValues.slots.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300));
-	model_DefaultValues.slots.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300));
-	model_DefaultValues.slots.push(new model_Slot("bot 5",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,700,300));
+	model_DefaultValues.slots.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1"));
+	model_DefaultValues.slots.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2"));
+	model_DefaultValues.slots.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3"));
+	model_DefaultValues.slots.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4"));
+	model_DefaultValues.slots.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5"));
+	model_DefaultValues.slots.push(new model_Slot("bot 5",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,700,300,"p6"));
 };
-var model_Slot = function(name,charType,controlType,x,y) {
+var model_Slot = function(label,charType,controlType,x,y,name) {
 	this.name = name;
 	this.controlType = controlType;
 	this.charType = charType;
 	this.x = x;
 	this.y = y;
+	this.label = label;
 };
 model_Slot.__name__ = true;
 var model_CharacterConfig = function() {
@@ -441,9 +425,10 @@ model_Model.init = function() {
 model_Model.getCharStartConfigByDefaultValues = function(id) {
 	var charType = model_DefaultValues.slots[id].charType;
 	var name = model_DefaultValues.slots[id].name;
+	var label = model_DefaultValues.slots[id].label;
 	var x = model_DefaultValues.slots[id].x;
 	var y = model_DefaultValues.slots[id].y;
-	return new model_CharStartConfig(charType,x,y,name);
+	return new model_CharStartConfig(charType,x,y,label,name);
 };
 var model_PhaserGameModel = function() {
 };
@@ -454,17 +439,19 @@ model_PlayerType.__name__ = true;
 var model_ControlType = function() {
 };
 model_ControlType.__name__ = true;
-var model_CharStartConfig = function(charType,x,y,label) {
+var model_CharStartConfig = function(charType,x,y,label,name) {
 	this.charType = charType;
 	this.x = x;
 	this.y = y;
 	this.label = label;
+	this.name = name;
 };
 model_CharStartConfig.__name__ = true;
-var model_PlayerData = function(slayedCounter,expGained,currentLevel) {
+var model_PlayerData = function(slayedCounter,expGained,currentLevel,label) {
 	this.slayedCounter = slayedCounter;
 	this.expGained = expGained;
 	this.currentLevel = currentLevel;
+	this.label = label;
 };
 model_PlayerData.__name__ = true;
 var model_MobData = function(currentLevel) {
@@ -681,7 +668,7 @@ phasergame_sceneobjects_Character.prototype = {
 		this.sprite.setSize(16,16);
 		this.sprite.body.offset.x = 8;
 		this.sprite.body.offset.y = 8;
-		this.sprite.name = Utils.getUniqueId();
+		this.sprite.name = this.config.name;
 		this.sprite.depth = this.config.y;
 		this.setAnimation(this.DEFAULT_POSE_ID);
 		this.setLabel(this.config.label);
@@ -807,11 +794,12 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	}
 	,init: function(onReadyToMove) {
 		var lvlId = 0;
+		var mobId = 1;
 		var _g1 = 0;
 		var _g = model_Model.mobAmount;
 		while(_g1 < _g) {
 			var mob = _g1++;
-			var mobConfig = this.getMobConfigByLvl(lvlId);
+			var mobConfig = this.getMobConfigByLvl(lvlId,mobId);
 			var mob1 = new phasergame_sceneobjects_Character(this.phaserScene,mobConfig);
 			mob1.init();
 			mob1.setSpeed(model_Model.mobSpeeds[lvlId]);
@@ -825,13 +813,14 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 			} else {
 				_this.h[k] = v;
 			}
+			++mobId;
 		}
 		onReadyToMove(this.allMobList);
 	}
-	,getMobConfigByLvl: function(lvlId) {
+	,getMobConfigByLvl: function(lvlId,mobId) {
 		var mobX = Utils.getRandomScreenX();
 		var mobY = Utils.getRandomScreenY();
-		return new model_CharStartConfig(model_Model.mobTypes[lvlId],mobX,mobY,model_Model.mobLabels[lvlId]);
+		return new model_CharStartConfig(model_Model.mobTypes[lvlId],mobX,mobY,model_Model.mobLabels[lvlId],"m" + mobId);
 	}
 	,update: function(time,delta) {
 		var _g = 0;
@@ -854,7 +843,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 			} else {
 				lvlId = lvlId;
 			}
-			var mobConfig = this.getMobConfigByLvl(lvlId);
+			var mobConfig = this.getMobConfigByLvl(lvlId,0);
 			mob.reinit(mobConfig);
 			mob.setSpeed(model_Model.mobSpeeds[lvlId]);
 			mob.setXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
@@ -904,8 +893,8 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 			var playerConfig = model_Model.playersStartConfig[i];
 			var player = this.preparePlayerByConfig(playerConfig);
 			var this1 = model_Model.playersData;
-			var k = player.getPhysicBody().name;
-			var v = new model_PlayerData(0,0,1);
+			var k = playerConfig.name;
+			var v = new model_PlayerData(0,0,1,playerConfig.label);
 			var _this = this1;
 			if(__map_reserved[k] != null) {
 				_this.setReserved(k,v);
@@ -950,7 +939,6 @@ String.__name__ = true;
 Array.__name__ = true;
 var __map_reserved = {};
 var $$tre = (typeof Symbol === "function" && Symbol.for && Symbol.for("react.element")) || 0xeac7;
-Utils.uniqueId = 0;
 htmlcontrols_lobby_LobbyPanel.displayName = "LobbyPanel";
 htmlcontrols_lobby_SelectInput.displayName = "SelectInput";
 htmlcontrols_lobby_TextInput.displayName = "TextInput";

@@ -16,10 +16,4 @@ class Utils {
     static public function getRandomScreenY():Int {
         return Std.random(Model.phaserGameHeight);
     }
-
-    static private var uniqueId:Int = 0;
-    static public function getUniqueId():String {
-        uniqueId++;
-        return Std.string(uniqueId);
-    }
 }

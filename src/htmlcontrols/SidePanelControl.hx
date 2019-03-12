@@ -1,5 +1,6 @@
 package htmlcontrols;
 
+import model.PhaserGameModel.PlayerData;
 import model.SidePanelModel;
 import model.Model;
 import js.html.HtmlElement;
@@ -16,12 +17,12 @@ class SidePanelControl {
         mapDataToHTML("sidePanel_name5", SidePanelModel.LABEL5);
         mapDataToHTML("sidePanel_name6", SidePanelModel.LABEL6);
 
-        mapProgressToHTML("sidePanel_Player1progress", getProgressString(Model.playersData["1"].expGained));
-        mapProgressToHTML("sidePanel_Player2progress", getProgressString(Model.playersData["2"].expGained));
-        mapProgressToHTML("sidePanel_Player3progress", getProgressString(Model.playersData["3"].expGained));
-        mapProgressToHTML("sidePanel_Player4progress", getProgressString(Model.playersData["4"].expGained));
-        mapProgressToHTML("sidePanel_Player5progress", getProgressString(Model.playersData["5"].expGained));
-        mapProgressToHTML("sidePanel_Player6progress", getProgressString(Model.playersData["6"].expGained));
+        mapProgressToHTML("sidePanel_Player1progress", getProgressString(Model.playersData["p1"].expGained));
+        mapProgressToHTML("sidePanel_Player2progress", getProgressString(Model.playersData["p2"].expGained));
+        mapProgressToHTML("sidePanel_Player3progress", getProgressString(Model.playersData["p3"].expGained));
+        mapProgressToHTML("sidePanel_Player4progress", getProgressString(Model.playersData["p4"].expGained));
+        mapProgressToHTML("sidePanel_Player5progress", getProgressString(Model.playersData["p5"].expGained));
+        mapProgressToHTML("sidePanel_Player6progress", getProgressString(Model.playersData["p6"].expGained));
     }
 
     private function mapDataToHTML(htmlId:String, data:String):Void {
@@ -35,22 +36,22 @@ class SidePanelControl {
     }
 
     private function getProgressString(current:Float):String {
-        var total:Int = 100;//Model.totalMobSlayedCounter;
-        if (total==0) {
-            return "0%";
-        } else {
-            var result:Float = (current/total)*100;
-            return result+"%";
-        }
+        var total:Int = 100;
+        var result:Float = (current/total)*100;
+        return result+"%";
     }
 
     public function updateData():Void {
-        SidePanelModel.LABEL1 = '${Model.playersStartConfig[0].label} : mob slayed=${Model.playersData["1"].slayedCounter} lvl: ${Model.playersData["1"].currentLevel}';
-        SidePanelModel.LABEL2 = '${Model.playersStartConfig[1].label} : mob slayed=${Model.playersData["2"].slayedCounter} lvl: ${Model.playersData["2"].currentLevel}';
-        SidePanelModel.LABEL3 = '${Model.playersStartConfig[2].label} : mob slayed=${Model.playersData["3"].slayedCounter} lvl: ${Model.playersData["3"].currentLevel}';
-        SidePanelModel.LABEL4 = '${Model.playersStartConfig[3].label} : mob slayed=${Model.playersData["4"].slayedCounter} lvl: ${Model.playersData["4"].currentLevel}';
-        SidePanelModel.LABEL5 = '${Model.playersStartConfig[4].label} : mob slayed=${Model.playersData["5"].slayedCounter} lvl: ${Model.playersData["5"].currentLevel}';
-        SidePanelModel.LABEL6 = '${Model.playersStartConfig[5].label} : mob slayed=${Model.playersData["6"].slayedCounter} lvl: ${Model.playersData["6"].currentLevel}';
+        SidePanelModel.LABEL1 = getLabelValueByPlayerData(Model.playersData["p1"]);
+        SidePanelModel.LABEL2 = getLabelValueByPlayerData(Model.playersData["p2"]);
+        SidePanelModel.LABEL3 = getLabelValueByPlayerData(Model.playersData["p3"]);
+        SidePanelModel.LABEL4 = getLabelValueByPlayerData(Model.playersData["p4"]);
+        SidePanelModel.LABEL5 = getLabelValueByPlayerData(Model.playersData["p5"]);
+        SidePanelModel.LABEL6 = getLabelValueByPlayerData(Model.playersData["p6"]);
+    }
+
+    private function getLabelValueByPlayerData(data:PlayerData):String {
+        return '${data.label} : mob slayed=${data.slayedCounter} lvl: ${data.currentLevel}';
     }
 
     public function update():Void {

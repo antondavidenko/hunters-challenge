@@ -51,8 +51,9 @@ class Model {
     static private function getCharStartConfigByDefaultValues(id:Int):CharStartConfig {
         var charType:String = DefaultValues.slots[id].charType;
         var name:String = DefaultValues.slots[id].name;
+        var label:String = DefaultValues.slots[id].label;
         var x:Int = DefaultValues.slots[id].x;
         var y:Int = DefaultValues.slots[id].y;
-        return new CharStartConfig(charType, x, y, name);
+        return new CharStartConfig(charType, x, y, label, name);
     }
 }

@@ -24,22 +24,24 @@ class MobsCollection {
 
     public function init(onReadyToMove:Array<Character> -> Void) {
         var lvlId:Int = 0;
+        var mobId:Int = 1;
         for (mob in 0...Model.mobAmount) {
-            var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId);
+            var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId, mobId);
             var mob = new Character(phaserScene, mobConfig);
             mob.init();
             mob.setSpeed(Model.mobSpeeds[lvlId]);
             allMobList.push(mob);
             Model.mobsData[mob.getPhysicBody().name] = new MobData(1);
+            mobId++;
         }
 
         onReadyToMove(allMobList);
     }
 
-    private function getMobConfigByLvl(lvlId:Int):CharStartConfig {
+    private function getMobConfigByLvl(lvlId:Int, mobId:Int):CharStartConfig {
         var mobX:Int = Utils.getRandomScreenX();
         var mobY:Int = Utils.getRandomScreenY();
-        return new CharStartConfig(Model.mobTypes[lvlId], mobX, mobY, Model.mobLabels[lvlId]);
+        return new CharStartConfig(Model.mobTypes[lvlId], mobX, mobY, Model.mobLabels[lvlId], "m"+mobId);
     }
 
     public function update(time:Float, delta:Float):Void {
@@ -57,7 +59,7 @@ class MobsCollection {
         if (mob != null) {
             var lvlId:Int = Std.random(Model.maxLvlInGame + 1);
             lvlId = (lvlId > Model.maxMobLvlId) ? Model.maxMobLvlId : lvlId;
-            var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId);
+            var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId, 0);
             mob.reinit(mobConfig);
             mob.setSpeed(Model.mobSpeeds[lvlId]);
             mob.setXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());

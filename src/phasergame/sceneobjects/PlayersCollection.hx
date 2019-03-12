@@ -34,7 +34,7 @@ class PlayersCollection {
         for (i in 0...6) {
             var playerConfig:CharStartConfig = Model.playersStartConfig[i];
             var player:Character = preparePlayerByConfig(playerConfig);
-            Model.playersData[player.getPhysicBody().name] = new PlayerData(0, 0, 1);
+            Model.playersData[playerConfig.name] = new PlayerData(0, 0, 1, playerConfig.label);
         }
 
         onReadyToMove(allPlayersList);

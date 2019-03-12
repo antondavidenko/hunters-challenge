@@ -35,14 +35,14 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
     function createChildren():Array<ReactElement>
     {
         return [for (i in 0...props.slots.length) jsx('<tr>
-            <td><TextInput defaultValue="${props.slots[i].name}" id="${getNameId(i)}"/></td>
+            <td><TextInput defaultValue="${props.slots[i].label}" id="${getNameId(i)}"/></td>
             <td><SelectInput defaultValue="${props.slots[i].charType}" id="${getClassId(i)}" options=${this.getOptionsClass()}/></td>
             <td><SelectInput defaultValue="${props.slots[i].controlType}" id="${getControlId(i)}" options=${this.getOptionsControl()}/></td>
             <td><TextInput defaultValue="${this.getXY(i)}" id="${getSpawnId(i)}"/></td>
         </tr>')];
     }
 
-    function getNameId(i:Int):String { return 'slot${i}Name'; }
+    function getNameId(i:Int):String { return 'slot${i}Label'; }
     function getClassId(i:Int):String { return 'slot${i}Class'; }
     function getControlId(i:Int):String { return 'slot${i}Control'; }
     function getSpawnId(i:Int):String { return 'slot${i}Spawn'; }
