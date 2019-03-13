@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import model.PhaserGameModel.ControlType;
 import model.PhaserGameModel.MobData;
 import model.PhaserGameModel.CharStartConfig;
 import model.Model;
@@ -41,7 +42,7 @@ class MobsCollection {
     private function getMobConfigByLvl(lvlId:Int, mobId:Int):CharStartConfig {
         var mobX:Int = Utils.getRandomScreenX();
         var mobY:Int = Utils.getRandomScreenY();
-        return new CharStartConfig(Model.mobTypes[lvlId], mobX, mobY, Model.mobLabels[lvlId], "m"+mobId);
+        return new CharStartConfig(Model.mobTypes[lvlId], mobX, mobY, Model.mobLabels[lvlId], "m"+mobId, ControlType.BOT_SIMPLE);
     }
 
     public function update(time:Float, delta:Float):Void {

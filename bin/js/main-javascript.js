@@ -177,17 +177,17 @@ htmlcontrols_SidePanelControl.prototype = {
 		this.mapDataToHTML("sidePanel_name5",model_SidePanelModel.LABEL5);
 		this.mapDataToHTML("sidePanel_name6",model_SidePanelModel.LABEL6);
 		var _this = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player1progress",this.getProgressString((__map_reserved["p1"] != null ? _this.getReserved("p1") : _this.h["p1"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player1progress",this.getProgressString(__map_reserved["p1"] != null ? _this.getReserved("p1") : _this.h["p1"]));
 		var _this1 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player2progress",this.getProgressString((__map_reserved["p2"] != null ? _this1.getReserved("p2") : _this1.h["p2"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player2progress",this.getProgressString(__map_reserved["p2"] != null ? _this1.getReserved("p2") : _this1.h["p2"]));
 		var _this2 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player3progress",this.getProgressString((__map_reserved["p3"] != null ? _this2.getReserved("p3") : _this2.h["p3"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player3progress",this.getProgressString(__map_reserved["p3"] != null ? _this2.getReserved("p3") : _this2.h["p3"]));
 		var _this3 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player4progress",this.getProgressString((__map_reserved["p4"] != null ? _this3.getReserved("p4") : _this3.h["p4"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player4progress",this.getProgressString(__map_reserved["p4"] != null ? _this3.getReserved("p4") : _this3.h["p4"]));
 		var _this4 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player5progress",this.getProgressString((__map_reserved["p5"] != null ? _this4.getReserved("p5") : _this4.h["p5"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player5progress",this.getProgressString(__map_reserved["p5"] != null ? _this4.getReserved("p5") : _this4.h["p5"]));
 		var _this5 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player6progress",this.getProgressString((__map_reserved["p6"] != null ? _this5.getReserved("p6") : _this5.h["p6"]).expGained));
+		this.mapProgressToHTML("sidePanel_Player6progress",this.getProgressString(__map_reserved["p6"] != null ? _this5.getReserved("p6") : _this5.h["p6"]));
 	}
 	,mapDataToHTML: function(htmlId,data) {
 		var nameHtml = window.document.getElementById(htmlId);
@@ -197,10 +197,12 @@ htmlcontrols_SidePanelControl.prototype = {
 		var progressHtml = window.document.getElementById(htmlId);
 		progressHtml.style.width = data;
 	}
-	,getProgressString: function(current) {
-		var total = 100;
-		var result = current / total * 100;
-		return result + "%";
+	,getProgressString: function(data) {
+		if(data != null) {
+			return data.expGained + "%";
+		} else {
+			return "0%";
+		}
 	}
 	,updateData: function() {
 		var _this = model_Model.playersData;
@@ -217,7 +219,11 @@ htmlcontrols_SidePanelControl.prototype = {
 		model_SidePanelModel.LABEL6 = this.getLabelValueByPlayerData(__map_reserved["p6"] != null ? _this5.getReserved("p6") : _this5.h["p6"]);
 	}
 	,getLabelValueByPlayerData: function(data) {
-		return "" + data.label + " : mob slayed=" + data.slayedCounter + " lvl: " + data.currentLevel;
+		if(data != null) {
+			return "" + data.label + " : mob slayed=" + data.slayedCounter + " lvl: " + data.currentLevel;
+		} else {
+			return "";
+		}
 	}
 	,update: function() {
 		this.updateData();
@@ -428,7 +434,8 @@ model_Model.getCharStartConfigByDefaultValues = function(id) {
 	var label = model_DefaultValues.slots[id].label;
 	var x = model_DefaultValues.slots[id].x;
 	var y = model_DefaultValues.slots[id].y;
-	return new model_CharStartConfig(charType,x,y,label,name);
+	var control = model_DefaultValues.slots[id].controlType;
+	return new model_CharStartConfig(charType,x,y,label,name,control);
 };
 var model_PhaserGameModel = function() {
 };
@@ -439,19 +446,21 @@ model_PlayerType.__name__ = true;
 var model_ControlType = function() {
 };
 model_ControlType.__name__ = true;
-var model_CharStartConfig = function(charType,x,y,label,name) {
+var model_CharStartConfig = function(charType,x,y,label,name,control) {
 	this.charType = charType;
 	this.x = x;
 	this.y = y;
 	this.label = label;
 	this.name = name;
+	this.control = control;
 };
 model_CharStartConfig.__name__ = true;
-var model_PlayerData = function(slayedCounter,expGained,currentLevel,label) {
+var model_PlayerData = function(slayedCounter,expGained,currentLevel,label,control) {
 	this.slayedCounter = slayedCounter;
 	this.expGained = expGained;
 	this.currentLevel = currentLevel;
 	this.label = label;
+	this.control = control;
 };
 model_PlayerData.__name__ = true;
 var model_MobData = function(currentLevel) {
@@ -526,7 +535,9 @@ phasergame_MoverCharacters.prototype = {
 		while(_g < allPlayersList.length) {
 			var currentPlayer = allPlayersList[_g];
 			++_g;
-			if(currentPlayer != allPlayersList[0]) {
+			var id = currentPlayer.getPhysicBody().name;
+			var _this = model_Model.playersData;
+			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.BOT_SIMPLE) {
 				currentPlayer.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 			}
 		}
@@ -534,13 +545,25 @@ phasergame_MoverCharacters.prototype = {
 		timer.run = function() {
 			var randomPlayer = Std.random(allPlayersList.length);
 			var randomPlayer1 = allPlayersList[randomPlayer];
-			if(randomPlayer1 != allPlayersList[0]) {
+			var id1 = randomPlayer1.getPhysicBody().name;
+			var _this1 = model_Model.playersData;
+			if((__map_reserved[id1] != null ? _this1.getReserved(id1) : _this1.h[id1]).control == model_ControlType.BOT_SIMPLE) {
 				randomPlayer1.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 			}
 		};
 	}
 	,onPointerdown: function(pointer) {
-		this.allPlayersList[0].setGoToXY(pointer.x,pointer.y);
+		var _g = 0;
+		var _g1 = this.allPlayersList;
+		while(_g < _g1.length) {
+			var currentPlayer = _g1[_g];
+			++_g;
+			var id = currentPlayer.getPhysicBody().name;
+			var _this = model_Model.playersData;
+			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.MOUSE) {
+				currentPlayer.setGoToXY(pointer.x,pointer.y);
+			}
+		}
 	}
 };
 var phasergame_PhaserGame = function() {
@@ -820,7 +843,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	,getMobConfigByLvl: function(lvlId,mobId) {
 		var mobX = Utils.getRandomScreenX();
 		var mobY = Utils.getRandomScreenY();
-		return new model_CharStartConfig(model_Model.mobTypes[lvlId],mobX,mobY,model_Model.mobLabels[lvlId],"m" + mobId);
+		return new model_CharStartConfig(model_Model.mobTypes[lvlId],mobX,mobY,model_Model.mobLabels[lvlId],"m" + mobId,model_ControlType.BOT_SIMPLE);
 	}
 	,update: function(time,delta) {
 		var _g = 0;
@@ -891,15 +914,17 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 		while(_g < 6) {
 			var i = _g++;
 			var playerConfig = model_Model.playersStartConfig[i];
-			var player = this.preparePlayerByConfig(playerConfig);
-			var this1 = model_Model.playersData;
-			var k = playerConfig.name;
-			var v = new model_PlayerData(0,0,1,playerConfig.label);
-			var _this = this1;
-			if(__map_reserved[k] != null) {
-				_this.setReserved(k,v);
-			} else {
-				_this.h[k] = v;
+			if(playerConfig.control != model_ControlType.NONE) {
+				var player = this.preparePlayerByConfig(playerConfig);
+				var this1 = model_Model.playersData;
+				var k = playerConfig.name;
+				var v = new model_PlayerData(0,0,1,playerConfig.label,playerConfig.control);
+				var _this = this1;
+				if(__map_reserved[k] != null) {
+					_this.setReserved(k,v);
+				} else {
+					_this.h[k] = v;
+				}
 			}
 		}
 		onReadyToMove(this.allPlayersList);

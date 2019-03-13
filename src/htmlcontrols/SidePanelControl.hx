@@ -17,12 +17,12 @@ class SidePanelControl {
         mapDataToHTML("sidePanel_name5", SidePanelModel.LABEL5);
         mapDataToHTML("sidePanel_name6", SidePanelModel.LABEL6);
 
-        mapProgressToHTML("sidePanel_Player1progress", getProgressString(Model.playersData["p1"].expGained));
-        mapProgressToHTML("sidePanel_Player2progress", getProgressString(Model.playersData["p2"].expGained));
-        mapProgressToHTML("sidePanel_Player3progress", getProgressString(Model.playersData["p3"].expGained));
-        mapProgressToHTML("sidePanel_Player4progress", getProgressString(Model.playersData["p4"].expGained));
-        mapProgressToHTML("sidePanel_Player5progress", getProgressString(Model.playersData["p5"].expGained));
-        mapProgressToHTML("sidePanel_Player6progress", getProgressString(Model.playersData["p6"].expGained));
+        mapProgressToHTML("sidePanel_Player1progress", getProgressString(Model.playersData["p1"]));
+        mapProgressToHTML("sidePanel_Player2progress", getProgressString(Model.playersData["p2"]));
+        mapProgressToHTML("sidePanel_Player3progress", getProgressString(Model.playersData["p3"]));
+        mapProgressToHTML("sidePanel_Player4progress", getProgressString(Model.playersData["p4"]));
+        mapProgressToHTML("sidePanel_Player5progress", getProgressString(Model.playersData["p5"]));
+        mapProgressToHTML("sidePanel_Player6progress", getProgressString(Model.playersData["p6"]));
     }
 
     private function mapDataToHTML(htmlId:String, data:String):Void {
@@ -35,10 +35,12 @@ class SidePanelControl {
         progressHtml.style.width = data;
     }
 
-    private function getProgressString(current:Float):String {
-        var total:Int = 100;
-        var result:Float = (current/total)*100;
-        return result+"%";
+    private function getProgressString(data:PlayerData):String {
+        if (data!= null) {
+            return data.expGained+"%";
+        } else {
+            return "0%";
+        }
     }
 
     public function updateData():Void {
@@ -51,7 +53,11 @@ class SidePanelControl {
     }
 
     private function getLabelValueByPlayerData(data:PlayerData):String {
-        return '${data.label} : mob slayed=${data.slayedCounter} lvl: ${data.currentLevel}';
+        if (data!= null) {
+            return '${data.label} : mob slayed=${data.slayedCounter} lvl: ${data.currentLevel}';
+        } else {
+            return "";
+        }
     }
 
     public function update():Void {

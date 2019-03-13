@@ -33,12 +33,13 @@ class ControlType {
 }
 
 class CharStartConfig {
-    public function new(charType:String, x:Int, y:Int, label:String, name:String) {
+    public function new(charType:String, x:Int, y:Int, label:String, name:String, control:String) {
         this.charType = charType;
         this.x = x;
         this.y = y;
         this.label = label;
         this.name = name;
+        this.control = control;
     }
 
     public var charType:String;
@@ -46,20 +47,23 @@ class CharStartConfig {
     public var y:Int;
     public var label:String;
     public var name:String;
+    public var control:String;
 }
 
 class PlayerData {
-    public function new(slayedCounter:Int, expGained:Float, currentLevel:Int, label:String) {
+    public function new(slayedCounter:Int, expGained:Float, currentLevel:Int, label:String, control:String) {
         this.slayedCounter = slayedCounter;
         this.expGained = expGained;
         this.currentLevel = currentLevel;
         this.label = label;
+        this.control = control;
     }
 
     public var slayedCounter:Int;
     public var expGained:Float;
     public var currentLevel:Int;
     public var label:String;
+    public var control:String;
 }
 
 class MobData {

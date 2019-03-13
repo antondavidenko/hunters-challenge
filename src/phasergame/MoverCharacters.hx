@@ -1,5 +1,6 @@
 package phasergame;
 
+import model.PhaserGameModel.ControlType;
 import model.Model;
 import phasergame.sceneobjects.Character;
 
@@ -29,7 +30,8 @@ class MoverCharacters {
         this.allPlayersList = allPlayersList;
 
         for (currentPlayer in allPlayersList) {
-            if (currentPlayer != allPlayersList[0]) {
+            var id:String = currentPlayer.getPhysicBody().name;
+            if (Model.playersData[id].control == ControlType.BOT_SIMPLE) {
                 currentPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
             }
         }
@@ -37,13 +39,19 @@ class MoverCharacters {
         var timer = new haxe.Timer(Model.botTimeoutDelay);
         timer.run = function() {
             var randomPlayer:Character = allPlayersList[Std.random(allPlayersList.length)];
-            if (randomPlayer != allPlayersList[0]) {
+            var id:String = randomPlayer.getPhysicBody().name;
+            if (Model.playersData[id].control == ControlType.BOT_SIMPLE) {
                 randomPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
             }
         }
     }
 
     public function onPointerdown(pointer):Void {
-        allPlayersList[0].setGoToXY(pointer.x, pointer.y);
+        for (currentPlayer in allPlayersList) {
+            var id:String = currentPlayer.getPhysicBody().name;
+            if (Model.playersData[id].control == ControlType.MOUSE) {
+                currentPlayer.setGoToXY(pointer.x, pointer.y);
+            }
+        }
     }
 }

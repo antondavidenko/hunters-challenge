@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import model.PhaserGameModel.ControlType;
 import model.PhaserGameModel.PlayerData;
 import model.PhaserGameModel.PlayerType;
 import model.PhaserGameModel.CharStartConfig;
@@ -33,10 +34,11 @@ class PlayersCollection {
     public function init(onReadyToMove:Array<Character> -> Void) {
         for (i in 0...6) {
             var playerConfig:CharStartConfig = Model.playersStartConfig[i];
-            var player:Character = preparePlayerByConfig(playerConfig);
-            Model.playersData[playerConfig.name] = new PlayerData(0, 0, 1, playerConfig.label);
+            if (playerConfig.control != ControlType.NONE) {
+                var player:Character = preparePlayerByConfig(playerConfig);
+                Model.playersData[playerConfig.name] = new PlayerData(0, 0, 1, playerConfig.label, playerConfig.control);
+            }
         }
-
         onReadyToMove(allPlayersList);
     }
 
