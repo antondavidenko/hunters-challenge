@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import phaser.loader.filetypes.ImageFrameConfig;
 import model.PhaserGameModel.ControlType;
 import model.PhaserGameModel.PlayerData;
 import model.PhaserGameModel.PlayerType;
@@ -17,11 +18,13 @@ class PlayersCollection {
     }
 
     public function preload() {
-        phaserScene.load.spritesheet(PlayerType.SWORDMAN, 'assets/char_swordman.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(PlayerType.BOWMAN, 'assets/char_bowman.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(PlayerType.ELF, 'assets/char_elf.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(PlayerType.MAGE, 'assets/char_mage.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(PlayerType.HORSEMAN, 'assets/char_horseman.png', { frameWidth: 32, frameHeight: 32 });
+        var frameSize:Int = 32;
+        var frmeConfig:ImageFrameConfig = {frameWidth:frameSize, frameHeight:frameSize};
+        phaserScene.load.spritesheet(PlayerType.SWORDMAN, 'assets/char_swordman.png', frmeConfig);
+        phaserScene.load.spritesheet(PlayerType.BOWMAN, 'assets/char_bowman.png', frmeConfig);
+        phaserScene.load.spritesheet(PlayerType.ELF, 'assets/char_elf.png', frmeConfig);
+        phaserScene.load.spritesheet(PlayerType.MAGE, 'assets/char_mage.png', frmeConfig);
+        phaserScene.load.spritesheet(PlayerType.HORSEMAN, 'assets/char_horseman.png', frmeConfig);
     }
 
     private function preparePlayerByConfig(config:CharStartConfig):Character {

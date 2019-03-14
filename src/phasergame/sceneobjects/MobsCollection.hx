@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import phaser.loader.filetypes.ImageFrameConfig;
 import model.PhaserGameModel.ControlType;
 import model.PhaserGameModel.MobData;
 import model.PhaserGameModel.CharStartConfig;
@@ -16,11 +17,13 @@ class MobsCollection {
     }
 
     public function preload() {
-        phaserScene.load.spritesheet(Model.mobTypes[0], 'assets/mob1lvl.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(Model.mobTypes[1], 'assets/mob2lvl.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(Model.mobTypes[2], 'assets/mob3lvl.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(Model.mobTypes[3], 'assets/mob4lvl.png', { frameWidth: 32, frameHeight: 32 });
-        phaserScene.load.spritesheet(Model.mobTypes[4], 'assets/mob5lvl.png', { frameWidth: 32, frameHeight: 32 });
+        var frameSize:Int = 32;
+        var frmeConfig:ImageFrameConfig = {frameWidth:frameSize, frameHeight:frameSize};
+        phaserScene.load.spritesheet(Model.mobTypes[0], 'assets/mob1lvl.png', frmeConfig);
+        phaserScene.load.spritesheet(Model.mobTypes[1], 'assets/mob2lvl.png', frmeConfig);
+        phaserScene.load.spritesheet(Model.mobTypes[2], 'assets/mob3lvl.png', frmeConfig);
+        phaserScene.load.spritesheet(Model.mobTypes[3], 'assets/mob4lvl.png', frmeConfig);
+        phaserScene.load.spritesheet(Model.mobTypes[4], 'assets/mob5lvl.png', frmeConfig);
     }
 
     public function init(onReadyToMove:Array<Character> -> Void) {

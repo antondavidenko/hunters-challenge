@@ -809,11 +809,13 @@ var phasergame_sceneobjects_MobsCollection = function(phaserScene) {
 phasergame_sceneobjects_MobsCollection.__name__ = true;
 phasergame_sceneobjects_MobsCollection.prototype = {
 	preload: function() {
-		this.phaserScene.load.spritesheet(model_Model.mobTypes[0],"assets/mob1lvl.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_Model.mobTypes[1],"assets/mob2lvl.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_Model.mobTypes[2],"assets/mob3lvl.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_Model.mobTypes[3],"assets/mob4lvl.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_Model.mobTypes[4],"assets/mob5lvl.png",{ frameWidth : 32, frameHeight : 32});
+		var frameSize = 32;
+		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
+		this.phaserScene.load.spritesheet(model_Model.mobTypes[0],"assets/mob1lvl.png",frmeConfig);
+		this.phaserScene.load.spritesheet(model_Model.mobTypes[1],"assets/mob2lvl.png",frmeConfig);
+		this.phaserScene.load.spritesheet(model_Model.mobTypes[2],"assets/mob3lvl.png",frmeConfig);
+		this.phaserScene.load.spritesheet(model_Model.mobTypes[3],"assets/mob4lvl.png",frmeConfig);
+		this.phaserScene.load.spritesheet(model_Model.mobTypes[4],"assets/mob5lvl.png",frmeConfig);
 	}
 	,init: function(onReadyToMove) {
 		var lvlId = 0;
@@ -897,11 +899,13 @@ var phasergame_sceneobjects_PlayersCollection = function(phaserScene) {
 phasergame_sceneobjects_PlayersCollection.__name__ = true;
 phasergame_sceneobjects_PlayersCollection.prototype = {
 	preload: function() {
-		this.phaserScene.load.spritesheet(model_PlayerType.SWORDMAN,"assets/char_swordman.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_PlayerType.BOWMAN,"assets/char_bowman.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_PlayerType.ELF,"assets/char_elf.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_PlayerType.MAGE,"assets/char_mage.png",{ frameWidth : 32, frameHeight : 32});
-		this.phaserScene.load.spritesheet(model_PlayerType.HORSEMAN,"assets/char_horseman.png",{ frameWidth : 32, frameHeight : 32});
+		var frameSize = 32;
+		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
+		this.phaserScene.load.spritesheet(model_PlayerType.SWORDMAN,"assets/char_swordman.png",frmeConfig);
+		this.phaserScene.load.spritesheet(model_PlayerType.BOWMAN,"assets/char_bowman.png",frmeConfig);
+		this.phaserScene.load.spritesheet(model_PlayerType.ELF,"assets/char_elf.png",frmeConfig);
+		this.phaserScene.load.spritesheet(model_PlayerType.MAGE,"assets/char_mage.png",frmeConfig);
+		this.phaserScene.load.spritesheet(model_PlayerType.HORSEMAN,"assets/char_horseman.png",frmeConfig);
 	}
 	,preparePlayerByConfig: function(config) {
 		var player = new phasergame_sceneobjects_Character(this.phaserScene,config);
