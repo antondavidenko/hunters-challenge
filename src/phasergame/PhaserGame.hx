@@ -78,11 +78,15 @@ class PhaserScene extends phaser.Scene {
         this.input.on('pointerdown', function(pointer) {
             moverCharacters.onPointerdown(pointer);
         }, this);
+        moverCharacters.setKeys(this.input.keyboard.addKeys('A,W,S,D'));
+        moverCharacters.setCursor(this.input.keyboard.createCursorKeys());
+
     }
 
     override public function update(time:Float, delta:Float):Void {
         if (!isPaused) {
             super.update(time, delta);
+            moverCharacters.update();
             playersCollection.update(time, delta);
             mobsCollection.update(time, delta);
             sidePanelControl.update();

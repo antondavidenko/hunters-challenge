@@ -59,7 +59,7 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
         PlayerType.SWORDMAN]; }
     function getOptionsControl():Array<String> { return [
         ControlType.MOUSE,
-        ControlType.WASD,
+        ControlType.AWSD,
         ControlType.ARROWS,
         ControlType.BOT_SIMPLE,
         ControlType.BOT_HARD,

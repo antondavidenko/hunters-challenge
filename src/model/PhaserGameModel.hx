@@ -26,7 +26,7 @@ class ControlType {
 
     static public var MOUSE = "mouse";
     static public var ARROWS = "keys_arrows";
-    static public var WASD = "keys_awsd";
+    static public var AWSD = "keys_awsd";
     static public var BOT_SIMPLE = "bot_simple";
     static public var BOT_HARD = "bot_hard";
     static public var NONE = "none";

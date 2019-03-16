@@ -268,7 +268,7 @@ htmlcontrols_lobby_LobbyPanel.prototype = $extend(React.Component.prototype,{
 		return [model_PlayerType.HORSEMAN,model_PlayerType.BOWMAN,model_PlayerType.ELF,model_PlayerType.MAGE,model_PlayerType.SWORDMAN];
 	}
 	,getOptionsControl: function() {
-		return [model_ControlType.MOUSE,model_ControlType.WASD,model_ControlType.ARROWS,model_ControlType.BOT_SIMPLE,model_ControlType.BOT_HARD,model_ControlType.NONE];
+		return [model_ControlType.MOUSE,model_ControlType.AWSD,model_ControlType.ARROWS,model_ControlType.BOT_SIMPLE,model_ControlType.BOT_HARD,model_ControlType.NONE];
 	}
 });
 var htmlcontrols_lobby_SelectInput = function(props) {
@@ -514,7 +514,13 @@ var phasergame_MoverCharacters = function() {
 };
 phasergame_MoverCharacters.__name__ = true;
 phasergame_MoverCharacters.prototype = {
-	initMobs: function(allMobList) {
+	setKeys: function(keys) {
+		this.keys = keys;
+	}
+	,setCursor: function(cursor) {
+		this.cursor = cursor;
+	}
+	,initMobs: function(allMobList) {
 		this.allMobList = allMobList;
 		var _g = 0;
 		while(_g < allMobList.length) {
@@ -562,6 +568,48 @@ phasergame_MoverCharacters.prototype = {
 			var _this = model_Model.playersData;
 			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.MOUSE) {
 				currentPlayer.setGoToXY(pointer.x,pointer.y);
+			}
+		}
+	}
+	,update: function() {
+		this.checkAWSDKeys();
+		this.checkCursorKeys();
+	}
+	,checkAWSDKeys: function() {
+		var deltaAWSDx = this.defineCursorMoveAxis(this.keys.D.isDown,this.keys.A.isDown);
+		var deltaAWSDy = this.defineCursorMoveAxis(this.keys.S.isDown,this.keys.W.isDown);
+		if(deltaAWSDx != 0 || deltaAWSDy != 0) {
+			this.onControlKeysPressed(deltaAWSDx,deltaAWSDy,model_ControlType.AWSD);
+		}
+	}
+	,checkCursorKeys: function() {
+		var deltaCursorX = this.defineCursorMoveAxis(this.cursor.right.isDown,this.cursor.left.isDown);
+		var deltaCursorY = this.defineCursorMoveAxis(this.cursor.down.isDown,this.cursor.up.isDown);
+		if(deltaCursorX != 0 || deltaCursorY != 0) {
+			this.onControlKeysPressed(deltaCursorX,deltaCursorY,model_ControlType.ARROWS);
+		}
+	}
+	,defineCursorMoveAxis: function(isPositive,isNegative) {
+		var delta = 10;
+		var axis = isPositive ? delta : 0;
+		if(isNegative) {
+			return -1 * delta;
+		} else {
+			return axis;
+		}
+	}
+	,onControlKeysPressed: function(deltaX,deltaY,keysFlag) {
+		var _g = 0;
+		var _g1 = this.allPlayersList;
+		while(_g < _g1.length) {
+			var currentPlayer = _g1[_g];
+			++_g;
+			var id = currentPlayer.getPhysicBody().name;
+			var _this = model_Model.playersData;
+			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == keysFlag) {
+				var targetX = (currentPlayer.getPhysicBody().x | 0) + deltaX;
+				var targetY = (currentPlayer.getPhysicBody().y | 0) + deltaY;
+				currentPlayer.setGoToXY(targetX,targetY);
 			}
 		}
 	}
@@ -613,10 +661,13 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		this.input.on("pointerdown",function(pointer) {
 			_gthis.moverCharacters.onPointerdown(pointer);
 		},this);
+		this.moverCharacters.setKeys(this.input.keyboard.addKeys("A,W,S,D"));
+		this.moverCharacters.setCursor(this.input.keyboard.createCursorKeys());
 	}
 	,update: function(time,delta) {
 		if(!this.isPaused) {
 			Phaser.Scene.prototype.update.call(this,time,delta);
+			this.moverCharacters.update();
 			this.playersCollection.update(time,delta);
 			this.mobsCollection.update(time,delta);
 			this.sidePanelControl.update();
@@ -996,7 +1047,7 @@ model_PlayerType.MAGE = "mage";
 model_PlayerType.HORSEMAN = "horseman";
 model_ControlType.MOUSE = "mouse";
 model_ControlType.ARROWS = "keys_arrows";
-model_ControlType.WASD = "keys_awsd";
+model_ControlType.AWSD = "keys_awsd";
 model_ControlType.BOT_SIMPLE = "bot_simple";
 model_ControlType.BOT_HARD = "bot_hard";
 model_ControlType.NONE = "none";
