@@ -769,8 +769,10 @@ phasergame_sceneobjects_Character.prototype = {
 	}
 	,setAnimation: function(lineId) {
 		var animationId = this.getIdByTypeIdAndLineId(this.config.charType,lineId);
-		this.sprite.anims.load(animationId);
-		this.sprite.anims.play(animationId);
+		if(this.sprite.anims.getCurrentKey() != animationId) {
+			this.sprite.anims.load(animationId);
+			this.sprite.anims.play(animationId);
+		}
 	}
 	,getIdByTypeIdAndLineId: function(typeId,lineId) {
 		return "typeId:" + typeId + "_lineId:" + lineId;

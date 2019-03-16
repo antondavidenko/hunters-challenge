@@ -67,8 +67,10 @@ class Character {
 
     private function setAnimation(lineId:Int):Void {
         var animationId:String = getIdByTypeIdAndLineId(config.charType, lineId);
-        sprite.anims.load(animationId);
-        sprite.anims.play(animationId);
+        if (sprite.anims.getCurrentKey() != animationId) {
+            sprite.anims.load(animationId);
+            sprite.anims.play(animationId);
+        }
     }
 
     private function getIdByTypeIdAndLineId(typeId:String, lineId:Int):String {
