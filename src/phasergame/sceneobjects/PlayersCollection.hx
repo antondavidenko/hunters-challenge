@@ -66,7 +66,10 @@ class PlayersCollection {
         if (playerData.expGained >= 100) {
             playerData.expGained = 0;
             playerData.currentLevel++;
-            Model.maxLvlInGame = (Model.maxLvlInGame > playerData.currentLevel) ? Model.maxLvlInGame : playerData.currentLevel;
+            if (playerData.currentLevel > Model.maxLvlInGame) {
+                Model.maxLvlInGame = playerData.currentLevel;
+                Model.leaderPlayerLabel = playerData.label;
+            }
         }
     }
 }

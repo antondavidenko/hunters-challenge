@@ -56,7 +56,6 @@ Main.prototype = {
 		}
 	}
 	,onGameEnd: function() {
-		console.log("onGameEnd");
 	}
 };
 Math.__name__ = true;
@@ -685,9 +684,19 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		var isGameEnd = model_Model.maxLvlInGame == model_Model.maxLvl;
 		if(isGameEnd) {
 			this.onGameEnd();
+			this.showEndGameMessage();
 			this.physics.pause();
 			this.isPaused = true;
 		}
+	}
+	,showEndGameMessage: function() {
+		var header = this.add.text(100,210,"Challenge is over",{ fontFamily : "Arial Black", fontSize : 74, color : "#ccd8ff"});
+		header.setStroke("#8ca7f7",16);
+		header.setShadow(2,2,"#333333",2,true,true);
+		header.depth = 100500;
+		var info = this.add.text(120,310,"winner is: " + model_Model.leaderPlayerLabel,{ fontFamily : "Arial Black", fontSize : 46, color : "#ccd8ff"});
+		info.setShadow(2,2,"#333333",2,true,true);
+		info.depth = 100500;
 	}
 });
 var phasergame_sceneobjects_Background = function(phaserScene) {
@@ -1007,7 +1016,10 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 		if(playerData.expGained >= 100) {
 			playerData.expGained = 0;
 			playerData.currentLevel++;
-			model_Model.maxLvlInGame = model_Model.maxLvlInGame > playerData.currentLevel ? model_Model.maxLvlInGame : playerData.currentLevel;
+			if(playerData.currentLevel > model_Model.maxLvlInGame) {
+				model_Model.maxLvlInGame = playerData.currentLevel;
+				model_Model.leaderPlayerLabel = playerData.label;
+			}
 		}
 	}
 };

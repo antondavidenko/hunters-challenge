@@ -3,12 +3,10 @@
 FUTURE IMPROVE PLAN
 
 GAME LOOP:
-+ add keyboard1 and keyboard2 scheme = v0.5
-- end game screen = v0.5
 - add smart bot who directly hunt for mob as an option = v 0.6
 - manual\help page = v 0.6
-- re-init game
 - create teams mechanics = v 0.6
+- re-init game
 
 GRAPHICS:
 - add idle state to characters with specific animations = v 0.6

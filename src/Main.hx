@@ -65,7 +65,5 @@ class Main {
         }
     }
 
-    private function onGameEnd() {
-        trace("onGameEnd");
-    }
+    private function onGameEnd() {}
 }
