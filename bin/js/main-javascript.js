@@ -662,11 +662,9 @@ phasergame_sceneobjects_Background.prototype = {
 			_g.push(_g2);
 		}
 		var dynamicMap = _g;
-		var map = this.phaserScene.add.tilemap("dynamicMap",16,16,0,0,dynamicMap);
+		var map = this.phaserScene.add.tilemap("dynamicMap",32,32,0,0,dynamicMap);
 		var tiles = map.addTilesetImage(this.tilesetName);
 		var layer = map.createStaticLayer(0,tiles,0,0);
-		layer.scaleX = 2;
-		layer.scaleY = 2;
 	}
 };
 var phasergame_sceneobjects_Character = function(phaserScene,config) {
@@ -687,7 +685,7 @@ phasergame_sceneobjects_Character.prototype = {
 				this.phaserScene.anims.create(this.getAnimationConfig(this.config.charType,i));
 			}
 		}
-		this.sprite = this.phaserScene.physics.add.sprite(this.config.x,this.config.y,this.config.charType).setScale(2);
+		this.sprite = this.phaserScene.physics.add.sprite(this.config.x,this.config.y,this.config.charType).setScale(1.5);
 		this.sprite.setSize(16,16);
 		this.sprite.body.offset.x = 8;
 		this.sprite.body.offset.y = 8;

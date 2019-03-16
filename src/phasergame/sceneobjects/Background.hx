@@ -20,10 +20,8 @@ class Background {
 
     public function init():Void {
         var dynamicMap:Array<Array<Int>> = [for (x in 0...22) [for (y in 0...31) Std.random(8)]];
-        var map:Tilemap = phaserScene.add.tilemap("dynamicMap", 16, 16, 0, 0, dynamicMap);
+        var map:Tilemap = phaserScene.add.tilemap("dynamicMap", 32, 32, 0, 0, dynamicMap);
         var tiles:Tileset = map.addTilesetImage(tilesetName);
         var layer:StaticTilemapLayer = map.createStaticLayer(0, tiles, 0, 0);
-        layer.scaleX = 2;
-        layer.scaleY = 2;
     }
 }

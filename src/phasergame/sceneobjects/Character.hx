@@ -32,7 +32,7 @@ class Character {
                 phaserScene.anims.create(getAnimationConfig(config.charType, i));
             }
         }
-        sprite = phaserScene.physics.add.sprite(config.x, config.y, config.charType).setScale(2);
+        sprite = phaserScene.physics.add.sprite(config.x, config.y, config.charType).setScale(1.5);
         sprite.setSize(16, 16);
         sprite.body.offset.x = 8;
         sprite.body.offset.y = 8;
