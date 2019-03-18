@@ -17,7 +17,9 @@ OPTIONS:
 - save options on first screen in cookies
 
 UI:
-- sort realtime player-bot list by leader criteria  = v0.6
+- improve graphics to targeting full HD resolution = v0.6  
+- sort realtime player-bot list by leader criteria = v0.6
+- start count up = v0.6
 - add color orbs on bottom of charackters
 - improve css to make it consistence with game content
 - use images avatars for classes and player presentation

@@ -46,6 +46,7 @@ Main.prototype = {
 	}
 	,onLogin: function() {
 		model_Model.init();
+		ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_sidepanel_SidePanel, props : { players : model_Model.playersStartConfig}, key : null, ref : null},window.document.getElementById("sidePanel"));
 		this.gameCanvas.style.display = "block";
 		this.sidePanel.style.display = "block";
 		this.loginPanel.style.display = "none";
@@ -165,28 +166,19 @@ htmlcontrols_LoginPanelControl.prototype = {
 	}
 };
 var htmlcontrols_SidePanelControl = function() {
+	this.SidePanelLabels = [];
 };
 htmlcontrols_SidePanelControl.__name__ = true;
 htmlcontrols_SidePanelControl.prototype = {
 	updateView: function() {
-		this.mapDataToHTML("sidePanel_name1",model_SidePanelModel.LABEL1);
-		this.mapDataToHTML("sidePanel_name2",model_SidePanelModel.LABEL2);
-		this.mapDataToHTML("sidePanel_name3",model_SidePanelModel.LABEL3);
-		this.mapDataToHTML("sidePanel_name4",model_SidePanelModel.LABEL4);
-		this.mapDataToHTML("sidePanel_name5",model_SidePanelModel.LABEL5);
-		this.mapDataToHTML("sidePanel_name6",model_SidePanelModel.LABEL6);
-		var _this = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player1progress",this.getProgressString(__map_reserved["p1"] != null ? _this.getReserved("p1") : _this.h["p1"]));
-		var _this1 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player2progress",this.getProgressString(__map_reserved["p2"] != null ? _this1.getReserved("p2") : _this1.h["p2"]));
-		var _this2 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player3progress",this.getProgressString(__map_reserved["p3"] != null ? _this2.getReserved("p3") : _this2.h["p3"]));
-		var _this3 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player4progress",this.getProgressString(__map_reserved["p4"] != null ? _this3.getReserved("p4") : _this3.h["p4"]));
-		var _this4 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player5progress",this.getProgressString(__map_reserved["p5"] != null ? _this4.getReserved("p5") : _this4.h["p5"]));
-		var _this5 = model_Model.playersData;
-		this.mapProgressToHTML("sidePanel_Player6progress",this.getProgressString(__map_reserved["p6"] != null ? _this5.getReserved("p6") : _this5.h["p6"]));
+		var _g = 1;
+		while(_g < 7) {
+			var i = _g++;
+			this.mapDataToHTML("sidePanel_name" + i,this.SidePanelLabels[i]);
+			var _this = model_Model.playersData;
+			var key = "p" + i;
+			this.mapProgressToHTML("sidePanel_Player" + i + "progress",this.getProgressString(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]));
+		}
 	}
 	,mapDataToHTML: function(htmlId,data) {
 		var nameHtml = window.document.getElementById(htmlId);
@@ -204,18 +196,13 @@ htmlcontrols_SidePanelControl.prototype = {
 		}
 	}
 	,updateData: function() {
-		var _this = model_Model.playersData;
-		model_SidePanelModel.LABEL1 = this.getLabelValueByPlayerData(__map_reserved["p1"] != null ? _this.getReserved("p1") : _this.h["p1"]);
-		var _this1 = model_Model.playersData;
-		model_SidePanelModel.LABEL2 = this.getLabelValueByPlayerData(__map_reserved["p2"] != null ? _this1.getReserved("p2") : _this1.h["p2"]);
-		var _this2 = model_Model.playersData;
-		model_SidePanelModel.LABEL3 = this.getLabelValueByPlayerData(__map_reserved["p3"] != null ? _this2.getReserved("p3") : _this2.h["p3"]);
-		var _this3 = model_Model.playersData;
-		model_SidePanelModel.LABEL4 = this.getLabelValueByPlayerData(__map_reserved["p4"] != null ? _this3.getReserved("p4") : _this3.h["p4"]);
-		var _this4 = model_Model.playersData;
-		model_SidePanelModel.LABEL5 = this.getLabelValueByPlayerData(__map_reserved["p5"] != null ? _this4.getReserved("p5") : _this4.h["p5"]);
-		var _this5 = model_Model.playersData;
-		model_SidePanelModel.LABEL6 = this.getLabelValueByPlayerData(__map_reserved["p6"] != null ? _this5.getReserved("p6") : _this5.h["p6"]);
+		var _g = 1;
+		while(_g < 7) {
+			var i = _g++;
+			var _this = model_Model.playersData;
+			var key = "p" + i;
+			this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]);
+		}
 	}
 	,getLabelValueByPlayerData: function(data) {
 		if(data != null) {
@@ -300,6 +287,35 @@ htmlcontrols_lobby_TextInput.__super__ = React.Component;
 htmlcontrols_lobby_TextInput.prototype = $extend(React.Component.prototype,{
 	render: function() {
 		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, defaultValue : this.props.defaultValue, type : "text"}, key : null, ref : null};
+	}
+});
+var htmlcontrols_sidepanel_SidePanel = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_sidepanel_SidePanel.__name__ = true;
+htmlcontrols_sidepanel_SidePanel.__super__ = React.Component;
+htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "div", props : { children : this.createChildren()}, key : null, ref : null};
+	}
+	,createChildren: function() {
+		var _g = [];
+		var _g2 = 0;
+		var _g1 = this.props.players.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			_g.push({ "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "label", props : { id : this.getNameId(i), children : { "$$typeof" : $$tre, type : "b", props : { children : "Name holder"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { className : "expBarBg", children : { "$$typeof" : $$tre, type : "div", props : { id : this.getProgressId(i), className : this.getProgressClass(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "br", props : { }, key : null, ref : null}]}, key : null, ref : null});
+		}
+		return _g;
+	}
+	,getNameId: function(i) {
+		return "sidePanel_name" + (i + 1);
+	}
+	,getProgressId: function(i) {
+		return "sidePanel_Player" + (i + 1) + "progress";
+	}
+	,getProgressClass: function(i) {
+		return "Player" + (i + 1) + "progress expBarBgProgress";
 	}
 });
 var js_Boot = function() { };
@@ -466,8 +482,6 @@ var model_MobData = function(currentLevel) {
 	this.currentLevel = currentLevel;
 };
 model_MobData.__name__ = true;
-var model_SidePanelModel = function() { };
-model_SidePanelModel.__name__ = true;
 var phasergame_CharackterAndMobData = function(charackter,mob) {
 	this.charackter = charackter;
 	this.mob = mob;
@@ -1053,6 +1067,7 @@ var $$tre = (typeof Symbol === "function" && Symbol.for && Symbol.for("react.ele
 htmlcontrols_lobby_LobbyPanel.displayName = "LobbyPanel";
 htmlcontrols_lobby_SelectInput.displayName = "SelectInput";
 htmlcontrols_lobby_TextInput.displayName = "TextInput";
+htmlcontrols_sidepanel_SidePanel.displayName = "SidePanel";
 model_DefaultValues.slots = [];
 model_DefaultValues.mobAmount = 5;
 model_DefaultValues.maxLvl = 5;
@@ -1084,11 +1099,5 @@ model_ControlType.AWSD = "keys_awsd";
 model_ControlType.BOT_SIMPLE = "bot_simple";
 model_ControlType.BOT_HARD = "bot_hard";
 model_ControlType.NONE = "none";
-model_SidePanelModel.LABEL1 = "LABEL1";
-model_SidePanelModel.LABEL2 = "LABEL2";
-model_SidePanelModel.LABEL3 = "LABEL3";
-model_SidePanelModel.LABEL4 = "LABEL4";
-model_SidePanelModel.LABEL5 = "LABEL5";
-model_SidePanelModel.LABEL6 = "LABEL6";
 Main.main();
 })();

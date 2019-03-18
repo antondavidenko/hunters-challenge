@@ -1,3 +1,4 @@
+import htmlcontrols.sidepanel.SidePanel;
 import htmlcontrols.lobby.LobbyPanel;
 import react.ReactDOM;
 import model.DefaultValues;
@@ -55,6 +56,7 @@ class Main {
 
     private function onLogin() {
         Model.init();
+        ReactDOM.render(jsx('<$SidePanel players=${Model.playersStartConfig}/>'), js.Browser.document.getElementById('sidePanel'));
         gameCanvas.style.display = "block";
         sidePanel.style.display = "block";
         loginPanel.style.display = "none";

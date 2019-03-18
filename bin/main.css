@@ -3,7 +3,7 @@ canvas {
 }
 
 body {
-    background-color: #000000;
+    background-color: #c29946;
     margin: 0px;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -12,7 +12,6 @@ body::-webkit-scrollbar { width: 0 !important }
 body { -ms-overflow-style: none; }
 body { overflow: -moz-scrollbars-none; }
 
-form {border: 3px solid #f1f1f1;}
 h2 {text-align: center;}
 
 input[type=text], input[type=password], select {
@@ -40,7 +39,7 @@ button:hover {
 
 .container {
     padding: 16px;
-    background-color: #ffffff;
+    background-color: #b6b6b6;
 }
 
 .expBarBg {

@@ -56,7 +56,9 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
         PlayerType.BOWMAN,
         PlayerType.ELF,
         PlayerType.MAGE,
-        PlayerType.SWORDMAN]; }
+        PlayerType.SWORDMAN];
+    }
+
     function getOptionsControl():Array<String> { return [
         ControlType.MOUSE,
         ControlType.AWSD,
