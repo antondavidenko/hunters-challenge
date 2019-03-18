@@ -78,6 +78,12 @@ class PhaserScene extends phaser.Scene {
         this.input.on('pointerdown', function(pointer) {
             moverCharacters.onPointerdown(pointer);
         }, this);
+        this.input.on('pointerup', function(pointer) {
+            moverCharacters.onPointerup(pointer);
+        }, this);
+        this.input.on('pointermove', function(pointer) {
+            moverCharacters.onPointermove(pointer);
+        }, this);
         moverCharacters.setKeys(this.input.keyboard.addKeys('A,W,S,D'));
         moverCharacters.setCursor(this.input.keyboard.createCursorKeys());
 

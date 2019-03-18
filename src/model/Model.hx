@@ -10,7 +10,7 @@ class Model {
     static public var phaserGameHeight:Int = 654;
 
     static public var botTimeoutDelay:Int = 1000;
-    static public var mobTimeoutDelay:Int = 100;
+    static public var mobTimeoutDelay:Int = 1000;
 
     static public var character:CharacterConfig = new CharacterConfig();
     static public var playersStartConfig:Array<CharStartConfig> = [];

@@ -11,6 +11,7 @@ class MoverCharacters {
     private var allPlayersList:Array<Character> = [];
     private var keys:Dynamic;
     private var cursor:CursorKeys;
+    private var onPointerpressed:Bool = false;
 
     public function new() {}
 
@@ -27,12 +28,10 @@ class MoverCharacters {
 
         for (currentMob in allMobList) {
             currentMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-        }
-
-        var timer = new haxe.Timer(Model.mobTimeoutDelay);
-        timer.run = function() {
-            var randomMob:Character = allMobList[Std.random(allMobList.length)];
-            randomMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+            var timer = new haxe.Timer(Model.mobTimeoutDelay);
+            timer.run = function() {
+                currentMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+            }
         }
     }
 
@@ -43,24 +42,29 @@ class MoverCharacters {
             var id:String = currentPlayer.getPhysicBody().name;
             if (Model.playersData[id].control == ControlType.BOT_SIMPLE) {
                 currentPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-            }
-        }
-
-        var timer = new haxe.Timer(Model.botTimeoutDelay);
-        timer.run = function() {
-            var randomPlayer:Character = allPlayersList[Std.random(allPlayersList.length)];
-            var id:String = randomPlayer.getPhysicBody().name;
-            if (Model.playersData[id].control == ControlType.BOT_SIMPLE) {
-                randomPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+                var timer = new haxe.Timer(Model.botTimeoutDelay);
+                timer.run = function() {
+                    currentPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+                }
             }
         }
     }
 
     public function onPointerdown(pointer):Void {
-        for (currentPlayer in allPlayersList) {
-            var id:String = currentPlayer.getPhysicBody().name;
-            if (Model.playersData[id].control == ControlType.MOUSE) {
-                currentPlayer.setGoToXY(pointer.x, pointer.y);
+        onPointerpressed = true;
+    }
+
+    public function onPointerup(pointer):Void {
+        onPointerpressed = false;
+    }
+
+    public function onPointermove(pointer):Void {
+        if (onPointerpressed) {
+            for (currentPlayer in allPlayersList) {
+                var id:String = currentPlayer.getPhysicBody().name;
+                if (Model.playersData[id].control == ControlType.MOUSE) {
+                    currentPlayer.setGoToXY(pointer.x, pointer.y);
+                }
             }
         }
     }

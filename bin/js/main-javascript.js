@@ -508,6 +508,7 @@ phasergame_CollisionDetector.prototype = {
 	}
 };
 var phasergame_MoverCharacters = function() {
+	this.onPointerpressed = false;
 	this.allPlayersList = [];
 	this.allMobList = [];
 };
@@ -523,50 +524,62 @@ phasergame_MoverCharacters.prototype = {
 		this.allMobList = allMobList;
 		var _g = 0;
 		while(_g < allMobList.length) {
-			var currentMob = allMobList[_g];
+			var currentMob = [allMobList[_g]];
 			++_g;
-			currentMob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
+			var tmp = Utils.getRandomScreenX();
+			var tmp1 = Utils.getRandomScreenY();
+			currentMob[0].setGoToXY(tmp,tmp1);
+			var timer = new haxe_Timer(model_Model.mobTimeoutDelay);
+			timer.run = (function(currentMob1) {
+				return function() {
+					var tmp2 = Utils.getRandomScreenX();
+					var tmp3 = Utils.getRandomScreenY();
+					currentMob1[0].setGoToXY(tmp2,tmp3);
+				};
+			})(currentMob);
 		}
-		var timer = new haxe_Timer(model_Model.mobTimeoutDelay);
-		timer.run = function() {
-			var randomMob = Std.random(allMobList.length);
-			var randomMob1 = allMobList[randomMob];
-			randomMob1.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
-		};
 	}
 	,initPlayers: function(allPlayersList) {
 		this.allPlayersList = allPlayersList;
 		var _g = 0;
 		while(_g < allPlayersList.length) {
-			var currentPlayer = allPlayersList[_g];
+			var currentPlayer = [allPlayersList[_g]];
 			++_g;
-			var id = currentPlayer.getPhysicBody().name;
+			var id = currentPlayer[0].getPhysicBody().name;
 			var _this = model_Model.playersData;
 			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.BOT_SIMPLE) {
-				currentPlayer.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
+				var tmp = Utils.getRandomScreenX();
+				var tmp1 = Utils.getRandomScreenY();
+				currentPlayer[0].setGoToXY(tmp,tmp1);
+				var timer = new haxe_Timer(model_Model.botTimeoutDelay);
+				timer.run = (function(currentPlayer1) {
+					return function() {
+						var tmp2 = Utils.getRandomScreenX();
+						var tmp3 = Utils.getRandomScreenY();
+						currentPlayer1[0].setGoToXY(tmp2,tmp3);
+					};
+				})(currentPlayer);
 			}
 		}
-		var timer = new haxe_Timer(model_Model.botTimeoutDelay);
-		timer.run = function() {
-			var randomPlayer = Std.random(allPlayersList.length);
-			var randomPlayer1 = allPlayersList[randomPlayer];
-			var id1 = randomPlayer1.getPhysicBody().name;
-			var _this1 = model_Model.playersData;
-			if((__map_reserved[id1] != null ? _this1.getReserved(id1) : _this1.h[id1]).control == model_ControlType.BOT_SIMPLE) {
-				randomPlayer1.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
-			}
-		};
 	}
 	,onPointerdown: function(pointer) {
-		var _g = 0;
-		var _g1 = this.allPlayersList;
-		while(_g < _g1.length) {
-			var currentPlayer = _g1[_g];
-			++_g;
-			var id = currentPlayer.getPhysicBody().name;
-			var _this = model_Model.playersData;
-			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.MOUSE) {
-				currentPlayer.setGoToXY(pointer.x,pointer.y);
+		this.onPointerpressed = true;
+	}
+	,onPointerup: function(pointer) {
+		this.onPointerpressed = false;
+	}
+	,onPointermove: function(pointer) {
+		if(this.onPointerpressed) {
+			var _g = 0;
+			var _g1 = this.allPlayersList;
+			while(_g < _g1.length) {
+				var currentPlayer = _g1[_g];
+				++_g;
+				var id = currentPlayer.getPhysicBody().name;
+				var _this = model_Model.playersData;
+				if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.MOUSE) {
+					currentPlayer.setGoToXY(pointer.x,pointer.y);
+				}
 			}
 		}
 	}
@@ -659,6 +672,12 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		this.collisionDetector.onCharackterAndMob($bind(this,this.onCharackterAndMobCollision));
 		this.input.on("pointerdown",function(pointer) {
 			_gthis.moverCharacters.onPointerdown(pointer);
+		},this);
+		this.input.on("pointerup",function(pointer1) {
+			_gthis.moverCharacters.onPointerup(pointer1);
+		},this);
+		this.input.on("pointermove",function(pointer2) {
+			_gthis.moverCharacters.onPointermove(pointer2);
 		},this);
 		this.moverCharacters.setKeys(this.input.keyboard.addKeys("A,W,S,D"));
 		this.moverCharacters.setCursor(this.input.keyboard.createCursorKeys());
@@ -1043,7 +1062,7 @@ model_DefaultValues.showLabel = true;
 model_Model.phaserGameWidth = 950;
 model_Model.phaserGameHeight = 654;
 model_Model.botTimeoutDelay = 1000;
-model_Model.mobTimeoutDelay = 100;
+model_Model.mobTimeoutDelay = 1000;
 model_Model.character = new model_CharacterConfig();
 model_Model.playersStartConfig = [];
 model_Model.maxLvlInGame = 1;

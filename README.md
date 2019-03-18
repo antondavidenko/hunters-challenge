@@ -12,6 +12,7 @@ GRAPHICS:
 - add idle state to characters with specific animations = v 0.6
 
 OPTIONS:
+- make menu more like regulars games menu = v 0.6
 - in-game option to show\hide labels
 - save options on first screen in cookies
 
