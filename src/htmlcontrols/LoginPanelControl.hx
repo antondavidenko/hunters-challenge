@@ -24,7 +24,6 @@ class LoginPanelControl {
 
         DefaultValues.mobAmount = Std.parseInt(getById("mobsAmount"));
         DefaultValues.baseExpGain = Std.parseFloat(getById("baseExp"));
-        DefaultValues.maxLvl = Std.parseInt(getById("maxLvl"));
         DefaultValues.screenMode = getById("modeSwitcher");
         DefaultValues.showLabel = (getById("labelsSwitcher")=="ON");
     }

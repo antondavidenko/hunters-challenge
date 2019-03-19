@@ -15,7 +15,7 @@ class TextInput extends ReactComponentOfProps<TextInputProps> {
 
     public override function render():ReactElement
     {
-        return jsx('<input id=${props.id} type="text" defaultValue="${props.defaultValue}" />');
+        return jsx('<input id=${props.id} type="text" defaultValue="${props.defaultValue}" className="quarterWidth"/>');
     }
 }
 

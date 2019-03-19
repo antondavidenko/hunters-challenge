@@ -7,53 +7,13 @@
 <html>
     <body>
         <div id="HTML5game">
-
             <canvas id="gameCanvas" class="gameCanvas"></canvas>
-
             <div class="container sidePanel" id="sidePanel"></div>
-
             <div class="container containerLogin" id="loginPanel">
-                <h2>HUNTERS CHALLENGE v0.6</h2>
-                <div class="container">
-                    <div id="lobby"></div>
-
-                    <br><b>GAME-PLAY OPTIONS</b><br><br>
-
-                    <div class="smallBlock">
-                        <label><b>Mobs amount</b></label>
-                        <input id="mobsAmount" type="text" placeholder="Enter mobs amount" value="5" required>
-                    </div>
-
-                    <div class="smallBlock">
-                        <label><b>Base exp</b></label>
-                        <input id="baseExp" type="text" placeholder="Base exp gain" value="25" required>
-                    </div>
-
-                    <div class="smallBlock">
-                        <label><b>Labels</b></label>
-                        <select id="labelsSwitcher">
-                            <option value="ON">ON</option>
-                            <option value="OFF">OFF</option>
-                        </select>
-                    </div>
-
-                    <div class="smallBlock">
-                        <label><b>Mode</b></label>
-                        <select id="modeSwitcher">
-                            <option value="Windowed">Windowed</option>
-                            <option value="Fullscreen">Fullscreen</option>
-                        </select>
-                    </div>
-
-                    <div class="smallBlock">
-                        <label><b>Max lvl</b></label>
-                        <input id="maxLvl" type="text" placeholder="Enter max level" value="5" required>
-                    </div>
-
-                    <button id="loginButton">PLAY</button>
+                <img src="./assets/logo.png" class="center">
+                <div id="MainMenu"></div>
                 </div>
-            </div>
-
+        </div>
         <script src="js/react.js"></script>
         <script src="js/react-dom.js"></script>
         <script src="js/dist_phaser.js"></script>

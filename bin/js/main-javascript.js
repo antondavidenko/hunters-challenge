@@ -17,7 +17,8 @@ HxOverrides.cca = function(s,index) {
 };
 var Main = function() {
 	model_DefaultValues.init();
-	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_lobby_LobbyPanel, props : { slots : model_DefaultValues.slots}, key : null, ref : null},window.document.getElementById("lobby"));
+	var data = { slots : model_DefaultValues.slots};
+	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_MainMenu, props : { data : data}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
 	this.loginPanel = window.document.getElementById("loginPanel");
@@ -128,6 +129,26 @@ haxe_ds_StringMap.prototype = {
 		}
 	}
 };
+var htmlcontrols_GameModes = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_GameModes.__name__ = true;
+htmlcontrols_GameModes.__super__ = React.Component;
+htmlcontrols_GameModes.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b1", className : "modeButton", children : "Local PVP"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b2", className : "modeButton", children : "Player vs bots"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b3", className : "modeButton", children : "TEAMS vs"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b4", className : "modeButton", children : "HELP"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
+	}
+});
+var htmlcontrols_GamePlayOptions = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_GamePlayOptions.__name__ = true;
+htmlcontrols_GamePlayOptions.__super__ = React.Component;
+htmlcontrols_GamePlayOptions.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Mobs"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Base exp"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Labels"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Mode"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "mobsAmount", defaultValue : "5", type : "text", placeholder : "Enter mobs amount", className : "quarterWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "baseExp", defaultValue : "25", type : "text", placeholder : "Base exp gain", className : "quarterWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "labelsSwitcher", className : "quarterWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "ON", children : "ON"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "OFF", children : "OFF"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "modeSwitcher", className : "quarterWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "Windowed", children : "Windowed"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "Fullscreen", children : "Fullscreen"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
+	}
+});
 var htmlcontrols_LoginPanelControl = function(onLogin) {
 	var _gthis = this;
 	var button = window.document.getElementById("loginButton");
@@ -152,7 +173,6 @@ htmlcontrols_LoginPanelControl.prototype = {
 		}
 		model_DefaultValues.mobAmount = Std.parseInt(this.getById("mobsAmount"));
 		model_DefaultValues.baseExpGain = parseFloat(this.getById("baseExp"));
-		model_DefaultValues.maxLvl = Std.parseInt(this.getById("maxLvl"));
 		model_DefaultValues.screenMode = this.getById("modeSwitcher");
 		model_DefaultValues.showLabel = this.getById("labelsSwitcher") == "ON";
 	}
@@ -165,6 +185,16 @@ htmlcontrols_LoginPanelControl.prototype = {
 		htmlData.value = value;
 	}
 };
+var htmlcontrols_MainMenu = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_MainMenu.__name__ = true;
+htmlcontrols_MainMenu.__super__ = React.Component;
+htmlcontrols_MainMenu.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_GamePlayOptions, props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "MODES"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_GameModes, props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_lobby_LobbyPanel, props : { slots : this.props.data.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+	}
+});
 var htmlcontrols_SidePanelControl = function() {
 	this.SidePanelLabels = [];
 };
@@ -264,7 +294,7 @@ htmlcontrols_lobby_SelectInput.__name__ = true;
 htmlcontrols_lobby_SelectInput.__super__ = React.Component;
 htmlcontrols_lobby_SelectInput.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "select", props : { defaultValue : this.props.defaultValue, id : this.props.id, children : this.createOptions()}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "select", props : { defaultValue : this.props.defaultValue, id : this.props.id, className : "quarterWidth", children : this.createOptions()}, key : null, ref : null};
 	}
 	,createOptions: function() {
 		var _g = [];
@@ -286,7 +316,7 @@ htmlcontrols_lobby_TextInput.__name__ = true;
 htmlcontrols_lobby_TextInput.__super__ = React.Component;
 htmlcontrols_lobby_TextInput.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, defaultValue : this.props.defaultValue, type : "text"}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, defaultValue : this.props.defaultValue, type : "text", className : "quarterWidth"}, key : null, ref : null};
 	}
 });
 var htmlcontrols_sidepanel_SidePanel = function(props) {
@@ -1064,6 +1094,9 @@ String.__name__ = true;
 Array.__name__ = true;
 var __map_reserved = {};
 var $$tre = (typeof Symbol === "function" && Symbol.for && Symbol.for("react.element")) || 0xeac7;
+htmlcontrols_GameModes.displayName = "GameModes";
+htmlcontrols_GamePlayOptions.displayName = "GamePlayOptions";
+htmlcontrols_MainMenu.displayName = "MainMenu";
 htmlcontrols_lobby_LobbyPanel.displayName = "LobbyPanel";
 htmlcontrols_lobby_SelectInput.displayName = "SelectInput";
 htmlcontrols_lobby_TextInput.displayName = "TextInput";
