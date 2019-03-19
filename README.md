@@ -19,6 +19,5 @@ UI:
 - improve graphics to targeting full HD resolution = v0.6  
 - sort realtime player-bot list by leader criteria = v0.6
 - start count up = v0.6
-- improve css to make it consistence with game content
 - add color orbs on bottom of charackters = not sure
 - use images avatars for classes and player presentation = not sure
