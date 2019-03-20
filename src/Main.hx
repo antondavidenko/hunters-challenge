@@ -1,3 +1,4 @@
+import htmlcontrols.store.GameActions;
 import htmlcontrols.MainMenu;
 import htmlcontrols.sidepanel.SidePanel;
 import react.ReactDOM;
@@ -27,8 +28,7 @@ class Main {
 
     public function new() {
         DefaultValues.init();
-        //ReactDOM.render(jsx('<$LobbyPanel slots=${DefaultValues.slots}/>'), js.Browser.document.getElementById('lobby'));
-        var data:Dynamic = {slots:DefaultValues.slots};
+        var data:Dynamic = {slots:DefaultValues.slots, page:GameActions.pagePVP};
         ReactDOM.render(jsx('<$MainMenu data=${data}/>'), js.Browser.document.getElementById('MainMenu'));
         gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
         sidePanel = cast js.Browser.document.getElementById("sidePanel");

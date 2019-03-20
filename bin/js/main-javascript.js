@@ -17,7 +17,7 @@ HxOverrides.cca = function(s,index) {
 };
 var Main = function() {
 	model_DefaultValues.init();
-	var data = { slots : model_DefaultValues.slots};
+	var data = { slots : model_DefaultValues.slots, page : htmlcontrols_store_GameActions.pagePVP};
 	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_MainMenu, props : { data : data}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
@@ -61,6 +61,28 @@ Main.prototype = {
 	}
 };
 Math.__name__ = true;
+var Reflect = function() { };
+Reflect.__name__ = true;
+Reflect.isFunction = function(f) {
+	if(typeof(f) == "function") {
+		return !(f.__name__ || f.__ename__);
+	} else {
+		return false;
+	}
+};
+Reflect.compareMethods = function(f1,f2) {
+	if(f1 == f2) {
+		return true;
+	}
+	if(!Reflect.isFunction(f1) || !Reflect.isFunction(f2)) {
+		return false;
+	}
+	if(f1.scope == f2.scope && f1.method == f2.method) {
+		return f1.method != null;
+	} else {
+		return false;
+	}
+};
 var Std = function() { };
 Std.__name__ = true;
 Std.string = function(s) {
@@ -136,7 +158,19 @@ htmlcontrols_GameModes.__name__ = true;
 htmlcontrols_GameModes.__super__ = React.Component;
 htmlcontrols_GameModes.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b1", className : "modeButton", children : "Local PVP"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b2", className : "modeButton", children : "Player vs bots"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b3", className : "modeButton", children : "TEAMS vs"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b4", className : "modeButton", children : "HELP"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b1", onClick : $bind(this,this.onPVPClicked), className : "modeButton", children : "Local PVP"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b2", onClick : $bind(this,this.onPVEClicked), className : "modeButton", children : "Player vs bots"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b3", onClick : $bind(this,this.onTeansClicked), className : "modeButton", children : "TEAMS vs"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b4", onClick : $bind(this,this.onHelpClicked), className : "modeButton", children : "HELP"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
+	}
+	,onPVPClicked: function(evt) {
+		htmlcontrols_store_GameActions.jumpTo.dispatch(htmlcontrols_store_GameActions.pagePVP);
+	}
+	,onPVEClicked: function(evt) {
+		htmlcontrols_store_GameActions.jumpTo.dispatch(htmlcontrols_store_GameActions.pagePVE);
+	}
+	,onTeansClicked: function(evt) {
+		htmlcontrols_store_GameActions.jumpTo.dispatch(htmlcontrols_store_GameActions.pageTeams);
+	}
+	,onHelpClicked: function(evt) {
+		htmlcontrols_store_GameActions.jumpTo.dispatch(htmlcontrols_store_GameActions.pageHelp);
 	}
 });
 var htmlcontrols_GamePlayOptions = function(props) {
@@ -187,12 +221,24 @@ htmlcontrols_LoginPanelControl.prototype = {
 };
 var htmlcontrols_MainMenu = function(props) {
 	React.Component.call(this,props);
+	this.state = { page : props.data.page};
+	htmlcontrols_store_GameActions.jumpTo.add($bind(this,this.jumpTo));
 };
 htmlcontrols_MainMenu.__name__ = true;
 htmlcontrols_MainMenu.__super__ = React.Component;
 htmlcontrols_MainMenu.prototype = $extend(React.Component.prototype,{
-	render: function() {
-		return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_GamePlayOptions, props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "MODES"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_GameModes, props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_lobby_LobbyPanel, props : { slots : this.props.data.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+	jumpTo: function(page) {
+		this.setState({ page : page});
+	}
+	,render: function() {
+		return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_GamePlayOptions, props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "MODES"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_GameModes, props : { }, key : null, ref : null},this.getContentByState()]}, key : null, ref : null};
+	}
+	,getContentByState: function() {
+		if(this.state.page == htmlcontrols_store_GameActions.pagePVP) {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_lobby_LobbyPanel, props : { slots : this.props.data.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+		} else {
+			return { "$$typeof" : $$tre, type : "div", props : { children : this.state.page}, key : null, ref : null};
+		}
 	}
 });
 var htmlcontrols_SidePanelControl = function() {
@@ -348,6 +394,233 @@ htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
 		return "Player" + (i + 1) + "progress expBarBgProgress";
 	}
 });
+var msignal_Signal = function(valueClasses) {
+	if(valueClasses == null) {
+		valueClasses = [];
+	}
+	this.valueClasses = valueClasses;
+	this.slots = msignal_SlotList.NIL;
+	this.priorityBased = false;
+};
+msignal_Signal.__name__ = true;
+msignal_Signal.prototype = {
+	add: function(listener) {
+		return this.registerListener(listener);
+	}
+	,addOnce: function(listener) {
+		return this.registerListener(listener,true);
+	}
+	,addWithPriority: function(listener,priority) {
+		if(priority == null) {
+			priority = 0;
+		}
+		return this.registerListener(listener,false,priority);
+	}
+	,addOnceWithPriority: function(listener,priority) {
+		if(priority == null) {
+			priority = 0;
+		}
+		return this.registerListener(listener,true,priority);
+	}
+	,remove: function(listener) {
+		var slot = this.slots.find(listener);
+		if(slot == null) {
+			return null;
+		}
+		this.slots = this.slots.filterNot(listener);
+		return slot;
+	}
+	,removeAll: function() {
+		this.slots = msignal_SlotList.NIL;
+	}
+	,registerListener: function(listener,once,priority) {
+		if(priority == null) {
+			priority = 0;
+		}
+		if(once == null) {
+			once = false;
+		}
+		if(this.registrationPossible(listener,once)) {
+			var newSlot = this.createSlot(listener,once,priority);
+			if(!this.priorityBased && priority != 0) {
+				this.priorityBased = true;
+			}
+			if(!this.priorityBased && priority == 0) {
+				this.slots = this.slots.prepend(newSlot);
+			} else {
+				this.slots = this.slots.insertWithPriority(newSlot);
+			}
+			return newSlot;
+		}
+		return this.slots.find(listener);
+	}
+	,registrationPossible: function(listener,once) {
+		if(!this.slots.nonEmpty) {
+			return true;
+		}
+		var existingSlot = this.slots.find(listener);
+		if(existingSlot == null) {
+			return true;
+		}
+		return false;
+	}
+	,createSlot: function(listener,once,priority) {
+		if(priority == null) {
+			priority = 0;
+		}
+		if(once == null) {
+			once = false;
+		}
+		return null;
+	}
+	,get_numListeners: function() {
+		return this.slots.get_length();
+	}
+};
+var msignal_Signal1 = function(type) {
+	msignal_Signal.call(this,[type]);
+};
+msignal_Signal1.__name__ = true;
+msignal_Signal1.__super__ = msignal_Signal;
+msignal_Signal1.prototype = $extend(msignal_Signal.prototype,{
+	dispatch: function(value) {
+		var slotsToProcess = this.slots;
+		while(slotsToProcess.nonEmpty) {
+			slotsToProcess.head.execute(value);
+			slotsToProcess = slotsToProcess.tail;
+		}
+	}
+	,createSlot: function(listener,once,priority) {
+		if(priority == null) {
+			priority = 0;
+		}
+		if(once == null) {
+			once = false;
+		}
+		return new msignal_Slot1(this,listener,once,priority);
+	}
+});
+var msignal_SlotList = function(head,tail) {
+	this.nonEmpty = false;
+	if(head == null && tail == null) {
+		this.nonEmpty = false;
+	} else if(head != null) {
+		this.head = head;
+		this.tail = tail == null ? msignal_SlotList.NIL : tail;
+		this.nonEmpty = true;
+	}
+};
+msignal_SlotList.__name__ = true;
+msignal_SlotList.prototype = {
+	get_length: function() {
+		if(!this.nonEmpty) {
+			return 0;
+		}
+		if(this.tail == msignal_SlotList.NIL) {
+			return 1;
+		}
+		var result = 0;
+		var p = this;
+		while(p.nonEmpty) {
+			++result;
+			p = p.tail;
+		}
+		return result;
+	}
+	,prepend: function(slot) {
+		return new msignal_SlotList(slot,this);
+	}
+	,append: function(slot) {
+		if(slot == null) {
+			return this;
+		}
+		if(!this.nonEmpty) {
+			return new msignal_SlotList(slot);
+		}
+		if(this.tail == msignal_SlotList.NIL) {
+			return new msignal_SlotList(slot).prepend(this.head);
+		}
+		var wholeClone = new msignal_SlotList(this.head);
+		var subClone = wholeClone;
+		var current = this.tail;
+		while(current.nonEmpty) {
+			subClone = subClone.tail = new msignal_SlotList(current.head);
+			current = current.tail;
+		}
+		subClone.tail = new msignal_SlotList(slot);
+		return wholeClone;
+	}
+	,insertWithPriority: function(slot) {
+		if(!this.nonEmpty) {
+			return new msignal_SlotList(slot);
+		}
+		var priority = slot.priority;
+		if(priority >= this.head.priority) {
+			return this.prepend(slot);
+		}
+		var wholeClone = new msignal_SlotList(this.head);
+		var subClone = wholeClone;
+		var current = this.tail;
+		while(current.nonEmpty) {
+			if(priority > current.head.priority) {
+				subClone.tail = current.prepend(slot);
+				return wholeClone;
+			}
+			subClone = subClone.tail = new msignal_SlotList(current.head);
+			current = current.tail;
+		}
+		subClone.tail = new msignal_SlotList(slot);
+		return wholeClone;
+	}
+	,filterNot: function(listener) {
+		if(!this.nonEmpty || listener == null) {
+			return this;
+		}
+		if(Reflect.compareMethods(this.head.listener,listener)) {
+			return this.tail;
+		}
+		var wholeClone = new msignal_SlotList(this.head);
+		var subClone = wholeClone;
+		var current = this.tail;
+		while(current.nonEmpty) {
+			if(Reflect.compareMethods(current.head.listener,listener)) {
+				subClone.tail = current.tail;
+				return wholeClone;
+			}
+			subClone = subClone.tail = new msignal_SlotList(current.head);
+			current = current.tail;
+		}
+		return this;
+	}
+	,contains: function(listener) {
+		if(!this.nonEmpty) {
+			return false;
+		}
+		var p = this;
+		while(p.nonEmpty) {
+			if(Reflect.compareMethods(p.head.listener,listener)) {
+				return true;
+			}
+			p = p.tail;
+		}
+		return false;
+	}
+	,find: function(listener) {
+		if(!this.nonEmpty) {
+			return null;
+		}
+		var p = this;
+		while(p.nonEmpty) {
+			if(Reflect.compareMethods(p.head.listener,listener)) {
+				return p.head;
+			}
+			p = p.tail;
+		}
+		return null;
+	}
+};
+var htmlcontrols_store_GameActions = function() { };
+htmlcontrols_store_GameActions.__name__ = true;
 var js_Boot = function() { };
 js_Boot.__name__ = true;
 js_Boot.__string_rec = function(o,s) {
@@ -512,6 +785,149 @@ var model_MobData = function(currentLevel) {
 	this.currentLevel = currentLevel;
 };
 model_MobData.__name__ = true;
+var msignal_Signal0 = function() {
+	msignal_Signal.call(this);
+};
+msignal_Signal0.__name__ = true;
+msignal_Signal0.__super__ = msignal_Signal;
+msignal_Signal0.prototype = $extend(msignal_Signal.prototype,{
+	dispatch: function() {
+		var slotsToProcess = this.slots;
+		while(slotsToProcess.nonEmpty) {
+			slotsToProcess.head.execute();
+			slotsToProcess = slotsToProcess.tail;
+		}
+	}
+	,createSlot: function(listener,once,priority) {
+		if(priority == null) {
+			priority = 0;
+		}
+		if(once == null) {
+			once = false;
+		}
+		return new msignal_Slot0(this,listener,once,priority);
+	}
+});
+var msignal_Signal2 = function(type1,type2) {
+	msignal_Signal.call(this,[type1,type2]);
+};
+msignal_Signal2.__name__ = true;
+msignal_Signal2.__super__ = msignal_Signal;
+msignal_Signal2.prototype = $extend(msignal_Signal.prototype,{
+	dispatch: function(value1,value2) {
+		var slotsToProcess = this.slots;
+		while(slotsToProcess.nonEmpty) {
+			slotsToProcess.head.execute(value1,value2);
+			slotsToProcess = slotsToProcess.tail;
+		}
+	}
+	,createSlot: function(listener,once,priority) {
+		if(priority == null) {
+			priority = 0;
+		}
+		if(once == null) {
+			once = false;
+		}
+		return new msignal_Slot2(this,listener,once,priority);
+	}
+});
+var msignal_Slot = function(signal,listener,once,priority) {
+	if(priority == null) {
+		priority = 0;
+	}
+	if(once == null) {
+		once = false;
+	}
+	this.signal = signal;
+	this.set_listener(listener);
+	this.once = once;
+	this.priority = priority;
+	this.enabled = true;
+};
+msignal_Slot.__name__ = true;
+msignal_Slot.prototype = {
+	remove: function() {
+		this.signal.remove(this.listener);
+	}
+	,set_listener: function(value) {
+		return this.listener = value;
+	}
+};
+var msignal_Slot0 = function(signal,listener,once,priority) {
+	if(priority == null) {
+		priority = 0;
+	}
+	if(once == null) {
+		once = false;
+	}
+	msignal_Slot.call(this,signal,listener,once,priority);
+};
+msignal_Slot0.__name__ = true;
+msignal_Slot0.__super__ = msignal_Slot;
+msignal_Slot0.prototype = $extend(msignal_Slot.prototype,{
+	execute: function() {
+		if(!this.enabled) {
+			return;
+		}
+		if(this.once) {
+			this.remove();
+		}
+		this.listener();
+	}
+});
+var msignal_Slot1 = function(signal,listener,once,priority) {
+	if(priority == null) {
+		priority = 0;
+	}
+	if(once == null) {
+		once = false;
+	}
+	msignal_Slot.call(this,signal,listener,once,priority);
+};
+msignal_Slot1.__name__ = true;
+msignal_Slot1.__super__ = msignal_Slot;
+msignal_Slot1.prototype = $extend(msignal_Slot.prototype,{
+	execute: function(value1) {
+		if(!this.enabled) {
+			return;
+		}
+		if(this.once) {
+			this.remove();
+		}
+		if(this.param != null) {
+			value1 = this.param;
+		}
+		this.listener(value1);
+	}
+});
+var msignal_Slot2 = function(signal,listener,once,priority) {
+	if(priority == null) {
+		priority = 0;
+	}
+	if(once == null) {
+		once = false;
+	}
+	msignal_Slot.call(this,signal,listener,once,priority);
+};
+msignal_Slot2.__name__ = true;
+msignal_Slot2.__super__ = msignal_Slot;
+msignal_Slot2.prototype = $extend(msignal_Slot.prototype,{
+	execute: function(value1,value2) {
+		if(!this.enabled) {
+			return;
+		}
+		if(this.once) {
+			this.remove();
+		}
+		if(this.param1 != null) {
+			value1 = this.param1;
+		}
+		if(this.param2 != null) {
+			value2 = this.param2;
+		}
+		this.listener(value1,value2);
+	}
+});
 var phasergame_CharackterAndMobData = function(charackter,mob) {
 	this.charackter = charackter;
 	this.mob = mob;
@@ -1094,6 +1510,7 @@ String.__name__ = true;
 Array.__name__ = true;
 var __map_reserved = {};
 var $$tre = (typeof Symbol === "function" && Symbol.for && Symbol.for("react.element")) || 0xeac7;
+msignal_SlotList.NIL = new msignal_SlotList(null,null);
 htmlcontrols_GameModes.displayName = "GameModes";
 htmlcontrols_GamePlayOptions.displayName = "GamePlayOptions";
 htmlcontrols_MainMenu.displayName = "MainMenu";
@@ -1101,6 +1518,11 @@ htmlcontrols_lobby_LobbyPanel.displayName = "LobbyPanel";
 htmlcontrols_lobby_SelectInput.displayName = "SelectInput";
 htmlcontrols_lobby_TextInput.displayName = "TextInput";
 htmlcontrols_sidepanel_SidePanel.displayName = "SidePanel";
+htmlcontrols_store_GameActions.jumpTo = new msignal_Signal1();
+htmlcontrols_store_GameActions.pagePVE = "PVE";
+htmlcontrols_store_GameActions.pagePVP = "PVP";
+htmlcontrols_store_GameActions.pageTeams = "TEAMS";
+htmlcontrols_store_GameActions.pageHelp = "HELP";
 model_DefaultValues.slots = [];
 model_DefaultValues.mobAmount = 5;
 model_DefaultValues.maxLvl = 5;
