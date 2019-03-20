@@ -1,10 +1,10 @@
 package phasergame.sceneobjects;
 
+import phaser.animations.types.GenerateFrameNumbers;
 import model.PhaserGameModel.CharStartConfig;
 import phaser.gameobjects.Text;
 import model.Model;
-import phaser.GenerateFrameNumbersConfig;
-import phaser.AnimationConfig;
+//import phaser.GenerateFrameNumbersConfig;
 import phaser.gameobjects.Sprite;
 
 class Character {
@@ -77,8 +77,8 @@ class Character {
         return 'typeId:' + typeId + "_lineId:" + lineId;
     }
 
-    private function getAnimationConfig(typeId:String, lineId:Int):AnimationConfig {
-        var result:AnimationConfig = {
+    private function getAnimationConfig(typeId:String, lineId:Int):phaser.animations.types.Animation {
+        var result:phaser.animations.types.Animation = {
             key: getIdByTypeIdAndLineId(typeId, lineId),
             frames: phaserScene.anims.generateFrameNumbers(typeId, getFrameConfigByLineId(lineId)),
             frameRate: 6,
@@ -88,13 +88,13 @@ class Character {
         return result;
     }
 
-    private function getFrameConfigByLineId(lineId:Int):GenerateFrameNumbersConfig {
+    private function getFrameConfigByLineId(lineId:Int):GenerateFrameNumbers {
         lineId = (lineId - 1) * 4;
         return getFrameConfig(lineId, lineId + 3);
     }
 
-    private function getFrameConfig(start:Int, end:Int):GenerateFrameNumbersConfig {
-        var result:GenerateFrameNumbersConfig = {
+    private function getFrameConfig(start:Int, end:Int):GenerateFrameNumbers {
+        var result:GenerateFrameNumbers = {
             start:start,
             end:end
         }

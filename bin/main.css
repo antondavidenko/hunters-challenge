@@ -43,7 +43,7 @@ button {
 }
 
 button:hover {
-    opacity: 0.8;
+    background-color: #4ad650;
 }
 
 .container {
@@ -54,7 +54,7 @@ button:hover {
 .expBarBg {
   height: 10px;
   width: 100%;
-  background-color: #ddd;
+  background-color: #333;
 }
 
 .Player1progress { width: 10%; }
@@ -65,7 +65,7 @@ button:hover {
 
 .expBarBgProgress {
   height: 100%;
-  background-color: #4CAF50;
+  background-color: #4ad650;
 }
 
 .gameCanvas { display:none; }

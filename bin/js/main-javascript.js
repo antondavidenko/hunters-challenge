@@ -928,6 +928,8 @@ msignal_Slot2.prototype = $extend(msignal_Slot.prototype,{
 		this.listener(value1,value2);
 	}
 });
+var Phaser_Display_Color = function() { };
+Phaser_Display_Color.__name__ = true;
 var phasergame_CharackterAndMobData = function(charackter,mob) {
 	this.charackter = charackter;
 	this.mob = mob;
@@ -1104,7 +1106,7 @@ phasergame_PhaserGame.prototype = {
 };
 var phasergame_PhaserScene = function(sidePanelControl) {
 	this.isPaused = false;
-	Phaser.Scene.call(this);
+	Phaser.Scene.call(this,{ });
 	this.background = new phasergame_sceneobjects_Background(this);
 	this.playersCollection = new phasergame_sceneobjects_PlayersCollection(this);
 	this.mobsCollection = new phasergame_sceneobjects_MobsCollection(this);

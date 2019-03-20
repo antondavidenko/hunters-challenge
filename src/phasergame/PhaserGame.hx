@@ -50,7 +50,7 @@ class PhaserScene extends phaser.Scene {
     private var isPaused:Bool = false;
 
     public function new(sidePanelControl:SidePanelControl) {
-        super();
+        super({});
         background = new Background(this);
         playersCollection = new PlayersCollection(this);
         mobsCollection = new MobsCollection(this);
