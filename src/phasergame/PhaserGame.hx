@@ -1,7 +1,7 @@
 package phasergame;
 
 import phasergame.CollisionDetector.CharackterAndMobData;
-import htmlcontrols.SidePanelControl;
+import htmlcontrols.sidepanel.SidePanelControl;
 import model.Model;
 import js.html.CanvasElement;
 import phasergame.sceneobjects.PlayersCollection;

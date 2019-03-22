@@ -1,4 +1,4 @@
-package htmlcontrols;
+package htmlcontrols.mainmenu;
 
 import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;
@@ -18,10 +18,10 @@ class GamePlayOptions extends ReactComponentOfProps<GamePlayOptionsProps> {
     {
         return jsx('<table><tbody>
         <tr>
-            <td><b>Mobs</b></td>
-            <td><b>Base exp</b></td>
+            <td><b>Mobs amount</b></td>
+            <td><b>Base exp gain</b></td>
             <td><b>Labels</b></td>
-            <td><b>Mode</b></td>
+            <td><b>Screen mode</b></td>
         </tr>
         <tr>
             <td><input id="mobsAmount" type="text" placeholder="Enter mobs amount" defaultValue="5" className="quarterWidth"/></td>

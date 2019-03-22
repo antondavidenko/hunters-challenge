@@ -1,4 +1,4 @@
-package htmlcontrols;
+package htmlcontrols.sidepanel;
 
 import model.PhaserGameModel.PlayerData;
 import model.Model;

@@ -17,16 +17,16 @@ HxOverrides.cca = function(s,index) {
 };
 var Main = function() {
 	model_DefaultValues.init();
-	var data = { slots : model_DefaultValues.slots, page : htmlcontrols_store_GameActions.pagePVP};
-	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_MainMenu, props : { data : data}, key : null, ref : null},window.document.getElementById("MainMenu"));
+	var data = { slotsPVP : model_DefaultValues.slotsPVP, slotsPVE : model_DefaultValues.slotsPVE, page : htmlcontrols_store_GameActions.pageHelp};
+	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { data : data}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
 	this.loginPanel = window.document.getElementById("loginPanel");
 	this.HTML5game = window.document.getElementById("HTML5game");
 	window.addEventListener("resize",$bind(this,this.onResize));
 	this.onResize();
-	this.sidePanelControl = new htmlcontrols_SidePanelControl();
-	this.loginPanelControl = new htmlcontrols_LoginPanelControl($bind(this,this.onLogin));
+	this.sidePanelControl = new htmlcontrols_sidepanel_SidePanelControl();
+	this.loginPanelControl = new htmlcontrols_mainmenu_MainMenuControl($bind(this,this.onLogin));
 	this.phaserGame = new phasergame_PhaserGame();
 };
 Main.__name__ = true;
@@ -151,12 +151,12 @@ haxe_ds_StringMap.prototype = {
 		}
 	}
 };
-var htmlcontrols_GameModes = function(props) {
+var htmlcontrols_mainmenu_GameModes = function(props) {
 	React.Component.call(this,props);
 };
-htmlcontrols_GameModes.__name__ = true;
-htmlcontrols_GameModes.__super__ = React.Component;
-htmlcontrols_GameModes.prototype = $extend(React.Component.prototype,{
+htmlcontrols_mainmenu_GameModes.__name__ = true;
+htmlcontrols_mainmenu_GameModes.__super__ = React.Component;
+htmlcontrols_mainmenu_GameModes.prototype = $extend(React.Component.prototype,{
 	render: function() {
 		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b1", onClick : $bind(this,this.onPVPClicked), className : "modeButton", children : "Local PVP"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b2", onClick : $bind(this,this.onPVEClicked), className : "modeButton", children : "Player vs bots"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b3", onClick : $bind(this,this.onTeansClicked), className : "modeButton", children : "TEAMS vs"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "button", props : { id : "b4", onClick : $bind(this,this.onHelpClicked), className : "modeButton", children : "HELP"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
 	}
@@ -173,27 +173,46 @@ htmlcontrols_GameModes.prototype = $extend(React.Component.prototype,{
 		htmlcontrols_store_GameActions.jumpTo.dispatch(htmlcontrols_store_GameActions.pageHelp);
 	}
 });
-var htmlcontrols_GamePlayOptions = function(props) {
+var htmlcontrols_mainmenu_GamePlayOptions = function(props) {
 	React.Component.call(this,props);
 };
-htmlcontrols_GamePlayOptions.__name__ = true;
-htmlcontrols_GamePlayOptions.__super__ = React.Component;
-htmlcontrols_GamePlayOptions.prototype = $extend(React.Component.prototype,{
+htmlcontrols_mainmenu_GamePlayOptions.__name__ = true;
+htmlcontrols_mainmenu_GamePlayOptions.__super__ = React.Component;
+htmlcontrols_mainmenu_GamePlayOptions.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Mobs"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Base exp"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Labels"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Mode"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "mobsAmount", defaultValue : "5", type : "text", placeholder : "Enter mobs amount", className : "quarterWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "baseExp", defaultValue : "25", type : "text", placeholder : "Base exp gain", className : "quarterWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "labelsSwitcher", className : "quarterWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "ON", children : "ON"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "OFF", children : "OFF"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "modeSwitcher", className : "quarterWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "Windowed", children : "Windowed"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "Fullscreen", children : "Fullscreen"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Mobs amount"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Base exp gain"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Labels"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Screen mode"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "mobsAmount", defaultValue : "5", type : "text", placeholder : "Enter mobs amount", className : "quarterWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "baseExp", defaultValue : "25", type : "text", placeholder : "Base exp gain", className : "quarterWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "labelsSwitcher", className : "quarterWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "ON", children : "ON"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "OFF", children : "OFF"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "modeSwitcher", className : "quarterWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "Windowed", children : "Windowed"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "Fullscreen", children : "Fullscreen"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
 	}
 });
-var htmlcontrols_LoginPanelControl = function(onLogin) {
-	var _gthis = this;
-	var button = window.document.getElementById("loginButton");
-	button.onclick = function(event) {
-		_gthis.updateDefaultValuesByInput();
-		onLogin();
-		return false;
-	};
+var htmlcontrols_mainmenu_MainMenu = function(props) {
+	React.Component.call(this,props);
+	this.state = { page : props.data.page};
+	htmlcontrols_store_GameActions.jumpTo.add($bind(this,this.jumpTo));
 };
-htmlcontrols_LoginPanelControl.__name__ = true;
-htmlcontrols_LoginPanelControl.prototype = {
+htmlcontrols_mainmenu_MainMenu.__name__ = true;
+htmlcontrols_mainmenu_MainMenu.__super__ = React.Component;
+htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
+	jumpTo: function(page) {
+		this.setState({ page : page});
+	}
+	,render: function() {
+		return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GamePlayOptions, props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "MODES"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { }, key : null, ref : null},this.getContentByState()]}, key : null, ref : null};
+	}
+	,getContentByState: function() {
+		if(this.state.page == htmlcontrols_store_GameActions.pagePVP) {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.props.data.slotsPVP}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+		} else if(this.state.page == htmlcontrols_store_GameActions.pagePVE) {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.props.data.slotsPVE}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+		} else if(this.state.page == htmlcontrols_store_GameActions.pageHelp) {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "HELP"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_helppage_HelpPage, props : { }, key : null, ref : null}]}, key : null, ref : null};
+		} else {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "TEAMS VS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { children : "Teams page are in progress..."}, key : null, ref : null}]}, key : null, ref : null};
+		}
+	}
+});
+var htmlcontrols_mainmenu_MainMenuControl = function(onLogin) {
+};
+htmlcontrols_mainmenu_MainMenuControl.__name__ = true;
+htmlcontrols_mainmenu_MainMenuControl.prototype = {
 	updateDefaultValuesByInput: function() {
 		var _g = 0;
 		while(_g < 6) {
@@ -219,33 +238,123 @@ htmlcontrols_LoginPanelControl.prototype = {
 		htmlData.value = value;
 	}
 };
-var htmlcontrols_MainMenu = function(props) {
+var htmlcontrols_mainmenu_helppage_HelpPage = function(props) {
 	React.Component.call(this,props);
-	this.state = { page : props.data.page};
-	htmlcontrols_store_GameActions.jumpTo.add($bind(this,this.jumpTo));
 };
-htmlcontrols_MainMenu.__name__ = true;
-htmlcontrols_MainMenu.__super__ = React.Component;
-htmlcontrols_MainMenu.prototype = $extend(React.Component.prototype,{
-	jumpTo: function(page) {
-		this.setState({ page : page});
-	}
-	,render: function() {
-		return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_GamePlayOptions, props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "MODES"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_GameModes, props : { }, key : null, ref : null},this.getContentByState()]}, key : null, ref : null};
-	}
-	,getContentByState: function() {
-		if(this.state.page == htmlcontrols_store_GameActions.pagePVP) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_lobby_LobbyPanel, props : { slots : this.props.data.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
-		} else {
-			return { "$$typeof" : $$tre, type : "div", props : { children : this.state.page}, key : null, ref : null};
-		}
+htmlcontrols_mainmenu_helppage_HelpPage.__name__ = true;
+htmlcontrols_mainmenu_helppage_HelpPage.__super__ = React.Component;
+htmlcontrols_mainmenu_helppage_HelpPage.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "div", props : { className : "helpPage", children : [{ "$$typeof" : $$tre, type : "h3", props : { children : "Game rules"}, key : null, ref : null},"The game itself is all about hunters challenge. There are from 2 to 6 hunters take a part in a challenge. It is could be only one winner. When hunters hunt their prey they get experience points. When hunter got 100 or more experience points he got level up. All hunters start with level 1. First who reach level 5 is the winner. All prey got level. Hunter receives more experience for the high-level prey.",{ "$$typeof" : $$tre, type : "h3", props : { children : "Classes description"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "HORSEMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "HORSEMAN"}, key : null, ref : null}," : The brave and the bold horseman put a heavy metal armor on his mighty muscular body."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "BOWMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "BOWMAN"}, key : null, ref : null}," : Sharp-eyed bowman like a hawks eye put all of his arrows in the exactly bull eye."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "SWORDMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "SWORDMAN"}, key : null, ref : null}," : Fight master, quick-armed swordman is always ready for a quick fight."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "MAGE"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "MAGE"}, key : null, ref : null}," : A wise and smart mage can cast a spell,  put enchant and even bring charm."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "ELF"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "ELF"}, key : null, ref : null}," : Like a mystery the elf always has secrets and they will be hidden from others before it to late to stop it."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { }, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null};
 	}
 });
-var htmlcontrols_SidePanelControl = function() {
+var htmlcontrols_mainmenu_lobby_LobbyPanel = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_mainmenu_lobby_LobbyPanel.__name__ = true;
+htmlcontrols_mainmenu_lobby_LobbyPanel.__super__ = React.Component;
+htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "table", props : { cellPadding : "0", cellSpacing : "0", children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Name"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Class"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Control"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Spawn: x,y"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},this.createChildren()]}, key : null, ref : null}}, key : null, ref : null};
+	}
+	,createChildren: function() {
+		var _g = [];
+		var _g2 = 0;
+		var _g1 = this.props.slots.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].controlType, id : this.getControlId(i), options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i)}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
+		}
+		return _g;
+	}
+	,getNameId: function(i) {
+		return "slot" + i + "Label";
+	}
+	,getClassId: function(i) {
+		return "slot" + i + "Class";
+	}
+	,getControlId: function(i) {
+		return "slot" + i + "Control";
+	}
+	,getSpawnId: function(i) {
+		return "slot" + i + "Spawn";
+	}
+	,getXY: function(i) {
+		return "" + this.props.slots[i].x + "," + this.props.slots[i].y;
+	}
+	,getOptionsClass: function() {
+		return [model_PlayerType.HORSEMAN,model_PlayerType.BOWMAN,model_PlayerType.ELF,model_PlayerType.MAGE,model_PlayerType.SWORDMAN];
+	}
+	,getOptionsControl: function() {
+		return [model_ControlType.MOUSE,model_ControlType.AWSD,model_ControlType.ARROWS,model_ControlType.BOT_SIMPLE,model_ControlType.BOT_HARD,model_ControlType.NONE];
+	}
+});
+var htmlcontrols_mainmenu_lobby_SelectInput = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_mainmenu_lobby_SelectInput.__name__ = true;
+htmlcontrols_mainmenu_lobby_SelectInput.__super__ = React.Component;
+htmlcontrols_mainmenu_lobby_SelectInput.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "select", props : { defaultValue : this.props.defaultValue, id : this.props.id, className : "quarterWidth", children : this.createOptions()}, key : null, ref : null};
+	}
+	,createOptions: function() {
+		var _g = [];
+		var _g2 = 0;
+		var _g1 = this.props.options.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			var tmp = this.props.options[i];
+			var tmp1 = this.props.options[i];
+			_g.push({ "$$typeof" : $$tre, type : "option", props : { value : tmp, children : tmp1}, key : null, ref : null});
+		}
+		return _g;
+	}
+});
+var htmlcontrols_mainmenu_lobby_TextInput = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_mainmenu_lobby_TextInput.__name__ = true;
+htmlcontrols_mainmenu_lobby_TextInput.__super__ = React.Component;
+htmlcontrols_mainmenu_lobby_TextInput.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, defaultValue : this.props.defaultValue, type : "text", className : "quarterWidth"}, key : null, ref : null};
+	}
+});
+var htmlcontrols_sidepanel_SidePanel = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_sidepanel_SidePanel.__name__ = true;
+htmlcontrols_sidepanel_SidePanel.__super__ = React.Component;
+htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "div", props : { children : this.createChildren()}, key : null, ref : null};
+	}
+	,createChildren: function() {
+		var _g = [];
+		var _g2 = 0;
+		var _g1 = this.props.players.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			_g.push({ "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "label", props : { id : this.getNameId(i), children : { "$$typeof" : $$tre, type : "b", props : { children : "Name holder"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { className : "expBarBg", children : { "$$typeof" : $$tre, type : "div", props : { id : this.getProgressId(i), className : this.getProgressClass(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "br", props : { }, key : null, ref : null}]}, key : null, ref : null});
+		}
+		return _g;
+	}
+	,getNameId: function(i) {
+		return "sidePanel_name" + (i + 1);
+	}
+	,getProgressId: function(i) {
+		return "sidePanel_Player" + (i + 1) + "progress";
+	}
+	,getProgressClass: function(i) {
+		return "Player" + (i + 1) + "progress expBarBgProgress";
+	}
+});
+var htmlcontrols_sidepanel_SidePanelControl = function() {
 	this.SidePanelLabels = [];
 };
-htmlcontrols_SidePanelControl.__name__ = true;
-htmlcontrols_SidePanelControl.prototype = {
+htmlcontrols_sidepanel_SidePanelControl.__name__ = true;
+htmlcontrols_sidepanel_SidePanelControl.prototype = {
 	updateView: function() {
 		var _g = 1;
 		while(_g < 7) {
@@ -292,108 +401,6 @@ htmlcontrols_SidePanelControl.prototype = {
 		this.updateView();
 	}
 };
-var htmlcontrols_lobby_LobbyPanel = function(props) {
-	React.Component.call(this,props);
-};
-htmlcontrols_lobby_LobbyPanel.__name__ = true;
-htmlcontrols_lobby_LobbyPanel.__super__ = React.Component;
-htmlcontrols_lobby_LobbyPanel.prototype = $extend(React.Component.prototype,{
-	render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { cellPadding : "0", cellSpacing : "0", children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Name"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Class"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Control"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Spawn: x,y"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},this.createChildren()]}, key : null, ref : null}}, key : null, ref : null};
-	}
-	,createChildren: function() {
-		var _g = [];
-		var _g2 = 0;
-		var _g1 = this.props.slots.length;
-		while(_g2 < _g1) {
-			var i = _g2++;
-			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_SelectInput, props : { defaultValue : this.props.slots[i].controlType, id : this.getControlId(i), options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i)}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
-		}
-		return _g;
-	}
-	,getNameId: function(i) {
-		return "slot" + i + "Label";
-	}
-	,getClassId: function(i) {
-		return "slot" + i + "Class";
-	}
-	,getControlId: function(i) {
-		return "slot" + i + "Control";
-	}
-	,getSpawnId: function(i) {
-		return "slot" + i + "Spawn";
-	}
-	,getXY: function(i) {
-		return "" + this.props.slots[i].x + "," + this.props.slots[i].y;
-	}
-	,getOptionsClass: function() {
-		return [model_PlayerType.HORSEMAN,model_PlayerType.BOWMAN,model_PlayerType.ELF,model_PlayerType.MAGE,model_PlayerType.SWORDMAN];
-	}
-	,getOptionsControl: function() {
-		return [model_ControlType.MOUSE,model_ControlType.AWSD,model_ControlType.ARROWS,model_ControlType.BOT_SIMPLE,model_ControlType.BOT_HARD,model_ControlType.NONE];
-	}
-});
-var htmlcontrols_lobby_SelectInput = function(props) {
-	React.Component.call(this,props);
-};
-htmlcontrols_lobby_SelectInput.__name__ = true;
-htmlcontrols_lobby_SelectInput.__super__ = React.Component;
-htmlcontrols_lobby_SelectInput.prototype = $extend(React.Component.prototype,{
-	render: function() {
-		return { "$$typeof" : $$tre, type : "select", props : { defaultValue : this.props.defaultValue, id : this.props.id, className : "quarterWidth", children : this.createOptions()}, key : null, ref : null};
-	}
-	,createOptions: function() {
-		var _g = [];
-		var _g2 = 0;
-		var _g1 = this.props.options.length;
-		while(_g2 < _g1) {
-			var i = _g2++;
-			var tmp = this.props.options[i];
-			var tmp1 = this.props.options[i];
-			_g.push({ "$$typeof" : $$tre, type : "option", props : { value : tmp, children : tmp1}, key : null, ref : null});
-		}
-		return _g;
-	}
-});
-var htmlcontrols_lobby_TextInput = function(props) {
-	React.Component.call(this,props);
-};
-htmlcontrols_lobby_TextInput.__name__ = true;
-htmlcontrols_lobby_TextInput.__super__ = React.Component;
-htmlcontrols_lobby_TextInput.prototype = $extend(React.Component.prototype,{
-	render: function() {
-		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, defaultValue : this.props.defaultValue, type : "text", className : "quarterWidth"}, key : null, ref : null};
-	}
-});
-var htmlcontrols_sidepanel_SidePanel = function(props) {
-	React.Component.call(this,props);
-};
-htmlcontrols_sidepanel_SidePanel.__name__ = true;
-htmlcontrols_sidepanel_SidePanel.__super__ = React.Component;
-htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
-	render: function() {
-		return { "$$typeof" : $$tre, type : "div", props : { children : this.createChildren()}, key : null, ref : null};
-	}
-	,createChildren: function() {
-		var _g = [];
-		var _g2 = 0;
-		var _g1 = this.props.players.length;
-		while(_g2 < _g1) {
-			var i = _g2++;
-			_g.push({ "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "label", props : { id : this.getNameId(i), children : { "$$typeof" : $$tre, type : "b", props : { children : "Name holder"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { className : "expBarBg", children : { "$$typeof" : $$tre, type : "div", props : { id : this.getProgressId(i), className : this.getProgressClass(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "br", props : { }, key : null, ref : null}]}, key : null, ref : null});
-		}
-		return _g;
-	}
-	,getNameId: function(i) {
-		return "sidePanel_name" + (i + 1);
-	}
-	,getProgressId: function(i) {
-		return "sidePanel_Player" + (i + 1) + "progress";
-	}
-	,getProgressClass: function(i) {
-		return "Player" + (i + 1) + "progress expBarBgProgress";
-	}
-});
 var msignal_Signal = function(valueClasses) {
 	if(valueClasses == null) {
 		valueClasses = [];
@@ -710,12 +717,15 @@ js_Boot.__string_rec = function(o,s) {
 var model_DefaultValues = function() { };
 model_DefaultValues.__name__ = true;
 model_DefaultValues.init = function() {
-	model_DefaultValues.slots.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1"));
-	model_DefaultValues.slots.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2"));
-	model_DefaultValues.slots.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3"));
-	model_DefaultValues.slots.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4"));
-	model_DefaultValues.slots.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5"));
-	model_DefaultValues.slots.push(new model_Slot("bot 5",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,700,300,"p6"));
+	model_DefaultValues.slotsPVE.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1"));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2"));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3"));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4"));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5"));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 5",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,700,300,"p6"));
+	model_DefaultValues.slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1"));
+	model_DefaultValues.slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,400,300,"p2"));
+	model_DefaultValues.slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3"));
 };
 var model_Slot = function(label,charType,controlType,x,y,name) {
 	this.name = name;
@@ -1513,18 +1523,21 @@ Array.__name__ = true;
 var __map_reserved = {};
 var $$tre = (typeof Symbol === "function" && Symbol.for && Symbol.for("react.element")) || 0xeac7;
 msignal_SlotList.NIL = new msignal_SlotList(null,null);
-htmlcontrols_GameModes.displayName = "GameModes";
-htmlcontrols_GamePlayOptions.displayName = "GamePlayOptions";
-htmlcontrols_MainMenu.displayName = "MainMenu";
-htmlcontrols_lobby_LobbyPanel.displayName = "LobbyPanel";
-htmlcontrols_lobby_SelectInput.displayName = "SelectInput";
-htmlcontrols_lobby_TextInput.displayName = "TextInput";
+htmlcontrols_mainmenu_GameModes.displayName = "GameModes";
+htmlcontrols_mainmenu_GamePlayOptions.displayName = "GamePlayOptions";
+htmlcontrols_mainmenu_MainMenu.displayName = "MainMenu";
+htmlcontrols_mainmenu_helppage_HelpPage.displayName = "HelpPage";
+htmlcontrols_mainmenu_lobby_LobbyPanel.displayName = "LobbyPanel";
+htmlcontrols_mainmenu_lobby_SelectInput.displayName = "SelectInput";
+htmlcontrols_mainmenu_lobby_TextInput.displayName = "TextInput";
 htmlcontrols_sidepanel_SidePanel.displayName = "SidePanel";
 htmlcontrols_store_GameActions.jumpTo = new msignal_Signal1();
 htmlcontrols_store_GameActions.pagePVE = "PVE";
 htmlcontrols_store_GameActions.pagePVP = "PVP";
 htmlcontrols_store_GameActions.pageTeams = "TEAMS";
 htmlcontrols_store_GameActions.pageHelp = "HELP";
+model_DefaultValues.slotsPVP = [];
+model_DefaultValues.slotsPVE = [];
 model_DefaultValues.slots = [];
 model_DefaultValues.mobAmount = 5;
 model_DefaultValues.maxLvl = 5;

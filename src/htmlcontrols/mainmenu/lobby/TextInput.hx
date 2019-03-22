@@ -1,4 +1,4 @@
-package htmlcontrols.lobby;
+package htmlcontrols.mainmenu.lobby;
 
 import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;

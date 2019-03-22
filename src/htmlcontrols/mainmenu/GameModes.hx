@@ -1,4 +1,4 @@
-package htmlcontrols;
+package htmlcontrols.mainmenu;
 
 import htmlcontrols.store.GameActions;
 import react.ReactComponent.ReactElement;

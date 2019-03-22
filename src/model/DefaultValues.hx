@@ -4,6 +4,8 @@ import model.PhaserGameModel.ControlType;
 import model.PhaserGameModel.PlayerType;
 
 class DefaultValues {
+    static public var slotsPVP:Array<Slot> = [];
+    static public var slotsPVE:Array<Slot> = [];
     static public var slots:Array<Slot> = [];
     static public var mobAmount:Int = 5;
     static public var maxLvl:Int = 5;
@@ -12,12 +14,16 @@ class DefaultValues {
     static public var showLabel:Bool = true;
 
     static public function init():Void {
-        slots.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1"));
-        slots.push(new Slot("bot 1", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 200, 300, "p2"));
-        slots.push(new Slot("bot 2", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 300, 300, "p3"));
-        slots.push(new Slot("bot 3", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 500, 300, "p4"));
-        slots.push(new Slot("bot 4", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 600, 300, "p5"));
-        slots.push(new Slot("bot 5", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 700, 300, "p6"));
+        slotsPVE.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1"));
+        slotsPVE.push(new Slot("bot 1", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 200, 300, "p2"));
+        slotsPVE.push(new Slot("bot 2", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 300, 300, "p3"));
+        slotsPVE.push(new Slot("bot 3", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 500, 300, "p4"));
+        slotsPVE.push(new Slot("bot 4", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 600, 300, "p5"));
+        slotsPVE.push(new Slot("bot 5", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 700, 300, "p6"));
+
+        slotsPVP.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1"));
+        slotsPVP.push(new Slot("Player 2", PlayerType.BOWMAN, ControlType.ARROWS, 400, 300, "p2"));
+        slotsPVP.push(new Slot("Player 3", PlayerType.MAGE, ControlType.AWSD, 600, 300, "p3"));
     }
 }
 

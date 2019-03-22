@@ -1,10 +1,10 @@
 import htmlcontrols.store.GameActions;
-import htmlcontrols.MainMenu;
+import htmlcontrols.mainmenu.MainMenu;
 import htmlcontrols.sidepanel.SidePanel;
 import react.ReactDOM;
 import model.DefaultValues;
-import htmlcontrols.LoginPanelControl;
-import htmlcontrols.SidePanelControl;
+import htmlcontrols.mainmenu.MainMenuControl;
+import htmlcontrols.sidepanel.SidePanelControl;
 import js.html.HtmlElement;
 import model.Model;
 import phasergame.PhaserGame;
@@ -20,7 +20,7 @@ class Main {
 
     private var phaserGame:PhaserGame;
     private var sidePanelControl:SidePanelControl;
-    private var loginPanelControl:LoginPanelControl;
+    private var loginPanelControl:MainMenuControl;
 
     static function main() {
         return new Main();
@@ -28,7 +28,7 @@ class Main {
 
     public function new() {
         DefaultValues.init();
-        var data:Dynamic = {slots:DefaultValues.slots, page:GameActions.pagePVP};
+        var data:Dynamic = {slotsPVP:DefaultValues.slotsPVP, slotsPVE:DefaultValues.slotsPVE, page:GameActions.pageHelp};
         ReactDOM.render(jsx('<$MainMenu data=${data}/>'), js.Browser.document.getElementById('MainMenu'));
         gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
         sidePanel = cast js.Browser.document.getElementById("sidePanel");
@@ -37,7 +37,7 @@ class Main {
         js.Browser.window.addEventListener("resize", onResize);
         onResize();
         sidePanelControl = new SidePanelControl();
-        loginPanelControl = new LoginPanelControl(onLogin);
+        loginPanelControl = new MainMenuControl(onLogin);
         phaserGame = new PhaserGame();
     }
 

@@ -1,15 +1,17 @@
-package htmlcontrols;
+package htmlcontrols.mainmenu;
 
 import model.DefaultValues;
-class LoginPanelControl {
+class MainMenuControl {
 
     public function new(onLogin:Void->Void) {
+/*
         var button = cast js.Browser.document.getElementById("loginButton");
         button.onclick = function(event) {
             updateDefaultValuesByInput();
             onLogin();
             return false;
         }
+*/
     }
 
     private function updateDefaultValuesByInput():Void {

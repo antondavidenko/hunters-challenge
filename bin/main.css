@@ -13,7 +13,7 @@ body::-webkit-scrollbar { width: 0 !important }
 body { -ms-overflow-style: none; }
 body { overflow: -moz-scrollbars-none; }
 
-h2 {
+h2, h3 {
   text-align: center;
   margin-bottom: 5px;
 }
@@ -112,3 +112,11 @@ table {
     border-spacing: 0px;
     border-collapse:collapse;
 }
+
+.HORSEMAN { height: 64px; width: 64px; background: url('./assets/avatars.png') 0 0; }
+.BOWMAN { height: 64px; width: 64px; background: url('./assets/avatars.png') 0 -64px; }
+.SWORDMAN { height: 64px; width: 64px; background: url('./assets/avatars.png') 0 -128px; }
+.MAGE { height: 64px; width: 64px; background: url('./assets/avatars.png') 0 -192px; }
+.ELF { height: 64px; width: 64px; background: url('./assets/avatars.png') 0 -256px; }
+.helpPageClassDescription {width: 250px;}
+.helpPage {background-color: #ddd;}

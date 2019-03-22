@@ -1,4 +1,4 @@
-package htmlcontrols.lobby;
+package htmlcontrols.mainmenu.lobby;
 
 import model.DefaultValues.Slot;
 import model.PhaserGameModel.ControlType;
