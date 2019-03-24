@@ -6,7 +6,6 @@ class PhaserGameModel {
 
 class CharacterConfig {
     public function new() {}
-    public var DEFAULT_POSE_ID : Int;
     public var MOVE_SPEED : Int;
     public var MIN_DISTANCE : Int;
 }

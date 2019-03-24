@@ -4,7 +4,6 @@ import phaser.animations.types.GenerateFrameNumbers;
 import model.PhaserGameModel.CharStartConfig;
 import phaser.gameobjects.Text;
 import model.Model;
-//import phaser.GenerateFrameNumbersConfig;
 import phaser.gameobjects.Sprite;
 
 class Character {
@@ -14,7 +13,7 @@ class Character {
     private var config:CharStartConfig;
     private var text:Text;
 
-    private var DEFAULT_POSE_ID:Int = Model.character.DEFAULT_POSE_ID;
+    private var IDLE_POSE_ID:Int = 1;
     private var MOVE_SPEED:Int = Model.character.MOVE_SPEED;
     private var MIN_DISTANCE:Int = Model.character.MIN_DISTANCE;
     private var xDestination:Int;
@@ -38,7 +37,7 @@ class Character {
         sprite.body.offset.y = 8;
         sprite.name = config.name;
         sprite.depth = config.y;
-        setAnimation(DEFAULT_POSE_ID);
+        setAnimation(IDLE_POSE_ID);
         setLabel(config.label);
     }
 
@@ -50,7 +49,7 @@ class Character {
                 phaserScene.anims.create(getAnimationConfig(config.charType, i));
             }
         }
-        setAnimation(DEFAULT_POSE_ID);
+        setAnimation(IDLE_POSE_ID);
         text.text = config.label;
         text.updateText();
     }
@@ -151,6 +150,7 @@ class Character {
             sprite.body.velocity.y = 0;
             sprite.x = xDestination;
             sprite.y = yDestination;
+            setAnimation(IDLE_POSE_ID);
         }
     }
 

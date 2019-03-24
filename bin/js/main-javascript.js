@@ -772,7 +772,6 @@ model_CharacterConfig.__name__ = true;
 var model_Model = function() { };
 model_Model.__name__ = true;
 model_Model.init = function() {
-	model_Model.character.DEFAULT_POSE_ID = 7;
 	model_Model.character.MOVE_SPEED = 150;
 	model_Model.character.MIN_DISTANCE = 3;
 	model_Model.mobAmount = model_DefaultValues.mobAmount;
@@ -1014,19 +1013,24 @@ phasergame_CollisionDetector.prototype = {
 	}
 };
 var phasergame_MoverCharacters = function() {
+	this.isPause = false;
 	this.onPointerpressed = false;
 	this.allPlayersList = [];
 	this.allMobList = [];
 };
 phasergame_MoverCharacters.__name__ = true;
 phasergame_MoverCharacters.prototype = {
-	setKeys: function(keys) {
+	setPause: function(pause) {
+		this.isPause = pause;
+	}
+	,setKeys: function(keys) {
 		this.keys = keys;
 	}
 	,setCursor: function(cursor) {
 		this.cursor = cursor;
 	}
 	,initMobs: function(allMobList) {
+		var _gthis = this;
 		this.allMobList = allMobList;
 		var _g = 0;
 		while(_g < allMobList.length) {
@@ -1038,14 +1042,17 @@ phasergame_MoverCharacters.prototype = {
 			var timer = new haxe_Timer(model_Model.mobTimeoutDelay);
 			timer.run = (function(currentMob1) {
 				return function() {
-					var tmp2 = Utils.getRandomScreenX();
-					var tmp3 = Utils.getRandomScreenY();
-					currentMob1[0].setGoToXY(tmp2,tmp3);
+					if(!_gthis.isPause) {
+						var tmp2 = Utils.getRandomScreenX();
+						var tmp3 = Utils.getRandomScreenY();
+						currentMob1[0].setGoToXY(tmp2,tmp3);
+					}
 				};
 			})(currentMob);
 		}
 	}
 	,initPlayers: function(allPlayersList) {
+		var _gthis = this;
 		this.allPlayersList = allPlayersList;
 		var _g = 0;
 		while(_g < allPlayersList.length) {
@@ -1060,9 +1067,11 @@ phasergame_MoverCharacters.prototype = {
 				var timer = new haxe_Timer(model_Model.botTimeoutDelay);
 				timer.run = (function(currentPlayer1) {
 					return function() {
-						var tmp2 = Utils.getRandomScreenX();
-						var tmp3 = Utils.getRandomScreenY();
-						currentPlayer1[0].setGoToXY(tmp2,tmp3);
+						if(!_gthis.isPause) {
+							var tmp2 = Utils.getRandomScreenX();
+							var tmp3 = Utils.getRandomScreenY();
+							currentPlayer1[0].setGoToXY(tmp2,tmp3);
+						}
 					};
 				})(currentPlayer);
 			}
@@ -1082,8 +1091,14 @@ phasergame_MoverCharacters.prototype = {
 				var currentPlayer = _g1[_g];
 				++_g;
 				var id = currentPlayer.getPhysicBody().name;
+				var tmp;
 				var _this = model_Model.playersData;
 				if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.MOUSE) {
+					tmp = !this.isPause;
+				} else {
+					tmp = false;
+				}
+				if(tmp) {
 					currentPlayer.setGoToXY(pointer.x,pointer.y);
 				}
 			}
@@ -1123,8 +1138,14 @@ phasergame_MoverCharacters.prototype = {
 			var currentPlayer = _g1[_g];
 			++_g;
 			var id = currentPlayer.getPhysicBody().name;
+			var tmp;
 			var _this = model_Model.playersData;
 			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == keysFlag) {
+				tmp = !this.isPause;
+			} else {
+				tmp = false;
+			}
+			if(tmp) {
 				var targetX = (currentPlayer.getPhysicBody().x | 0) + deltaX;
 				var targetY = (currentPlayer.getPhysicBody().y | 0) + deltaY;
 				currentPlayer.setGoToXY(targetX,targetY);
@@ -1211,6 +1232,9 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 			this.onGameEnd();
 			this.showEndGameMessage();
 			this.physics.pause();
+			this.moverCharacters.setPause(true);
+			this.playersCollection.stopAll();
+			this.mobsCollection.stopAll();
 			this.isPaused = true;
 		}
 	}
@@ -1255,7 +1279,7 @@ phasergame_sceneobjects_Background.prototype = {
 var phasergame_sceneobjects_Character = function(phaserScene,config) {
 	this.MIN_DISTANCE = model_Model.character.MIN_DISTANCE;
 	this.MOVE_SPEED = model_Model.character.MOVE_SPEED;
-	this.DEFAULT_POSE_ID = model_Model.character.DEFAULT_POSE_ID;
+	this.IDLE_POSE_ID = 1;
 	this.phaserScene = phaserScene;
 	this.config = config;
 };
@@ -1276,7 +1300,7 @@ phasergame_sceneobjects_Character.prototype = {
 		this.sprite.body.offset.y = 8;
 		this.sprite.name = this.config.name;
 		this.sprite.depth = this.config.y;
-		this.setAnimation(this.DEFAULT_POSE_ID);
+		this.setAnimation(this.IDLE_POSE_ID);
 		this.setLabel(this.config.label);
 	}
 	,reinit: function(config) {
@@ -1289,7 +1313,7 @@ phasergame_sceneobjects_Character.prototype = {
 				this.phaserScene.anims.create(this.getAnimationConfig(config.charType,i));
 			}
 		}
-		this.setAnimation(this.DEFAULT_POSE_ID);
+		this.setAnimation(this.IDLE_POSE_ID);
 		this.text.text = config.label;
 		this.text.updateText();
 	}
@@ -1381,6 +1405,7 @@ phasergame_sceneobjects_Character.prototype = {
 			this.sprite.body.velocity.y = 0;
 			this.sprite.x = this.xDestination;
 			this.sprite.y = this.yDestination;
+			this.setAnimation(this.IDLE_POSE_ID);
 		}
 	}
 	,getPhysicBody: function() {
@@ -1439,6 +1464,15 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 			var currentMob = _g1[_g];
 			++_g;
 			currentMob.update(time,delta);
+		}
+	}
+	,stopAll: function() {
+		var _g = 0;
+		var _g1 = this.allMobList;
+		while(_g < _g1.length) {
+			var currentMob = _g1[_g];
+			++_g;
+			currentMob.getPhysicBody().anims.pause();
 		}
 	}
 	,getAllMobList: function() {
@@ -1525,6 +1559,15 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 			var currentPlayer = _g1[_g];
 			++_g;
 			currentPlayer.update(time,delta);
+		}
+	}
+	,stopAll: function() {
+		var _g = 0;
+		var _g1 = this.allPlayersList;
+		while(_g < _g1.length) {
+			var currentPlayer = _g1[_g];
+			++_g;
+			currentPlayer.getPhysicBody().anims.pause();
 		}
 	}
 	,getAllPlayersList: function() {

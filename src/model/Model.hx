@@ -34,7 +34,6 @@ class Model {
     static public var mobsData:Map<String, MobData> = new Map<String, MobData>();
 
     static public function init():Void {
-        character.DEFAULT_POSE_ID = 7;
         character.MOVE_SPEED = 150;
         character.MIN_DISTANCE = 3;
 

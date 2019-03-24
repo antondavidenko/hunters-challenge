@@ -113,6 +113,9 @@ class PhaserScene extends phaser.Scene {
             onGameEnd();
             showEndGameMessage();
             this.physics.pause();
+            moverCharacters.setPause(true);
+            playersCollection.stopAll();
+            mobsCollection.stopAll();
             isPaused = true;
         }
     }

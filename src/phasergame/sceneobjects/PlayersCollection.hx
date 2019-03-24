@@ -51,6 +51,12 @@ class PlayersCollection {
         }
     }
 
+    public function stopAll():Void {
+        for (currentPlayer in allPlayersList) {
+            currentPlayer.getPhysicBody().anims.pause();
+        }
+    }
+
     public function getAllPlayersList():Array<Character> {
         return allPlayersList;
     }

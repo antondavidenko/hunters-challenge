@@ -54,6 +54,12 @@ class MobsCollection {
         }
     }
 
+    public function stopAll():Void {
+        for (currentMob in allMobList) {
+            currentMob.getPhysicBody().anims.pause();
+        }
+    }
+
     public function getAllMobList():Array<Character> {
         return allMobList;
     }

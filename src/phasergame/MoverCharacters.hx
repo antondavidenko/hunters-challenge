@@ -12,8 +12,13 @@ class MoverCharacters {
     private var keys:Dynamic;
     private var cursor:CursorKeys;
     private var onPointerpressed:Bool = false;
+    private var isPause:Bool = false;
 
     public function new() {}
+
+    public function setPause(pause:Bool):Void {
+        isPause = pause;
+    }
 
     public function setKeys(keys:Dynamic) {
         this.keys = keys;
@@ -30,7 +35,9 @@ class MoverCharacters {
             currentMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
             var timer = new haxe.Timer(Model.mobTimeoutDelay);
             timer.run = function() {
-                currentMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+                if (!isPause) {
+                    currentMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+                }
             }
         }
     }
@@ -44,7 +51,9 @@ class MoverCharacters {
                 currentPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
                 var timer = new haxe.Timer(Model.botTimeoutDelay);
                 timer.run = function() {
-                    currentPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+                    if (!isPause) {
+                        currentPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+                    }
                 }
             }
         }
@@ -62,7 +71,7 @@ class MoverCharacters {
         if (onPointerpressed) {
             for (currentPlayer in allPlayersList) {
                 var id:String = currentPlayer.getPhysicBody().name;
-                if (Model.playersData[id].control == ControlType.MOUSE) {
+                if (Model.playersData[id].control == ControlType.MOUSE && !isPause) {
                     currentPlayer.setGoToXY(pointer.x, pointer.y);
                 }
             }
@@ -95,7 +104,7 @@ class MoverCharacters {
     private function onControlKeysPressed(deltaX:Int, deltaY:Int, keysFlag:String):Void {
         for (currentPlayer in allPlayersList) {
             var id:String = currentPlayer.getPhysicBody().name;
-            if (Model.playersData[id].control == keysFlag) {
+            if (Model.playersData[id].control == keysFlag  && !isPause) {
                 var targetX:Int = Std.int(currentPlayer.getPhysicBody().x) + deltaX;
                 var targetY:Int = Std.int(currentPlayer.getPhysicBody().y) + deltaY;
                 currentPlayer.setGoToXY(targetX, targetY);
