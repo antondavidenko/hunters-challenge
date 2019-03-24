@@ -30,7 +30,7 @@ class SidePanel extends ReactComponentOfProps<SidePanelProps> {
         </div><br/></div>')];
     }
 
-    function getNameId(i:Int):String { return 'sidePanel_name${i+1}'; }
-    function getProgressId(i:Int):String { return 'sidePanel_Player${i+1}progress'; }
-    function getProgressClass(i:Int):String { return 'Player${i+1}progress expBarBgProgress'; }
+    function getNameId(i:Int):String { return 'sidePanel_name${i}'; }
+    function getProgressId(i:Int):String { return 'sidePanel_Player${i}progress'; }
+    function getProgressClass(i:Int):String { return 'Player${i}progress expBarBgProgress'; }
 }

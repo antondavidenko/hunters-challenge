@@ -22,7 +22,7 @@ class DefaultValues {
         slotsPVE.push(new Slot("bot 5", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 700, 300, "p6"));
 
         slotsPVP.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1"));
-        slotsPVP.push(new Slot("Player 2", PlayerType.BOWMAN, ControlType.ARROWS, 400, 300, "p2"));
+        slotsPVP.push(new Slot("Player 2", PlayerType.BOWMAN, ControlType.ARROWS, 500, 300, "p2"));
         slotsPVP.push(new Slot("Player 3", PlayerType.MAGE, ControlType.AWSD, 600, 300, "p3"));
     }
 }

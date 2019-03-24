@@ -18,10 +18,10 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
     {
         super(props);
         state = {page:props.data.page}
-        GameActions.jumpTo.add(jumpTo);
+        GameActions.navigateToPage.add(navigateToPage);
     }
 
-    function jumpTo(page:String):Void
+    function navigateToPage(page:String):Void
     {
         setState({page:page});
     }
@@ -43,13 +43,13 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
             return jsx('<div>
             <h2>LOBBY</h2>
             <LobbyPanel slots="${props.data.slotsPVP}"></LobbyPanel>
-            <button id="loginButton">PLAY</button>
+            <button id="loginButton" onClick="$onPVPClicked">PLAY</button>
             </div>');
         } else if (state.page == GameActions.pagePVE) {
                 return jsx('<div>
             <h2>LOBBY</h2>
             <LobbyPanel slots="${props.data.slotsPVE}"></LobbyPanel>
-            <button id="loginButton">PLAY</button>
+            <button id="loginButton" onClick="$onPVEClicked">PLAY</button>
             </div>');
         } else if (state.page == GameActions.pageHelp) {
             return jsx('<div>
@@ -60,4 +60,7 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
             return jsx('<div><h2>TEAMS VS</h2><div>Teams page are in progress...</div></div>');
         }
     }
+
+    function onPVPClicked(evt:js.html.Event):Void { GameActions.startGame.dispatch(GameActions.pagePVP); }
+    function onPVEClicked(evt:js.html.Event):Void { GameActions.startGame.dispatch(GameActions.pagePVE); }
 }

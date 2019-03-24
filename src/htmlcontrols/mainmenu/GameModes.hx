@@ -25,8 +25,8 @@ class GameModes extends ReactComponentOfProps<GameModesProps> {
         </tr></tbody></table>');
     }
 
-    function onPVPClicked(evt:js.html.Event):Void { GameActions.jumpTo.dispatch(GameActions.pagePVP); }
-    function onPVEClicked(evt:js.html.Event):Void { GameActions.jumpTo.dispatch(GameActions.pagePVE); }
-    function onTeansClicked(evt:js.html.Event):Void { GameActions.jumpTo.dispatch(GameActions.pageTeams); }
-    function onHelpClicked(evt:js.html.Event):Void { GameActions.jumpTo.dispatch(GameActions.pageHelp); }
+    function onPVPClicked(evt:js.html.Event):Void { GameActions.navigateToPage.dispatch(GameActions.pagePVP); }
+    function onPVEClicked(evt:js.html.Event):Void { GameActions.navigateToPage.dispatch(GameActions.pagePVE); }
+    function onTeansClicked(evt:js.html.Event):Void { GameActions.navigateToPage.dispatch(GameActions.pageTeams); }
+    function onHelpClicked(evt:js.html.Event):Void { GameActions.navigateToPage.dispatch(GameActions.pageHelp); }
 }

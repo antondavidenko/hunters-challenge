@@ -45,7 +45,11 @@ class Model {
         showLabel = DefaultValues.showLabel;
 
         for (i in 0...6) {
-            playersStartConfig.push(getCharStartConfigByDefaultValues(i));
+            if (DefaultValues.slots[i] != null ) {
+                playersStartConfig.push(getCharStartConfigByDefaultValues(i));
+            } else {
+                break;
+            }
         }
     }
 

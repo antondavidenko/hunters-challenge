@@ -1,33 +1,49 @@
 package htmlcontrols.mainmenu;
 
+import htmlcontrols.store.GameActions;
 import model.DefaultValues;
 class MainMenuControl {
 
+    private var onLogin:Void->Void;
+
     public function new(onLogin:Void->Void) {
-/*
-        var button = cast js.Browser.document.getElementById("loginButton");
-        button.onclick = function(event) {
-            updateDefaultValuesByInput();
-            onLogin();
-            return false;
-        }
-*/
+        this.onLogin = onLogin;
+        GameActions.startGame.add(startGame);
+    }
+
+    private function startGame(page:String):Void
+    {
+        updateDefaultValuesByInput();
+        onLogin();
     }
 
     private function updateDefaultValuesByInput():Void {
         for (i in 0...6) {
-            DefaultValues.slots[i].label = getById('slot${i}Label');
-            DefaultValues.slots[i].charType = getById('slot${i}Class');
-            DefaultValues.slots[i].controlType = getById('slot${i}Control');
-            var spawnXY:Array<String> = Std.string(getById('slot${i}Spawn')).split(",");
-            DefaultValues.slots[i].x = Std.parseInt(spawnXY[0]);
-            DefaultValues.slots[i].y = Std.parseInt(spawnXY[1]);
+            if (elementIsExist(i)) {
+                setSlot(i);
+            } else {
+                break;
+            }
         }
 
         DefaultValues.mobAmount = Std.parseInt(getById("mobsAmount"));
         DefaultValues.baseExpGain = Std.parseFloat(getById("baseExp"));
         DefaultValues.screenMode = getById("modeSwitcher");
         DefaultValues.showLabel = (getById("labelsSwitcher")=="ON");
+    }
+
+    private function setSlot(i:Int):Void {
+        var label:String = getById('slot${i}Label');
+        var charType:String = getById('slot${i}Class');
+        var controlType:String = getById('slot${i}Control');
+        var spawnXY:Array<String> = Std.string(getById('slot${i}Spawn')).split(",");
+        var x:Int = Std.parseInt(spawnXY[0]);
+        var y:Int = Std.parseInt(spawnXY[1]);
+        DefaultValues.slots[i] = new Slot(label,charType, controlType, x, y, "p"+i);
+    }
+
+    private function elementIsExist(i:Int):Bool {
+        return js.Browser.document.getElementById('slot${i}Label') != null;
     }
 
     private function getById(id:String):Dynamic {

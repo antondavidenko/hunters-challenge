@@ -11,10 +11,18 @@ class SidePanelControl {
     public function new(){}
 
     public function updateView():Void {
-        for (i in 1...7) {
-            mapDataToHTML('sidePanel_name${i}', SidePanelLabels[i]);
-            mapProgressToHTML('sidePanel_Player${i}progress', getProgressString(Model.playersData['p${i}']));
+        for (i in 0...6) {
+            if (elementIsExist('sidePanel_name${i}')) {
+                mapDataToHTML('sidePanel_name${i}', SidePanelLabels[i]);
+                mapProgressToHTML('sidePanel_Player${i}progress', getProgressString(Model.playersData['p${i}']));
+            } else {
+                break;
+            }
         }
+    }
+
+    private function elementIsExist(htmlId:String):Bool {
+        return cast js.Browser.document.getElementById(htmlId) != null;
     }
 
     private function mapDataToHTML(htmlId:String, data:String):Void {
@@ -36,7 +44,7 @@ class SidePanelControl {
     }
 
     public function updateData():Void {
-        for (i in 1...7) {
+        for (i in 0...6) {
             SidePanelLabels[i] = getLabelValueByPlayerData(Model.playersData['p${i}']);
         }
     }

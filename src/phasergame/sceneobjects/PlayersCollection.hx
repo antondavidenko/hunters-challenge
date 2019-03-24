@@ -37,7 +37,7 @@ class PlayersCollection {
     public function init(onReadyToMove:Array<Character> -> Void) {
         for (i in 0...6) {
             var playerConfig:CharStartConfig = Model.playersStartConfig[i];
-            if (playerConfig.control != ControlType.NONE) {
+            if (playerConfig != null && playerConfig.control != ControlType.NONE) {
                 var player:Character = preparePlayerByConfig(playerConfig);
                 Model.playersData[playerConfig.name] = new PlayerData(0, 0, 1, playerConfig.label, playerConfig.control);
             }
