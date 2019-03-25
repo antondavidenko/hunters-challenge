@@ -17,7 +17,7 @@ HxOverrides.cca = function(s,index) {
 };
 var Main = function() {
 	model_DefaultValues.init();
-	var data = { slotsPVP : model_DefaultValues.slotsPVP, slotsPVE : model_DefaultValues.slotsPVE, page : htmlcontrols_store_GameActions.pageHelp};
+	var data = { slotsPVP : model_DefaultValues.slotsPVP, slotsPVE : model_DefaultValues.slotsPVE, page : htmlcontrols_store_GameActions.pagePVE};
 	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { data : data}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
@@ -185,23 +185,32 @@ htmlcontrols_mainmenu_GamePlayOptions.prototype = $extend(React.Component.protot
 });
 var htmlcontrols_mainmenu_MainMenu = function(props) {
 	React.Component.call(this,props);
-	this.state = { page : props.data.page};
+	this.state = { page : props.data.page, slots : this.defineSlotsForPage(props.data.page)};
 	htmlcontrols_store_GameActions.navigateToPage.add($bind(this,this.navigateToPage));
 };
 htmlcontrols_mainmenu_MainMenu.__name__ = true;
 htmlcontrols_mainmenu_MainMenu.__super__ = React.Component;
 htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 	navigateToPage: function(page) {
-		this.setState({ page : page});
+		this.setState({ page : page, slots : this.defineSlotsForPage(page)});
+	}
+	,defineSlotsForPage: function(page) {
+		if(page == htmlcontrols_store_GameActions.pagePVP) {
+			return this.props.data.slotsPVP;
+		} else if(page == htmlcontrols_store_GameActions.pagePVE) {
+			return this.props.data.slotsPVE;
+		} else {
+			return [];
+		}
 	}
 	,render: function() {
 		return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GamePlayOptions, props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "MAIN MENU"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { }, key : null, ref : null},this.getContentByState()]}, key : null, ref : null};
 	}
 	,getContentByState: function() {
 		if(this.state.page == htmlcontrols_store_GameActions.pagePVP) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVP LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.props.data.slotsPVP}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVPClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVP LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVPClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
 		} else if(this.state.page == htmlcontrols_store_GameActions.pagePVE) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVE LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.props.data.slotsPVE}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVEClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVE LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVEClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
 		} else if(this.state.page == htmlcontrols_store_GameActions.pageTeams) {
 			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "TEAMS LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { children : "Teams page are in progress..."}, key : null, ref : null}]}, key : null, ref : null};
 		} else if(this.state.page == htmlcontrols_store_GameActions.pageHelp) {
@@ -316,12 +325,16 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.proto
 });
 var htmlcontrols_mainmenu_lobby_SelectInput = function(props) {
 	React.Component.call(this,props);
+	this.state = { value : props.defaultValue};
 };
 htmlcontrols_mainmenu_lobby_SelectInput.__name__ = true;
 htmlcontrols_mainmenu_lobby_SelectInput.__super__ = React.Component;
 htmlcontrols_mainmenu_lobby_SelectInput.prototype = $extend(React.Component.prototype,{
-	render: function() {
-		return { "$$typeof" : $$tre, type : "select", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.props.defaultValue, className : "quarterWidth", children : this.createOptions()}, key : null, ref : null};
+	componentWillReceiveProps: function(newProps) {
+		this.setState({ value : newProps.defaultValue});
+	}
+	,render: function() {
+		return { "$$typeof" : $$tre, type : "select", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.state.value, className : "quarterWidth", children : this.createOptions()}, key : null, ref : null};
 	}
 	,createOptions: function() {
 		var _g = [];
@@ -335,19 +348,25 @@ htmlcontrols_mainmenu_lobby_SelectInput.prototype = $extend(React.Component.prot
 		}
 		return _g;
 	}
-	,onChange: function() {
+	,onChange: function(event) {
+		this.setState({ value : event.target.value});
 	}
 });
 var htmlcontrols_mainmenu_lobby_TextInput = function(props) {
 	React.Component.call(this,props);
+	this.state = { value : props.defaultValue};
 };
 htmlcontrols_mainmenu_lobby_TextInput.__name__ = true;
 htmlcontrols_mainmenu_lobby_TextInput.__super__ = React.Component;
 htmlcontrols_mainmenu_lobby_TextInput.prototype = $extend(React.Component.prototype,{
-	render: function() {
-		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.props.defaultValue, type : "text", className : "quarterWidth"}, key : null, ref : null};
+	componentWillReceiveProps: function(newProps) {
+		this.setState({ value : newProps.defaultValue});
 	}
-	,onChange: function() {
+	,render: function() {
+		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.state.value, type : "text", className : "quarterWidth"}, key : null, ref : null};
+	}
+	,onChange: function(event) {
+		this.setState({ value : event.target.value});
 	}
 });
 var htmlcontrols_sidepanel_SidePanel = function(props) {
@@ -1036,52 +1055,78 @@ phasergame_MoverCharacters.prototype = {
 		this.cursor = cursor;
 	}
 	,initMobs: function(allMobList) {
-		var _gthis = this;
 		this.allMobList = allMobList;
 		var _g = 0;
 		while(_g < allMobList.length) {
-			var currentMob = [allMobList[_g]];
+			var currentMob = allMobList[_g];
 			++_g;
-			var tmp = Utils.getRandomScreenX();
-			var tmp1 = Utils.getRandomScreenY();
-			currentMob[0].setGoToXY(tmp,tmp1);
-			var timer = new haxe_Timer(model_Model.mobTimeoutDelay);
-			timer.run = (function(currentMob1) {
-				return function() {
-					if(!_gthis.isPause) {
-						var tmp2 = Utils.getRandomScreenX();
-						var tmp3 = Utils.getRandomScreenY();
-						currentMob1[0].setGoToXY(tmp2,tmp3);
-					}
-				};
-			})(currentMob);
+			this.simpleBotModel(currentMob,model_Model.mobTimeoutDelay);
 		}
 	}
 	,initPlayers: function(allPlayersList) {
-		var _gthis = this;
 		this.allPlayersList = allPlayersList;
 		var _g = 0;
 		while(_g < allPlayersList.length) {
-			var currentPlayer = [allPlayersList[_g]];
+			var currentPlayer = allPlayersList[_g];
 			++_g;
-			var id = currentPlayer[0].getPhysicBody().name;
+			var id = currentPlayer.getPhysicBody().name;
 			var _this = model_Model.playersData;
 			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.BOT_SIMPLE) {
-				var tmp = Utils.getRandomScreenX();
-				var tmp1 = Utils.getRandomScreenY();
-				currentPlayer[0].setGoToXY(tmp,tmp1);
-				var timer = new haxe_Timer(model_Model.botTimeoutDelay);
-				timer.run = (function(currentPlayer1) {
-					return function() {
-						if(!_gthis.isPause) {
-							var tmp2 = Utils.getRandomScreenX();
-							var tmp3 = Utils.getRandomScreenY();
-							currentPlayer1[0].setGoToXY(tmp2,tmp3);
-						}
-					};
-				})(currentPlayer);
+				this.simpleBotModel(currentPlayer,model_Model.botSimpleTimeoutDelay);
+			} else {
+				var _this1 = model_Model.playersData;
+				if((__map_reserved[id] != null ? _this1.getReserved(id) : _this1.h[id]).control == model_ControlType.BOT_HARD) {
+					this.hardBotModel(currentPlayer,model_Model.botHardTimeoutDelay);
+				}
 			}
 		}
+	}
+	,simpleBotModel: function(target,delay) {
+		var _gthis = this;
+		var tmp = Utils.getRandomScreenX();
+		var tmp1 = Utils.getRandomScreenY();
+		target.setGoToXY(tmp,tmp1);
+		var timer = new haxe_Timer(Std.random(delay / 2 | 0) + (delay / 2 | 0));
+		timer.run = function() {
+			if(!_gthis.isPause) {
+				var tmp2 = Utils.getRandomScreenX();
+				var tmp3 = Utils.getRandomScreenY();
+				target.setGoToXY(tmp2,tmp3);
+			}
+		};
+	}
+	,hardBotModel: function(target,delay) {
+		var _gthis = this;
+		var closestMob = this.getClosestMob(target.getPhysicBody().x,target.getPhysicBody().y);
+		var tmp = closestMob.getPhysicBody().x | 0;
+		var tmp1 = closestMob.getPhysicBody().y | 0;
+		target.setGoToXY(tmp,tmp1);
+		var timer = new haxe_Timer(Std.random(delay / 2 | 0) + (delay / 2 | 0));
+		timer.run = function() {
+			if(!_gthis.isPause) {
+				var closestMob1 = target.getPhysicBody().x;
+				var closestMob2 = _gthis.getClosestMob(closestMob1,target.getPhysicBody().y);
+				var tmp2 = closestMob2.getPhysicBody().x | 0;
+				var tmp3 = closestMob2.getPhysicBody().y | 0;
+				target.setGoToXY(tmp2,tmp3);
+			}
+		};
+	}
+	,getClosestMob: function(x,y) {
+		var result = this.allMobList[0];
+		var minDistanation = Utils.distanceBetween(x,y,result.getPhysicBody().x,result.getPhysicBody().y);
+		var _g1 = 0;
+		var _g = this.allMobList.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var mob = this.allMobList[i];
+			var distanation = Utils.distanceBetween(x,y,mob.getPhysicBody().x,mob.getPhysicBody().y);
+			if(distanation < minDistanation) {
+				minDistanation = distanation;
+				result = mob;
+			}
+		}
+		return result;
 	}
 	,onPointerdown: function(pointer) {
 		this.onPointerpressed = true;
@@ -1199,8 +1244,8 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 	,create: function() {
 		var _gthis = this;
 		this.background.init();
-		this.playersCollection.init(($_=this.moverCharacters,$bind($_,$_.initPlayers)));
 		this.mobsCollection.init(($_=this.moverCharacters,$bind($_,$_.initMobs)));
+		this.playersCollection.init(($_=this.moverCharacters,$bind($_,$_.initPlayers)));
 		this.collisionDetector.init(this.playersCollection.getAllPlayersList(),this.mobsCollection.getAllMobList());
 		this.collisionDetector.onCharackterAndMob($bind(this,this.onCharackterAndMobCollision));
 		this.input.on("pointerdown",function(pointer) {
@@ -1630,7 +1675,8 @@ model_DefaultValues.screenMode = "";
 model_DefaultValues.showLabel = true;
 model_Model.phaserGameWidth = 950;
 model_Model.phaserGameHeight = 654;
-model_Model.botTimeoutDelay = 1000;
+model_Model.botSimpleTimeoutDelay = 1000;
+model_Model.botHardTimeoutDelay = 750;
 model_Model.mobTimeoutDelay = 1000;
 model_Model.character = new model_CharacterConfig();
 model_Model.playersStartConfig = [];

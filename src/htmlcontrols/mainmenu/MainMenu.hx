@@ -17,13 +17,23 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
     public function new(props:MainMenuProps):Void
     {
         super(props);
-        state = {page:props.data.page}
+        state = {page:props.data.page, slots:defineSlotsForPage(props.data.page)}
         GameActions.navigateToPage.add(navigateToPage);
     }
 
     function navigateToPage(page:String):Void
     {
-        setState({page:page});
+        setState({page:page, slots:defineSlotsForPage(page)});
+    }
+
+    private function defineSlotsForPage(page:String):Array<Dynamic> {
+        if (page == GameActions.pagePVP) {
+            return props.data.slotsPVP;
+        } else if (page == GameActions.pagePVE) {
+            return props.data.slotsPVE;
+        } else {
+            return [];
+        }
     }
 
     public override function render():ReactElement
@@ -42,13 +52,13 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
         if (state.page == GameActions.pagePVP) {
             return jsx('<div>
             <h2>PVP LOBBY</h2>
-            <LobbyPanel slots="${props.data.slotsPVP}"></LobbyPanel>
+            <LobbyPanel slots="${state.slots}"></LobbyPanel>
             <button id="loginButton" onClick="$onPVPClicked">PLAY</button>
             </div>');
         } else if (state.page == GameActions.pagePVE) {
             return jsx('<div>
             <h2>PVE LOBBY</h2>
-            <LobbyPanel slots="${props.data.slotsPVE}"></LobbyPanel>
+            <LobbyPanel slots="${state.slots}"></LobbyPanel>
             <button id="loginButton" onClick="$onPVEClicked">PLAY</button>
             </div>');
         } else if (state.page == GameActions.pageTeams) {

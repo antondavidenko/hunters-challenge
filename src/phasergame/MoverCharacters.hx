@@ -32,13 +32,7 @@ class MoverCharacters {
         this.allMobList = allMobList;
 
         for (currentMob in allMobList) {
-            currentMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-            var timer = new haxe.Timer(Model.mobTimeoutDelay);
-            timer.run = function() {
-                if (!isPause) {
-                    currentMob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-                }
-            }
+            simpleBotModel(currentMob, Model.mobTimeoutDelay);
         }
     }
 
@@ -48,15 +42,47 @@ class MoverCharacters {
         for (currentPlayer in allPlayersList) {
             var id:String = currentPlayer.getPhysicBody().name;
             if (Model.playersData[id].control == ControlType.BOT_SIMPLE) {
-                currentPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-                var timer = new haxe.Timer(Model.botTimeoutDelay);
-                timer.run = function() {
-                    if (!isPause) {
-                        currentPlayer.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-                    }
-                }
+                simpleBotModel(currentPlayer, Model.botSimpleTimeoutDelay);
+            } else if (Model.playersData[id].control == ControlType.BOT_HARD) {
+                hardBotModel(currentPlayer, Model.botHardTimeoutDelay);
             }
         }
+    }
+
+    private function simpleBotModel(target:Character, delay:Int) {
+        target.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+        var timer = new haxe.Timer(Std.random(Std.int(delay / 2)) + Std.int(delay / 2));
+        timer.run = function() {
+            if (!isPause) {
+                target.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+            }
+        }
+    }
+
+    private function hardBotModel(target:Character, delay:Int) {
+        var closestMob:Character = getClosestMob(target.getPhysicBody().x, target.getPhysicBody().y);
+        target.setGoToXY(Std.int(closestMob.getPhysicBody().x), Std.int(closestMob.getPhysicBody().y));
+        var timer = new haxe.Timer(Std.random(Std.int(delay / 2)) + Std.int(delay / 2));
+        timer.run = function() {
+            if (!isPause) {
+                var closestMob:Character = getClosestMob(target.getPhysicBody().x, target.getPhysicBody().y);
+                target.setGoToXY(Std.int(closestMob.getPhysicBody().x), Std.int(closestMob.getPhysicBody().y));
+            }
+        }
+    }
+
+    private function getClosestMob(x:Float, y:Float):Character {
+        var result:Character = allMobList[0];
+        var minDistanation:Float = Utils.distanceBetween(x, y, result.getPhysicBody().x, result.getPhysicBody().y);
+        for (i in 0...allMobList.length) {
+            var mob:Character = allMobList[i];
+            var distanation:Float = Utils.distanceBetween(x, y, mob.getPhysicBody().x, mob.getPhysicBody().y);
+            if (distanation < minDistanation) {
+                minDistanation = distanation;
+                result = mob;
+            }
+        }
+        return result;
     }
 
     public function onPointerdown(pointer):Void {
@@ -97,14 +123,14 @@ class MoverCharacters {
 
     private function defineCursorMoveAxis(isPositive:Bool, isNegative:Bool):Int {
         var delta:Int = 10;
-        var axis:Int = (isPositive)?delta:0;
-        return (isNegative)?-1*delta:axis;
+        var axis:Int = (isPositive) ? delta : 0;
+        return (isNegative) ? -1 * delta : axis;
     }
 
     private function onControlKeysPressed(deltaX:Int, deltaY:Int, keysFlag:String):Void {
         for (currentPlayer in allPlayersList) {
             var id:String = currentPlayer.getPhysicBody().name;
-            if (Model.playersData[id].control == keysFlag  && !isPause) {
+            if (Model.playersData[id].control == keysFlag && !isPause) {
                 var targetX:Int = Std.int(currentPlayer.getPhysicBody().x) + deltaX;
                 var targetY:Int = Std.int(currentPlayer.getPhysicBody().y) + deltaY;
                 currentPlayer.setGoToXY(targetX, targetY);

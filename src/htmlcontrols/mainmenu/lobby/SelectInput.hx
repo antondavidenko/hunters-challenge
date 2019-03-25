@@ -5,18 +5,24 @@ import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;
 
 typedef SelectInputProps = {
-    var defaultValue: String;
-    var id: String;
+    var defaultValue:String;
+    var id:String;
     var options:Array<String>;
 }
 
-class SelectInput extends ReactComponentOfProps<SelectInputProps>  {
+class SelectInput extends ReactComponentOfProps<SelectInputProps> {
 
-    public function new(props:SelectInputProps):Void { super(props); }
+    public function new(props:SelectInputProps):Void {
+        super(props);
+        state = {value:props.defaultValue};
+    }
 
-    public override function render():ReactElement
-    {
-        return jsx('<select className="quarterWidth" value="${props.defaultValue}" id=${props.id} onChange="${onChange}">
+    public override function componentWillReceiveProps(newProps:SelectInputProps) {
+        this.setState({value:newProps.defaultValue});
+    }
+
+    public override function render():ReactElement {
+        return jsx('<select className="quarterWidth" value="${state.value}" id=${props.id} onChange="${onChange}">
         {this.createOptions()}
         </select>');
     }
@@ -27,5 +33,7 @@ class SelectInput extends ReactComponentOfProps<SelectInputProps>  {
         ')];
     }
 
-    private function onChange():Void {}
+    private function onChange(event):Void {
+        this.setState({value:event.target.value});
+    }
 }

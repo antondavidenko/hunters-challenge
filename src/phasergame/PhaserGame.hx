@@ -71,8 +71,8 @@ class PhaserScene extends phaser.Scene {
 
     public function create() {
         background.init();
-        playersCollection.init(moverCharacters.initPlayers);
         mobsCollection.init(moverCharacters.initMobs);
+        playersCollection.init(moverCharacters.initPlayers);
         collisionDetector.init(playersCollection.getAllPlayersList(), mobsCollection.getAllMobList());
         collisionDetector.onCharackterAndMob(onCharackterAndMobCollision);
         this.input.on('pointerdown', function(pointer) {

@@ -9,7 +9,8 @@ class Model {
     static public var phaserGameWidth:Int = 950;
     static public var phaserGameHeight:Int = 654;
 
-    static public var botTimeoutDelay:Int = 1000;
+    static public var botSimpleTimeoutDelay:Int = 1000;
+    static public var botHardTimeoutDelay:Int = 750;
     static public var mobTimeoutDelay:Int = 1000;
 
     static public var character:CharacterConfig = new CharacterConfig();
