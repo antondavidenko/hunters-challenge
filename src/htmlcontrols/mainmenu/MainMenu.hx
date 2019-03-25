@@ -31,7 +31,7 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
         return jsx('<div>
         <h2>GAME-PLAY OPTIONS</h2>
         <GamePlayOptions></GamePlayOptions>
-        <h2>MODES</h2>
+        <h2>MAIN MENU</h2>
         <GameModes></GameModes>
         {this.getContentByState()}
         </div>');
@@ -41,15 +41,20 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
     {
         if (state.page == GameActions.pagePVP) {
             return jsx('<div>
-            <h2>LOBBY</h2>
+            <h2>PVP LOBBY</h2>
             <LobbyPanel slots="${props.data.slotsPVP}"></LobbyPanel>
             <button id="loginButton" onClick="$onPVPClicked">PLAY</button>
             </div>');
         } else if (state.page == GameActions.pagePVE) {
-                return jsx('<div>
-            <h2>LOBBY</h2>
+            return jsx('<div>
+            <h2>PVE LOBBY</h2>
             <LobbyPanel slots="${props.data.slotsPVE}"></LobbyPanel>
             <button id="loginButton" onClick="$onPVEClicked">PLAY</button>
+            </div>');
+        } else if (state.page == GameActions.pageTeams) {
+            return jsx('<div>
+            <h2>TEAMS LOBBY</h2>
+            <div>Teams page are in progress...</div>
             </div>');
         } else if (state.page == GameActions.pageHelp) {
             return jsx('<div>
@@ -57,7 +62,7 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
             <HelpPage></HelpPage>
             </div>');
         } else {
-            return jsx('<div><h2>TEAMS VS</h2><div>Teams page are in progress...</div></div>');
+            return jsx('<div>404 page:${state.page} is not found</div>');
         }
     }
 

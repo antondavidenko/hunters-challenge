@@ -195,17 +195,19 @@ htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 		this.setState({ page : page});
 	}
 	,render: function() {
-		return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GamePlayOptions, props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "MODES"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { }, key : null, ref : null},this.getContentByState()]}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GamePlayOptions, props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "MAIN MENU"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { }, key : null, ref : null},this.getContentByState()]}, key : null, ref : null};
 	}
 	,getContentByState: function() {
 		if(this.state.page == htmlcontrols_store_GameActions.pagePVP) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.props.data.slotsPVP}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVPClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVP LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.props.data.slotsPVP}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVPClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
 		} else if(this.state.page == htmlcontrols_store_GameActions.pagePVE) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.props.data.slotsPVE}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVEClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVE LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.props.data.slotsPVE}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVEClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+		} else if(this.state.page == htmlcontrols_store_GameActions.pageTeams) {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "TEAMS LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { children : "Teams page are in progress..."}, key : null, ref : null}]}, key : null, ref : null};
 		} else if(this.state.page == htmlcontrols_store_GameActions.pageHelp) {
 			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "HELP"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_helppage_HelpPage, props : { }, key : null, ref : null}]}, key : null, ref : null};
 		} else {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "TEAMS VS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { children : "Teams page are in progress..."}, key : null, ref : null}]}, key : null, ref : null};
+			return { "$$typeof" : $$tre, type : "div", props : { children : ["404 page:",this.state.page," is not found"]}, key : null, ref : null};
 		}
 	}
 	,onPVPClicked: function(evt) {
@@ -319,7 +321,7 @@ htmlcontrols_mainmenu_lobby_SelectInput.__name__ = true;
 htmlcontrols_mainmenu_lobby_SelectInput.__super__ = React.Component;
 htmlcontrols_mainmenu_lobby_SelectInput.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "select", props : { defaultValue : this.props.defaultValue, id : this.props.id, className : "quarterWidth", children : this.createOptions()}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "select", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.props.defaultValue, className : "quarterWidth", children : this.createOptions()}, key : null, ref : null};
 	}
 	,createOptions: function() {
 		var _g = [];
@@ -333,6 +335,8 @@ htmlcontrols_mainmenu_lobby_SelectInput.prototype = $extend(React.Component.prot
 		}
 		return _g;
 	}
+	,onChange: function() {
+	}
 });
 var htmlcontrols_mainmenu_lobby_TextInput = function(props) {
 	React.Component.call(this,props);
@@ -341,7 +345,9 @@ htmlcontrols_mainmenu_lobby_TextInput.__name__ = true;
 htmlcontrols_mainmenu_lobby_TextInput.__super__ = React.Component;
 htmlcontrols_mainmenu_lobby_TextInput.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, defaultValue : this.props.defaultValue, type : "text", className : "quarterWidth"}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.props.defaultValue, type : "text", className : "quarterWidth"}, key : null, ref : null};
+	}
+	,onChange: function() {
 	}
 });
 var htmlcontrols_sidepanel_SidePanel = function(props) {

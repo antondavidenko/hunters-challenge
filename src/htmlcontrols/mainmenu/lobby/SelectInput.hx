@@ -16,7 +16,9 @@ class SelectInput extends ReactComponentOfProps<SelectInputProps>  {
 
     public override function render():ReactElement
     {
-        return jsx('<select className="quarterWidth" defaultValue="${props.defaultValue}" id=${props.id}>{this.createOptions()}</select>');
+        return jsx('<select className="quarterWidth" value="${props.defaultValue}" id=${props.id} onChange="${onChange}">
+        {this.createOptions()}
+        </select>');
     }
 
     public function createOptions():Array<ReactElement> {
@@ -24,4 +26,6 @@ class SelectInput extends ReactComponentOfProps<SelectInputProps>  {
         <option value="${props.options[i]}">${props.options[i]}</option>
         ')];
     }
+
+    private function onChange():Void {}
 }
