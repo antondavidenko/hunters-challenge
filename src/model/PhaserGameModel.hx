@@ -32,13 +32,14 @@ class ControlType {
 }
 
 class CharStartConfig {
-    public function new(charType:String, x:Int, y:Int, label:String, name:String, control:String) {
+    public function new(charType:String, x:Int, y:Int, label:String, name:String, control:String, skin:Int) {
         this.charType = charType;
         this.x = x;
         this.y = y;
         this.label = label;
         this.name = name;
         this.control = control;
+        this.skin = skin;
     }
 
     public var charType:String;
@@ -47,6 +48,7 @@ class CharStartConfig {
     public var label:String;
     public var name:String;
     public var control:String;
+    public var skin:Int;
 }
 
 class PlayerData {

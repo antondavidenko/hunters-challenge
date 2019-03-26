@@ -20,10 +20,15 @@ class MobsCollection {
         var frameSize:Int = 32;
         var frmeConfig:ImageFrameConfig = {frameWidth:frameSize, frameHeight:frameSize};
         phaserScene.load.spritesheet(Model.mobTypes[0], 'assets/mob1lvl.png', frmeConfig);
+        Model.skinsCollection[Model.mobTypes[0]] = 1;
         phaserScene.load.spritesheet(Model.mobTypes[1], 'assets/mob2lvl.png', frmeConfig);
+        Model.skinsCollection[Model.mobTypes[1]] = 1;
         phaserScene.load.spritesheet(Model.mobTypes[2], 'assets/mob3lvl.png', frmeConfig);
+        Model.skinsCollection[Model.mobTypes[2]] = 1;
         phaserScene.load.spritesheet(Model.mobTypes[3], 'assets/mob4lvl.png', frmeConfig);
+        Model.skinsCollection[Model.mobTypes[3]] = 1;
         phaserScene.load.spritesheet(Model.mobTypes[4], 'assets/mob5lvl.png', frmeConfig);
+        Model.skinsCollection[Model.mobTypes[4]] = 1;
     }
 
     public function init(onReadyToMove:Array<Character> -> Void) {
@@ -45,7 +50,7 @@ class MobsCollection {
     private function getMobConfigByLvl(lvlId:Int, mobId:Int):CharStartConfig {
         var mobX:Int = Utils.getRandomScreenX();
         var mobY:Int = Utils.getRandomScreenY();
-        return new CharStartConfig(Model.mobTypes[lvlId], mobX, mobY, Model.mobLabels[lvlId], "m"+mobId, ControlType.BOT_SIMPLE);
+        return new CharStartConfig(Model.mobTypes[lvlId], mobX, mobY, Model.mobLabels[lvlId], "m"+mobId, ControlType.BOT_SIMPLE, 1);
     }
 
     public function update(time:Float, delta:Float):Void {

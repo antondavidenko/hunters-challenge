@@ -21,10 +21,15 @@ class PlayersCollection {
         var frameSize:Int = 32;
         var frmeConfig:ImageFrameConfig = {frameWidth:frameSize, frameHeight:frameSize};
         phaserScene.load.spritesheet(PlayerType.SWORDMAN, 'assets/char_swordman.png', frmeConfig);
+        Model.skinsCollection[PlayerType.SWORDMAN] = 3;
         phaserScene.load.spritesheet(PlayerType.BOWMAN, 'assets/char_bowman.png', frmeConfig);
+        Model.skinsCollection[PlayerType.BOWMAN] = 3;
         phaserScene.load.spritesheet(PlayerType.ELF, 'assets/char_elf.png', frmeConfig);
+        Model.skinsCollection[PlayerType.ELF] = 3;
         phaserScene.load.spritesheet(PlayerType.MAGE, 'assets/char_mage.png', frmeConfig);
+        Model.skinsCollection[PlayerType.MAGE] = 3;
         phaserScene.load.spritesheet(PlayerType.HORSEMAN, 'assets/char_horseman.png', frmeConfig);
+        Model.skinsCollection[PlayerType.HORSEMAN] = 3;
     }
 
     private function preparePlayerByConfig(config:CharStartConfig):Character {

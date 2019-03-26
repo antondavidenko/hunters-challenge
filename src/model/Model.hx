@@ -33,6 +33,7 @@ class Model {
 
     static public var playersData:Map<String, PlayerData> = new Map<String, PlayerData>();
     static public var mobsData:Map<String, MobData> = new Map<String, MobData>();
+    static public var skinsCollection:Map<String, Int> = new Map<String, Int>();
 
     static public function init():Void {
         character.MOVE_SPEED = 150;
@@ -60,6 +61,6 @@ class Model {
         var x:Int = DefaultValues.slots[id].x;
         var y:Int = DefaultValues.slots[id].y;
         var control:String = DefaultValues.slots[id].controlType;
-        return new CharStartConfig(charType, x, y, label, name, control);
+        return new CharStartConfig(charType, x, y, label, name, control, 2);
     }
 }

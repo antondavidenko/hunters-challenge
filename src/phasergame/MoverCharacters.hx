@@ -87,6 +87,7 @@ class MoverCharacters {
 
     public function onPointerdown(pointer):Void {
         onPointerpressed = true;
+        moveMouseTypedToPointer(pointer);
     }
 
     public function onPointerup(pointer):Void {
@@ -95,11 +96,15 @@ class MoverCharacters {
 
     public function onPointermove(pointer):Void {
         if (onPointerpressed) {
-            for (currentPlayer in allPlayersList) {
-                var id:String = currentPlayer.getPhysicBody().name;
-                if (Model.playersData[id].control == ControlType.MOUSE && !isPause) {
-                    currentPlayer.setGoToXY(pointer.x, pointer.y);
-                }
+            moveMouseTypedToPointer(pointer);
+        }
+    }
+
+    private function moveMouseTypedToPointer(pointer):Void {
+        for (currentPlayer in allPlayersList) {
+            var id:String = currentPlayer.getPhysicBody().name;
+            if (Model.playersData[id].control == ControlType.MOUSE && !isPause) {
+                currentPlayer.setGoToXY(pointer.x, pointer.y);
             }
         }
     }

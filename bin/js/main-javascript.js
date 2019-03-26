@@ -821,7 +821,7 @@ model_Model.getCharStartConfigByDefaultValues = function(id) {
 	var x = model_DefaultValues.slots[id].x;
 	var y = model_DefaultValues.slots[id].y;
 	var control = model_DefaultValues.slots[id].controlType;
-	return new model_CharStartConfig(charType,x,y,label,name,control);
+	return new model_CharStartConfig(charType,x,y,label,name,control,2);
 };
 var model_PhaserGameModel = function() {
 };
@@ -832,13 +832,14 @@ model_PlayerType.__name__ = true;
 var model_ControlType = function() {
 };
 model_ControlType.__name__ = true;
-var model_CharStartConfig = function(charType,x,y,label,name,control) {
+var model_CharStartConfig = function(charType,x,y,label,name,control,skin) {
 	this.charType = charType;
 	this.x = x;
 	this.y = y;
 	this.label = label;
 	this.name = name;
 	this.control = control;
+	this.skin = skin;
 };
 model_CharStartConfig.__name__ = true;
 var model_PlayerData = function(slayedCounter,expGained,currentLevel,label,control) {
@@ -1130,28 +1131,32 @@ phasergame_MoverCharacters.prototype = {
 	}
 	,onPointerdown: function(pointer) {
 		this.onPointerpressed = true;
+		this.moveMouseTypedToPointer(pointer);
 	}
 	,onPointerup: function(pointer) {
 		this.onPointerpressed = false;
 	}
 	,onPointermove: function(pointer) {
 		if(this.onPointerpressed) {
-			var _g = 0;
-			var _g1 = this.allPlayersList;
-			while(_g < _g1.length) {
-				var currentPlayer = _g1[_g];
-				++_g;
-				var id = currentPlayer.getPhysicBody().name;
-				var tmp;
-				var _this = model_Model.playersData;
-				if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.MOUSE) {
-					tmp = !this.isPause;
-				} else {
-					tmp = false;
-				}
-				if(tmp) {
-					currentPlayer.setGoToXY(pointer.x,pointer.y);
-				}
+			this.moveMouseTypedToPointer(pointer);
+		}
+	}
+	,moveMouseTypedToPointer: function(pointer) {
+		var _g = 0;
+		var _g1 = this.allPlayersList;
+		while(_g < _g1.length) {
+			var currentPlayer = _g1[_g];
+			++_g;
+			var id = currentPlayer.getPhysicBody().name;
+			var tmp;
+			var _this = model_Model.playersData;
+			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.MOUSE) {
+				tmp = !this.isPause;
+			} else {
+				tmp = false;
+			}
+			if(tmp) {
+				currentPlayer.setGoToXY(pointer.x,pointer.y);
 			}
 		}
 	}
@@ -1337,7 +1342,7 @@ var phasergame_sceneobjects_Character = function(phaserScene,config) {
 phasergame_sceneobjects_Character.__name__ = true;
 phasergame_sceneobjects_Character.prototype = {
 	init: function() {
-		var _g = 0;
+		var _g = 1;
 		while(_g < 11) {
 			var i = _g++;
 			var key = this.getIdByTypeIdAndLineId(this.config.charType,i);
@@ -1356,7 +1361,7 @@ phasergame_sceneobjects_Character.prototype = {
 	}
 	,reinit: function(config) {
 		this.config = config;
-		var _g = 0;
+		var _g = 1;
 		while(_g < 11) {
 			var i = _g++;
 			var key = this.getIdByTypeIdAndLineId(config.charType,i);
@@ -1391,7 +1396,10 @@ phasergame_sceneobjects_Character.prototype = {
 		return result;
 	}
 	,getFrameConfigByLineId: function(lineId) {
-		lineId = (lineId - 1) * 4;
+		var key = this.config.charType;
+		var _this = model_Model.skinsCollection;
+		var maxSkins = __map_reserved[key] != null ? _this.getReserved(key) : _this.h[key];
+		lineId = (lineId - 1) * 4 + 4 * (maxSkins - 1) * (lineId - 1) + 4 * (this.config.skin - 1);
 		return this.getFrameConfig(lineId,lineId + 3);
 	}
 	,getFrameConfig: function(start,end) {
@@ -1473,10 +1481,45 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 		var frameSize = 32;
 		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
 		this.phaserScene.load.spritesheet(model_Model.mobTypes[0],"assets/mob1lvl.png",frmeConfig);
+		var k = model_Model.mobTypes[0];
+		var _this = model_Model.skinsCollection;
+		if(__map_reserved[k] != null) {
+			_this.setReserved(k,1);
+		} else {
+			_this.h[k] = 1;
+		}
 		this.phaserScene.load.spritesheet(model_Model.mobTypes[1],"assets/mob2lvl.png",frmeConfig);
+		var k1 = model_Model.mobTypes[1];
+		var _this1 = model_Model.skinsCollection;
+		if(__map_reserved[k1] != null) {
+			_this1.setReserved(k1,1);
+		} else {
+			_this1.h[k1] = 1;
+		}
 		this.phaserScene.load.spritesheet(model_Model.mobTypes[2],"assets/mob3lvl.png",frmeConfig);
+		var k2 = model_Model.mobTypes[2];
+		var _this2 = model_Model.skinsCollection;
+		if(__map_reserved[k2] != null) {
+			_this2.setReserved(k2,1);
+		} else {
+			_this2.h[k2] = 1;
+		}
 		this.phaserScene.load.spritesheet(model_Model.mobTypes[3],"assets/mob4lvl.png",frmeConfig);
+		var k3 = model_Model.mobTypes[3];
+		var _this3 = model_Model.skinsCollection;
+		if(__map_reserved[k3] != null) {
+			_this3.setReserved(k3,1);
+		} else {
+			_this3.h[k3] = 1;
+		}
 		this.phaserScene.load.spritesheet(model_Model.mobTypes[4],"assets/mob5lvl.png",frmeConfig);
+		var k4 = model_Model.mobTypes[4];
+		var _this4 = model_Model.skinsCollection;
+		if(__map_reserved[k4] != null) {
+			_this4.setReserved(k4,1);
+		} else {
+			_this4.h[k4] = 1;
+		}
 	}
 	,init: function(onReadyToMove) {
 		var lvlId = 0;
@@ -1506,7 +1549,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	,getMobConfigByLvl: function(lvlId,mobId) {
 		var mobX = Utils.getRandomScreenX();
 		var mobY = Utils.getRandomScreenY();
-		return new model_CharStartConfig(model_Model.mobTypes[lvlId],mobX,mobY,model_Model.mobLabels[lvlId],"m" + mobId,model_ControlType.BOT_SIMPLE);
+		return new model_CharStartConfig(model_Model.mobTypes[lvlId],mobX,mobY,model_Model.mobLabels[lvlId],"m" + mobId,model_ControlType.BOT_SIMPLE,1);
 	}
 	,update: function(time,delta) {
 		var _g = 0;
@@ -1572,10 +1615,45 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 		var frameSize = 32;
 		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
 		this.phaserScene.load.spritesheet(model_PlayerType.SWORDMAN,"assets/char_swordman.png",frmeConfig);
+		var k = model_PlayerType.SWORDMAN;
+		var _this = model_Model.skinsCollection;
+		if(__map_reserved[k] != null) {
+			_this.setReserved(k,3);
+		} else {
+			_this.h[k] = 3;
+		}
 		this.phaserScene.load.spritesheet(model_PlayerType.BOWMAN,"assets/char_bowman.png",frmeConfig);
+		var k1 = model_PlayerType.BOWMAN;
+		var _this1 = model_Model.skinsCollection;
+		if(__map_reserved[k1] != null) {
+			_this1.setReserved(k1,3);
+		} else {
+			_this1.h[k1] = 3;
+		}
 		this.phaserScene.load.spritesheet(model_PlayerType.ELF,"assets/char_elf.png",frmeConfig);
+		var k2 = model_PlayerType.ELF;
+		var _this2 = model_Model.skinsCollection;
+		if(__map_reserved[k2] != null) {
+			_this2.setReserved(k2,3);
+		} else {
+			_this2.h[k2] = 3;
+		}
 		this.phaserScene.load.spritesheet(model_PlayerType.MAGE,"assets/char_mage.png",frmeConfig);
+		var k3 = model_PlayerType.MAGE;
+		var _this3 = model_Model.skinsCollection;
+		if(__map_reserved[k3] != null) {
+			_this3.setReserved(k3,3);
+		} else {
+			_this3.h[k3] = 3;
+		}
 		this.phaserScene.load.spritesheet(model_PlayerType.HORSEMAN,"assets/char_horseman.png",frmeConfig);
+		var k4 = model_PlayerType.HORSEMAN;
+		var _this4 = model_Model.skinsCollection;
+		if(__map_reserved[k4] != null) {
+			_this4.setReserved(k4,3);
+		} else {
+			_this4.h[k4] = 3;
+		}
 	}
 	,preparePlayerByConfig: function(config) {
 		var player = new phasergame_sceneobjects_Character(this.phaserScene,config);
@@ -1688,6 +1766,7 @@ model_Model.maxMobLvlId = 4;
 model_Model.totalMobSlayedCounter = 0;
 model_Model.playersData = new haxe_ds_StringMap();
 model_Model.mobsData = new haxe_ds_StringMap();
+model_Model.skinsCollection = new haxe_ds_StringMap();
 model_PlayerType.SWORDMAN = "swordman";
 model_PlayerType.BOWMAN = "bowman";
 model_PlayerType.ELF = "elf";

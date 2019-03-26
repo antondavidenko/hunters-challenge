@@ -25,7 +25,7 @@ class Character {
     }
 
     public function init():Void {
-        for (i in 0...11) {
+        for (i in 1...11) {
             var key:String = getIdByTypeIdAndLineId(config.charType, i);
             if (phaserScene.anims.get(key) == null) {
                 phaserScene.anims.create(getAnimationConfig(config.charType, i));
@@ -43,7 +43,7 @@ class Character {
 
     public function reinit(config:CharStartConfig):Void {
         this.config = config;
-        for (i in 0...11) {
+        for (i in 1...11) {
             var key:String = getIdByTypeIdAndLineId(config.charType, i);
             if (phaserScene.anims.get(key) == null) {
                 phaserScene.anims.create(getAnimationConfig(config.charType, i));
@@ -88,7 +88,8 @@ class Character {
     }
 
     private function getFrameConfigByLineId(lineId:Int):GenerateFrameNumbers {
-        lineId = (lineId - 1) * 4;
+        var maxSkins:Int = Model.skinsCollection[config.charType];
+        lineId = (lineId - 1) * 4 + 4*(maxSkins-1)*(lineId - 1) + 4*(config.skin-1);
         return getFrameConfig(lineId, lineId + 3);
     }
 
