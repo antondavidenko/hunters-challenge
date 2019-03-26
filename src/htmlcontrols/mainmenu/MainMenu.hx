@@ -31,6 +31,8 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
             return props.data.slotsPVP;
         } else if (page == GameActions.pagePVE) {
             return props.data.slotsPVE;
+        } else if (page == GameActions.pageTeams) {
+            return props.data.slotsTEAMS;
         } else {
             return [];
         }
@@ -64,7 +66,8 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
         } else if (state.page == GameActions.pageTeams) {
             return jsx('<div>
             <h2>TEAMS LOBBY</h2>
-            <div>Teams page are in progress...</div>
+            <LobbyPanel slots="${state.slots}"></LobbyPanel>
+            <button id="loginButton" onClick="$onTEAMSClicked">PLAY</button>
             </div>');
         } else if (state.page == GameActions.pageHelp) {
             return jsx('<div>
@@ -78,4 +81,5 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
 
     function onPVPClicked(evt:js.html.Event):Void { GameActions.startGame.dispatch(GameActions.pagePVP); }
     function onPVEClicked(evt:js.html.Event):Void { GameActions.startGame.dispatch(GameActions.pagePVE); }
+    function onTEAMSClicked(evt:js.html.Event):Void { GameActions.startGame.dispatch(GameActions.pageTeams); }
 }

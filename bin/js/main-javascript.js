@@ -17,7 +17,7 @@ HxOverrides.cca = function(s,index) {
 };
 var Main = function() {
 	model_DefaultValues.init();
-	var data = { slotsPVP : model_DefaultValues.slotsPVP, slotsPVE : model_DefaultValues.slotsPVE, page : htmlcontrols_store_GameActions.pagePVE};
+	var data = { slotsPVP : model_DefaultValues.slotsPVP, slotsPVE : model_DefaultValues.slotsPVE, slotsTEAMS : model_DefaultValues.slotsTEAMS, page : htmlcontrols_store_GameActions.pagePVE};
 	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { data : data}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
@@ -199,6 +199,8 @@ htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 			return this.props.data.slotsPVP;
 		} else if(page == htmlcontrols_store_GameActions.pagePVE) {
 			return this.props.data.slotsPVE;
+		} else if(page == htmlcontrols_store_GameActions.pageTeams) {
+			return this.props.data.slotsTEAMS;
 		} else {
 			return [];
 		}
@@ -212,7 +214,7 @@ htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 		} else if(this.state.page == htmlcontrols_store_GameActions.pagePVE) {
 			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVE LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVEClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
 		} else if(this.state.page == htmlcontrols_store_GameActions.pageTeams) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "TEAMS LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { children : "Teams page are in progress..."}, key : null, ref : null}]}, key : null, ref : null};
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "TEAMS LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onTEAMSClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
 		} else if(this.state.page == htmlcontrols_store_GameActions.pageHelp) {
 			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "HELP"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_helppage_HelpPage, props : { }, key : null, ref : null}]}, key : null, ref : null};
 		} else {
@@ -224,6 +226,9 @@ htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 	}
 	,onPVEClicked: function(evt) {
 		htmlcontrols_store_GameActions.startGame.dispatch(htmlcontrols_store_GameActions.pagePVE);
+	}
+	,onTEAMSClicked: function(evt) {
+		htmlcontrols_store_GameActions.startGame.dispatch(htmlcontrols_store_GameActions.pageTeams);
 	}
 });
 var htmlcontrols_mainmenu_MainMenuControl = function(onLogin) {
@@ -788,6 +793,12 @@ model_DefaultValues.init = function() {
 	model_DefaultValues.slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
 	model_DefaultValues.slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
 	model_DefaultValues.slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 2",model_PlayerType.SWORDMAN,model_ControlType.ARROWS,200,300,"p2",1));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 3",model_PlayerType.ELF,model_ControlType.AWSD,300,300,"p3",1));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_HARD,500,300,"p4",3));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 2",model_PlayerType.MAGE,model_ControlType.BOT_HARD,600,300,"p5",3));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 3",model_PlayerType.HORSEMAN,model_ControlType.BOT_HARD,700,300,"p6",3));
 };
 var model_Slot = function(label,charType,controlType,x,y,name,skin) {
 	this.name = name;
@@ -1357,7 +1368,7 @@ phasergame_sceneobjects_Character.prototype = {
 		var _g = 1;
 		while(_g < 11) {
 			var i = _g++;
-			var key = this.getIdByTypeIdAndLineId(this.config.charType,i);
+			var key = this.getIdByLine(i);
 			if(this.phaserScene.anims.get(key) == null) {
 				this.phaserScene.anims.create(this.getAnimationConfig(this.config.charType,i));
 			}
@@ -1376,7 +1387,7 @@ phasergame_sceneobjects_Character.prototype = {
 		var _g = 1;
 		while(_g < 11) {
 			var i = _g++;
-			var key = this.getIdByTypeIdAndLineId(config.charType,i);
+			var key = this.getIdByLine(i);
 			if(this.phaserScene.anims.get(key) == null) {
 				this.phaserScene.anims.create(this.getAnimationConfig(config.charType,i));
 			}
@@ -1394,17 +1405,17 @@ phasergame_sceneobjects_Character.prototype = {
 		this.MOVE_SPEED = speed;
 	}
 	,setAnimation: function(lineId) {
-		var animationId = this.getIdByTypeIdAndLineId(this.config.charType,lineId);
+		var animationId = this.getIdByLine(lineId);
 		if(this.sprite.anims.getCurrentKey() != animationId) {
 			this.sprite.anims.load(animationId);
 			this.sprite.anims.play(animationId);
 		}
 	}
-	,getIdByTypeIdAndLineId: function(typeId,lineId) {
-		return "typeId:" + typeId + "_lineId:" + lineId;
+	,getIdByLine: function(lineId) {
+		return "typeId:" + this.config.charType + "}_lineId:" + lineId + "_skin:" + this.config.skin;
 	}
 	,getAnimationConfig: function(typeId,lineId) {
-		var result = { key : this.getIdByTypeIdAndLineId(typeId,lineId), frames : this.phaserScene.anims.generateFrameNumbers(typeId,this.getFrameConfigByLineId(lineId)), frameRate : 6, yoyo : true, repeat : -1};
+		var result = { key : this.getIdByLine(lineId), frames : this.phaserScene.anims.generateFrameNumbers(typeId,this.getFrameConfigByLineId(lineId)), frameRate : 6, yoyo : true, repeat : -1};
 		return result;
 	}
 	,getFrameConfigByLineId: function(lineId) {
@@ -1757,6 +1768,7 @@ htmlcontrols_store_GameActions.pageTeams = "TEAMS";
 htmlcontrols_store_GameActions.pageHelp = "HELP";
 model_DefaultValues.slotsPVP = [];
 model_DefaultValues.slotsPVE = [];
+model_DefaultValues.slotsTEAMS = [];
 model_DefaultValues.slots = [];
 model_DefaultValues.mobAmount = 5;
 model_DefaultValues.maxLvl = 5;

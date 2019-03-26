@@ -6,6 +6,7 @@ import model.PhaserGameModel.PlayerType;
 class DefaultValues {
     static public var slotsPVP:Array<Slot> = [];
     static public var slotsPVE:Array<Slot> = [];
+    static public var slotsTEAMS:Array<Slot> = [];
     static public var slots:Array<Slot> = [];
     static public var mobAmount:Int = 5;
     static public var maxLvl:Int = 5;
@@ -24,6 +25,13 @@ class DefaultValues {
         slotsPVP.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
         slotsPVP.push(new Slot("Player 2", PlayerType.BOWMAN, ControlType.ARROWS, 500, 300, "p2", 2));
         slotsPVP.push(new Slot("Player 3", PlayerType.MAGE, ControlType.AWSD, 600, 300, "p3", 3));
+
+        slotsTEAMS.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
+        slotsTEAMS.push(new Slot("Player 2", PlayerType.SWORDMAN, ControlType.ARROWS, 200, 300, "p2", 1));
+        slotsTEAMS.push(new Slot("Player 3", PlayerType.ELF, ControlType.AWSD, 300, 300, "p3", 1));
+        slotsTEAMS.push(new Slot("bot 1", PlayerType.SWORDMAN, ControlType.BOT_HARD, 500, 300, "p4", 3));
+        slotsTEAMS.push(new Slot("bot 2", PlayerType.MAGE, ControlType.BOT_HARD, 600, 300, "p5", 3));
+        slotsTEAMS.push(new Slot("bot 3", PlayerType.HORSEMAN, ControlType.BOT_HARD, 700, 300, "p6", 3));
     }
 }
 

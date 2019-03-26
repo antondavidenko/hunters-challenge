@@ -28,7 +28,12 @@ class Main {
 
     public function new() {
         DefaultValues.init();
-        var data:Dynamic = {slotsPVP:DefaultValues.slotsPVP, slotsPVE:DefaultValues.slotsPVE, page:GameActions.pagePVE};
+        var data:Dynamic = {
+            slotsPVP:DefaultValues.slotsPVP,
+            slotsPVE:DefaultValues.slotsPVE,
+            slotsTEAMS:DefaultValues.slotsTEAMS,
+            page:GameActions.pagePVE
+        };
         ReactDOM.render(jsx('<$MainMenu data=${data}/>'), js.Browser.document.getElementById('MainMenu'));
         gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
         sidePanel = cast js.Browser.document.getElementById("sidePanel");

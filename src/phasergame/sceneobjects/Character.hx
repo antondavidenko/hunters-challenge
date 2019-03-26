@@ -26,7 +26,7 @@ class Character {
 
     public function init():Void {
         for (i in 1...11) {
-            var key:String = getIdByTypeIdAndLineId(config.charType, i);
+            var key:String = getIdByLine(i);
             if (phaserScene.anims.get(key) == null) {
                 phaserScene.anims.create(getAnimationConfig(config.charType, i));
             }
@@ -44,7 +44,7 @@ class Character {
     public function reinit(config:CharStartConfig):Void {
         this.config = config;
         for (i in 1...11) {
-            var key:String = getIdByTypeIdAndLineId(config.charType, i);
+            var key:String = getIdByLine(i);
             if (phaserScene.anims.get(key) == null) {
                 phaserScene.anims.create(getAnimationConfig(config.charType, i));
             }
@@ -65,20 +65,20 @@ class Character {
     }
 
     private function setAnimation(lineId:Int):Void {
-        var animationId:String = getIdByTypeIdAndLineId(config.charType, lineId);
+        var animationId:String = getIdByLine(lineId);
         if (sprite.anims.getCurrentKey() != animationId) {
             sprite.anims.load(animationId);
             sprite.anims.play(animationId);
         }
     }
 
-    private function getIdByTypeIdAndLineId(typeId:String, lineId:Int):String {
-        return 'typeId:' + typeId + "_lineId:" + lineId;
+    private function getIdByLine(lineId:Int):String {
+        return 'typeId:${config.charType}}_lineId:${lineId}_skin:${config.skin}';
     }
 
     private function getAnimationConfig(typeId:String, lineId:Int):phaser.animations.types.Animation {
         var result:phaser.animations.types.Animation = {
-            key: getIdByTypeIdAndLineId(typeId, lineId),
+            key: getIdByLine(lineId),
             frames: phaserScene.anims.generateFrameNumbers(typeId, getFrameConfigByLineId(lineId)),
             frameRate: 6,
             yoyo: true,
@@ -89,7 +89,7 @@ class Character {
 
     private function getFrameConfigByLineId(lineId:Int):GenerateFrameNumbers {
         var maxSkins:Int = Model.skinsCollection[config.charType];
-        lineId = (lineId - 1) * 4 + 4*(maxSkins-1)*(lineId - 1) + 4*(config.skin-1);
+        lineId = (lineId - 1) * 4 + 4 * (maxSkins - 1) * (lineId - 1) + 4 * (config.skin - 1);
         return getFrameConfig(lineId, lineId + 3);
     }
 
