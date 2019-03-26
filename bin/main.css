@@ -107,6 +107,10 @@ button:hover {
     width: 158px;
 }
 
+.fifthWidth {
+    width: 128px;
+}
+
 table {
     width: 640px;
     border: 0px;

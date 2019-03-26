@@ -61,6 +61,7 @@ class Model {
         var x:Int = DefaultValues.slots[id].x;
         var y:Int = DefaultValues.slots[id].y;
         var control:String = DefaultValues.slots[id].controlType;
-        return new CharStartConfig(charType, x, y, label, name, control, 2);
+        var skin:Int = DefaultValues.slots[id].skin;
+        return new CharStartConfig(charType, x, y, label, name, control, skin);
     }
 }

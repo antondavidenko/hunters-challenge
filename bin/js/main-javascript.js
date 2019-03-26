@@ -256,9 +256,10 @@ htmlcontrols_mainmenu_MainMenuControl.prototype = {
 		var charType = this.getById("slot" + i + "Class");
 		var controlType = this.getById("slot" + i + "Control");
 		var spawnXY = Std.string(this.getById("slot" + i + "Spawn")).split(",");
+		var skin = this.getById("slot" + i + "Skin");
 		var x = Std.parseInt(spawnXY[0]);
 		var y = Std.parseInt(spawnXY[1]);
-		model_DefaultValues.slots[i] = new model_Slot(label,charType,controlType,x,y,"p" + i);
+		model_DefaultValues.slots[i] = new model_Slot(label,charType,controlType,x,y,"p" + i,skin);
 	}
 	,elementIsExist: function(i) {
 		return window.document.getElementById("slot" + i + "Label") != null;
@@ -289,7 +290,7 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.__name__ = true;
 htmlcontrols_mainmenu_lobby_LobbyPanel.__super__ = React.Component;
 htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { cellPadding : "0", cellSpacing : "0", children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Name"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Class"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Control"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Spawn: x,y"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},this.createChildren()]}, key : null, ref : null}}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "table", props : { cellPadding : "0", cellSpacing : "0", children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Name"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Class"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Control"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Spawn: x,y"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { children : { "$$typeof" : $$tre, type : "b", props : { children : "Color"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},this.createChildren()]}, key : null, ref : null}}, key : null, ref : null};
 	}
 	,createChildren: function() {
 		var _g = [];
@@ -297,7 +298,7 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.proto
 		var _g1 = this.props.slots.length;
 		while(_g2 < _g1) {
 			var i = _g2++;
-			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].controlType, id : this.getControlId(i), options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i)}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
+			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].controlType, id : this.getControlId(i), options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].skin, id : this.getSkinId(i), options : this.getOptionsSkin()}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
 		}
 		return _g;
 	}
@@ -313,6 +314,9 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.proto
 	,getSpawnId: function(i) {
 		return "slot" + i + "Spawn";
 	}
+	,getSkinId: function(i) {
+		return "slot" + i + "Skin";
+	}
 	,getXY: function(i) {
 		return "" + this.props.slots[i].x + "," + this.props.slots[i].y;
 	}
@@ -321,6 +325,9 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.proto
 	}
 	,getOptionsControl: function() {
 		return [model_ControlType.MOUSE,model_ControlType.AWSD,model_ControlType.ARROWS,model_ControlType.BOT_SIMPLE,model_ControlType.BOT_HARD,model_ControlType.NONE];
+	}
+	,getOptionsSkin: function() {
+		return [model_Skin.RED,model_Skin.GREEN,model_Skin.BLUE];
 	}
 });
 var htmlcontrols_mainmenu_lobby_SelectInput = function(props) {
@@ -334,7 +341,7 @@ htmlcontrols_mainmenu_lobby_SelectInput.prototype = $extend(React.Component.prot
 		this.setState({ value : newProps.defaultValue});
 	}
 	,render: function() {
-		return { "$$typeof" : $$tre, type : "select", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.state.value, className : "quarterWidth", children : this.createOptions()}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "select", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.state.value, className : "fifthWidth", children : this.createOptions()}, key : null, ref : null};
 	}
 	,createOptions: function() {
 		var _g = [];
@@ -363,7 +370,7 @@ htmlcontrols_mainmenu_lobby_TextInput.prototype = $extend(React.Component.protot
 		this.setState({ value : newProps.defaultValue});
 	}
 	,render: function() {
-		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.state.value, type : "text", className : "quarterWidth"}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.state.value, type : "text", className : "fifthWidth"}, key : null, ref : null};
 	}
 	,onChange: function(event) {
 		this.setState({ value : event.target.value});
@@ -772,23 +779,24 @@ js_Boot.__string_rec = function(o,s) {
 var model_DefaultValues = function() { };
 model_DefaultValues.__name__ = true;
 model_DefaultValues.init = function() {
-	model_DefaultValues.slotsPVE.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1"));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2"));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3"));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4"));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5"));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 5",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,700,300,"p6"));
-	model_DefaultValues.slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1"));
-	model_DefaultValues.slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2"));
-	model_DefaultValues.slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3"));
+	model_DefaultValues.slotsPVE.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2",2));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3",2));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4",2));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5",2));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 5",model_PlayerType.ELF,model_ControlType.BOT_HARD,700,300,"p6",3));
+	model_DefaultValues.slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	model_DefaultValues.slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
+	model_DefaultValues.slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
 };
-var model_Slot = function(label,charType,controlType,x,y,name) {
+var model_Slot = function(label,charType,controlType,x,y,name,skin) {
 	this.name = name;
 	this.controlType = controlType;
 	this.charType = charType;
 	this.x = x;
 	this.y = y;
 	this.label = label;
+	this.skin = skin;
 };
 model_Slot.__name__ = true;
 var model_CharacterConfig = function() {
@@ -821,11 +829,15 @@ model_Model.getCharStartConfigByDefaultValues = function(id) {
 	var x = model_DefaultValues.slots[id].x;
 	var y = model_DefaultValues.slots[id].y;
 	var control = model_DefaultValues.slots[id].controlType;
-	return new model_CharStartConfig(charType,x,y,label,name,control,2);
+	var skin = model_DefaultValues.slots[id].skin;
+	return new model_CharStartConfig(charType,x,y,label,name,control,skin);
 };
 var model_PhaserGameModel = function() {
 };
 model_PhaserGameModel.__name__ = true;
+var model_Skin = function() {
+};
+model_Skin.__name__ = true;
 var model_PlayerType = function() {
 };
 model_PlayerType.__name__ = true;
@@ -1767,6 +1779,9 @@ model_Model.totalMobSlayedCounter = 0;
 model_Model.playersData = new haxe_ds_StringMap();
 model_Model.mobsData = new haxe_ds_StringMap();
 model_Model.skinsCollection = new haxe_ds_StringMap();
+model_Skin.RED = 1;
+model_Skin.GREEN = 2;
+model_Skin.BLUE = 3;
 model_PlayerType.SWORDMAN = "swordman";
 model_PlayerType.BOWMAN = "bowman";
 model_PlayerType.ELF = "elf";

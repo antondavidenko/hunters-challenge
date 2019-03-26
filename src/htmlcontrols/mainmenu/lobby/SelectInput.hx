@@ -22,7 +22,7 @@ class SelectInput extends ReactComponentOfProps<SelectInputProps> {
     }
 
     public override function render():ReactElement {
-        return jsx('<select className="quarterWidth" value="${state.value}" id=${props.id} onChange="${onChange}">
+        return jsx('<select className="fifthWidth" value="${state.value}" id=${props.id} onChange="${onChange}">
         {this.createOptions()}
         </select>');
     }

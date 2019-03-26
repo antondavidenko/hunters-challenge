@@ -1,5 +1,6 @@
 package htmlcontrols.mainmenu.lobby;
 
+import model.PhaserGameModel.Skin;
 import model.DefaultValues.Slot;
 import model.PhaserGameModel.ControlType;
 import model.PhaserGameModel.PlayerType;
@@ -27,6 +28,7 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
             <th><b>Class</b></th>
             <th><b>Control</b></th>
             <th><b>Spawn: x,y</b></th>
+            <th><b>Color</b></th>
         </tr>
             {this.createChildren()}
         </tbody></table>');
@@ -39,6 +41,7 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
             <td><SelectInput defaultValue="${props.slots[i].charType}" id="${getClassId(i)}" options=${this.getOptionsClass()}/></td>
             <td><SelectInput defaultValue="${props.slots[i].controlType}" id="${getControlId(i)}" options=${this.getOptionsControl()}/></td>
             <td><TextInput defaultValue="${this.getXY(i)}" id="${getSpawnId(i)}"/></td>
+            <td><SelectInput defaultValue="${props.slots[i].skin}" id="${getSkinId(i)}" options=${this.getOptionsSkin()}/></td>
         </tr>')];
     }
 
@@ -46,6 +49,7 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
     function getClassId(i:Int):String { return 'slot${i}Class'; }
     function getControlId(i:Int):String { return 'slot${i}Control'; }
     function getSpawnId(i:Int):String { return 'slot${i}Spawn'; }
+    function getSkinId(i:Int):String { return 'slot${i}Skin'; }
 
     function getXY(i:Int):String {
         return '${props.slots[i].x},${props.slots[i].y}';
@@ -66,5 +70,11 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
         ControlType.BOT_SIMPLE,
         ControlType.BOT_HARD,
         ControlType.NONE];
+    }
+
+    function getOptionsSkin():Array<Int> { return [
+        Skin.RED,
+        Skin.GREEN,
+        Skin.BLUE];
     }
 }

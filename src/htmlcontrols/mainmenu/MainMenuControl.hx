@@ -37,9 +37,10 @@ class MainMenuControl {
         var charType:String = getById('slot${i}Class');
         var controlType:String = getById('slot${i}Control');
         var spawnXY:Array<String> = Std.string(getById('slot${i}Spawn')).split(",");
+        var skin:Int = getById('slot${i}Skin');
         var x:Int = Std.parseInt(spawnXY[0]);
         var y:Int = Std.parseInt(spawnXY[1]);
-        DefaultValues.slots[i] = new Slot(label,charType, controlType, x, y, "p"+i);
+        DefaultValues.slots[i] = new Slot(label,charType, controlType, x, y, "p"+i, skin);
     }
 
     private function elementIsExist(i:Int):Bool {

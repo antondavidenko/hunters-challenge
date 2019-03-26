@@ -6,29 +6,37 @@ class PhaserGameModel {
 
 class CharacterConfig {
     public function new() {}
-    public var MOVE_SPEED : Int;
-    public var MIN_DISTANCE : Int;
+    public var MOVE_SPEED:Int;
+    public var MIN_DISTANCE:Int;
+}
+
+class Skin {
+    public function new() {}
+
+    static public var RED:Int = 1;
+    static public var GREEN:Int = 2;
+    static public var BLUE:Int = 3;
 }
 
 class PlayerType {
     public function new() {}
 
-    static public var SWORDMAN = "swordman";
-    static public var BOWMAN = "bowman";
-    static public var ELF = "elf";
-    static public var MAGE = "mage";
-    static public var HORSEMAN = "horseman";
+    static public var SWORDMAN:String = "swordman";
+    static public var BOWMAN:String = "bowman";
+    static public var ELF:String = "elf";
+    static public var MAGE:String = "mage";
+    static public var HORSEMAN:String = "horseman";
 }
 
 class ControlType {
     public function new() {}
 
-    static public var MOUSE = "mouse";
-    static public var ARROWS = "keys_arrows";
-    static public var AWSD = "keys_awsd";
-    static public var BOT_SIMPLE = "bot_simple";
-    static public var BOT_HARD = "bot_hard";
-    static public var NONE = "none";
+    static public var MOUSE:String = "mouse";
+    static public var ARROWS:String = "keys_arrows";
+    static public var AWSD:String = "keys_awsd";
+    static public var BOT_SIMPLE:String = "bot_simple";
+    static public var BOT_HARD:String = "bot_hard";
+    static public var NONE:String = "none";
 }
 
 class CharStartConfig {
