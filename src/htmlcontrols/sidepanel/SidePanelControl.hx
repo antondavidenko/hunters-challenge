@@ -7,14 +7,15 @@ import js.html.HtmlElement;
 class SidePanelControl {
 
     var SidePanelLabels:Array<String> = [];
+    var SidePanelProgress:Array<String> = [];
 
     public function new(){}
 
     public function updateView():Void {
         for (i in 0...6) {
             if (elementIsExist('sidePanel_name${i}')) {
-                mapDataToHTML('sidePanel_name${i}', SidePanelLabels[i]);
-                mapProgressToHTML('sidePanel_Player${i}progress', getProgressString(Model.playersData['p${i}']));
+                mapDataToHTML('sidePanel_name${i}', SidePanelLabels[i], i);
+                mapProgressToHTML('sidePanel_Player${i}progress', SidePanelProgress[i]);
             } else {
                 break;
             }
@@ -25,9 +26,13 @@ class SidePanelControl {
         return cast js.Browser.document.getElementById(htmlId) != null;
     }
 
-    private function mapDataToHTML(htmlId:String, data:String):Void {
+    private function mapDataToHTML(htmlId:String, data:String, id:Int):Void {
         var nameHtml:HtmlElement = cast js.Browser.document.getElementById(htmlId);
         nameHtml.innerHTML = '<b>${data}</b>';
+        if (data == "") {
+            var panelHtml:HtmlElement = cast js.Browser.document.getElementById("sidePanel_playerPanelId"+id);
+            panelHtml.style.display = "none";
+        }
     }
 
     private function mapProgressToHTML(htmlId:String, data:String):Void {
@@ -45,7 +50,13 @@ class SidePanelControl {
 
     public function updateData():Void {
         for (i in 0...6) {
-            SidePanelLabels[i] = getLabelValueByPlayerData(Model.playersData['p${i}']);
+            if (Model.teamMode) {
+                SidePanelLabels[i] = getLabelValueByPlayerData(Model.playersData['team${i}']);
+                SidePanelProgress[i] = getProgressString(Model.playersData['team${i}']);
+            } else {
+                SidePanelLabels[i] = getLabelValueByPlayerData(Model.playersData['p${i}']);
+                SidePanelProgress[i] = getProgressString(Model.playersData['p${i}']);
+            }
         }
     }
 

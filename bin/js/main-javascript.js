@@ -238,6 +238,7 @@ var htmlcontrols_mainmenu_MainMenuControl = function(onLogin) {
 htmlcontrols_mainmenu_MainMenuControl.__name__ = true;
 htmlcontrols_mainmenu_MainMenuControl.prototype = {
 	startGame: function(page) {
+		model_Model.teamMode = page == htmlcontrols_store_GameActions.pageTeams;
 		this.updateDefaultValuesByInput();
 		this.onLogin();
 	}
@@ -396,9 +397,12 @@ htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
 		var _g1 = this.props.players.length;
 		while(_g2 < _g1) {
 			var i = _g2++;
-			_g.push({ "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "label", props : { id : this.getNameId(i), children : { "$$typeof" : $$tre, type : "b", props : { children : "Name holder"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { className : "expBarBg", children : { "$$typeof" : $$tre, type : "div", props : { id : this.getProgressId(i), className : this.getProgressClass(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "br", props : { }, key : null, ref : null}]}, key : null, ref : null});
+			_g.push({ "$$typeof" : $$tre, type : "div", props : { id : this.getPlayerPanelId(i), children : [{ "$$typeof" : $$tre, type : "label", props : { id : this.getNameId(i), children : { "$$typeof" : $$tre, type : "b", props : { children : "Name holder"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { className : "expBarBg", children : { "$$typeof" : $$tre, type : "div", props : { id : this.getProgressId(i), className : this.getProgressClass(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "br", props : { }, key : null, ref : null}]}, key : null, ref : null});
 		}
 		return _g;
+	}
+	,getPlayerPanelId: function(i) {
+		return "sidePanel_playerPanelId" + i;
 	}
 	,getNameId: function(i) {
 		return "sidePanel_name" + i;
@@ -411,6 +415,7 @@ htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
 	}
 });
 var htmlcontrols_sidepanel_SidePanelControl = function() {
+	this.SidePanelProgress = [];
 	this.SidePanelLabels = [];
 };
 htmlcontrols_sidepanel_SidePanelControl.__name__ = true;
@@ -420,10 +425,8 @@ htmlcontrols_sidepanel_SidePanelControl.prototype = {
 		while(_g < 6) {
 			var i = _g++;
 			if(this.elementIsExist("sidePanel_name" + i)) {
-				this.mapDataToHTML("sidePanel_name" + i,this.SidePanelLabels[i]);
-				var _this = model_Model.playersData;
-				var key = "p" + i;
-				this.mapProgressToHTML("sidePanel_Player" + i + "progress",this.getProgressString(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]));
+				this.mapDataToHTML("sidePanel_name" + i,this.SidePanelLabels[i],i);
+				this.mapProgressToHTML("sidePanel_Player" + i + "progress",this.SidePanelProgress[i]);
 			} else {
 				break;
 			}
@@ -432,9 +435,13 @@ htmlcontrols_sidepanel_SidePanelControl.prototype = {
 	,elementIsExist: function(htmlId) {
 		return window.document.getElementById(htmlId) != null;
 	}
-	,mapDataToHTML: function(htmlId,data) {
+	,mapDataToHTML: function(htmlId,data,id) {
 		var nameHtml = window.document.getElementById(htmlId);
 		nameHtml.innerHTML = "<b>" + data + "</b>";
+		if(data == "") {
+			var panelHtml = window.document.getElementById("sidePanel_playerPanelId" + id);
+			panelHtml.style.display = "none";
+		}
 	}
 	,mapProgressToHTML: function(htmlId,data) {
 		var progressHtml = window.document.getElementById(htmlId);
@@ -451,9 +458,21 @@ htmlcontrols_sidepanel_SidePanelControl.prototype = {
 		var _g = 0;
 		while(_g < 6) {
 			var i = _g++;
-			var _this = model_Model.playersData;
-			var key = "p" + i;
-			this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]);
+			if(model_Model.teamMode) {
+				var _this = model_Model.playersData;
+				var key = "team" + i;
+				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]);
+				var _this1 = model_Model.playersData;
+				var key1 = "team" + i;
+				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key1] != null ? _this1.getReserved(key1) : _this1.h[key1]);
+			} else {
+				var _this2 = model_Model.playersData;
+				var key2 = "p" + i;
+				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key2] != null ? _this2.getReserved(key2) : _this2.h[key2]);
+				var _this3 = model_Model.playersData;
+				var key3 = "p" + i;
+				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key3] != null ? _this3.getReserved(key3) : _this3.h[key3]);
+			}
 		}
 	}
 	,getLabelValueByPlayerData: function(data) {
@@ -865,12 +884,13 @@ var model_CharStartConfig = function(charType,x,y,label,name,control,skin) {
 	this.skin = skin;
 };
 model_CharStartConfig.__name__ = true;
-var model_PlayerData = function(slayedCounter,expGained,currentLevel,label,control) {
+var model_PlayerData = function(slayedCounter,expGained,currentLevel,label,control,teamId) {
 	this.slayedCounter = slayedCounter;
 	this.expGained = expGained;
 	this.currentLevel = currentLevel;
 	this.label = label;
 	this.control = control;
+	this.teamId = teamId;
 };
 model_PlayerData.__name__ = true;
 var model_MobData = function(currentLevel) {
@@ -1693,12 +1713,24 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 				var player = this.preparePlayerByConfig(playerConfig);
 				var this1 = model_Model.playersData;
 				var k = playerConfig.name;
-				var v = new model_PlayerData(0,0,1,playerConfig.label,playerConfig.control);
+				var v = new model_PlayerData(0,0,1,playerConfig.label,playerConfig.control,playerConfig.skin);
 				var _this = this1;
 				if(__map_reserved[k] != null) {
 					_this.setReserved(k,v);
 				} else {
 					_this.h[k] = v;
+				}
+				var teamId = "team" + playerConfig.skin;
+				var _this1 = model_Model.playersData;
+				if((__map_reserved[teamId] != null ? _this1.getReserved(teamId) : _this1.h[teamId]) == null) {
+					var this2 = model_Model.playersData;
+					var v1 = new model_PlayerData(0,0,1,teamId,"",-1);
+					var _this2 = this2;
+					if(__map_reserved[teamId] != null) {
+						_this2.setReserved(teamId,v1);
+					} else {
+						_this2.h[teamId] = v1;
+					}
 				}
 			}
 		}
@@ -1727,8 +1759,17 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 	}
 	,onPlayerSlayMob: function(playerId,mobLvl) {
 		model_Model.totalMobSlayedCounter++;
-		var _this = model_Model.playersData;
-		this.updatePlayerDataOnMobSlayed(__map_reserved[playerId] != null ? _this.getReserved(playerId) : _this.h[playerId],mobLvl);
+		if(model_Model.teamMode) {
+			var this1 = model_Model.playersData;
+			var _this = model_Model.playersData;
+			var key = "team" + (__map_reserved[playerId] != null ? _this.getReserved(playerId) : _this.h[playerId]).teamId;
+			var _this1 = this1;
+			var teamData = __map_reserved[key] != null ? _this1.getReserved(key) : _this1.h[key];
+			this.updatePlayerDataOnMobSlayed(teamData,mobLvl);
+		} else {
+			var _this2 = model_Model.playersData;
+			this.updatePlayerDataOnMobSlayed(__map_reserved[playerId] != null ? _this2.getReserved(playerId) : _this2.h[playerId],mobLvl);
+		}
 	}
 	,updatePlayerDataOnMobSlayed: function(playerData,mobLvl) {
 		playerData.slayedCounter++;
@@ -1783,6 +1824,7 @@ model_Model.mobTimeoutDelay = 1000;
 model_Model.character = new model_CharacterConfig();
 model_Model.playersStartConfig = [];
 model_Model.maxLvlInGame = 1;
+model_Model.teamMode = false;
 model_Model.mobTypes = ["mob1lvl","mob2lvl","mob3lvl","mob4lvl","mob5lvl"];
 model_Model.mobLabels = ["lvl 1","lvl 2","lvl 3","lvl 4","lvl 5"];
 model_Model.mobSpeeds = [100,5,25,300,300];

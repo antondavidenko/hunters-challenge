@@ -60,12 +60,13 @@ class CharStartConfig {
 }
 
 class PlayerData {
-    public function new(slayedCounter:Int, expGained:Float, currentLevel:Int, label:String, control:String) {
+    public function new(slayedCounter:Int, expGained:Float, currentLevel:Int, label:String, control:String, teamId:Int) {
         this.slayedCounter = slayedCounter;
         this.expGained = expGained;
         this.currentLevel = currentLevel;
         this.label = label;
         this.control = control;
+        this.teamId = teamId;
     }
 
     public var slayedCounter:Int;
@@ -73,6 +74,7 @@ class PlayerData {
     public var currentLevel:Int;
     public var label:String;
     public var control:String;
+    public var teamId:Int;
 }
 
 class MobData {

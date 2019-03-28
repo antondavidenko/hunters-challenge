@@ -23,13 +23,14 @@ class SidePanel extends ReactComponentOfProps<SidePanelProps> {
 
     function createChildren():Array<ReactElement>
     {
-        return [for (i in 0...props.players.length) jsx('<div>
+        return [for (i in 0...props.players.length) jsx('<div id="${getPlayerPanelId(i)}">
             <label id="${getNameId(i)}"><b>Name holder</b></label>
             <div className="expBarBg">
                     <div className="${getProgressClass(i)}" id="${getProgressId(i)}"></div>
         </div><br/></div>')];
     }
 
+    function getPlayerPanelId(i:Int):String { return 'sidePanel_playerPanelId${i}'; }
     function getNameId(i:Int):String { return 'sidePanel_name${i}'; }
     function getProgressId(i:Int):String { return 'sidePanel_Player${i}progress'; }
     function getProgressClass(i:Int):String { return 'Player${i}progress expBarBgProgress'; }

@@ -23,6 +23,7 @@ class Model {
     static public var screenMode:String;
     static public var showLabel:Bool;
     static public var leaderPlayerLabel:String;
+    static public var teamMode:Bool = false;
 
     static public var mobTypes:Array<String> = ["mob1lvl", "mob2lvl", "mob3lvl", "mob4lvl", "mob5lvl"];
     static public var mobLabels:Array<String> = ["lvl 1", "lvl 2", "lvl 3", "lvl 4", "lvl 5"];
