@@ -8,6 +8,7 @@ typedef SelectInputProps = {
     var defaultValue:String;
     var id:String;
     var options:Array<String>;
+    var className:String;
 }
 
 class SelectInput extends ReactComponentOfProps<SelectInputProps> {
@@ -22,7 +23,7 @@ class SelectInput extends ReactComponentOfProps<SelectInputProps> {
     }
 
     public override function render():ReactElement {
-        return jsx('<select className="fifthWidth" value="${state.value}" id=${props.id} onChange="${onChange}">
+        return jsx('<select value="${state.value}" id=${props.id} className=${props.className} onChange="${onChange}">
         {this.createOptions()}
         </select>');
     }

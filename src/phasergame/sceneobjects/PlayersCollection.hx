@@ -84,8 +84,8 @@ class PlayersCollection {
         playerData.slayedCounter++;
         playerData.expGained += Model.baseExpGain * mobLvl / playerData.currentLevel;
         if (playerData.expGained >= 100) {
-            playerData.expGained = 0;
             playerData.currentLevel++;
+            playerData.expGained = (playerData.currentLevel == Model.maxLvl)?100:0;
             if (playerData.currentLevel > Model.maxLvlInGame) {
                 Model.maxLvlInGame = playerData.currentLevel;
                 Model.leaderPlayerLabel = playerData.label;

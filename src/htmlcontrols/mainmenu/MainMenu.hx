@@ -40,13 +40,28 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
 
     public override function render():ReactElement
     {
-        return jsx('<div>
-        <h2>GAME-PLAY OPTIONS</h2>
-        <GamePlayOptions></GamePlayOptions>
-        <h2>MAIN MENU</h2>
-        <GameModes></GameModes>
-        {this.getContentByState()}
-        </div>');
+        return jsx('<table><tbody><tr>
+        <td className="valignTop">
+            <h2>MAIN MENU</h2>
+            <GameModes page="${props.data.page}"></GameModes>
+        </td><td className="mainMenuGap">
+        </td><td className="valignTop">
+            {this.getOptionsByState()}
+            {this.getContentByState()}
+        </td>
+        </tr></tbody></table>');
+    }
+
+    function getOptionsByState():ReactElement
+    {
+        if (state.page == GameActions.pagePVP || state.page == GameActions.pagePVE || state.page == GameActions.pageTeams) {
+            return jsx('<div>
+            <h2>GAME-PLAY OPTIONS</h2>
+            <GamePlayOptions></GamePlayOptions>
+            </div>');
+        } else {
+            return jsx('<div></div>');
+        }
     }
 
     function getContentByState():ReactElement

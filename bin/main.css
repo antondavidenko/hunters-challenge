@@ -70,6 +70,11 @@ button:hover {
 }
 
 .gameCanvas { display:none; }
+.hidden { display:none; }
+.mainMenuGap { width: 50px; }
+
+.valignTop { vertical-align:top; }
+
 .sidePanel {
     display:none;
     background-image: url("./assets/bg_metal.jpg");
@@ -81,7 +86,7 @@ button:hover {
 
 .containerLogin {
     background-image: url("./assets/bg_metal.jpg");
-    width: 640px;
+    width: 740px;
     margin-top: 8vh;
     margin-left: auto;
     margin-right: auto;
@@ -103,6 +108,16 @@ button:hover {
     width: 158px;
 }
 
+.modeButtonActive {
+    background-color: #4ad650;
+    width: 158px;
+    height: 28px;
+    text-align: center;
+    padding-top: 15px;
+    color: white;
+    font-weight: bold;
+}
+
 .quarterWidth {
     width: 158px;
 }
@@ -112,7 +127,6 @@ button:hover {
 }
 
 table {
-    width: 640px;
     border: 0px;
     border-spacing: 0px;
     border-collapse:collapse;

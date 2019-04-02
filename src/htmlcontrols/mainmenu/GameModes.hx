@@ -6,23 +6,39 @@ import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;
 
 typedef GameModesProps = {
-    var data:Dynamic;
+    var page:String;
 }
 
 class GameModes extends ReactComponentOfProps<GameModesProps> {
     public function new(props:GameModesProps):Void
     {
         super(props);
+        state = {page:props.page}
+        GameActions.navigateToPage.add(navigateToPage);
+    }
+
+    function navigateToPage(page:String):Void
+    {
+        setState({page:page});
     }
 
     public override function render():ReactElement
     {
-        return jsx('<table><tbody><tr>
-        <td><button id="b1" className="modeButton" onClick="$onPVPClicked">Local PVP</button></td>
-        <td><button id="b2" className="modeButton" onClick="$onPVEClicked">Player vs bots</button></td>
-        <td><button id="b3" className="modeButton" onClick="$onTeansClicked">TEAMS vs</button></td>
-        <td><button id="b4" className="modeButton" onClick="$onHelpClicked">HELP</button></td>
-        </tr></tbody></table>');
+        return jsx('<table><tbody>
+        <tr><td>{showSwitcher("Local PVP", GameActions.pagePVP, onPVPClicked)}</td></tr>
+        <tr><td>{showSwitcher("Player vs bots", GameActions.pagePVE, onPVEClicked)}</td></tr>
+        <tr><td>{showSwitcher("TEAMS vs", GameActions.pageTeams, onTeansClicked)}</td></tr>
+        <tr><td>{showSwitcher("HELP", GameActions.pageHelp, onHelpClicked)}</td></tr>
+        </tbody></table>');
+    }
+
+    function showSwitcher(pageName:String, pageId:String, pageOnClick:js.html.Event->Void):ReactElement
+    {
+        if (state.page != pageId) {
+            return jsx('<button className="modeButton" onClick="${pageOnClick}">${pageName}</button>');
+        } else {
+            return jsx('<div className="modeButtonActive">${pageName}</div>');
+        }
     }
 
     function onPVPClicked(evt:js.html.Event):Void { GameActions.navigateToPage.dispatch(GameActions.pagePVP); }

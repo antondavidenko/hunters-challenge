@@ -18,22 +18,22 @@ class GamePlayOptions extends ReactComponentOfProps<GamePlayOptionsProps> {
     {
         return jsx('<table><tbody>
         <tr>
-            <td><b>Mobs amount</b></td>
-            <td><b>Base exp gain</b></td>
-            <td><b>Labels</b></td>
-            <td><b>Screen mode</b></td>
+            <th className="fifthWidth"><b>Mobs amount</b></th>
+            <th className="fifthWidth"><b>Base exp gain</b></th>
+            <th className="fifthWidth"><b>Labels</b></th>
+            <th className="fifthWidth"><b>Screen mode</b></th>
         </tr>
         <tr>
-            <td><input id="mobsAmount" type="text" placeholder="Enter mobs amount" defaultValue="5" className="quarterWidth"/></td>
-            <td><input id="baseExp" type="text" placeholder="Base exp gain" defaultValue="25" className="quarterWidth"/></td>
+            <td><input id="mobsAmount" type="text" placeholder="Enter mobs amount" defaultValue="5" className="fifthWidth"/></td>
+            <td><input id="baseExp" type="text" placeholder="Base exp gain" defaultValue="25" className="fifthWidth"/></td>
             <td>
-                <select id="labelsSwitcher" className="quarterWidth">
+                <select id="labelsSwitcher" className="fifthWidth">
                     <option value="ON">ON</option>
                     <option value="OFF">OFF</option>
                 </select>
             </td>
             <td>
-                <select id="modeSwitcher" className="quarterWidth">
+                <select id="modeSwitcher" className="fifthWidth">
                     <option value="Windowed">Windowed</option>
                     <option value="Fullscreen">Fullscreen</option>
                 </select>

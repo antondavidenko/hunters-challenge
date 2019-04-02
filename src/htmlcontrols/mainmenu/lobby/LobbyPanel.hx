@@ -24,11 +24,11 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
         return jsx('
         <table cellPadding="0" cellSpacing="0"><tbody>
         <tr>
-            <th><b>Name</b></th>
-            <th><b>Class</b></th>
-            <th><b>Control</b></th>
-            <th><b>Spawn: x,y</b></th>
-            <th><b>Color</b></th>
+            <th className="fifthWidth"><b>Name</b></th>
+            <th className="fifthWidth"><b>Class</b></th>
+            <th className="fifthWidth"><b>Control</b></th>
+            <th className="hidden"><b>Spawn: x,y</b></th>
+            <th className="fifthWidth"><b>Color</b></th>
         </tr>
             {this.createChildren()}
         </tbody></table>');
@@ -37,11 +37,11 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
     function createChildren():Array<ReactElement>
     {
         return [for (i in 0...props.slots.length) jsx('<tr>
-            <td><TextInput defaultValue="${props.slots[i].label}" id="${getNameId(i)}"/></td>
-            <td><SelectInput defaultValue="${props.slots[i].charType}" id="${getClassId(i)}" options=${this.getOptionsClass()}/></td>
-            <td><SelectInput defaultValue="${props.slots[i].controlType}" id="${getControlId(i)}" options=${this.getOptionsControl()}/></td>
-            <td><TextInput defaultValue="${this.getXY(i)}" id="${getSpawnId(i)}"/></td>
-            <td><SelectInput defaultValue="${props.slots[i].skin}" id="${getSkinId(i)}" options=${this.getOptionsSkin()}/></td>
+            <td><TextInput className="fifthWidth" defaultValue="${props.slots[i].label}" id="${getNameId(i)}"/></td>
+            <td><SelectInput className="fifthWidth" defaultValue="${props.slots[i].charType}" id="${getClassId(i)}" options=${this.getOptionsClass()}/></td>
+            <td><SelectInput className="fifthWidth" defaultValue="${props.slots[i].controlType}" id="${getControlId(i)}" options=${this.getOptionsControl()}/></td>
+            <td className="hidden"><TextInput className="hidden" defaultValue="${this.getXY(i)}" id="${getSpawnId(i)}"/></td>
+            <td><SelectInput className="fifthWidth" defaultValue="${props.slots[i].skin}" id="${getSkinId(i)}" options=${this.getOptionsSkin()}/></td>
         </tr>')];
     }
 

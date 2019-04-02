@@ -8,6 +8,7 @@ import react.ReactMacro.jsx;
 typedef TextInputProps = {
     var defaultValue:String;
     var id:String;
+    var className:String;
 }
 
 class TextInput extends ReactComponentOfProps<TextInputProps> {
@@ -22,7 +23,7 @@ class TextInput extends ReactComponentOfProps<TextInputProps> {
     }
 
     public override function render():ReactElement {
-        return jsx('<input id=${props.id} type="text" value="${state.value}" className="fifthWidth" onChange="${onChange}"/>');
+        return jsx('<input id=${props.id} className=${props.className} type="text" value="${state.value}" onChange="${onChange}"/>');
     }
 
     private function onChange(event):Void {
