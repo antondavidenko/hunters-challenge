@@ -111,11 +111,12 @@ button:hover {
 .modeButtonActive {
     background-color: #4ad650;
     width: 158px;
-    height: 28px;
+    height: 30px;
     text-align: center;
-    padding-top: 15px;
+    padding-top: 13px;
     color: white;
     font-weight: bold;
+    margin: 8px 0;
 }
 
 .quarterWidth {
