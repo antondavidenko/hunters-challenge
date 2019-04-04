@@ -1,5 +1,6 @@
 package phasergame;
 
+import phaser.gameobjects.Text;
 import phasergame.CollisionDetector.CharackterAndMobData;
 import htmlcontrols.sidepanel.SidePanelControl;
 import model.Model;
@@ -86,7 +87,6 @@ class PhaserScene extends phaser.Scene {
         }, this);
         moverCharacters.setKeys(this.input.keyboard.addKeys('A,W,S,D'));
         moverCharacters.setCursor(this.input.keyboard.createCursorKeys());
-
     }
 
     override public function update(time:Float, delta:Float):Void {
@@ -121,13 +121,15 @@ class PhaserScene extends phaser.Scene {
     }
 
     private function showEndGameMessage():Void {
-        var header = this.add.text(100, 210, "Challenge is over", { fontFamily: "Arial Black", fontSize: 74, color: "#ccd8ff" });
+        var header:Text = this.add.text(100, 210, "Challenge is over", { fontFamily: "Arial Black", fontSize: 74, color: "#ccd8ff" });
         header.setStroke('#8ca7f7', 16);
         header.setShadow(2, 2, "#333333", 2, true, true);
         header.depth = 100500;
+        header.x = (Model.phaserGameWidth - header.width)/2;
 
-        var info = this.add.text(120, 310, 'winner is: ${Model.leaderPlayerLabel}', { fontFamily: "Arial Black", fontSize: 46, color: "#ccd8ff" });
+        var info:Text = this.add.text(120, 310, 'winner is: ${Model.leaderPlayerLabel}', { fontFamily: "Arial Black", fontSize: 46, color: "#ccd8ff" });
         info.setShadow(2, 2, "#333333", 2, true, true);
         info.depth = 100500;
+        info.x = (Model.phaserGameWidth - info.width)/2;
     }
 }

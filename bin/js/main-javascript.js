@@ -1361,9 +1361,11 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		header.setStroke("#8ca7f7",16);
 		header.setShadow(2,2,"#333333",2,true,true);
 		header.depth = 100500;
+		header.x = (model_Model.phaserGameWidth - header.width) / 2;
 		var info = this.add.text(120,310,"winner is: " + model_Model.leaderPlayerLabel,{ fontFamily : "Arial Black", fontSize : 46, color : "#ccd8ff"});
 		info.setShadow(2,2,"#333333",2,true,true);
 		info.depth = 100500;
+		info.x = (model_Model.phaserGameWidth - info.width) / 2;
 	}
 });
 var phasergame_sceneobjects_Background = function(phaserScene) {
@@ -1611,7 +1613,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	,getMobConfigByLvl: function(lvlId,mobId) {
 		var mobX = Utils.getRandomScreenX();
 		var mobY = Utils.getRandomScreenY();
-		return new model_CharStartConfig(model_Model.mobTypes[lvlId],mobX,mobY,model_Model.mobLabels[lvlId],"m" + mobId,model_ControlType.BOT_SIMPLE,1);
+		return new model_CharStartConfig(model_Model.mobTypes[lvlId],mobX,mobY,"","m" + mobId,model_ControlType.BOT_SIMPLE,1);
 	}
 	,update: function(time,delta) {
 		var _g = 0;
