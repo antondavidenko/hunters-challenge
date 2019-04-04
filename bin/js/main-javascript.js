@@ -1338,11 +1338,12 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		}
 	}
 	,onCharackterAndMobCollision: function(dataNameId) {
-		var key = dataNameId.mob;
-		var _this = model_Model.mobsData;
-		var mobLvl = (__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]).currentLevel;
-		this.playersCollection.onPlayerSlayMob(dataNameId.charackter,mobLvl);
-		this.mobsCollection.onMobSlayed(dataNameId.mob);
+		if(this.mobsCollection.onMobCollision(dataNameId.mob)) {
+			var key = dataNameId.mob;
+			var _this = model_Model.mobsData;
+			var mobLvl = (__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]).currentLevel;
+			this.playersCollection.onPlayerSlayMob(dataNameId.charackter,mobLvl);
+		}
 	}
 	,checkGameEndCreteria: function() {
 		var isGameEnd = model_Model.maxLvlInGame == model_Model.maxLvl;
@@ -1397,8 +1398,10 @@ phasergame_sceneobjects_Background.prototype = {
 	}
 };
 var phasergame_sceneobjects_Character = function(phaserScene,config) {
+	this.onCollision = false;
 	this.MIN_DISTANCE = model_Model.character.MIN_DISTANCE;
 	this.MOVE_SPEED = model_Model.character.MOVE_SPEED;
+	this.COLISION_ANIM_ID = 2;
 	this.IDLE_POSE_ID = 1;
 	this.phaserScene = phaserScene;
 	this.config = config;
@@ -1437,6 +1440,24 @@ phasergame_sceneobjects_Character.prototype = {
 		this.text.text = config.label;
 		this.text.updateText();
 	}
+	,setCollisionState: function(animComplete) {
+		var _gthis = this;
+		if(!this.onCollision) {
+			this.onCollision = true;
+			this.phaserScene.physics.moveTo(this.sprite,this.sprite.x,this.sprite.y,0);
+			this.setAnimation(this.COLISION_ANIM_ID,function() {
+				_gthis.onCollision = false;
+				animComplete(_gthis);
+				_gthis.sprite.off("animationcomplete");
+			});
+		}
+	}
+	,setIdle: function() {
+		this.setAnimation(this.IDLE_POSE_ID);
+	}
+	,isOnCollision: function() {
+		return this.onCollision;
+	}
 	,setLabel: function(label) {
 		this.text = this.phaserScene.add.text(this.sprite.x,this.sprite.y,label);
 		this.text.visible = model_Model.showLabel;
@@ -1445,10 +1466,14 @@ phasergame_sceneobjects_Character.prototype = {
 	,setSpeed: function(speed) {
 		this.MOVE_SPEED = speed;
 	}
-	,setAnimation: function(lineId) {
+	,setAnimation: function(lineId,animComplete) {
 		var animationId = this.getIdByLine(lineId);
 		if(this.sprite.anims.getCurrentKey() != animationId) {
 			this.sprite.anims.load(animationId);
+			if(animComplete != null) {
+				this.sprite.on("animationcomplete",animComplete);
+				this.sprite.anims.stopOnRepeat();
+			}
 			this.sprite.anims.play(animationId);
 		}
 	}
@@ -1456,7 +1481,7 @@ phasergame_sceneobjects_Character.prototype = {
 		return "typeId:" + this.config.charType + "}_lineId:" + lineId + "_skin:" + this.config.skin;
 	}
 	,getAnimationConfig: function(typeId,lineId) {
-		var result = { key : this.getIdByLine(lineId), frames : this.phaserScene.anims.generateFrameNumbers(typeId,this.getFrameConfigByLineId(lineId)), frameRate : 6, yoyo : true, repeat : -1};
+		var result = { key : this.getIdByLine(lineId), frames : this.phaserScene.anims.generateFrameNumbers(typeId,this.getFrameConfigByLineId(lineId)), frameRate : 6, yoyo : false, repeat : -1};
 		return result;
 	}
 	,getFrameConfigByLineId: function(lineId) {
@@ -1471,15 +1496,17 @@ phasergame_sceneobjects_Character.prototype = {
 		return result;
 	}
 	,setGoToXY: function(x,y) {
-		var tx = x - this.sprite.x;
-		var ty = y - this.sprite.y;
-		var dist = Math.sqrt(tx * tx + ty * ty);
-		var rad = Math.atan2(ty,tx);
-		var angle = rad / Math.PI * 180;
-		this.setAnimation(this.detectPosByAngle(angle));
-		this.phaserScene.physics.moveTo(this.sprite,x,y,this.MOVE_SPEED);
-		this.xDestination = x;
-		this.yDestination = y;
+		if(!this.onCollision) {
+			var tx = x - this.sprite.x;
+			var ty = y - this.sprite.y;
+			var dist = Math.sqrt(tx * tx + ty * ty);
+			var rad = Math.atan2(ty,tx);
+			var angle = rad / Math.PI * 180;
+			this.setAnimation(this.detectPosByAngle(angle));
+			this.phaserScene.physics.moveTo(this.sprite,x,y,this.MOVE_SPEED);
+			this.xDestination = x;
+			this.yDestination = y;
+		}
 	}
 	,setXY: function(x,y) {
 		this.sprite.x = x;
@@ -1636,25 +1663,31 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	,getAllMobList: function() {
 		return this.allMobList;
 	}
-	,onMobSlayed: function(mobId) {
+	,onMobCollision: function(mobId) {
 		var mob = this.findMobById(mobId);
+		var mobSlayed = false;
 		if(mob != null) {
-			var lvlId = Std.random(model_Model.maxLvlInGame + 1);
-			if(lvlId > model_Model.maxMobLvlId) {
-				lvlId = model_Model.maxMobLvlId;
-			} else {
-				lvlId = lvlId;
-			}
-			var mobConfig = this.getMobConfigByLvl(lvlId,0);
-			mob.reinit(mobConfig);
-			mob.setSpeed(model_Model.mobSpeeds[lvlId]);
-			mob.setXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
-			mob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
-			var this1 = model_Model.mobsData;
-			var key = mob.getPhysicBody().name;
-			var _this = this1;
-			(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]).currentLevel = lvlId + 1;
+			mobSlayed = !mob.isOnCollision();
+			mob.setCollisionState($bind(this,this.respawnMob));
 		}
+		return mobSlayed;
+	}
+	,respawnMob: function(mob) {
+		var lvlId = Std.random(model_Model.maxLvlInGame + 1);
+		if(lvlId > model_Model.maxMobLvlId) {
+			lvlId = model_Model.maxMobLvlId;
+		} else {
+			lvlId = lvlId;
+		}
+		var mobConfig = this.getMobConfigByLvl(lvlId,0);
+		mob.reinit(mobConfig);
+		mob.setSpeed(model_Model.mobSpeeds[lvlId]);
+		mob.setXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
+		mob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
+		var this1 = model_Model.mobsData;
+		var key = mob.getPhysicBody().name;
+		var _this = this1;
+		(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]).currentLevel = lvlId + 1;
 	}
 	,findMobById: function(mobId) {
 		var _g = 0;
@@ -1780,6 +1813,10 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 	}
 	,onPlayerSlayMob: function(playerId,mobLvl) {
 		model_Model.totalMobSlayedCounter++;
+		var player = this.findPlayerById(playerId);
+		player.setCollisionState(function(player1) {
+			player1.setIdle();
+		});
 		if(model_Model.teamMode) {
 			var this1 = model_Model.playersData;
 			var _this = model_Model.playersData;
@@ -1803,6 +1840,18 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 				model_Model.leaderPlayerLabel = playerData.label;
 			}
 		}
+	}
+	,findPlayerById: function(playerId) {
+		var _g = 0;
+		var _g1 = this.allPlayersList;
+		while(_g < _g1.length) {
+			var currentPlayer = _g1[_g];
+			++_g;
+			if(currentPlayer.getPhysicBody().name == playerId) {
+				return currentPlayer;
+			}
+		}
+		return null;
 	}
 };
 var react_ReactMacro = function() { };

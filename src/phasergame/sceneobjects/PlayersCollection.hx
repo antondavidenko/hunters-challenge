@@ -72,6 +72,10 @@ class PlayersCollection {
 
     public function onPlayerSlayMob(playerId:String, mobLvl:Int):Void {
         Model.totalMobSlayedCounter++;
+        var player:Character = findPlayerById(playerId);
+        player.setCollisionState(function(player:Character){
+            player.setIdle();
+        });
         if (Model.teamMode) {
             var teamData:PlayerData =  Model.playersData["team" + Model.playersData[playerId].teamId];
             updatePlayerDataOnMobSlayed(teamData, mobLvl);
@@ -91,5 +95,14 @@ class PlayersCollection {
                 Model.leaderPlayerLabel = playerData.label;
             }
         }
+    }
+
+    private function findPlayerById(playerId:String):Character {
+        for (currentPlayer in allPlayersList) {
+            if (currentPlayer.getPhysicBody().name == playerId) {
+                return currentPlayer;
+            }
+        }
+        return null;
     }
 }

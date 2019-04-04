@@ -101,9 +101,10 @@ class PhaserScene extends phaser.Scene {
     }
 
     private function onCharackterAndMobCollision(dataNameId:CharackterAndMobData):Void {
-        var mobLvl:Int = Model.mobsData[dataNameId.mob].currentLevel;
-        playersCollection.onPlayerSlayMob(dataNameId.charackter, mobLvl);
-        mobsCollection.onMobSlayed(dataNameId.mob);
+        if (mobsCollection.onMobCollision(dataNameId.mob)) {
+            var mobLvl:Int = Model.mobsData[dataNameId.mob].currentLevel;
+            playersCollection.onPlayerSlayMob(dataNameId.charackter, mobLvl);
+        }
     }
 
     private function checkGameEndCreteria() {

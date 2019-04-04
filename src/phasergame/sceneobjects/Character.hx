@@ -14,10 +14,12 @@ class Character {
     private var text:Text;
 
     private var IDLE_POSE_ID:Int = 1;
+    private var COLISION_ANIM_ID:Int = 2;
     private var MOVE_SPEED:Int = Model.character.MOVE_SPEED;
     private var MIN_DISTANCE:Int = Model.character.MIN_DISTANCE;
     private var xDestination:Int;
     private var yDestination:Int;
+    private var onCollision:Bool = false;
 
     public function new(phaserScene:phaser.Scene, config:CharStartConfig) {
         this.phaserScene = phaserScene;
@@ -54,6 +56,26 @@ class Character {
         text.updateText();
     }
 
+    public function setCollisionState(animComplete):Void {
+        if (!onCollision) {
+            onCollision = true;
+            phaserScene.physics.moveTo(sprite, sprite.x, sprite.y, 0);
+            setAnimation(COLISION_ANIM_ID, function() {
+                onCollision = false;
+                animComplete(this);
+                sprite.off('animationcomplete');
+            });
+        }
+    }
+
+    public function setIdle():Void {
+        setAnimation(IDLE_POSE_ID);
+    }
+
+    public function isOnCollision():Bool {
+        return onCollision;
+    }
+
     public function setLabel(label:String):Void {
         text = phaserScene.add.text(sprite.x, sprite.y, label);
         text.visible = Model.showLabel;
@@ -64,10 +86,14 @@ class Character {
         MOVE_SPEED = speed;
     }
 
-    private function setAnimation(lineId:Int):Void {
+    private function setAnimation(lineId:Int, ?animComplete:Void -> Void):Void {
         var animationId:String = getIdByLine(lineId);
         if (sprite.anims.getCurrentKey() != animationId) {
             sprite.anims.load(animationId);
+            if (animComplete != null) {
+                sprite.on('animationcomplete', animComplete);
+                sprite.anims.stopOnRepeat();
+            }
             sprite.anims.play(animationId);
         }
     }
@@ -81,7 +107,7 @@ class Character {
             key: getIdByLine(lineId),
             frames: phaserScene.anims.generateFrameNumbers(typeId, getFrameConfigByLineId(lineId)),
             frameRate: 6,
-            yoyo: true,
+            yoyo: false,
             repeat: -1
         };
         return result;
@@ -102,15 +128,17 @@ class Character {
     }
 
     public function setGoToXY(x:Int, y:Int):Void {
-        var tx:Float = x - sprite.x;
-        var ty:Float = y - sprite.y;
-        var dist:Float = Math.sqrt(tx * tx + ty * ty);
-        var rad:Float = Math.atan2(ty, tx);
-        var angle:Float = rad / Math.PI * 180;
-        setAnimation(detectPosByAngle(angle));
-        phaserScene.physics.moveTo(sprite, x, y, MOVE_SPEED);
-        xDestination = x;
-        yDestination = y;
+        if (!onCollision) {
+            var tx:Float = x - sprite.x;
+            var ty:Float = y - sprite.y;
+            var dist:Float = Math.sqrt(tx * tx + ty * ty);
+            var rad:Float = Math.atan2(ty, tx);
+            var angle:Float = rad / Math.PI * 180;
+            setAnimation(detectPosByAngle(angle));
+            phaserScene.physics.moveTo(sprite, x, y, MOVE_SPEED);
+            xDestination = x;
+            yDestination = y;
+        }
     }
 
     public function setXY(x:Int, y:Int):Void {

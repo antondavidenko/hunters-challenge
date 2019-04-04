@@ -69,18 +69,25 @@ class MobsCollection {
         return allMobList;
     }
 
-    public function onMobSlayed(mobId:String):Void {
+    public function onMobCollision(mobId:String):Bool {
         var mob:Character = findMobById(mobId);
+        var mobSlayed:Bool = false;
         if (mob != null) {
-            var lvlId:Int = Std.random(Model.maxLvlInGame + 1);
-            lvlId = (lvlId > Model.maxMobLvlId) ? Model.maxMobLvlId : lvlId;
-            var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId, 0);
-            mob.reinit(mobConfig);
-            mob.setSpeed(Model.mobSpeeds[lvlId]);
-            mob.setXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-            mob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
-            Model.mobsData[mob.getPhysicBody().name].currentLevel = lvlId + 1;
+            mobSlayed = !mob.isOnCollision();
+            mob.setCollisionState(respawnMob);
         }
+        return mobSlayed;
+    }
+
+    private function respawnMob(mob:Character) {
+        var lvlId:Int = Std.random(Model.maxLvlInGame + 1);
+        lvlId = (lvlId > Model.maxMobLvlId) ? Model.maxMobLvlId : lvlId;
+        var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId, 0);
+        mob.reinit(mobConfig);
+        mob.setSpeed(Model.mobSpeeds[lvlId]);
+        mob.setXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+        mob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+        Model.mobsData[mob.getPhysicBody().name].currentLevel = lvlId + 1;
     }
 
     private function findMobById(mobId:String):Character {

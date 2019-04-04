@@ -11,8 +11,7 @@ OPTIONS:
 - save options/menu in cookies = v 0.7
 
 GRAPHICS:
-- add hit animation for prey and hunters. = v 0.7
-need to wait when it is over before hunter can go again, and for prey to respawn.
++ BUG: sometimes mob appears with the wrong skin; switch to correct one shortly;
 
 UI:
 - improve graphics to targeting full HD resolution = v0.7 
