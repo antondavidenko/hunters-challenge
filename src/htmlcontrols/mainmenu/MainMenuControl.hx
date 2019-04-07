@@ -1,7 +1,7 @@
 package htmlcontrols.mainmenu;
 
 import model.Model;
-import htmlcontrols.store.GameActions;
+import htmlcontrols.mainmenu.store.MainMenuActions;
 import model.DefaultValues;
 
 class MainMenuControl {
@@ -10,11 +10,11 @@ class MainMenuControl {
 
     public function new(onLogin:Void -> Void) {
         this.onLogin = onLogin;
-        GameActions.startGame.add(startGame);
+        MainMenuActions.startGame.add(startGame);
     }
 
-    private function startGame(page:String):Void {
-        Model.teamMode = page == GameActions.pageTeams;
+    private function startGame(page:Page):Void {
+        Model.teamMode = page == Page.TEAMS;
         updateDefaultValuesByInput();
         onLogin();
     }

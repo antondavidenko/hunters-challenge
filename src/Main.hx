@@ -1,4 +1,4 @@
-import htmlcontrols.store.GameActions;
+import htmlcontrols.mainmenu.store.MainMenuActions;
 import htmlcontrols.mainmenu.MainMenu;
 import htmlcontrols.sidepanel.SidePanel;
 import react.ReactDOM;
@@ -32,7 +32,7 @@ class Main {
             slotsPVP:DefaultValues.slotsPVP,
             slotsPVE:DefaultValues.slotsPVE,
             slotsTEAMS:DefaultValues.slotsTEAMS,
-            page:GameActions.pagePVE
+            page:Page.PVE
         };
         ReactDOM.render(jsx('<$MainMenu data=${data}/>'), js.Browser.document.getElementById('MainMenu'));
         gameCanvas = cast js.Browser.document.getElementById("gameCanvas");

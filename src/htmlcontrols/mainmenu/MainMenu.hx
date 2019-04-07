@@ -1,7 +1,7 @@
 package htmlcontrols.mainmenu;
 
 import haxe.macro.Expr.ExprOf;
-import htmlcontrols.store.GameActions;
+import htmlcontrols.mainmenu.store.MainMenuActions;
 import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;
@@ -18,20 +18,20 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
     {
         super(props);
         state = {page:props.data.page, slots:defineSlotsForPage(props.data.page)}
-        GameActions.navigateToPage.add(navigateToPage);
+        MainMenuActions.navigateToPage.add(navigateToPage);
     }
 
-    function navigateToPage(page:String):Void
+    function navigateToPage(page:Page):Void
     {
         setState({page:page, slots:defineSlotsForPage(page)});
     }
 
-    private function defineSlotsForPage(page:String):Array<Dynamic> {
-        if (page == GameActions.pagePVP) {
+    private function defineSlotsForPage(page:Page):Array<Dynamic> {
+        if (page == Page.PVP) {
             return props.data.slotsPVP;
-        } else if (page == GameActions.pagePVE) {
+        } else if (page == Page.PVE) {
             return props.data.slotsPVE;
-        } else if (page == GameActions.pageTeams) {
+        } else if (page == Page.TEAMS) {
             return props.data.slotsTEAMS;
         } else {
             return [];
@@ -54,7 +54,7 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
 
     function getOptionsByState():ReactElement
     {
-        if (state.page == GameActions.pagePVP || state.page == GameActions.pagePVE || state.page == GameActions.pageTeams) {
+        if (state.page == Page.PVP || state.page == Page.PVE || state.page == Page.TEAMS) {
             return jsx('<div>
             <h2>GAME-PLAY OPTIONS</h2>
             <GamePlayOptions></GamePlayOptions>
@@ -66,25 +66,25 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
 
     function getContentByState():ReactElement
     {
-        if (state.page == GameActions.pagePVP) {
+        if (state.page == Page.PVP) {
             return jsx('<div>
             <h2>PVP LOBBY</h2>
             <LobbyPanel slots="${state.slots}"></LobbyPanel>
             <button id="loginButton" onClick="$onPVPClicked">PLAY</button>
             </div>');
-        } else if (state.page == GameActions.pagePVE) {
+        } else if (state.page == Page.PVE) {
             return jsx('<div>
             <h2>PVE LOBBY</h2>
             <LobbyPanel slots="${state.slots}"></LobbyPanel>
             <button id="loginButton" onClick="$onPVEClicked">PLAY</button>
             </div>');
-        } else if (state.page == GameActions.pageTeams) {
+        } else if (state.page == Page.TEAMS) {
             return jsx('<div>
             <h2>TEAMS LOBBY</h2>
             <LobbyPanel slots="${state.slots}"></LobbyPanel>
             <button id="loginButton" onClick="$onTEAMSClicked">PLAY</button>
             </div>');
-        } else if (state.page == GameActions.pageHelp) {
+        } else if (state.page == Page.HELP) {
             return jsx('<div>
             <h2>HELP</h2>
             <HelpPage></HelpPage>
@@ -94,7 +94,7 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
         }
     }
 
-    function onPVPClicked(evt:js.html.Event):Void { GameActions.startGame.dispatch(GameActions.pagePVP); }
-    function onPVEClicked(evt:js.html.Event):Void { GameActions.startGame.dispatch(GameActions.pagePVE); }
-    function onTEAMSClicked(evt:js.html.Event):Void { GameActions.startGame.dispatch(GameActions.pageTeams); }
+    function onPVPClicked(evt:js.html.Event):Void { MainMenuActions.startGame.dispatch(Page.PVP); }
+    function onPVEClicked(evt:js.html.Event):Void { MainMenuActions.startGame.dispatch(Page.PVE); }
+    function onTEAMSClicked(evt:js.html.Event):Void { MainMenuActions.startGame.dispatch(Page.TEAMS); }
 }

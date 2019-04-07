@@ -17,7 +17,7 @@ HxOverrides.cca = function(s,index) {
 };
 var Main = function() {
 	model_DefaultValues.init();
-	var data = { slotsPVP : model_DefaultValues.slotsPVP, slotsPVE : model_DefaultValues.slotsPVE, slotsTEAMS : model_DefaultValues.slotsTEAMS, page : htmlcontrols_store_GameActions.pagePVE};
+	var data = { slotsPVP : model_DefaultValues.slotsPVP, slotsPVE : model_DefaultValues.slotsPVE, slotsTEAMS : model_DefaultValues.slotsTEAMS, page : htmlcontrols_mainmenu_store_Page.PVE};
 	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { data : data}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
@@ -154,7 +154,7 @@ haxe_ds_StringMap.prototype = {
 var htmlcontrols_mainmenu_GameModes = function(props) {
 	React.Component.call(this,props);
 	this.state = { page : props.page};
-	htmlcontrols_store_GameActions.navigateToPage.add($bind(this,this.navigateToPage));
+	htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.add($bind(this,this.navigateToPage));
 };
 htmlcontrols_mainmenu_GameModes.__name__ = true;
 htmlcontrols_mainmenu_GameModes.__super__ = React.Component;
@@ -163,26 +163,26 @@ htmlcontrols_mainmenu_GameModes.prototype = $extend(React.Component.prototype,{
 		this.setState({ page : page});
 	}
 	,render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("Local PVP",htmlcontrols_store_GameActions.pagePVP,$bind(this,this.onPVPClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("Player vs bots",htmlcontrols_store_GameActions.pagePVE,$bind(this,this.onPVEClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("TEAMS vs",htmlcontrols_store_GameActions.pageTeams,$bind(this,this.onTeansClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("HELP",htmlcontrols_store_GameActions.pageHelp,$bind(this,this.onHelpClicked))}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("Local PVP",htmlcontrols_mainmenu_store_Page.PVP,$bind(this,this.onPVPClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("Player vs bots",htmlcontrols_mainmenu_store_Page.PVE,$bind(this,this.onPVEClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("TEAMS vs",htmlcontrols_mainmenu_store_Page.TEAMS,$bind(this,this.onTeansClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("HELP",htmlcontrols_mainmenu_store_Page.HELP,$bind(this,this.onHelpClicked))}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
 	}
-	,showSwitcher: function(pageName,pageId,pageOnClick) {
-		if(this.state.page != pageId) {
+	,showSwitcher: function(pageName,page,pageOnClick) {
+		if(this.state.page != page) {
 			return { "$$typeof" : $$tre, type : "button", props : { onClick : pageOnClick, className : "modeButton", children : pageName}, key : null, ref : null};
 		} else {
 			return { "$$typeof" : $$tre, type : "div", props : { className : "modeButtonActive", children : pageName}, key : null, ref : null};
 		}
 	}
 	,onPVPClicked: function(evt) {
-		htmlcontrols_store_GameActions.navigateToPage.dispatch(htmlcontrols_store_GameActions.pagePVP);
+		htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.dispatch(htmlcontrols_mainmenu_store_Page.PVP);
 	}
 	,onPVEClicked: function(evt) {
-		htmlcontrols_store_GameActions.navigateToPage.dispatch(htmlcontrols_store_GameActions.pagePVE);
+		htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.dispatch(htmlcontrols_mainmenu_store_Page.PVE);
 	}
 	,onTeansClicked: function(evt) {
-		htmlcontrols_store_GameActions.navigateToPage.dispatch(htmlcontrols_store_GameActions.pageTeams);
+		htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.dispatch(htmlcontrols_mainmenu_store_Page.TEAMS);
 	}
 	,onHelpClicked: function(evt) {
-		htmlcontrols_store_GameActions.navigateToPage.dispatch(htmlcontrols_store_GameActions.pageHelp);
+		htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.dispatch(htmlcontrols_mainmenu_store_Page.HELP);
 	}
 });
 var htmlcontrols_mainmenu_GamePlayOptions = function(props) {
@@ -198,7 +198,7 @@ htmlcontrols_mainmenu_GamePlayOptions.prototype = $extend(React.Component.protot
 var htmlcontrols_mainmenu_MainMenu = function(props) {
 	React.Component.call(this,props);
 	this.state = { page : props.data.page, slots : this.defineSlotsForPage(props.data.page)};
-	htmlcontrols_store_GameActions.navigateToPage.add($bind(this,this.navigateToPage));
+	htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.add($bind(this,this.navigateToPage));
 };
 htmlcontrols_mainmenu_MainMenu.__name__ = true;
 htmlcontrols_mainmenu_MainMenu.__super__ = React.Component;
@@ -207,11 +207,11 @@ htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 		this.setState({ page : page, slots : this.defineSlotsForPage(page)});
 	}
 	,defineSlotsForPage: function(page) {
-		if(page == htmlcontrols_store_GameActions.pagePVP) {
+		if(page == htmlcontrols_mainmenu_store_Page.PVP) {
 			return this.props.data.slotsPVP;
-		} else if(page == htmlcontrols_store_GameActions.pagePVE) {
+		} else if(page == htmlcontrols_mainmenu_store_Page.PVE) {
 			return this.props.data.slotsPVE;
-		} else if(page == htmlcontrols_store_GameActions.pageTeams) {
+		} else if(page == htmlcontrols_mainmenu_store_Page.TEAMS) {
 			return this.props.data.slotsTEAMS;
 		} else {
 			return [];
@@ -221,43 +221,43 @@ htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "MAIN MENU"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { page : this.props.data.page}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "mainMenuGap"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [this.getOptionsByState(),this.getContentByState()]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
 	}
 	,getOptionsByState: function() {
-		if(this.state.page == htmlcontrols_store_GameActions.pagePVP || this.state.page == htmlcontrols_store_GameActions.pagePVE || this.state.page == htmlcontrols_store_GameActions.pageTeams) {
+		if(this.state.page == htmlcontrols_mainmenu_store_Page.PVP || this.state.page == htmlcontrols_mainmenu_store_Page.PVE || this.state.page == htmlcontrols_mainmenu_store_Page.TEAMS) {
 			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GamePlayOptions, props : { }, key : null, ref : null}]}, key : null, ref : null};
 		} else {
 			return { "$$typeof" : $$tre, type : "div", props : { }, key : null, ref : null};
 		}
 	}
 	,getContentByState: function() {
-		if(this.state.page == htmlcontrols_store_GameActions.pagePVP) {
+		if(this.state.page == htmlcontrols_mainmenu_store_Page.PVP) {
 			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVP LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVPClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
-		} else if(this.state.page == htmlcontrols_store_GameActions.pagePVE) {
+		} else if(this.state.page == htmlcontrols_mainmenu_store_Page.PVE) {
 			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVE LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVEClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
-		} else if(this.state.page == htmlcontrols_store_GameActions.pageTeams) {
+		} else if(this.state.page == htmlcontrols_mainmenu_store_Page.TEAMS) {
 			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "TEAMS LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onTEAMSClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
-		} else if(this.state.page == htmlcontrols_store_GameActions.pageHelp) {
+		} else if(this.state.page == htmlcontrols_mainmenu_store_Page.HELP) {
 			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "HELP"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_helppage_HelpPage, props : { }, key : null, ref : null}]}, key : null, ref : null};
 		} else {
 			return { "$$typeof" : $$tre, type : "div", props : { children : ["404 page:",this.state.page," is not found"]}, key : null, ref : null};
 		}
 	}
 	,onPVPClicked: function(evt) {
-		htmlcontrols_store_GameActions.startGame.dispatch(htmlcontrols_store_GameActions.pagePVP);
+		htmlcontrols_mainmenu_store_MainMenuActions.startGame.dispatch(htmlcontrols_mainmenu_store_Page.PVP);
 	}
 	,onPVEClicked: function(evt) {
-		htmlcontrols_store_GameActions.startGame.dispatch(htmlcontrols_store_GameActions.pagePVE);
+		htmlcontrols_mainmenu_store_MainMenuActions.startGame.dispatch(htmlcontrols_mainmenu_store_Page.PVE);
 	}
 	,onTEAMSClicked: function(evt) {
-		htmlcontrols_store_GameActions.startGame.dispatch(htmlcontrols_store_GameActions.pageTeams);
+		htmlcontrols_mainmenu_store_MainMenuActions.startGame.dispatch(htmlcontrols_mainmenu_store_Page.TEAMS);
 	}
 });
 var htmlcontrols_mainmenu_MainMenuControl = function(onLogin) {
 	this.onLogin = onLogin;
-	htmlcontrols_store_GameActions.startGame.add($bind(this,this.startGame));
+	htmlcontrols_mainmenu_store_MainMenuActions.startGame.add($bind(this,this.startGame));
 };
 htmlcontrols_mainmenu_MainMenuControl.__name__ = true;
 htmlcontrols_mainmenu_MainMenuControl.prototype = {
 	startGame: function(page) {
-		model_Model.teamMode = page == htmlcontrols_store_GameActions.pageTeams;
+		model_Model.teamMode = page == htmlcontrols_mainmenu_store_Page.TEAMS;
 		this.updateDefaultValuesByInput();
 		this.onLogin();
 	}
@@ -401,111 +401,6 @@ htmlcontrols_mainmenu_lobby_TextInput.prototype = $extend(React.Component.protot
 		this.setState({ value : event.target.value});
 	}
 });
-var htmlcontrols_sidepanel_SidePanel = function(props) {
-	React.Component.call(this,props);
-};
-htmlcontrols_sidepanel_SidePanel.__name__ = true;
-htmlcontrols_sidepanel_SidePanel.__super__ = React.Component;
-htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
-	render: function() {
-		return { "$$typeof" : $$tre, type : "div", props : { children : this.createChildren()}, key : null, ref : null};
-	}
-	,createChildren: function() {
-		var _g = [];
-		var _g2 = 0;
-		var _g1 = this.props.players.length;
-		while(_g2 < _g1) {
-			var i = _g2++;
-			_g.push({ "$$typeof" : $$tre, type : "div", props : { id : this.getPlayerPanelId(i), children : [{ "$$typeof" : $$tre, type : "label", props : { id : this.getNameId(i), children : { "$$typeof" : $$tre, type : "b", props : { children : "Name holder"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { className : "expBarBg", children : { "$$typeof" : $$tre, type : "div", props : { id : this.getProgressId(i), className : this.getProgressClass(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "br", props : { }, key : null, ref : null}]}, key : null, ref : null});
-		}
-		return _g;
-	}
-	,getPlayerPanelId: function(i) {
-		return "sidePanel_playerPanelId" + i;
-	}
-	,getNameId: function(i) {
-		return "sidePanel_name" + i;
-	}
-	,getProgressId: function(i) {
-		return "sidePanel_Player" + i + "progress";
-	}
-	,getProgressClass: function(i) {
-		return "Player" + i + "progress expBarBgProgress";
-	}
-});
-var htmlcontrols_sidepanel_SidePanelControl = function() {
-	this.SidePanelProgress = [];
-	this.SidePanelLabels = [];
-};
-htmlcontrols_sidepanel_SidePanelControl.__name__ = true;
-htmlcontrols_sidepanel_SidePanelControl.prototype = {
-	updateView: function() {
-		var _g = 0;
-		while(_g < 6) {
-			var i = _g++;
-			if(this.elementIsExist("sidePanel_name" + i)) {
-				this.mapDataToHTML("sidePanel_name" + i,this.SidePanelLabels[i],i);
-				this.mapProgressToHTML("sidePanel_Player" + i + "progress",this.SidePanelProgress[i]);
-			} else {
-				break;
-			}
-		}
-	}
-	,elementIsExist: function(htmlId) {
-		return window.document.getElementById(htmlId) != null;
-	}
-	,mapDataToHTML: function(htmlId,data,id) {
-		var nameHtml = window.document.getElementById(htmlId);
-		nameHtml.innerHTML = "<b>" + data + "</b>";
-		if(data == "") {
-			var panelHtml = window.document.getElementById("sidePanel_playerPanelId" + id);
-			panelHtml.style.display = "none";
-		}
-	}
-	,mapProgressToHTML: function(htmlId,data) {
-		var progressHtml = window.document.getElementById(htmlId);
-		progressHtml.style.width = data;
-	}
-	,getProgressString: function(data) {
-		if(data != null) {
-			return data.expGained + "%";
-		} else {
-			return "0%";
-		}
-	}
-	,updateData: function() {
-		var _g = 0;
-		while(_g < 6) {
-			var i = _g++;
-			if(model_Model.teamMode) {
-				var _this = model_Model.playersData;
-				var key = "team" + i;
-				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]);
-				var _this1 = model_Model.playersData;
-				var key1 = "team" + i;
-				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key1] != null ? _this1.getReserved(key1) : _this1.h[key1]);
-			} else {
-				var _this2 = model_Model.playersData;
-				var key2 = "p" + i;
-				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key2] != null ? _this2.getReserved(key2) : _this2.h[key2]);
-				var _this3 = model_Model.playersData;
-				var key3 = "p" + i;
-				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key3] != null ? _this3.getReserved(key3) : _this3.h[key3]);
-			}
-		}
-	}
-	,getLabelValueByPlayerData: function(data) {
-		if(data != null) {
-			return "" + data.label + " : mob slayed=" + data.slayedCounter + " lvl: " + data.currentLevel;
-		} else {
-			return "";
-		}
-	}
-	,update: function() {
-		this.updateData();
-		this.updateView();
-	}
-};
 var msignal_Signal = function(valueClasses) {
 	if(valueClasses == null) {
 		valueClasses = [];
@@ -731,8 +626,122 @@ msignal_SlotList.prototype = {
 		return null;
 	}
 };
-var htmlcontrols_store_GameActions = function() { };
-htmlcontrols_store_GameActions.__name__ = true;
+var htmlcontrols_mainmenu_store_MainMenuActions = function() { };
+htmlcontrols_mainmenu_store_MainMenuActions.__name__ = true;
+var htmlcontrols_mainmenu_store_Page = { __ename__ : true, __constructs__ : ["PVP","PVE","TEAMS","HELP"] };
+htmlcontrols_mainmenu_store_Page.PVP = ["PVP",0];
+htmlcontrols_mainmenu_store_Page.PVP.__enum__ = htmlcontrols_mainmenu_store_Page;
+htmlcontrols_mainmenu_store_Page.PVE = ["PVE",1];
+htmlcontrols_mainmenu_store_Page.PVE.__enum__ = htmlcontrols_mainmenu_store_Page;
+htmlcontrols_mainmenu_store_Page.TEAMS = ["TEAMS",2];
+htmlcontrols_mainmenu_store_Page.TEAMS.__enum__ = htmlcontrols_mainmenu_store_Page;
+htmlcontrols_mainmenu_store_Page.HELP = ["HELP",3];
+htmlcontrols_mainmenu_store_Page.HELP.__enum__ = htmlcontrols_mainmenu_store_Page;
+var htmlcontrols_sidepanel_SidePanel = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_sidepanel_SidePanel.__name__ = true;
+htmlcontrols_sidepanel_SidePanel.__super__ = React.Component;
+htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "div", props : { children : this.createChildren()}, key : null, ref : null};
+	}
+	,createChildren: function() {
+		var _g = [];
+		var _g2 = 0;
+		var _g1 = this.props.players.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			_g.push({ "$$typeof" : $$tre, type : "div", props : { id : this.getPlayerPanelId(i), children : [{ "$$typeof" : $$tre, type : "label", props : { id : this.getNameId(i), children : { "$$typeof" : $$tre, type : "b", props : { children : "Name holder"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { className : "expBarBg", children : { "$$typeof" : $$tre, type : "div", props : { id : this.getProgressId(i), className : this.getProgressClass(i)}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "br", props : { }, key : null, ref : null}]}, key : null, ref : null});
+		}
+		return _g;
+	}
+	,getPlayerPanelId: function(i) {
+		return "sidePanel_playerPanelId" + i;
+	}
+	,getNameId: function(i) {
+		return "sidePanel_name" + i;
+	}
+	,getProgressId: function(i) {
+		return "sidePanel_Player" + i + "progress";
+	}
+	,getProgressClass: function(i) {
+		return "Player" + i + "progress expBarBgProgress";
+	}
+});
+var htmlcontrols_sidepanel_SidePanelControl = function() {
+	this.SidePanelProgress = [];
+	this.SidePanelLabels = [];
+};
+htmlcontrols_sidepanel_SidePanelControl.__name__ = true;
+htmlcontrols_sidepanel_SidePanelControl.prototype = {
+	updateView: function() {
+		var _g = 0;
+		while(_g < 6) {
+			var i = _g++;
+			if(this.elementIsExist("sidePanel_name" + i)) {
+				this.mapDataToHTML("sidePanel_name" + i,this.SidePanelLabels[i],i);
+				this.mapProgressToHTML("sidePanel_Player" + i + "progress",this.SidePanelProgress[i]);
+			} else {
+				break;
+			}
+		}
+	}
+	,elementIsExist: function(htmlId) {
+		return window.document.getElementById(htmlId) != null;
+	}
+	,mapDataToHTML: function(htmlId,data,id) {
+		var nameHtml = window.document.getElementById(htmlId);
+		nameHtml.innerHTML = "<b>" + data + "</b>";
+		if(data == "") {
+			var panelHtml = window.document.getElementById("sidePanel_playerPanelId" + id);
+			panelHtml.style.display = "none";
+		}
+	}
+	,mapProgressToHTML: function(htmlId,data) {
+		var progressHtml = window.document.getElementById(htmlId);
+		progressHtml.style.width = data;
+	}
+	,getProgressString: function(data) {
+		if(data != null) {
+			return data.expGained + "%";
+		} else {
+			return "0%";
+		}
+	}
+	,updateData: function() {
+		var _g = 0;
+		while(_g < 6) {
+			var i = _g++;
+			if(model_Model.teamMode) {
+				var _this = model_Model.playersData;
+				var key = "team" + i;
+				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]);
+				var _this1 = model_Model.playersData;
+				var key1 = "team" + i;
+				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key1] != null ? _this1.getReserved(key1) : _this1.h[key1]);
+			} else {
+				var _this2 = model_Model.playersData;
+				var key2 = "p" + i;
+				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key2] != null ? _this2.getReserved(key2) : _this2.h[key2]);
+				var _this3 = model_Model.playersData;
+				var key3 = "p" + i;
+				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key3] != null ? _this3.getReserved(key3) : _this3.h[key3]);
+			}
+		}
+	}
+	,getLabelValueByPlayerData: function(data) {
+		if(data != null) {
+			return "" + data.label + " : mob slayed=" + data.slayedCounter + " lvl: " + data.currentLevel;
+		} else {
+			return "";
+		}
+	}
+	,update: function() {
+		this.updateData();
+		this.updateView();
+	}
+};
 var js_Boot = function() { };
 js_Boot.__name__ = true;
 js_Boot.__string_rec = function(o,s) {
@@ -1870,13 +1879,9 @@ htmlcontrols_mainmenu_helppage_HelpPage.displayName = "HelpPage";
 htmlcontrols_mainmenu_lobby_LobbyPanel.displayName = "LobbyPanel";
 htmlcontrols_mainmenu_lobby_SelectInput.displayName = "SelectInput";
 htmlcontrols_mainmenu_lobby_TextInput.displayName = "TextInput";
+htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage = new msignal_Signal1();
+htmlcontrols_mainmenu_store_MainMenuActions.startGame = new msignal_Signal1();
 htmlcontrols_sidepanel_SidePanel.displayName = "SidePanel";
-htmlcontrols_store_GameActions.navigateToPage = new msignal_Signal1();
-htmlcontrols_store_GameActions.startGame = new msignal_Signal1();
-htmlcontrols_store_GameActions.pagePVE = "PVE";
-htmlcontrols_store_GameActions.pagePVP = "PVP";
-htmlcontrols_store_GameActions.pageTeams = "TEAMS";
-htmlcontrols_store_GameActions.pageHelp = "HELP";
 model_DefaultValues.slotsPVP = [];
 model_DefaultValues.slotsPVE = [];
 model_DefaultValues.slotsTEAMS = [];
