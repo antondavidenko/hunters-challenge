@@ -1,7 +1,10 @@
 package model;
 
-class PhaserGameModel {
-    public function new() {}
+enum Page {
+    PVP;
+    PVE;
+    TEAMS;
+    HELP;
 }
 
 class CharacterConfig {

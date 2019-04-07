@@ -1,9 +1,9 @@
 package model;
 
-import model.PhaserGameModel.PlayerData;
-import model.PhaserGameModel.MobData;
-import model.PhaserGameModel.CharacterConfig;
-import model.PhaserGameModel.CharStartConfig;
+import model.DataTypes.PlayerData;
+import model.DataTypes.MobData;
+import model.DataTypes.CharacterConfig;
+import model.DataTypes.CharStartConfig;
 
 class Model {
     static public var phaserGameWidth:Int = 950;

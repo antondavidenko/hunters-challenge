@@ -1,4 +1,4 @@
-import htmlcontrols.mainmenu.store.MainMenuActions;
+import model.DataTypes.Page;
 import htmlcontrols.mainmenu.MainMenu;
 import htmlcontrols.sidepanel.SidePanel;
 import react.ReactDOM;

@@ -1,6 +1,7 @@
 package htmlcontrols.mainmenu;
 
-import htmlcontrols.mainmenu.store.MainMenuActions;
+import model.DataTypes.Page;
+import htmlcontrols.mainmenu.MainMenu.MainMenuActions;
 import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;

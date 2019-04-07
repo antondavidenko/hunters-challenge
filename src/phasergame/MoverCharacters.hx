@@ -1,7 +1,7 @@
 package phasergame;
 
 import phaser.input.keyboard.CursorKeys;
-import model.PhaserGameModel.ControlType;
+import model.DataTypes.ControlType;
 import model.Model;
 import phasergame.sceneobjects.Character;
 

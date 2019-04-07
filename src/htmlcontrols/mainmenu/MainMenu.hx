@@ -1,12 +1,19 @@
 package htmlcontrols.mainmenu;
 
+import model.DataTypes.Page;
 import haxe.macro.Expr.ExprOf;
-import htmlcontrols.mainmenu.store.MainMenuActions;
 import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;
 import htmlcontrols.mainmenu.lobby.LobbyPanel;
 import htmlcontrols.mainmenu.helppage.HelpPage;
+import msignal.Signal.Signal1;
+
+class MainMenuActions
+{
+    public static var navigateToPage:Signal1<Page> = new Signal1();
+    public static var startGame:Signal1<Page> = new Signal1();
+}
 
 typedef MainMenuProps = {
     var data:Dynamic;

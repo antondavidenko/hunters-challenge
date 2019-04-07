@@ -1,7 +1,7 @@
 package model;
 
-import model.PhaserGameModel.ControlType;
-import model.PhaserGameModel.PlayerType;
+import model.DataTypes.ControlType;
+import model.DataTypes.PlayerType;
 
 class DefaultValues {
     static public var slotsPVP:Array<Slot> = [];

@@ -1,7 +1,8 @@
 package htmlcontrols.mainmenu;
 
+import model.DataTypes.Page;
+import htmlcontrols.mainmenu.MainMenu.MainMenuActions;
 import model.Model;
-import htmlcontrols.mainmenu.store.MainMenuActions;
 import model.DefaultValues;
 
 class MainMenuControl {

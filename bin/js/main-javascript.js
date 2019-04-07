@@ -17,7 +17,7 @@ HxOverrides.cca = function(s,index) {
 };
 var Main = function() {
 	model_DefaultValues.init();
-	var data = { slotsPVP : model_DefaultValues.slotsPVP, slotsPVE : model_DefaultValues.slotsPVE, slotsTEAMS : model_DefaultValues.slotsTEAMS, page : htmlcontrols_mainmenu_store_Page.PVE};
+	var data = { slotsPVP : model_DefaultValues.slotsPVP, slotsPVE : model_DefaultValues.slotsPVE, slotsTEAMS : model_DefaultValues.slotsTEAMS, page : model_Page.PVE};
 	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { data : data}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
@@ -154,7 +154,7 @@ haxe_ds_StringMap.prototype = {
 var htmlcontrols_mainmenu_GameModes = function(props) {
 	React.Component.call(this,props);
 	this.state = { page : props.page};
-	htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.add($bind(this,this.navigateToPage));
+	htmlcontrols_mainmenu_MainMenuActions.navigateToPage.add($bind(this,this.navigateToPage));
 };
 htmlcontrols_mainmenu_GameModes.__name__ = true;
 htmlcontrols_mainmenu_GameModes.__super__ = React.Component;
@@ -163,7 +163,7 @@ htmlcontrols_mainmenu_GameModes.prototype = $extend(React.Component.prototype,{
 		this.setState({ page : page});
 	}
 	,render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("Local PVP",htmlcontrols_mainmenu_store_Page.PVP,$bind(this,this.onPVPClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("Player vs bots",htmlcontrols_mainmenu_store_Page.PVE,$bind(this,this.onPVEClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("TEAMS vs",htmlcontrols_mainmenu_store_Page.TEAMS,$bind(this,this.onTeansClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("HELP",htmlcontrols_mainmenu_store_Page.HELP,$bind(this,this.onHelpClicked))}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("Local PVP",model_Page.PVP,$bind(this,this.onPVPClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("Player vs bots",model_Page.PVE,$bind(this,this.onPVEClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("TEAMS vs",model_Page.TEAMS,$bind(this,this.onTeansClicked))}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : this.showSwitcher("HELP",model_Page.HELP,$bind(this,this.onHelpClicked))}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
 	}
 	,showSwitcher: function(pageName,page,pageOnClick) {
 		if(this.state.page != page) {
@@ -173,16 +173,16 @@ htmlcontrols_mainmenu_GameModes.prototype = $extend(React.Component.prototype,{
 		}
 	}
 	,onPVPClicked: function(evt) {
-		htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.dispatch(htmlcontrols_mainmenu_store_Page.PVP);
+		htmlcontrols_mainmenu_MainMenuActions.navigateToPage.dispatch(model_Page.PVP);
 	}
 	,onPVEClicked: function(evt) {
-		htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.dispatch(htmlcontrols_mainmenu_store_Page.PVE);
+		htmlcontrols_mainmenu_MainMenuActions.navigateToPage.dispatch(model_Page.PVE);
 	}
 	,onTeansClicked: function(evt) {
-		htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.dispatch(htmlcontrols_mainmenu_store_Page.TEAMS);
+		htmlcontrols_mainmenu_MainMenuActions.navigateToPage.dispatch(model_Page.TEAMS);
 	}
 	,onHelpClicked: function(evt) {
-		htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.dispatch(htmlcontrols_mainmenu_store_Page.HELP);
+		htmlcontrols_mainmenu_MainMenuActions.navigateToPage.dispatch(model_Page.HELP);
 	}
 });
 var htmlcontrols_mainmenu_GamePlayOptions = function(props) {
@@ -193,212 +193,6 @@ htmlcontrols_mainmenu_GamePlayOptions.__super__ = React.Component;
 htmlcontrols_mainmenu_GamePlayOptions.prototype = $extend(React.Component.prototype,{
 	render: function() {
 		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Mobs amount"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Base exp gain"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Labels"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Screen mode"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "mobsAmount", defaultValue : "5", type : "text", placeholder : "Enter mobs amount", className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "baseExp", defaultValue : "25", type : "text", placeholder : "Base exp gain", className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "labelsSwitcher", className : "fifthWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "ON", children : "ON"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "OFF", children : "OFF"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "modeSwitcher", className : "fifthWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "Windowed", children : "Windowed"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "Fullscreen", children : "Fullscreen"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
-	}
-});
-var htmlcontrols_mainmenu_MainMenu = function(props) {
-	React.Component.call(this,props);
-	this.state = { page : props.data.page, slots : this.defineSlotsForPage(props.data.page)};
-	htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage.add($bind(this,this.navigateToPage));
-};
-htmlcontrols_mainmenu_MainMenu.__name__ = true;
-htmlcontrols_mainmenu_MainMenu.__super__ = React.Component;
-htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
-	navigateToPage: function(page) {
-		this.setState({ page : page, slots : this.defineSlotsForPage(page)});
-	}
-	,defineSlotsForPage: function(page) {
-		if(page == htmlcontrols_mainmenu_store_Page.PVP) {
-			return this.props.data.slotsPVP;
-		} else if(page == htmlcontrols_mainmenu_store_Page.PVE) {
-			return this.props.data.slotsPVE;
-		} else if(page == htmlcontrols_mainmenu_store_Page.TEAMS) {
-			return this.props.data.slotsTEAMS;
-		} else {
-			return [];
-		}
-	}
-	,render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "MAIN MENU"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { page : this.props.data.page}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "mainMenuGap"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [this.getOptionsByState(),this.getContentByState()]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
-	}
-	,getOptionsByState: function() {
-		if(this.state.page == htmlcontrols_mainmenu_store_Page.PVP || this.state.page == htmlcontrols_mainmenu_store_Page.PVE || this.state.page == htmlcontrols_mainmenu_store_Page.TEAMS) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GamePlayOptions, props : { }, key : null, ref : null}]}, key : null, ref : null};
-		} else {
-			return { "$$typeof" : $$tre, type : "div", props : { }, key : null, ref : null};
-		}
-	}
-	,getContentByState: function() {
-		if(this.state.page == htmlcontrols_mainmenu_store_Page.PVP) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVP LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVPClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
-		} else if(this.state.page == htmlcontrols_mainmenu_store_Page.PVE) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVE LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVEClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
-		} else if(this.state.page == htmlcontrols_mainmenu_store_Page.TEAMS) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "TEAMS LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onTEAMSClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
-		} else if(this.state.page == htmlcontrols_mainmenu_store_Page.HELP) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "HELP"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_helppage_HelpPage, props : { }, key : null, ref : null}]}, key : null, ref : null};
-		} else {
-			return { "$$typeof" : $$tre, type : "div", props : { children : ["404 page:",this.state.page," is not found"]}, key : null, ref : null};
-		}
-	}
-	,onPVPClicked: function(evt) {
-		htmlcontrols_mainmenu_store_MainMenuActions.startGame.dispatch(htmlcontrols_mainmenu_store_Page.PVP);
-	}
-	,onPVEClicked: function(evt) {
-		htmlcontrols_mainmenu_store_MainMenuActions.startGame.dispatch(htmlcontrols_mainmenu_store_Page.PVE);
-	}
-	,onTEAMSClicked: function(evt) {
-		htmlcontrols_mainmenu_store_MainMenuActions.startGame.dispatch(htmlcontrols_mainmenu_store_Page.TEAMS);
-	}
-});
-var htmlcontrols_mainmenu_MainMenuControl = function(onLogin) {
-	this.onLogin = onLogin;
-	htmlcontrols_mainmenu_store_MainMenuActions.startGame.add($bind(this,this.startGame));
-};
-htmlcontrols_mainmenu_MainMenuControl.__name__ = true;
-htmlcontrols_mainmenu_MainMenuControl.prototype = {
-	startGame: function(page) {
-		model_Model.teamMode = page == htmlcontrols_mainmenu_store_Page.TEAMS;
-		this.updateDefaultValuesByInput();
-		this.onLogin();
-	}
-	,updateDefaultValuesByInput: function() {
-		var _g = 0;
-		while(_g < 6) {
-			var i = _g++;
-			if(this.elementIsExist(i)) {
-				this.setSlot(i);
-			} else {
-				break;
-			}
-		}
-		model_DefaultValues.mobAmount = Std.parseInt(this.getById("mobsAmount"));
-		model_DefaultValues.baseExpGain = parseFloat(this.getById("baseExp"));
-		model_DefaultValues.screenMode = this.getById("modeSwitcher");
-		model_DefaultValues.showLabel = this.getById("labelsSwitcher") == "ON";
-	}
-	,setSlot: function(i) {
-		var label = this.getById("slot" + i + "Label");
-		var charType = this.getById("slot" + i + "Class");
-		var controlType = this.getById("slot" + i + "Control");
-		var spawnXY = Std.string(this.getById("slot" + i + "Spawn")).split(",");
-		var skin = this.getById("slot" + i + "Skin");
-		var x = Std.parseInt(spawnXY[0]);
-		var y = Std.parseInt(spawnXY[1]);
-		model_DefaultValues.slots[i] = new model_Slot(label,charType,controlType,x,y,"p" + i,skin);
-	}
-	,elementIsExist: function(i) {
-		return window.document.getElementById("slot" + i + "Label") != null;
-	}
-	,getById: function(id) {
-		var htmlData = window.document.getElementById(id);
-		return htmlData.value;
-	}
-	,setById: function(id,value) {
-		var htmlData = window.document.getElementById(id);
-		htmlData.value = value;
-	}
-};
-var htmlcontrols_mainmenu_helppage_HelpPage = function(props) {
-	React.Component.call(this,props);
-};
-htmlcontrols_mainmenu_helppage_HelpPage.__name__ = true;
-htmlcontrols_mainmenu_helppage_HelpPage.__super__ = React.Component;
-htmlcontrols_mainmenu_helppage_HelpPage.prototype = $extend(React.Component.prototype,{
-	render: function() {
-		return { "$$typeof" : $$tre, type : "div", props : { className : "helpPage", children : [{ "$$typeof" : $$tre, type : "h3", props : { children : "Game rules"}, key : null, ref : null},"The game itself is all about hunters challenge. There are from 2 to 6 hunters take a part in a challenge. It is could be only one winner. When hunters hunt their prey they get experience points. When hunter got 100 or more experience points he got level up. All hunters start with level 1. First who reach level 5 is the winner. All prey got level. Hunter receives more experience for the high-level prey.",{ "$$typeof" : $$tre, type : "h3", props : { children : "Classes description"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "HORSEMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "HORSEMAN"}, key : null, ref : null}," : The brave and the bold horseman put a heavy metal armor on his mighty muscular body."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "BOWMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "BOWMAN"}, key : null, ref : null}," : Sharp-eyed bowman like a hawks eye put all of his arrows in the exactly bull eye."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "SWORDMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "SWORDMAN"}, key : null, ref : null}," : Fight master, quick-armed swordman is always ready for a quick fight."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "MAGE"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "MAGE"}, key : null, ref : null}," : A wise and smart mage can cast a spell,  put enchant and even bring charm."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "ELF"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "ELF"}, key : null, ref : null}," : Like a mystery the elf always has secrets and they will be hidden from others before it to late to stop it."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { }, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null};
-	}
-});
-var htmlcontrols_mainmenu_lobby_LobbyPanel = function(props) {
-	React.Component.call(this,props);
-};
-htmlcontrols_mainmenu_lobby_LobbyPanel.__name__ = true;
-htmlcontrols_mainmenu_lobby_LobbyPanel.__super__ = React.Component;
-htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.prototype,{
-	render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { cellPadding : "0", cellSpacing : "0", children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Name"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Class"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Control"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "hidden", children : { "$$typeof" : $$tre, type : "b", props : { children : "Spawn: x,y"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Color"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},this.createChildren()]}, key : null, ref : null}}, key : null, ref : null};
-	}
-	,createChildren: function() {
-		var _g = [];
-		var _g2 = 0;
-		var _g1 = this.props.slots.length;
-		while(_g2 < _g1) {
-			var i = _g2++;
-			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i), className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), className : "fifthWidth", options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].controlType, id : this.getControlId(i), className : "fifthWidth", options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "hidden", children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i), className : "hidden"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].skin, id : this.getSkinId(i), className : "fifthWidth", options : this.getOptionsSkin()}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
-		}
-		return _g;
-	}
-	,getNameId: function(i) {
-		return "slot" + i + "Label";
-	}
-	,getClassId: function(i) {
-		return "slot" + i + "Class";
-	}
-	,getControlId: function(i) {
-		return "slot" + i + "Control";
-	}
-	,getSpawnId: function(i) {
-		return "slot" + i + "Spawn";
-	}
-	,getSkinId: function(i) {
-		return "slot" + i + "Skin";
-	}
-	,getXY: function(i) {
-		return "" + this.props.slots[i].x + "," + this.props.slots[i].y;
-	}
-	,getOptionsClass: function() {
-		return [model_PlayerType.HORSEMAN,model_PlayerType.BOWMAN,model_PlayerType.ELF,model_PlayerType.MAGE,model_PlayerType.SWORDMAN];
-	}
-	,getOptionsControl: function() {
-		return [model_ControlType.MOUSE,model_ControlType.AWSD,model_ControlType.ARROWS,model_ControlType.BOT_SIMPLE,model_ControlType.BOT_HARD,model_ControlType.NONE];
-	}
-	,getOptionsSkin: function() {
-		return [model_Skin.RED,model_Skin.GREEN,model_Skin.BLUE];
-	}
-});
-var htmlcontrols_mainmenu_lobby_SelectInput = function(props) {
-	React.Component.call(this,props);
-	this.state = { value : props.defaultValue};
-};
-htmlcontrols_mainmenu_lobby_SelectInput.__name__ = true;
-htmlcontrols_mainmenu_lobby_SelectInput.__super__ = React.Component;
-htmlcontrols_mainmenu_lobby_SelectInput.prototype = $extend(React.Component.prototype,{
-	componentWillReceiveProps: function(newProps) {
-		this.setState({ value : newProps.defaultValue});
-	}
-	,render: function() {
-		return { "$$typeof" : $$tre, type : "select", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.state.value, className : this.props.className, children : this.createOptions()}, key : null, ref : null};
-	}
-	,createOptions: function() {
-		var _g = [];
-		var _g2 = 0;
-		var _g1 = this.props.options.length;
-		while(_g2 < _g1) {
-			var i = _g2++;
-			var tmp = this.props.options[i];
-			var tmp1 = this.props.options[i];
-			_g.push({ "$$typeof" : $$tre, type : "option", props : { value : tmp, children : tmp1}, key : null, ref : null});
-		}
-		return _g;
-	}
-	,onChange: function(event) {
-		this.setState({ value : event.target.value});
-	}
-});
-var htmlcontrols_mainmenu_lobby_TextInput = function(props) {
-	React.Component.call(this,props);
-	this.state = { value : props.defaultValue};
-};
-htmlcontrols_mainmenu_lobby_TextInput.__name__ = true;
-htmlcontrols_mainmenu_lobby_TextInput.__super__ = React.Component;
-htmlcontrols_mainmenu_lobby_TextInput.prototype = $extend(React.Component.prototype,{
-	componentWillReceiveProps: function(newProps) {
-		this.setState({ value : newProps.defaultValue});
-	}
-	,render: function() {
-		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.state.value, type : "text", className : this.props.className}, key : null, ref : null};
-	}
-	,onChange: function(event) {
-		this.setState({ value : event.target.value});
 	}
 });
 var msignal_Signal = function(valueClasses) {
@@ -626,17 +420,214 @@ msignal_SlotList.prototype = {
 		return null;
 	}
 };
-var htmlcontrols_mainmenu_store_MainMenuActions = function() { };
-htmlcontrols_mainmenu_store_MainMenuActions.__name__ = true;
-var htmlcontrols_mainmenu_store_Page = { __ename__ : true, __constructs__ : ["PVP","PVE","TEAMS","HELP"] };
-htmlcontrols_mainmenu_store_Page.PVP = ["PVP",0];
-htmlcontrols_mainmenu_store_Page.PVP.__enum__ = htmlcontrols_mainmenu_store_Page;
-htmlcontrols_mainmenu_store_Page.PVE = ["PVE",1];
-htmlcontrols_mainmenu_store_Page.PVE.__enum__ = htmlcontrols_mainmenu_store_Page;
-htmlcontrols_mainmenu_store_Page.TEAMS = ["TEAMS",2];
-htmlcontrols_mainmenu_store_Page.TEAMS.__enum__ = htmlcontrols_mainmenu_store_Page;
-htmlcontrols_mainmenu_store_Page.HELP = ["HELP",3];
-htmlcontrols_mainmenu_store_Page.HELP.__enum__ = htmlcontrols_mainmenu_store_Page;
+var htmlcontrols_mainmenu_MainMenuActions = function() { };
+htmlcontrols_mainmenu_MainMenuActions.__name__ = true;
+var htmlcontrols_mainmenu_MainMenu = function(props) {
+	React.Component.call(this,props);
+	this.state = { page : props.data.page, slots : this.defineSlotsForPage(props.data.page)};
+	htmlcontrols_mainmenu_MainMenuActions.navigateToPage.add($bind(this,this.navigateToPage));
+};
+htmlcontrols_mainmenu_MainMenu.__name__ = true;
+htmlcontrols_mainmenu_MainMenu.__super__ = React.Component;
+htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
+	navigateToPage: function(page) {
+		this.setState({ page : page, slots : this.defineSlotsForPage(page)});
+	}
+	,defineSlotsForPage: function(page) {
+		if(page == model_Page.PVP) {
+			return this.props.data.slotsPVP;
+		} else if(page == model_Page.PVE) {
+			return this.props.data.slotsPVE;
+		} else if(page == model_Page.TEAMS) {
+			return this.props.data.slotsTEAMS;
+		} else {
+			return [];
+		}
+	}
+	,render: function() {
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "MAIN MENU"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { page : this.props.data.page}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "mainMenuGap"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [this.getOptionsByState(),this.getContentByState()]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
+	}
+	,getOptionsByState: function() {
+		if(this.state.page == model_Page.PVP || this.state.page == model_Page.PVE || this.state.page == model_Page.TEAMS) {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GamePlayOptions, props : { }, key : null, ref : null}]}, key : null, ref : null};
+		} else {
+			return { "$$typeof" : $$tre, type : "div", props : { }, key : null, ref : null};
+		}
+	}
+	,getContentByState: function() {
+		if(this.state.page == model_Page.PVP) {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVP LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVPClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+		} else if(this.state.page == model_Page.PVE) {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "PVE LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onPVEClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+		} else if(this.state.page == model_Page.TEAMS) {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "TEAMS LOBBY"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_LobbyPanel, props : { slots : this.state.slots}, key : null, ref : null},{ "$$typeof" : $$tre, type : "button", props : { id : "loginButton", onClick : $bind(this,this.onTEAMSClicked), children : "PLAY"}, key : null, ref : null}]}, key : null, ref : null};
+		} else if(this.state.page == model_Page.HELP) {
+			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "HELP"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_helppage_HelpPage, props : { }, key : null, ref : null}]}, key : null, ref : null};
+		} else {
+			return { "$$typeof" : $$tre, type : "div", props : { children : ["404 page:",this.state.page," is not found"]}, key : null, ref : null};
+		}
+	}
+	,onPVPClicked: function(evt) {
+		htmlcontrols_mainmenu_MainMenuActions.startGame.dispatch(model_Page.PVP);
+	}
+	,onPVEClicked: function(evt) {
+		htmlcontrols_mainmenu_MainMenuActions.startGame.dispatch(model_Page.PVE);
+	}
+	,onTEAMSClicked: function(evt) {
+		htmlcontrols_mainmenu_MainMenuActions.startGame.dispatch(model_Page.TEAMS);
+	}
+});
+var htmlcontrols_mainmenu_MainMenuControl = function(onLogin) {
+	this.onLogin = onLogin;
+	htmlcontrols_mainmenu_MainMenuActions.startGame.add($bind(this,this.startGame));
+};
+htmlcontrols_mainmenu_MainMenuControl.__name__ = true;
+htmlcontrols_mainmenu_MainMenuControl.prototype = {
+	startGame: function(page) {
+		model_Model.teamMode = page == model_Page.TEAMS;
+		this.updateDefaultValuesByInput();
+		this.onLogin();
+	}
+	,updateDefaultValuesByInput: function() {
+		var _g = 0;
+		while(_g < 6) {
+			var i = _g++;
+			if(this.elementIsExist(i)) {
+				this.setSlot(i);
+			} else {
+				break;
+			}
+		}
+		model_DefaultValues.mobAmount = Std.parseInt(this.getById("mobsAmount"));
+		model_DefaultValues.baseExpGain = parseFloat(this.getById("baseExp"));
+		model_DefaultValues.screenMode = this.getById("modeSwitcher");
+		model_DefaultValues.showLabel = this.getById("labelsSwitcher") == "ON";
+	}
+	,setSlot: function(i) {
+		var label = this.getById("slot" + i + "Label");
+		var charType = this.getById("slot" + i + "Class");
+		var controlType = this.getById("slot" + i + "Control");
+		var spawnXY = Std.string(this.getById("slot" + i + "Spawn")).split(",");
+		var skin = this.getById("slot" + i + "Skin");
+		var x = Std.parseInt(spawnXY[0]);
+		var y = Std.parseInt(spawnXY[1]);
+		model_DefaultValues.slots[i] = new model_Slot(label,charType,controlType,x,y,"p" + i,skin);
+	}
+	,elementIsExist: function(i) {
+		return window.document.getElementById("slot" + i + "Label") != null;
+	}
+	,getById: function(id) {
+		var htmlData = window.document.getElementById(id);
+		return htmlData.value;
+	}
+	,setById: function(id,value) {
+		var htmlData = window.document.getElementById(id);
+		htmlData.value = value;
+	}
+};
+var htmlcontrols_mainmenu_helppage_HelpPage = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_mainmenu_helppage_HelpPage.__name__ = true;
+htmlcontrols_mainmenu_helppage_HelpPage.__super__ = React.Component;
+htmlcontrols_mainmenu_helppage_HelpPage.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "div", props : { className : "helpPage", children : [{ "$$typeof" : $$tre, type : "h3", props : { children : "Game rules"}, key : null, ref : null},"The game itself is all about hunters challenge. There are from 2 to 6 hunters take a part in a challenge. It is could be only one winner. When hunters hunt their prey they get experience points. When hunter got 100 or more experience points he got level up. All hunters start with level 1. First who reach level 5 is the winner. All prey got level. Hunter receives more experience for the high-level prey.",{ "$$typeof" : $$tre, type : "h3", props : { children : "Classes description"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "HORSEMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "HORSEMAN"}, key : null, ref : null}," : The brave and the bold horseman put a heavy metal armor on his mighty muscular body."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "BOWMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "BOWMAN"}, key : null, ref : null}," : Sharp-eyed bowman like a hawks eye put all of his arrows in the exactly bull eye."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "SWORDMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "SWORDMAN"}, key : null, ref : null}," : Fight master, quick-armed swordman is always ready for a quick fight."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "MAGE"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "MAGE"}, key : null, ref : null}," : A wise and smart mage can cast a spell,  put enchant and even bring charm."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "ELF"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "ELF"}, key : null, ref : null}," : Like a mystery the elf always has secrets and they will be hidden from others before it to late to stop it."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { }, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null};
+	}
+});
+var htmlcontrols_mainmenu_lobby_LobbyPanel = function(props) {
+	React.Component.call(this,props);
+};
+htmlcontrols_mainmenu_lobby_LobbyPanel.__name__ = true;
+htmlcontrols_mainmenu_lobby_LobbyPanel.__super__ = React.Component;
+htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.prototype,{
+	render: function() {
+		return { "$$typeof" : $$tre, type : "table", props : { cellPadding : "0", cellSpacing : "0", children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Name"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Class"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Control"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "hidden", children : { "$$typeof" : $$tre, type : "b", props : { children : "Spawn: x,y"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Color"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},this.createChildren()]}, key : null, ref : null}}, key : null, ref : null};
+	}
+	,createChildren: function() {
+		var _g = [];
+		var _g2 = 0;
+		var _g1 = this.props.slots.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i), className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), className : "fifthWidth", options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].controlType, id : this.getControlId(i), className : "fifthWidth", options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "hidden", children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i), className : "hidden"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].skin, id : this.getSkinId(i), className : "fifthWidth", options : this.getOptionsSkin()}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
+		}
+		return _g;
+	}
+	,getNameId: function(i) {
+		return "slot" + i + "Label";
+	}
+	,getClassId: function(i) {
+		return "slot" + i + "Class";
+	}
+	,getControlId: function(i) {
+		return "slot" + i + "Control";
+	}
+	,getSpawnId: function(i) {
+		return "slot" + i + "Spawn";
+	}
+	,getSkinId: function(i) {
+		return "slot" + i + "Skin";
+	}
+	,getXY: function(i) {
+		return "" + this.props.slots[i].x + "," + this.props.slots[i].y;
+	}
+	,getOptionsClass: function() {
+		return [model_PlayerType.HORSEMAN,model_PlayerType.BOWMAN,model_PlayerType.ELF,model_PlayerType.MAGE,model_PlayerType.SWORDMAN];
+	}
+	,getOptionsControl: function() {
+		return [model_ControlType.MOUSE,model_ControlType.AWSD,model_ControlType.ARROWS,model_ControlType.BOT_SIMPLE,model_ControlType.BOT_HARD,model_ControlType.NONE];
+	}
+	,getOptionsSkin: function() {
+		return [model_Skin.RED,model_Skin.GREEN,model_Skin.BLUE];
+	}
+});
+var htmlcontrols_mainmenu_lobby_SelectInput = function(props) {
+	React.Component.call(this,props);
+	this.state = { value : props.defaultValue};
+};
+htmlcontrols_mainmenu_lobby_SelectInput.__name__ = true;
+htmlcontrols_mainmenu_lobby_SelectInput.__super__ = React.Component;
+htmlcontrols_mainmenu_lobby_SelectInput.prototype = $extend(React.Component.prototype,{
+	componentWillReceiveProps: function(newProps) {
+		this.setState({ value : newProps.defaultValue});
+	}
+	,render: function() {
+		return { "$$typeof" : $$tre, type : "select", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.state.value, className : this.props.className, children : this.createOptions()}, key : null, ref : null};
+	}
+	,createOptions: function() {
+		var _g = [];
+		var _g2 = 0;
+		var _g1 = this.props.options.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			var tmp = this.props.options[i];
+			var tmp1 = this.props.options[i];
+			_g.push({ "$$typeof" : $$tre, type : "option", props : { value : tmp, children : tmp1}, key : null, ref : null});
+		}
+		return _g;
+	}
+	,onChange: function(event) {
+		this.setState({ value : event.target.value});
+	}
+});
+var htmlcontrols_mainmenu_lobby_TextInput = function(props) {
+	React.Component.call(this,props);
+	this.state = { value : props.defaultValue};
+};
+htmlcontrols_mainmenu_lobby_TextInput.__name__ = true;
+htmlcontrols_mainmenu_lobby_TextInput.__super__ = React.Component;
+htmlcontrols_mainmenu_lobby_TextInput.prototype = $extend(React.Component.prototype,{
+	componentWillReceiveProps: function(newProps) {
+		this.setState({ value : newProps.defaultValue});
+	}
+	,render: function() {
+		return { "$$typeof" : $$tre, type : "input", props : { id : this.props.id, onChange : $bind(this,this.onChange), value : this.state.value, type : "text", className : this.props.className}, key : null, ref : null};
+	}
+	,onChange: function(event) {
+		this.setState({ value : event.target.value});
+	}
+});
 var htmlcontrols_sidepanel_SidePanel = function(props) {
 	React.Component.call(this,props);
 };
@@ -828,71 +819,18 @@ js_Boot.__string_rec = function(o,s) {
 		return String(o);
 	}
 };
-var model_DefaultValues = function() { };
-model_DefaultValues.__name__ = true;
-model_DefaultValues.init = function() {
-	model_DefaultValues.slotsPVE.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2",2));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3",2));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4",2));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5",2));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 5",model_PlayerType.ELF,model_ControlType.BOT_HARD,700,300,"p6",3));
-	model_DefaultValues.slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	model_DefaultValues.slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
-	model_DefaultValues.slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 2",model_PlayerType.SWORDMAN,model_ControlType.ARROWS,200,300,"p2",1));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 3",model_PlayerType.ELF,model_ControlType.AWSD,300,300,"p3",1));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_HARD,500,300,"p4",3));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 2",model_PlayerType.MAGE,model_ControlType.BOT_HARD,600,300,"p5",3));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 3",model_PlayerType.HORSEMAN,model_ControlType.BOT_HARD,700,300,"p6",3));
-};
-var model_Slot = function(label,charType,controlType,x,y,name,skin) {
-	this.name = name;
-	this.controlType = controlType;
-	this.charType = charType;
-	this.x = x;
-	this.y = y;
-	this.label = label;
-	this.skin = skin;
-};
-model_Slot.__name__ = true;
+var model_Page = { __ename__ : true, __constructs__ : ["PVP","PVE","TEAMS","HELP"] };
+model_Page.PVP = ["PVP",0];
+model_Page.PVP.__enum__ = model_Page;
+model_Page.PVE = ["PVE",1];
+model_Page.PVE.__enum__ = model_Page;
+model_Page.TEAMS = ["TEAMS",2];
+model_Page.TEAMS.__enum__ = model_Page;
+model_Page.HELP = ["HELP",3];
+model_Page.HELP.__enum__ = model_Page;
 var model_CharacterConfig = function() {
 };
 model_CharacterConfig.__name__ = true;
-var model_Model = function() { };
-model_Model.__name__ = true;
-model_Model.init = function() {
-	model_Model.character.MOVE_SPEED = 150;
-	model_Model.character.MIN_DISTANCE = 3;
-	model_Model.mobAmount = model_DefaultValues.mobAmount;
-	model_Model.maxLvl = model_DefaultValues.maxLvl;
-	model_Model.baseExpGain = model_DefaultValues.baseExpGain;
-	model_Model.screenMode = model_DefaultValues.screenMode;
-	model_Model.showLabel = model_DefaultValues.showLabel;
-	var _g = 0;
-	while(_g < 6) {
-		var i = _g++;
-		if(model_DefaultValues.slots[i] != null) {
-			model_Model.playersStartConfig.push(model_Model.getCharStartConfigByDefaultValues(i));
-		} else {
-			break;
-		}
-	}
-};
-model_Model.getCharStartConfigByDefaultValues = function(id) {
-	var charType = model_DefaultValues.slots[id].charType;
-	var name = model_DefaultValues.slots[id].name;
-	var label = model_DefaultValues.slots[id].label;
-	var x = model_DefaultValues.slots[id].x;
-	var y = model_DefaultValues.slots[id].y;
-	var control = model_DefaultValues.slots[id].controlType;
-	var skin = model_DefaultValues.slots[id].skin;
-	return new model_CharStartConfig(charType,x,y,label,name,control,skin);
-};
-var model_PhaserGameModel = function() {
-};
-model_PhaserGameModel.__name__ = true;
 var model_Skin = function() {
 };
 model_Skin.__name__ = true;
@@ -925,6 +863,65 @@ var model_MobData = function(currentLevel) {
 	this.currentLevel = currentLevel;
 };
 model_MobData.__name__ = true;
+var model_DefaultValues = function() { };
+model_DefaultValues.__name__ = true;
+model_DefaultValues.init = function() {
+	model_DefaultValues.slotsPVE.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2",2));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3",2));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4",2));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5",2));
+	model_DefaultValues.slotsPVE.push(new model_Slot("bot 5",model_PlayerType.ELF,model_ControlType.BOT_HARD,700,300,"p6",3));
+	model_DefaultValues.slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	model_DefaultValues.slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
+	model_DefaultValues.slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 2",model_PlayerType.SWORDMAN,model_ControlType.ARROWS,200,300,"p2",1));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 3",model_PlayerType.ELF,model_ControlType.AWSD,300,300,"p3",1));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_HARD,500,300,"p4",3));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 2",model_PlayerType.MAGE,model_ControlType.BOT_HARD,600,300,"p5",3));
+	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 3",model_PlayerType.HORSEMAN,model_ControlType.BOT_HARD,700,300,"p6",3));
+};
+var model_Slot = function(label,charType,controlType,x,y,name,skin) {
+	this.name = name;
+	this.controlType = controlType;
+	this.charType = charType;
+	this.x = x;
+	this.y = y;
+	this.label = label;
+	this.skin = skin;
+};
+model_Slot.__name__ = true;
+var model_Model = function() { };
+model_Model.__name__ = true;
+model_Model.init = function() {
+	model_Model.character.MOVE_SPEED = 150;
+	model_Model.character.MIN_DISTANCE = 3;
+	model_Model.mobAmount = model_DefaultValues.mobAmount;
+	model_Model.maxLvl = model_DefaultValues.maxLvl;
+	model_Model.baseExpGain = model_DefaultValues.baseExpGain;
+	model_Model.screenMode = model_DefaultValues.screenMode;
+	model_Model.showLabel = model_DefaultValues.showLabel;
+	var _g = 0;
+	while(_g < 6) {
+		var i = _g++;
+		if(model_DefaultValues.slots[i] != null) {
+			model_Model.playersStartConfig.push(model_Model.getCharStartConfigByDefaultValues(i));
+		} else {
+			break;
+		}
+	}
+};
+model_Model.getCharStartConfigByDefaultValues = function(id) {
+	var charType = model_DefaultValues.slots[id].charType;
+	var name = model_DefaultValues.slots[id].name;
+	var label = model_DefaultValues.slots[id].label;
+	var x = model_DefaultValues.slots[id].x;
+	var y = model_DefaultValues.slots[id].y;
+	var control = model_DefaultValues.slots[id].controlType;
+	var skin = model_DefaultValues.slots[id].skin;
+	return new model_CharStartConfig(charType,x,y,label,name,control,skin);
+};
 var msignal_Signal0 = function() {
 	msignal_Signal.call(this);
 };
@@ -1874,14 +1871,28 @@ var $$tre = (typeof Symbol === "function" && Symbol.for && Symbol.for("react.ele
 msignal_SlotList.NIL = new msignal_SlotList(null,null);
 htmlcontrols_mainmenu_GameModes.displayName = "GameModes";
 htmlcontrols_mainmenu_GamePlayOptions.displayName = "GamePlayOptions";
+htmlcontrols_mainmenu_MainMenuActions.navigateToPage = new msignal_Signal1();
+htmlcontrols_mainmenu_MainMenuActions.startGame = new msignal_Signal1();
 htmlcontrols_mainmenu_MainMenu.displayName = "MainMenu";
 htmlcontrols_mainmenu_helppage_HelpPage.displayName = "HelpPage";
 htmlcontrols_mainmenu_lobby_LobbyPanel.displayName = "LobbyPanel";
 htmlcontrols_mainmenu_lobby_SelectInput.displayName = "SelectInput";
 htmlcontrols_mainmenu_lobby_TextInput.displayName = "TextInput";
-htmlcontrols_mainmenu_store_MainMenuActions.navigateToPage = new msignal_Signal1();
-htmlcontrols_mainmenu_store_MainMenuActions.startGame = new msignal_Signal1();
 htmlcontrols_sidepanel_SidePanel.displayName = "SidePanel";
+model_Skin.RED = 1;
+model_Skin.GREEN = 2;
+model_Skin.BLUE = 3;
+model_PlayerType.SWORDMAN = "swordman";
+model_PlayerType.BOWMAN = "bowman";
+model_PlayerType.ELF = "elf";
+model_PlayerType.MAGE = "mage";
+model_PlayerType.HORSEMAN = "horseman";
+model_ControlType.MOUSE = "mouse";
+model_ControlType.ARROWS = "keys_arrows";
+model_ControlType.AWSD = "keys_awsd";
+model_ControlType.BOT_SIMPLE = "bot_simple";
+model_ControlType.BOT_HARD = "bot_hard";
+model_ControlType.NONE = "none";
 model_DefaultValues.slotsPVP = [];
 model_DefaultValues.slotsPVE = [];
 model_DefaultValues.slotsTEAMS = [];
@@ -1908,19 +1919,5 @@ model_Model.totalMobSlayedCounter = 0;
 model_Model.playersData = new haxe_ds_StringMap();
 model_Model.mobsData = new haxe_ds_StringMap();
 model_Model.skinsCollection = new haxe_ds_StringMap();
-model_Skin.RED = 1;
-model_Skin.GREEN = 2;
-model_Skin.BLUE = 3;
-model_PlayerType.SWORDMAN = "swordman";
-model_PlayerType.BOWMAN = "bowman";
-model_PlayerType.ELF = "elf";
-model_PlayerType.MAGE = "mage";
-model_PlayerType.HORSEMAN = "horseman";
-model_ControlType.MOUSE = "mouse";
-model_ControlType.ARROWS = "keys_arrows";
-model_ControlType.AWSD = "keys_awsd";
-model_ControlType.BOT_SIMPLE = "bot_simple";
-model_ControlType.BOT_HARD = "bot_hard";
-model_ControlType.NONE = "none";
 Main.main();
 })();

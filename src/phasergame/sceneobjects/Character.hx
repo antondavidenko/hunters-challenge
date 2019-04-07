@@ -1,7 +1,7 @@
 package phasergame.sceneobjects;
 
 import phaser.animations.types.GenerateFrameNumbers;
-import model.PhaserGameModel.CharStartConfig;
+import model.DataTypes.CharStartConfig;
 import phaser.gameobjects.Text;
 import model.Model;
 import phaser.gameobjects.Sprite;

@@ -1,9 +1,9 @@
 package phasergame.sceneobjects;
 
 import phaser.loader.filetypes.ImageFrameConfig;
-import model.PhaserGameModel.ControlType;
-import model.PhaserGameModel.MobData;
-import model.PhaserGameModel.CharStartConfig;
+import model.DataTypes.ControlType;
+import model.DataTypes.MobData;
+import model.DataTypes.CharStartConfig;
 import model.Model;
 import phasergame.sceneobjects.Character;
 

@@ -1,9 +1,9 @@
 package htmlcontrols.mainmenu.lobby;
 
-import model.PhaserGameModel.Skin;
+import model.DataTypes.Skin;
 import model.DefaultValues.Slot;
-import model.PhaserGameModel.ControlType;
-import model.PhaserGameModel.PlayerType;
+import model.DataTypes.ControlType;
+import model.DataTypes.PlayerType;
 import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;

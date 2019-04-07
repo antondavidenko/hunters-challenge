@@ -1,6 +1,6 @@
 package htmlcontrols.sidepanel;
 
-import model.PhaserGameModel.PlayerData;
+import model.DataTypes.PlayerData;
 import model.Model;
 import js.html.HtmlElement;
 

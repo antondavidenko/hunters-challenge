@@ -1,6 +1,6 @@
 package htmlcontrols.sidepanel;
 
-import model.PhaserGameModel.CharStartConfig;
+import model.DataTypes.CharStartConfig;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactComponent.ReactElement;
 import react.ReactMacro.jsx;
