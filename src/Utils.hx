@@ -1,6 +1,7 @@
 package ;
 
-import model.Model;
+import model.DefaultValues;
+
 class Utils {
     static public function distanceBetween(x1:Float, y1:Float, x2:Float, y2:Float):Float {
         var dx:Float = x1 - x2;
@@ -10,10 +11,10 @@ class Utils {
     }
 
     static public function getRandomScreenX():Int {
-        return Std.random(Model.phaserGameWidth);
+        return Std.random(DefaultValues.phaserGameWidth);
     }
 
     static public function getRandomScreenY():Int {
-        return Std.random(Model.phaserGameHeight);
+        return Std.random(DefaultValues.phaserGameHeight);
     }
 }

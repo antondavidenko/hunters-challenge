@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import model.DefaultValues;
 import phaser.loader.filetypes.ImageFrameConfig;
 import model.DataTypes.ControlType;
 import model.DataTypes.MobData;
@@ -19,16 +20,16 @@ class MobsCollection {
     public function preload() {
         var frameSize:Int = 32;
         var frmeConfig:ImageFrameConfig = {frameWidth:frameSize, frameHeight:frameSize};
-        phaserScene.load.spritesheet(Model.mobTypes[0], 'assets/mob1lvl.png', frmeConfig);
-        Model.skinsCollection[Model.mobTypes[0]] = 1;
-        phaserScene.load.spritesheet(Model.mobTypes[1], 'assets/mob2lvl.png', frmeConfig);
-        Model.skinsCollection[Model.mobTypes[1]] = 1;
-        phaserScene.load.spritesheet(Model.mobTypes[2], 'assets/mob3lvl.png', frmeConfig);
-        Model.skinsCollection[Model.mobTypes[2]] = 1;
-        phaserScene.load.spritesheet(Model.mobTypes[3], 'assets/mob4lvl.png', frmeConfig);
-        Model.skinsCollection[Model.mobTypes[3]] = 1;
-        phaserScene.load.spritesheet(Model.mobTypes[4], 'assets/mob5lvl.png', frmeConfig);
-        Model.skinsCollection[Model.mobTypes[4]] = 1;
+        phaserScene.load.spritesheet(DefaultValues.mobTypes[0], 'assets/mob1lvl.png', frmeConfig);
+        Model.skinsCollection[DefaultValues.mobTypes[0]] = 1;
+        phaserScene.load.spritesheet(DefaultValues.mobTypes[1], 'assets/mob2lvl.png', frmeConfig);
+        Model.skinsCollection[DefaultValues.mobTypes[1]] = 1;
+        phaserScene.load.spritesheet(DefaultValues.mobTypes[2], 'assets/mob3lvl.png', frmeConfig);
+        Model.skinsCollection[DefaultValues.mobTypes[2]] = 1;
+        phaserScene.load.spritesheet(DefaultValues.mobTypes[3], 'assets/mob4lvl.png', frmeConfig);
+        Model.skinsCollection[DefaultValues.mobTypes[3]] = 1;
+        phaserScene.load.spritesheet(DefaultValues.mobTypes[4], 'assets/mob5lvl.png', frmeConfig);
+        Model.skinsCollection[DefaultValues.mobTypes[4]] = 1;
     }
 
     public function init(onReadyToMove:Array<Character> -> Void) {
@@ -38,7 +39,7 @@ class MobsCollection {
             var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId, mobId);
             var mob = new Character(phaserScene, mobConfig);
             mob.init();
-            mob.setSpeed(Model.mobSpeeds[lvlId]);
+            mob.setSpeed(DefaultValues.mobSpeeds[lvlId]);
             allMobList.push(mob);
             Model.mobsData[mob.getPhysicBody().name] = new MobData(1);
             mobId++;
@@ -50,7 +51,7 @@ class MobsCollection {
     private function getMobConfigByLvl(lvlId:Int, mobId:Int):CharStartConfig {
         var mobX:Int = Utils.getRandomScreenX();
         var mobY:Int = Utils.getRandomScreenY();
-        return new CharStartConfig(Model.mobTypes[lvlId], mobX, mobY, "", "m"+mobId, ControlType.BOT_SIMPLE, 1);
+        return new CharStartConfig(DefaultValues.mobTypes[lvlId], mobX, mobY, "", "m"+mobId, ControlType.BOT_SIMPLE, 1);
     }
 
     public function update(time:Float, delta:Float):Void {
@@ -81,10 +82,10 @@ class MobsCollection {
 
     private function respawnMob(mob:Character) {
         var lvlId:Int = Std.random(Model.maxLvlInGame + 1);
-        lvlId = (lvlId > Model.maxMobLvlId) ? Model.maxMobLvlId : lvlId;
+        lvlId = (lvlId > DefaultValues.maxMobLvlId) ? DefaultValues.maxMobLvlId : lvlId;
         var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId, 0);
         mob.reinit(mobConfig);
-        mob.setSpeed(Model.mobSpeeds[lvlId]);
+        mob.setSpeed(DefaultValues.mobSpeeds[lvlId]);
         mob.setXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
         mob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
         Model.mobsData[mob.getPhysicBody().name].currentLevel = lvlId + 1;

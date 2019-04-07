@@ -1,7 +1,7 @@
 package htmlcontrols.mainmenu.lobby;
 
 import model.DataTypes.Skin;
-import model.DefaultValues.Slot;
+import model.MainMenuDefaultValues.Slot;
 import model.DataTypes.ControlType;
 import model.DataTypes.PlayerType;
 import react.ReactComponent.ReactElement;

@@ -1,5 +1,6 @@
 package phasergame;
 
+import model.DefaultValues;
 import phaser.gameobjects.Text;
 import phasergame.CollisionDetector.CharackterAndMobData;
 import htmlcontrols.sidepanel.SidePanelControl;
@@ -20,8 +21,8 @@ class PhaserGame {
         scene = new PhaserScene(sidePanelControl);
         scene.setCallbackOnGameEnd(onGameEndPhaserGame);
         game = new phaser.Game({
-            width: Model.phaserGameWidth,
-            height: Model.phaserGameHeight,
+            width: DefaultValues.phaserGameWidth,
+            height: DefaultValues.phaserGameHeight,
             canvas: gameCanvas,
             scene: scene,
             physics: {"default": "arcade", "arcade": { "debug": false }},
@@ -126,11 +127,11 @@ class PhaserScene extends phaser.Scene {
         header.setStroke('#8ca7f7', 16);
         header.setShadow(2, 2, "#333333", 2, true, true);
         header.depth = 100500;
-        header.x = (Model.phaserGameWidth - header.width)/2;
+        header.x = (DefaultValues.phaserGameWidth - header.width)/2;
 
         var info:Text = this.add.text(120, 310, 'winner is: ${Model.leaderPlayerLabel}', { fontFamily: "Arial Black", fontSize: 46, color: "#ccd8ff" });
         info.setShadow(2, 2, "#333333", 2, true, true);
         info.depth = 100500;
-        info.x = (Model.phaserGameWidth - info.width)/2;
+        info.x = (DefaultValues.phaserGameWidth - info.width)/2;
     }
 }

@@ -16,8 +16,8 @@ HxOverrides.cca = function(s,index) {
 	return x;
 };
 var Main = function() {
-	model_DefaultValues.init();
-	var data = { slotsPVP : model_DefaultValues.slotsPVP, slotsPVE : model_DefaultValues.slotsPVE, slotsTEAMS : model_DefaultValues.slotsTEAMS, page : model_Page.PVE};
+	model_MainMenuDefaultValues.init();
+	var data = { slotsPVP : model_MainMenuDefaultValues.slotsPVP, slotsPVE : model_MainMenuDefaultValues.slotsPVE, slotsTEAMS : model_MainMenuDefaultValues.slotsTEAMS, page : model_Page.PVE};
 	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { data : data}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
@@ -113,10 +113,10 @@ Utils.distanceBetween = function(x1,y1,x2,y2) {
 	return Math.sqrt(dx * dx + dy * dy);
 };
 Utils.getRandomScreenX = function() {
-	return Std.random(model_Model.phaserGameWidth);
+	return Std.random(model_DefaultValues.phaserGameWidth);
 };
 Utils.getRandomScreenY = function() {
-	return Std.random(model_Model.phaserGameHeight);
+	return Std.random(model_DefaultValues.phaserGameHeight);
 };
 var haxe_IMap = function() { };
 haxe_IMap.__name__ = true;
@@ -498,10 +498,10 @@ htmlcontrols_mainmenu_MainMenuControl.prototype = {
 				break;
 			}
 		}
-		model_DefaultValues.mobAmount = Std.parseInt(this.getById("mobsAmount"));
-		model_DefaultValues.baseExpGain = parseFloat(this.getById("baseExp"));
-		model_DefaultValues.screenMode = this.getById("modeSwitcher");
-		model_DefaultValues.showLabel = this.getById("labelsSwitcher") == "ON";
+		model_MainMenuDefaultValues.mobAmount = Std.parseInt(this.getById("mobsAmount"));
+		model_MainMenuDefaultValues.baseExpGain = parseFloat(this.getById("baseExp"));
+		model_MainMenuDefaultValues.screenMode = this.getById("modeSwitcher");
+		model_MainMenuDefaultValues.showLabel = this.getById("labelsSwitcher") == "ON";
 	}
 	,setSlot: function(i) {
 		var label = this.getById("slot" + i + "Label");
@@ -511,7 +511,7 @@ htmlcontrols_mainmenu_MainMenuControl.prototype = {
 		var skin = this.getById("slot" + i + "Skin");
 		var x = Std.parseInt(spawnXY[0]);
 		var y = Std.parseInt(spawnXY[1]);
-		model_DefaultValues.slots[i] = new model_Slot(label,charType,controlType,x,y,"p" + i,skin);
+		model_MainMenuDefaultValues.slots[i] = new model_Slot(label,charType,controlType,x,y,"p" + i,skin);
 	}
 	,elementIsExist: function(i) {
 		return window.document.getElementById("slot" + i + "Label") != null;
@@ -828,17 +828,11 @@ model_Page.TEAMS = ["TEAMS",2];
 model_Page.TEAMS.__enum__ = model_Page;
 model_Page.HELP = ["HELP",3];
 model_Page.HELP.__enum__ = model_Page;
-var model_CharacterConfig = function() {
-};
-model_CharacterConfig.__name__ = true;
-var model_Skin = function() {
-};
+var model_Skin = function() { };
 model_Skin.__name__ = true;
-var model_PlayerType = function() {
-};
+var model_PlayerType = function() { };
 model_PlayerType.__name__ = true;
-var model_ControlType = function() {
-};
+var model_ControlType = function() { };
 model_ControlType.__name__ = true;
 var model_CharStartConfig = function(charType,x,y,label,name,control,skin) {
 	this.charType = charType;
@@ -865,22 +859,24 @@ var model_MobData = function(currentLevel) {
 model_MobData.__name__ = true;
 var model_DefaultValues = function() { };
 model_DefaultValues.__name__ = true;
-model_DefaultValues.init = function() {
-	model_DefaultValues.slotsPVE.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2",2));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3",2));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4",2));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5",2));
-	model_DefaultValues.slotsPVE.push(new model_Slot("bot 5",model_PlayerType.ELF,model_ControlType.BOT_HARD,700,300,"p6",3));
-	model_DefaultValues.slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	model_DefaultValues.slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
-	model_DefaultValues.slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 2",model_PlayerType.SWORDMAN,model_ControlType.ARROWS,200,300,"p2",1));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("Player 3",model_PlayerType.ELF,model_ControlType.AWSD,300,300,"p3",1));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_HARD,500,300,"p4",3));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 2",model_PlayerType.MAGE,model_ControlType.BOT_HARD,600,300,"p5",3));
-	model_DefaultValues.slotsTEAMS.push(new model_Slot("bot 3",model_PlayerType.HORSEMAN,model_ControlType.BOT_HARD,700,300,"p6",3));
+var model_MainMenuDefaultValues = function() { };
+model_MainMenuDefaultValues.__name__ = true;
+model_MainMenuDefaultValues.init = function() {
+	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2",2));
+	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3",2));
+	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4",2));
+	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5",2));
+	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("bot 5",model_PlayerType.ELF,model_ControlType.BOT_HARD,700,300,"p6",3));
+	model_MainMenuDefaultValues.slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	model_MainMenuDefaultValues.slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
+	model_MainMenuDefaultValues.slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
+	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("Player 2",model_PlayerType.SWORDMAN,model_ControlType.ARROWS,200,300,"p2",1));
+	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("Player 3",model_PlayerType.ELF,model_ControlType.AWSD,300,300,"p3",1));
+	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_HARD,500,300,"p4",3));
+	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("bot 2",model_PlayerType.MAGE,model_ControlType.BOT_HARD,600,300,"p5",3));
+	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("bot 3",model_PlayerType.HORSEMAN,model_ControlType.BOT_HARD,700,300,"p6",3));
 };
 var model_Slot = function(label,charType,controlType,x,y,name,skin) {
 	this.name = name;
@@ -895,17 +891,15 @@ model_Slot.__name__ = true;
 var model_Model = function() { };
 model_Model.__name__ = true;
 model_Model.init = function() {
-	model_Model.character.MOVE_SPEED = 150;
-	model_Model.character.MIN_DISTANCE = 3;
-	model_Model.mobAmount = model_DefaultValues.mobAmount;
+	model_Model.mobAmount = model_MainMenuDefaultValues.mobAmount;
 	model_Model.maxLvl = model_DefaultValues.maxLvl;
-	model_Model.baseExpGain = model_DefaultValues.baseExpGain;
-	model_Model.screenMode = model_DefaultValues.screenMode;
-	model_Model.showLabel = model_DefaultValues.showLabel;
+	model_Model.baseExpGain = model_MainMenuDefaultValues.baseExpGain;
+	model_Model.screenMode = model_MainMenuDefaultValues.screenMode;
+	model_Model.showLabel = model_MainMenuDefaultValues.showLabel;
 	var _g = 0;
 	while(_g < 6) {
 		var i = _g++;
-		if(model_DefaultValues.slots[i] != null) {
+		if(model_MainMenuDefaultValues.slots[i] != null) {
 			model_Model.playersStartConfig.push(model_Model.getCharStartConfigByDefaultValues(i));
 		} else {
 			break;
@@ -913,13 +907,13 @@ model_Model.init = function() {
 	}
 };
 model_Model.getCharStartConfigByDefaultValues = function(id) {
-	var charType = model_DefaultValues.slots[id].charType;
-	var name = model_DefaultValues.slots[id].name;
-	var label = model_DefaultValues.slots[id].label;
-	var x = model_DefaultValues.slots[id].x;
-	var y = model_DefaultValues.slots[id].y;
-	var control = model_DefaultValues.slots[id].controlType;
-	var skin = model_DefaultValues.slots[id].skin;
+	var charType = model_MainMenuDefaultValues.slots[id].charType;
+	var name = model_MainMenuDefaultValues.slots[id].name;
+	var label = model_MainMenuDefaultValues.slots[id].label;
+	var x = model_MainMenuDefaultValues.slots[id].x;
+	var y = model_MainMenuDefaultValues.slots[id].y;
+	var control = model_MainMenuDefaultValues.slots[id].controlType;
+	var skin = model_MainMenuDefaultValues.slots[id].skin;
 	return new model_CharStartConfig(charType,x,y,label,name,control,skin);
 };
 var msignal_Signal0 = function() {
@@ -1284,7 +1278,7 @@ phasergame_PhaserGame.prototype = {
 	init: function(gameCanvas,sidePanelControl) {
 		this.scene = new phasergame_PhaserScene(sidePanelControl);
 		this.scene.setCallbackOnGameEnd($bind(this,this.onGameEndPhaserGame));
-		this.game = new Phaser.Game({ width : model_Model.phaserGameWidth, height : model_Model.phaserGameHeight, canvas : gameCanvas, scene : this.scene, physics : { "default" : "arcade", "arcade" : { "debug" : false}}});
+		this.game = new Phaser.Game({ width : model_DefaultValues.phaserGameWidth, height : model_DefaultValues.phaserGameHeight, canvas : gameCanvas, scene : this.scene, physics : { "default" : "arcade", "arcade" : { "debug" : false}}});
 	}
 	,setCallbackOnGameEnd: function(callback) {
 		this.onGameEnd = callback;
@@ -1368,11 +1362,11 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		header.setStroke("#8ca7f7",16);
 		header.setShadow(2,2,"#333333",2,true,true);
 		header.depth = 100500;
-		header.x = (model_Model.phaserGameWidth - header.width) / 2;
+		header.x = (model_DefaultValues.phaserGameWidth - header.width) / 2;
 		var info = this.add.text(120,310,"winner is: " + model_Model.leaderPlayerLabel,{ fontFamily : "Arial Black", fontSize : 46, color : "#ccd8ff"});
 		info.setShadow(2,2,"#333333",2,true,true);
 		info.depth = 100500;
-		info.x = (model_Model.phaserGameWidth - info.width) / 2;
+		info.x = (model_DefaultValues.phaserGameWidth - info.width) / 2;
 	}
 });
 var phasergame_sceneobjects_Background = function(phaserScene) {
@@ -1405,10 +1399,10 @@ phasergame_sceneobjects_Background.prototype = {
 };
 var phasergame_sceneobjects_Character = function(phaserScene,config) {
 	this.onCollision = false;
-	this.MIN_DISTANCE = model_Model.character.MIN_DISTANCE;
-	this.MOVE_SPEED = model_Model.character.MOVE_SPEED;
-	this.COLISION_ANIM_ID = 2;
-	this.IDLE_POSE_ID = 1;
+	this.MIN_DISTANCE = model_DefaultValues.characterConfig.MIN_DISTANCE;
+	this.MOVE_SPEED = model_DefaultValues.characterConfig.MOVE_SPEED;
+	this.COLISION_ANIM_ID = model_DefaultValues.characterConfig.COLISION_ANIM_ID;
+	this.IDLE_POSE_ID = model_DefaultValues.characterConfig.IDLE_POSE_ID;
 	this.phaserScene = phaserScene;
 	this.config = config;
 };
@@ -1577,40 +1571,40 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	preload: function() {
 		var frameSize = 32;
 		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
-		this.phaserScene.load.spritesheet(model_Model.mobTypes[0],"assets/mob1lvl.png",frmeConfig);
-		var k = model_Model.mobTypes[0];
+		this.phaserScene.load.spritesheet(model_DefaultValues.mobTypes[0],"assets/mob1lvl.png",frmeConfig);
+		var k = model_DefaultValues.mobTypes[0];
 		var _this = model_Model.skinsCollection;
 		if(__map_reserved[k] != null) {
 			_this.setReserved(k,1);
 		} else {
 			_this.h[k] = 1;
 		}
-		this.phaserScene.load.spritesheet(model_Model.mobTypes[1],"assets/mob2lvl.png",frmeConfig);
-		var k1 = model_Model.mobTypes[1];
+		this.phaserScene.load.spritesheet(model_DefaultValues.mobTypes[1],"assets/mob2lvl.png",frmeConfig);
+		var k1 = model_DefaultValues.mobTypes[1];
 		var _this1 = model_Model.skinsCollection;
 		if(__map_reserved[k1] != null) {
 			_this1.setReserved(k1,1);
 		} else {
 			_this1.h[k1] = 1;
 		}
-		this.phaserScene.load.spritesheet(model_Model.mobTypes[2],"assets/mob3lvl.png",frmeConfig);
-		var k2 = model_Model.mobTypes[2];
+		this.phaserScene.load.spritesheet(model_DefaultValues.mobTypes[2],"assets/mob3lvl.png",frmeConfig);
+		var k2 = model_DefaultValues.mobTypes[2];
 		var _this2 = model_Model.skinsCollection;
 		if(__map_reserved[k2] != null) {
 			_this2.setReserved(k2,1);
 		} else {
 			_this2.h[k2] = 1;
 		}
-		this.phaserScene.load.spritesheet(model_Model.mobTypes[3],"assets/mob4lvl.png",frmeConfig);
-		var k3 = model_Model.mobTypes[3];
+		this.phaserScene.load.spritesheet(model_DefaultValues.mobTypes[3],"assets/mob4lvl.png",frmeConfig);
+		var k3 = model_DefaultValues.mobTypes[3];
 		var _this3 = model_Model.skinsCollection;
 		if(__map_reserved[k3] != null) {
 			_this3.setReserved(k3,1);
 		} else {
 			_this3.h[k3] = 1;
 		}
-		this.phaserScene.load.spritesheet(model_Model.mobTypes[4],"assets/mob5lvl.png",frmeConfig);
-		var k4 = model_Model.mobTypes[4];
+		this.phaserScene.load.spritesheet(model_DefaultValues.mobTypes[4],"assets/mob5lvl.png",frmeConfig);
+		var k4 = model_DefaultValues.mobTypes[4];
 		var _this4 = model_Model.skinsCollection;
 		if(__map_reserved[k4] != null) {
 			_this4.setReserved(k4,1);
@@ -1628,7 +1622,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 			var mobConfig = this.getMobConfigByLvl(lvlId,mobId);
 			var mob1 = new phasergame_sceneobjects_Character(this.phaserScene,mobConfig);
 			mob1.init();
-			mob1.setSpeed(model_Model.mobSpeeds[lvlId]);
+			mob1.setSpeed(model_DefaultValues.mobSpeeds[lvlId]);
 			this.allMobList.push(mob1);
 			var this1 = model_Model.mobsData;
 			var k = mob1.getPhysicBody().name;
@@ -1646,7 +1640,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	,getMobConfigByLvl: function(lvlId,mobId) {
 		var mobX = Utils.getRandomScreenX();
 		var mobY = Utils.getRandomScreenY();
-		return new model_CharStartConfig(model_Model.mobTypes[lvlId],mobX,mobY,"","m" + mobId,model_ControlType.BOT_SIMPLE,1);
+		return new model_CharStartConfig(model_DefaultValues.mobTypes[lvlId],mobX,mobY,"","m" + mobId,model_ControlType.BOT_SIMPLE,1);
 	}
 	,update: function(time,delta) {
 		var _g = 0;
@@ -1680,14 +1674,14 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	}
 	,respawnMob: function(mob) {
 		var lvlId = Std.random(model_Model.maxLvlInGame + 1);
-		if(lvlId > model_Model.maxMobLvlId) {
-			lvlId = model_Model.maxMobLvlId;
+		if(lvlId > model_DefaultValues.maxMobLvlId) {
+			lvlId = model_DefaultValues.maxMobLvlId;
 		} else {
 			lvlId = lvlId;
 		}
 		var mobConfig = this.getMobConfigByLvl(lvlId,0);
 		mob.reinit(mobConfig);
-		mob.setSpeed(model_Model.mobSpeeds[lvlId]);
+		mob.setSpeed(model_DefaultValues.mobSpeeds[lvlId]);
 		mob.setXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 		mob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 		var this1 = model_Model.mobsData;
@@ -1893,28 +1887,28 @@ model_ControlType.AWSD = "keys_awsd";
 model_ControlType.BOT_SIMPLE = "bot_simple";
 model_ControlType.BOT_HARD = "bot_hard";
 model_ControlType.NONE = "none";
-model_DefaultValues.slotsPVP = [];
-model_DefaultValues.slotsPVE = [];
-model_DefaultValues.slotsTEAMS = [];
-model_DefaultValues.slots = [];
-model_DefaultValues.mobAmount = 5;
+model_DefaultValues.phaserGameWidth = 950;
+model_DefaultValues.phaserGameHeight = 654;
+model_DefaultValues.characterConfig = { MOVE_SPEED : 150, MIN_DISTANCE : 3, IDLE_POSE_ID : 1, COLISION_ANIM_ID : 2};
+model_DefaultValues.mobTypes = ["mob1lvl","mob2lvl","mob3lvl","mob4lvl","mob5lvl"];
+model_DefaultValues.mobLabels = ["lvl 1","lvl 2","lvl 3","lvl 4","lvl 5"];
+model_DefaultValues.mobSpeeds = [100,5,25,300,300];
+model_DefaultValues.maxMobLvlId = 4;
 model_DefaultValues.maxLvl = 5;
-model_DefaultValues.baseExpGain = 25;
-model_DefaultValues.screenMode = "";
-model_DefaultValues.showLabel = true;
-model_Model.phaserGameWidth = 950;
-model_Model.phaserGameHeight = 654;
+model_MainMenuDefaultValues.slotsPVP = [];
+model_MainMenuDefaultValues.slotsPVE = [];
+model_MainMenuDefaultValues.slotsTEAMS = [];
+model_MainMenuDefaultValues.slots = [];
+model_MainMenuDefaultValues.mobAmount = 5;
+model_MainMenuDefaultValues.baseExpGain = 25;
+model_MainMenuDefaultValues.screenMode = "";
+model_MainMenuDefaultValues.showLabel = true;
 model_Model.botSimpleTimeoutDelay = 1000;
 model_Model.botHardTimeoutDelay = 750;
 model_Model.mobTimeoutDelay = 1000;
-model_Model.character = new model_CharacterConfig();
 model_Model.playersStartConfig = [];
 model_Model.maxLvlInGame = 1;
 model_Model.teamMode = false;
-model_Model.mobTypes = ["mob1lvl","mob2lvl","mob3lvl","mob4lvl","mob5lvl"];
-model_Model.mobLabels = ["lvl 1","lvl 2","lvl 3","lvl 4","lvl 5"];
-model_Model.mobSpeeds = [100,5,25,300,300];
-model_Model.maxMobLvlId = 4;
 model_Model.totalMobSlayedCounter = 0;
 model_Model.playersData = new haxe_ds_StringMap();
 model_Model.mobsData = new haxe_ds_StringMap();

@@ -1,56 +1,22 @@
 package model;
 
-import model.DataTypes.ControlType;
-import model.DataTypes.PlayerType;
+import model.DataTypes.CharacterConfig;
 
 class DefaultValues {
-    static public var slotsPVP:Array<Slot> = [];
-    static public var slotsPVE:Array<Slot> = [];
-    static public var slotsTEAMS:Array<Slot> = [];
-    static public var slots:Array<Slot> = [];
-    static public var mobAmount:Int = 5;
+    static public var phaserGameWidth:Int = 950;
+    static public var phaserGameHeight:Int = 654;
+
+    static public var characterConfig:CharacterConfig = {
+        MOVE_SPEED:150,
+        MIN_DISTANCE:3,
+        IDLE_POSE_ID:1,
+        COLISION_ANIM_ID:2
+    };
+
+    static public var mobTypes:Array<String> = ["mob1lvl", "mob2lvl", "mob3lvl", "mob4lvl", "mob5lvl"];
+    static public var mobLabels:Array<String> = ["lvl 1", "lvl 2", "lvl 3", "lvl 4", "lvl 5"];
+    static public var mobSpeeds:Array<Int> = [100, 5, 25, 300, 300];
+    static public var maxMobLvlId = 4;
+
     static public var maxLvl:Int = 5;
-    static public var baseExpGain:Float = 25;
-    static public var screenMode:String = "";
-    static public var showLabel:Bool = true;
-
-    static public function init():Void {
-        slotsPVE.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
-        slotsPVE.push(new Slot("bot 1", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 200, 300, "p2", 2));
-        slotsPVE.push(new Slot("bot 2", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 300, 300, "p3", 2));
-        slotsPVE.push(new Slot("bot 3", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 500, 300, "p4", 2));
-        slotsPVE.push(new Slot("bot 4", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 600, 300, "p5", 2));
-        slotsPVE.push(new Slot("bot 5", PlayerType.ELF, ControlType.BOT_HARD, 700, 300, "p6", 3));
-
-        slotsPVP.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
-        slotsPVP.push(new Slot("Player 2", PlayerType.BOWMAN, ControlType.ARROWS, 500, 300, "p2", 2));
-        slotsPVP.push(new Slot("Player 3", PlayerType.MAGE, ControlType.AWSD, 600, 300, "p3", 3));
-
-        slotsTEAMS.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
-        slotsTEAMS.push(new Slot("Player 2", PlayerType.SWORDMAN, ControlType.ARROWS, 200, 300, "p2", 1));
-        slotsTEAMS.push(new Slot("Player 3", PlayerType.ELF, ControlType.AWSD, 300, 300, "p3", 1));
-        slotsTEAMS.push(new Slot("bot 1", PlayerType.SWORDMAN, ControlType.BOT_HARD, 500, 300, "p4", 3));
-        slotsTEAMS.push(new Slot("bot 2", PlayerType.MAGE, ControlType.BOT_HARD, 600, 300, "p5", 3));
-        slotsTEAMS.push(new Slot("bot 3", PlayerType.HORSEMAN, ControlType.BOT_HARD, 700, 300, "p6", 3));
-    }
-}
-
-class Slot {
-    public function new(label:String, charType:String, controlType:String, x:Int, y:Int, name:String, skin:Int) {
-        this.name = name;
-        this.controlType = controlType;
-        this.charType = charType;
-        this.x = x;
-        this.y = y;
-        this.label = label;
-        this.skin = skin;
-    }
-
-    public var name:String;
-    public var charType:String;
-    public var x:Int;
-    public var y:Int;
-    public var controlType:String;
-    public var label:String;
-    public var skin:Int;
 }

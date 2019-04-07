@@ -7,23 +7,20 @@ enum Page {
     HELP;
 }
 
-class CharacterConfig {
-    public function new() {}
-    public var MOVE_SPEED:Int;
-    public var MIN_DISTANCE:Int;
+typedef CharacterConfig = {
+    var MOVE_SPEED:Int;
+    var MIN_DISTANCE:Int;
+    var IDLE_POSE_ID:Int;
+    var COLISION_ANIM_ID:Int;
 }
 
 class Skin {
-    public function new() {}
-
     static public var RED:Int = 1;
     static public var GREEN:Int = 2;
     static public var BLUE:Int = 3;
 }
 
 class PlayerType {
-    public function new() {}
-
     static public var SWORDMAN:String = "swordman";
     static public var BOWMAN:String = "bowman";
     static public var ELF:String = "elf";
@@ -32,8 +29,6 @@ class PlayerType {
 }
 
 class ControlType {
-    public function new() {}
-
     static public var MOUSE:String = "mouse";
     static public var ARROWS:String = "keys_arrows";
     static public var AWSD:String = "keys_awsd";

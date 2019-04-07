@@ -2,18 +2,13 @@ package model;
 
 import model.DataTypes.PlayerData;
 import model.DataTypes.MobData;
-import model.DataTypes.CharacterConfig;
 import model.DataTypes.CharStartConfig;
 
 class Model {
-    static public var phaserGameWidth:Int = 950;
-    static public var phaserGameHeight:Int = 654;
-
     static public var botSimpleTimeoutDelay:Int = 1000;
     static public var botHardTimeoutDelay:Int = 750;
     static public var mobTimeoutDelay:Int = 1000;
 
-    static public var character:CharacterConfig = new CharacterConfig();
     static public var playersStartConfig:Array<CharStartConfig> = [];
 
     static public var mobAmount:Int;
@@ -25,11 +20,6 @@ class Model {
     static public var leaderPlayerLabel:String;
     static public var teamMode:Bool = false;
 
-    static public var mobTypes:Array<String> = ["mob1lvl", "mob2lvl", "mob3lvl", "mob4lvl", "mob5lvl"];
-    static public var mobLabels:Array<String> = ["lvl 1", "lvl 2", "lvl 3", "lvl 4", "lvl 5"];
-    static public var mobSpeeds:Array<Int> = [100, 5, 25, 300, 300];
-    static public var maxMobLvlId = 4;
-
     static public var totalMobSlayedCounter = 0;
 
     static public var playersData:Map<String, PlayerData> = new Map<String, PlayerData>();
@@ -37,17 +27,14 @@ class Model {
     static public var skinsCollection:Map<String, Int> = new Map<String, Int>();
 
     static public function init():Void {
-        character.MOVE_SPEED = 150;
-        character.MIN_DISTANCE = 3;
-
-        mobAmount = DefaultValues.mobAmount;
+        mobAmount = MainMenuDefaultValues.mobAmount;
         maxLvl = DefaultValues.maxLvl;
-        baseExpGain = DefaultValues.baseExpGain;
-        screenMode = DefaultValues.screenMode;
-        showLabel = DefaultValues.showLabel;
+        baseExpGain = MainMenuDefaultValues.baseExpGain;
+        screenMode = MainMenuDefaultValues.screenMode;
+        showLabel = MainMenuDefaultValues.showLabel;
 
         for (i in 0...6) {
-            if (DefaultValues.slots[i] != null ) {
+            if (MainMenuDefaultValues.slots[i] != null ) {
                 playersStartConfig.push(getCharStartConfigByDefaultValues(i));
             } else {
                 break;
@@ -56,13 +43,13 @@ class Model {
     }
 
     static private function getCharStartConfigByDefaultValues(id:Int):CharStartConfig {
-        var charType:String = DefaultValues.slots[id].charType;
-        var name:String = DefaultValues.slots[id].name;
-        var label:String = DefaultValues.slots[id].label;
-        var x:Int = DefaultValues.slots[id].x;
-        var y:Int = DefaultValues.slots[id].y;
-        var control:String = DefaultValues.slots[id].controlType;
-        var skin:Int = DefaultValues.slots[id].skin;
+        var charType:String = MainMenuDefaultValues.slots[id].charType;
+        var name:String = MainMenuDefaultValues.slots[id].name;
+        var label:String = MainMenuDefaultValues.slots[id].label;
+        var x:Int = MainMenuDefaultValues.slots[id].x;
+        var y:Int = MainMenuDefaultValues.slots[id].y;
+        var control:String = MainMenuDefaultValues.slots[id].controlType;
+        var skin:Int = MainMenuDefaultValues.slots[id].skin;
         return new CharStartConfig(charType, x, y, label, name, control, skin);
     }
 }

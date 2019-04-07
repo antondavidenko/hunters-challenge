@@ -3,7 +3,7 @@ package htmlcontrols.mainmenu;
 import model.DataTypes.Page;
 import htmlcontrols.mainmenu.MainMenu.MainMenuActions;
 import model.Model;
-import model.DefaultValues;
+import model.MainMenuDefaultValues;
 
 class MainMenuControl {
 
@@ -29,10 +29,10 @@ class MainMenuControl {
             }
         }
 
-        DefaultValues.mobAmount = Std.parseInt(getById("mobsAmount"));
-        DefaultValues.baseExpGain = Std.parseFloat(getById("baseExp"));
-        DefaultValues.screenMode = getById("modeSwitcher");
-        DefaultValues.showLabel = (getById("labelsSwitcher") == "ON");
+        MainMenuDefaultValues.mobAmount = Std.parseInt(getById("mobsAmount"));
+        MainMenuDefaultValues.baseExpGain = Std.parseFloat(getById("baseExp"));
+        MainMenuDefaultValues.screenMode = getById("modeSwitcher");
+        MainMenuDefaultValues.showLabel = (getById("labelsSwitcher") == "ON");
     }
 
     private function setSlot(i:Int):Void {
@@ -43,7 +43,7 @@ class MainMenuControl {
         var skin:Int = getById('slot${i}Skin');
         var x:Int = Std.parseInt(spawnXY[0]);
         var y:Int = Std.parseInt(spawnXY[1]);
-        DefaultValues.slots[i] = new Slot(label, charType, controlType, x, y, "p" + i, skin);
+        MainMenuDefaultValues.slots[i] = new Slot(label, charType, controlType, x, y, "p" + i, skin);
     }
 
     private function elementIsExist(i:Int):Bool {

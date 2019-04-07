@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import model.DefaultValues;
 import phaser.animations.types.GenerateFrameNumbers;
 import model.DataTypes.CharStartConfig;
 import phaser.gameobjects.Text;
@@ -13,10 +14,10 @@ class Character {
     private var config:CharStartConfig;
     private var text:Text;
 
-    private var IDLE_POSE_ID:Int = 1;
-    private var COLISION_ANIM_ID:Int = 2;
-    private var MOVE_SPEED:Int = Model.character.MOVE_SPEED;
-    private var MIN_DISTANCE:Int = Model.character.MIN_DISTANCE;
+    private var IDLE_POSE_ID:Int = DefaultValues.characterConfig.IDLE_POSE_ID;
+    private var COLISION_ANIM_ID:Int = DefaultValues.characterConfig.COLISION_ANIM_ID;
+    private var MOVE_SPEED:Int = DefaultValues.characterConfig.MOVE_SPEED;
+    private var MIN_DISTANCE:Int = DefaultValues.characterConfig.MIN_DISTANCE;
     private var xDestination:Int;
     private var yDestination:Int;
     private var onCollision:Bool = false;

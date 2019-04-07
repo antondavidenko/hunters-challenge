@@ -2,7 +2,7 @@ import model.DataTypes.Page;
 import htmlcontrols.mainmenu.MainMenu;
 import htmlcontrols.sidepanel.SidePanel;
 import react.ReactDOM;
-import model.DefaultValues;
+import model.MainMenuDefaultValues;
 import htmlcontrols.mainmenu.MainMenuControl;
 import htmlcontrols.sidepanel.SidePanelControl;
 import js.html.HtmlElement;
@@ -27,11 +27,11 @@ class Main {
     }
 
     public function new() {
-        DefaultValues.init();
+        MainMenuDefaultValues.init();
         var data:Dynamic = {
-            slotsPVP:DefaultValues.slotsPVP,
-            slotsPVE:DefaultValues.slotsPVE,
-            slotsTEAMS:DefaultValues.slotsTEAMS,
+            slotsPVP:MainMenuDefaultValues.slotsPVP,
+            slotsPVE:MainMenuDefaultValues.slotsPVE,
+            slotsTEAMS:MainMenuDefaultValues.slotsTEAMS,
             page:Page.PVE
         };
         ReactDOM.render(jsx('<$MainMenu data=${data}/>'), js.Browser.document.getElementById('MainMenu'));
