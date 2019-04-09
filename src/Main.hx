@@ -1,4 +1,4 @@
-import model.DataTypes.Page;
+import model.DataTypes.GameConfiguration;
 import htmlcontrols.mainmenu.MainMenu;
 import htmlcontrols.sidepanel.SidePanel;
 import react.ReactDOM;
@@ -28,13 +28,7 @@ class Main {
 
     public function new() {
         MainMenuDefaultValues.init();
-        var data:Dynamic = {
-            slotsPVP:MainMenuDefaultValues.slotsPVP,
-            slotsPVE:MainMenuDefaultValues.slotsPVE,
-            slotsTEAMS:MainMenuDefaultValues.slotsTEAMS,
-            page:Page.PVE
-        };
-        ReactDOM.render(jsx('<$MainMenu data=${data}/>'), js.Browser.document.getElementById('MainMenu'));
+        ReactDOM.render(jsx('<$MainMenu data=${MainMenuDefaultValues.gameConfigurationsData} page=${MainMenuDefaultValues.page}/>'), js.Browser.document.getElementById('MainMenu'));
         gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
         sidePanel = cast js.Browser.document.getElementById("sidePanel");
         loginPanel = cast js.Browser.document.getElementById("loginPanel");
@@ -61,8 +55,8 @@ class Main {
         sidePanel.style.width = Std.int(w - 950 * multiplayer - 16*2) + 'px';
     }
 
-    private function onLogin() {
-        Model.init();
+    private function onLogin(configuration:GameConfiguration) {
+        Model.init(configuration);
         ReactDOM.render(jsx('<$SidePanel players=${Model.playersStartConfig}/>'), js.Browser.document.getElementById('sidePanel'));
         gameCanvas.style.display = "block";
         sidePanel.style.display = "block";

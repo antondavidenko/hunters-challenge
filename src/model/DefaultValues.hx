@@ -1,5 +1,6 @@
 package model;
 
+import model.DataTypes.GameConfiguration;
 import model.DataTypes.CharacterConfig;
 
 class DefaultValues {
@@ -19,4 +20,21 @@ class DefaultValues {
     static public var maxMobLvlId = 4;
 
     static public var maxLvl:Int = 5;
+    static public var screenMode:String = "";
+    static public var showLabel:Bool = true;
+    static public var baseExpGain:Float = 25;
+
+    static public var botSimpleTimeoutDelay:Int = 1000;
+    static public var botHardTimeoutDelay:Int = 750;
+    static public var mobTimeoutDelay:Int = 1000;
+
+    static public function getDefaultGameConfiguration():GameConfiguration {
+        return {
+            slots:[],
+            screenMode:DefaultValues.screenMode,
+            showLabel:DefaultValues.showLabel,
+            baseExpGain:DefaultValues.baseExpGain,
+            mobAmount:5
+        };
+    }
 }

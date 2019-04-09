@@ -1,15 +1,18 @@
 package htmlcontrols.mainmenu;
 
+import model.DefaultValues;
+import model.DataTypes.GameConfiguration;
 import model.DataTypes.Page;
+import model.DataTypes.Slot;
 import htmlcontrols.mainmenu.MainMenu.MainMenuActions;
 import model.Model;
-import model.MainMenuDefaultValues;
 
 class MainMenuControl {
 
-    private var onLogin:Void -> Void;
+    private var onLogin:GameConfiguration -> Void;
+    private var configuration:GameConfiguration = DefaultValues.getDefaultGameConfiguration();
 
-    public function new(onLogin:Void -> Void) {
+    public function new(onLogin:GameConfiguration -> Void) {
         this.onLogin = onLogin;
         MainMenuActions.startGame.add(startGame);
     }
@@ -17,7 +20,7 @@ class MainMenuControl {
     private function startGame(page:Page):Void {
         Model.teamMode = page == Page.TEAMS;
         updateDefaultValuesByInput();
-        onLogin();
+        onLogin(configuration);
     }
 
     private function updateDefaultValuesByInput():Void {
@@ -29,10 +32,10 @@ class MainMenuControl {
             }
         }
 
-        MainMenuDefaultValues.mobAmount = Std.parseInt(getById("mobsAmount"));
-        MainMenuDefaultValues.baseExpGain = Std.parseFloat(getById("baseExp"));
-        MainMenuDefaultValues.screenMode = getById("modeSwitcher");
-        MainMenuDefaultValues.showLabel = (getById("labelsSwitcher") == "ON");
+        configuration.mobAmount = Std.parseInt(getById("mobsAmount"));
+        configuration.baseExpGain = Std.parseFloat(getById("baseExp"));
+        configuration.screenMode = getById("modeSwitcher");
+        configuration.showLabel = (getById("labelsSwitcher") == "ON");
     }
 
     private function setSlot(i:Int):Void {
@@ -43,7 +46,7 @@ class MainMenuControl {
         var skin:Int = getById('slot${i}Skin');
         var x:Int = Std.parseInt(spawnXY[0]);
         var y:Int = Std.parseInt(spawnXY[1]);
-        MainMenuDefaultValues.slots[i] = new Slot(label, charType, controlType, x, y, "p" + i, skin);
+        configuration.slots[i] = new Slot(label, charType, controlType, x, y, "p" + i, skin);
     }
 
     private function elementIsExist(i:Int):Bool {

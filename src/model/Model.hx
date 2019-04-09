@@ -1,14 +1,12 @@
 package model;
 
+import model.DataTypes.Slot;
+import model.DataTypes.GameConfiguration;
 import model.DataTypes.PlayerData;
 import model.DataTypes.MobData;
 import model.DataTypes.CharStartConfig;
 
 class Model {
-    static public var botSimpleTimeoutDelay:Int = 1000;
-    static public var botHardTimeoutDelay:Int = 750;
-    static public var mobTimeoutDelay:Int = 1000;
-
     static public var playersStartConfig:Array<CharStartConfig> = [];
 
     static public var mobAmount:Int;
@@ -26,30 +24,30 @@ class Model {
     static public var mobsData:Map<String, MobData> = new Map<String, MobData>();
     static public var skinsCollection:Map<String, Int> = new Map<String, Int>();
 
-    static public function init():Void {
-        mobAmount = MainMenuDefaultValues.mobAmount;
+    static public function init(configuration:GameConfiguration):Void {
+        mobAmount = configuration.mobAmount;
         maxLvl = DefaultValues.maxLvl;
-        baseExpGain = MainMenuDefaultValues.baseExpGain;
-        screenMode = MainMenuDefaultValues.screenMode;
-        showLabel = MainMenuDefaultValues.showLabel;
+        baseExpGain = configuration.baseExpGain;
+        screenMode = configuration.screenMode;
+        showLabel = configuration.showLabel;
 
         for (i in 0...6) {
-            if (MainMenuDefaultValues.slots[i] != null ) {
-                playersStartConfig.push(getCharStartConfigByDefaultValues(i));
+            if (configuration.slots[i] != null ) {
+                playersStartConfig.push(getCharStartConfigByDefaultValues(i, configuration.slots));
             } else {
                 break;
             }
         }
     }
 
-    static private function getCharStartConfigByDefaultValues(id:Int):CharStartConfig {
-        var charType:String = MainMenuDefaultValues.slots[id].charType;
-        var name:String = MainMenuDefaultValues.slots[id].name;
-        var label:String = MainMenuDefaultValues.slots[id].label;
-        var x:Int = MainMenuDefaultValues.slots[id].x;
-        var y:Int = MainMenuDefaultValues.slots[id].y;
-        var control:String = MainMenuDefaultValues.slots[id].controlType;
-        var skin:Int = MainMenuDefaultValues.slots[id].skin;
+    static private function getCharStartConfigByDefaultValues(id:Int, slots:Array<Slot>):CharStartConfig {
+        var charType:String = slots[id].charType;
+        var name:String = slots[id].name;
+        var label:String = slots[id].label;
+        var x:Int = slots[id].x;
+        var y:Int = slots[id].y;
+        var control:String = slots[id].controlType;
+        var skin:Int = slots[id].skin;
         return new CharStartConfig(charType, x, y, label, name, control, skin);
     }
 }

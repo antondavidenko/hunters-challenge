@@ -1,7 +1,7 @@
 package htmlcontrols.mainmenu;
 
+import model.DataTypes.GameConfiguration;
 import model.DataTypes.Page;
-import haxe.macro.Expr.ExprOf;
 import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;
@@ -16,7 +16,8 @@ class MainMenuActions
 }
 
 typedef MainMenuProps = {
-    var data:Dynamic;
+    var data:Map<Page, GameConfiguration>;
+    var page:Page;
 }
 
 class MainMenu extends ReactComponentOfProps<MainMenuProps> {
@@ -24,25 +25,13 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
     public function new(props:MainMenuProps):Void
     {
         super(props);
-        state = {page:props.data.page, slots:defineSlotsForPage(props.data.page)}
+        state = {page:props.page, slots:props.data[props.page].slots}
         MainMenuActions.navigateToPage.add(navigateToPage);
     }
 
     function navigateToPage(page:Page):Void
     {
-        setState({page:page, slots:defineSlotsForPage(page)});
-    }
-
-    private function defineSlotsForPage(page:Page):Array<Dynamic> {
-        if (page == Page.PVP) {
-            return props.data.slotsPVP;
-        } else if (page == Page.PVE) {
-            return props.data.slotsPVE;
-        } else if (page == Page.TEAMS) {
-            return props.data.slotsTEAMS;
-        } else {
-            return [];
-        }
+        setState({page:page, slots:props.data[page].slots});
     }
 
     public override function render():ReactElement
@@ -50,7 +39,7 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
         return jsx('<table><tbody><tr>
         <td className="valignTop">
             <h2>MAIN MENU</h2>
-            <GameModes page="${props.data.page}"></GameModes>
+            <GameModes page="${props.page}"></GameModes>
         </td><td className="mainMenuGap">
         </td><td className="valignTop">
             {this.getOptionsByState()}

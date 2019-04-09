@@ -1,5 +1,6 @@
 package phasergame;
 
+import model.DefaultValues;
 import phaser.input.keyboard.CursorKeys;
 import model.DataTypes.ControlType;
 import model.Model;
@@ -32,7 +33,7 @@ class MoverCharacters {
         this.allMobList = allMobList;
 
         for (currentMob in allMobList) {
-            simpleBotModel(currentMob, Model.mobTimeoutDelay);
+            simpleBotModel(currentMob, DefaultValues.mobTimeoutDelay);
         }
     }
 
@@ -42,9 +43,9 @@ class MoverCharacters {
         for (currentPlayer in allPlayersList) {
             var id:String = currentPlayer.getPhysicBody().name;
             if (Model.playersData[id].control == ControlType.BOT_SIMPLE) {
-                simpleBotModel(currentPlayer, Model.botSimpleTimeoutDelay);
+                simpleBotModel(currentPlayer, DefaultValues.botSimpleTimeoutDelay);
             } else if (Model.playersData[id].control == ControlType.BOT_HARD) {
-                hardBotModel(currentPlayer, Model.botHardTimeoutDelay);
+                hardBotModel(currentPlayer, DefaultValues.botHardTimeoutDelay);
             }
         }
     }

@@ -17,8 +17,7 @@ HxOverrides.cca = function(s,index) {
 };
 var Main = function() {
 	model_MainMenuDefaultValues.init();
-	var data = { slotsPVP : model_MainMenuDefaultValues.slotsPVP, slotsPVE : model_MainMenuDefaultValues.slotsPVE, slotsTEAMS : model_MainMenuDefaultValues.slotsTEAMS, page : model_Page.PVE};
-	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { data : data}, key : null, ref : null},window.document.getElementById("MainMenu"));
+	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { page : model_MainMenuDefaultValues.page, data : model_MainMenuDefaultValues.gameConfigurationsData}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
 	this.loginPanel = window.document.getElementById("loginPanel");
@@ -45,8 +44,8 @@ Main.prototype = {
 		this.gameCanvas.style.top = (h - 654 * multiplayer) / 2 + "px";
 		this.sidePanel.style.width = (w - 950 * multiplayer - 32 | 0) + "px";
 	}
-	,onLogin: function() {
-		model_Model.init();
+	,onLogin: function(configuration) {
+		model_Model.init(configuration);
 		ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_sidepanel_SidePanel, props : { players : model_Model.playersStartConfig}, key : null, ref : null},window.document.getElementById("sidePanel"));
 		this.gameCanvas.style.display = "block";
 		this.sidePanel.style.display = "block";
@@ -70,6 +69,15 @@ Reflect.isFunction = function(f) {
 		return false;
 	}
 };
+Reflect.compare = function(a,b) {
+	if(a == b) {
+		return 0;
+	} else if(a > b) {
+		return 1;
+	} else {
+		return -1;
+	}
+};
 Reflect.compareMethods = function(f1,f2) {
 	if(f1 == f2) {
 		return true;
@@ -79,6 +87,13 @@ Reflect.compareMethods = function(f1,f2) {
 	}
 	if(f1.scope == f2.scope && f1.method == f2.method) {
 		return f1.method != null;
+	} else {
+		return false;
+	}
+};
+Reflect.isEnumValue = function(v) {
+	if(v != null) {
+		return v.__enum__ != null;
 	} else {
 		return false;
 	}
@@ -131,6 +146,148 @@ haxe_Timer.prototype = {
 	run: function() {
 	}
 };
+var haxe_ds_BalancedTree = function() {
+};
+haxe_ds_BalancedTree.__name__ = true;
+haxe_ds_BalancedTree.prototype = {
+	set: function(key,value) {
+		this.root = this.setLoop(key,value,this.root);
+	}
+	,get: function(key) {
+		var node = this.root;
+		while(node != null) {
+			var c = this.compare(key,node.key);
+			if(c == 0) {
+				return node.value;
+			}
+			if(c < 0) {
+				node = node.left;
+			} else {
+				node = node.right;
+			}
+		}
+		return null;
+	}
+	,setLoop: function(k,v,node) {
+		if(node == null) {
+			return new haxe_ds_TreeNode(null,k,v,null);
+		}
+		var c = this.compare(k,node.key);
+		if(c == 0) {
+			return new haxe_ds_TreeNode(node.left,k,v,node.right,node == null ? 0 : node._height);
+		} else if(c < 0) {
+			var nl = this.setLoop(k,v,node.left);
+			return this.balance(nl,node.key,node.value,node.right);
+		} else {
+			var nr = this.setLoop(k,v,node.right);
+			return this.balance(node.left,node.key,node.value,nr);
+		}
+	}
+	,balance: function(l,k,v,r) {
+		var hl = l == null ? 0 : l._height;
+		var hr = r == null ? 0 : r._height;
+		if(hl > hr + 2) {
+			var _this = l.left;
+			var _this1 = l.right;
+			if((_this == null ? 0 : _this._height) >= (_this1 == null ? 0 : _this1._height)) {
+				return new haxe_ds_TreeNode(l.left,l.key,l.value,new haxe_ds_TreeNode(l.right,k,v,r));
+			} else {
+				return new haxe_ds_TreeNode(new haxe_ds_TreeNode(l.left,l.key,l.value,l.right.left),l.right.key,l.right.value,new haxe_ds_TreeNode(l.right.right,k,v,r));
+			}
+		} else if(hr > hl + 2) {
+			var _this2 = r.right;
+			var _this3 = r.left;
+			if((_this2 == null ? 0 : _this2._height) > (_this3 == null ? 0 : _this3._height)) {
+				return new haxe_ds_TreeNode(new haxe_ds_TreeNode(l,k,v,r.left),r.key,r.value,r.right);
+			} else {
+				return new haxe_ds_TreeNode(new haxe_ds_TreeNode(l,k,v,r.left.left),r.left.key,r.left.value,new haxe_ds_TreeNode(r.left.right,r.key,r.value,r.right));
+			}
+		} else {
+			return new haxe_ds_TreeNode(l,k,v,r,(hl > hr ? hl : hr) + 1);
+		}
+	}
+	,compare: function(k1,k2) {
+		return Reflect.compare(k1,k2);
+	}
+};
+var haxe_ds_TreeNode = function(l,k,v,r,h) {
+	if(h == null) {
+		h = -1;
+	}
+	this.left = l;
+	this.key = k;
+	this.value = v;
+	this.right = r;
+	if(h == -1) {
+		var tmp;
+		var _this = this.left;
+		var _this1 = this.right;
+		if((_this == null ? 0 : _this._height) > (_this1 == null ? 0 : _this1._height)) {
+			var _this2 = this.left;
+			if(_this2 == null) {
+				tmp = 0;
+			} else {
+				tmp = _this2._height;
+			}
+		} else {
+			var _this3 = this.right;
+			if(_this3 == null) {
+				tmp = 0;
+			} else {
+				tmp = _this3._height;
+			}
+		}
+		this._height = tmp + 1;
+	} else {
+		this._height = h;
+	}
+};
+haxe_ds_TreeNode.__name__ = true;
+var haxe_ds_EnumValueMap = function() {
+	haxe_ds_BalancedTree.call(this);
+};
+haxe_ds_EnumValueMap.__name__ = true;
+haxe_ds_EnumValueMap.__interfaces__ = [haxe_IMap];
+haxe_ds_EnumValueMap.__super__ = haxe_ds_BalancedTree;
+haxe_ds_EnumValueMap.prototype = $extend(haxe_ds_BalancedTree.prototype,{
+	compare: function(k1,k2) {
+		var d = k1[1] - k2[1];
+		if(d != 0) {
+			return d;
+		}
+		var p1 = k1.slice(2);
+		var p2 = k2.slice(2);
+		if(p1.length == 0 && p2.length == 0) {
+			return 0;
+		}
+		return this.compareArgs(p1,p2);
+	}
+	,compareArgs: function(a1,a2) {
+		var ld = a1.length - a2.length;
+		if(ld != 0) {
+			return ld;
+		}
+		var _g1 = 0;
+		var _g = a1.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var d = this.compareArg(a1[i],a2[i]);
+			if(d != 0) {
+				return d;
+			}
+		}
+		return 0;
+	}
+	,compareArg: function(v1,v2) {
+		if(Reflect.isEnumValue(v1) && Reflect.isEnumValue(v2)) {
+			return this.compare(v1,v2);
+		} else if((v1 instanceof Array) && v1.__enum__ == null && ((v2 instanceof Array) && v2.__enum__ == null)) {
+			return this.compareArgs(v1,v2);
+		} else {
+			return Reflect.compare(v1,v2);
+		}
+	}
+});
 var haxe_ds_StringMap = function() {
 	this.h = { };
 };
@@ -424,28 +581,17 @@ var htmlcontrols_mainmenu_MainMenuActions = function() { };
 htmlcontrols_mainmenu_MainMenuActions.__name__ = true;
 var htmlcontrols_mainmenu_MainMenu = function(props) {
 	React.Component.call(this,props);
-	this.state = { page : props.data.page, slots : this.defineSlotsForPage(props.data.page)};
+	this.state = { page : props.page, slots : props.data.get(props.page).slots};
 	htmlcontrols_mainmenu_MainMenuActions.navigateToPage.add($bind(this,this.navigateToPage));
 };
 htmlcontrols_mainmenu_MainMenu.__name__ = true;
 htmlcontrols_mainmenu_MainMenu.__super__ = React.Component;
 htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 	navigateToPage: function(page) {
-		this.setState({ page : page, slots : this.defineSlotsForPage(page)});
-	}
-	,defineSlotsForPage: function(page) {
-		if(page == model_Page.PVP) {
-			return this.props.data.slotsPVP;
-		} else if(page == model_Page.PVE) {
-			return this.props.data.slotsPVE;
-		} else if(page == model_Page.TEAMS) {
-			return this.props.data.slotsTEAMS;
-		} else {
-			return [];
-		}
+		this.setState({ page : page, slots : this.props.data.get(page).slots});
 	}
 	,render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "MAIN MENU"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { page : this.props.data.page}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "mainMenuGap"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [this.getOptionsByState(),this.getContentByState()]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "MAIN MENU"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { page : this.props.page}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "mainMenuGap"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [this.getOptionsByState(),this.getContentByState()]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
 	}
 	,getOptionsByState: function() {
 		if(this.state.page == model_Page.PVP || this.state.page == model_Page.PVE || this.state.page == model_Page.TEAMS) {
@@ -478,6 +624,7 @@ htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 	}
 });
 var htmlcontrols_mainmenu_MainMenuControl = function(onLogin) {
+	this.configuration = model_DefaultValues.getDefaultGameConfiguration();
 	this.onLogin = onLogin;
 	htmlcontrols_mainmenu_MainMenuActions.startGame.add($bind(this,this.startGame));
 };
@@ -486,7 +633,7 @@ htmlcontrols_mainmenu_MainMenuControl.prototype = {
 	startGame: function(page) {
 		model_Model.teamMode = page == model_Page.TEAMS;
 		this.updateDefaultValuesByInput();
-		this.onLogin();
+		this.onLogin(this.configuration);
 	}
 	,updateDefaultValuesByInput: function() {
 		var _g = 0;
@@ -498,10 +645,13 @@ htmlcontrols_mainmenu_MainMenuControl.prototype = {
 				break;
 			}
 		}
-		model_MainMenuDefaultValues.mobAmount = Std.parseInt(this.getById("mobsAmount"));
-		model_MainMenuDefaultValues.baseExpGain = parseFloat(this.getById("baseExp"));
-		model_MainMenuDefaultValues.screenMode = this.getById("modeSwitcher");
-		model_MainMenuDefaultValues.showLabel = this.getById("labelsSwitcher") == "ON";
+		var tmp = this.getById("mobsAmount");
+		this.configuration.mobAmount = Std.parseInt(tmp);
+		var tmp1 = parseFloat(this.getById("baseExp"));
+		this.configuration.baseExpGain = tmp1;
+		this.configuration.screenMode = this.getById("modeSwitcher");
+		var tmp2 = this.getById("labelsSwitcher");
+		this.configuration.showLabel = tmp2 == "ON";
 	}
 	,setSlot: function(i) {
 		var label = this.getById("slot" + i + "Label");
@@ -511,7 +661,7 @@ htmlcontrols_mainmenu_MainMenuControl.prototype = {
 		var skin = this.getById("slot" + i + "Skin");
 		var x = Std.parseInt(spawnXY[0]);
 		var y = Std.parseInt(spawnXY[1]);
-		model_MainMenuDefaultValues.slots[i] = new model_Slot(label,charType,controlType,x,y,"p" + i,skin);
+		this.configuration.slots[i] = new model_Slot(label,charType,controlType,x,y,"p" + i,skin);
 	}
 	,elementIsExist: function(i) {
 		return window.document.getElementById("slot" + i + "Label") != null;
@@ -857,27 +1007,6 @@ var model_MobData = function(currentLevel) {
 	this.currentLevel = currentLevel;
 };
 model_MobData.__name__ = true;
-var model_DefaultValues = function() { };
-model_DefaultValues.__name__ = true;
-var model_MainMenuDefaultValues = function() { };
-model_MainMenuDefaultValues.__name__ = true;
-model_MainMenuDefaultValues.init = function() {
-	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2",2));
-	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3",2));
-	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4",2));
-	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5",2));
-	model_MainMenuDefaultValues.slotsPVE.push(new model_Slot("bot 5",model_PlayerType.ELF,model_ControlType.BOT_HARD,700,300,"p6",3));
-	model_MainMenuDefaultValues.slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	model_MainMenuDefaultValues.slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
-	model_MainMenuDefaultValues.slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
-	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("Player 2",model_PlayerType.SWORDMAN,model_ControlType.ARROWS,200,300,"p2",1));
-	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("Player 3",model_PlayerType.ELF,model_ControlType.AWSD,300,300,"p3",1));
-	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_HARD,500,300,"p4",3));
-	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("bot 2",model_PlayerType.MAGE,model_ControlType.BOT_HARD,600,300,"p5",3));
-	model_MainMenuDefaultValues.slotsTEAMS.push(new model_Slot("bot 3",model_PlayerType.HORSEMAN,model_ControlType.BOT_HARD,700,300,"p6",3));
-};
 var model_Slot = function(label,charType,controlType,x,y,name,skin) {
 	this.name = name;
 	this.controlType = controlType;
@@ -888,32 +1017,89 @@ var model_Slot = function(label,charType,controlType,x,y,name,skin) {
 	this.skin = skin;
 };
 model_Slot.__name__ = true;
+var model_DefaultValues = function() { };
+model_DefaultValues.__name__ = true;
+model_DefaultValues.getDefaultGameConfiguration = function() {
+	return { slots : [], screenMode : model_DefaultValues.screenMode, showLabel : model_DefaultValues.showLabel, baseExpGain : model_DefaultValues.baseExpGain, mobAmount : 5};
+};
+var model_MainMenuDefaultValues = function() { };
+model_MainMenuDefaultValues.__name__ = true;
+model_MainMenuDefaultValues.init = function() {
+	var this1 = model_MainMenuDefaultValues.gameConfigurationsData;
+	var v = model_MainMenuDefaultValues.getPveGameConfiguration();
+	this1.set(model_Page.PVE,v);
+	var this2 = model_MainMenuDefaultValues.gameConfigurationsData;
+	var v1 = model_MainMenuDefaultValues.getPvpGameConfiguration();
+	this2.set(model_Page.PVP,v1);
+	var this3 = model_MainMenuDefaultValues.gameConfigurationsData;
+	var v2 = model_MainMenuDefaultValues.getTeamsGameConfiguration();
+	this3.set(model_Page.TEAMS,v2);
+	var this4 = model_MainMenuDefaultValues.gameConfigurationsData;
+	var v3 = model_DefaultValues.getDefaultGameConfiguration();
+	this4.set(model_Page.HELP,v3);
+};
+model_MainMenuDefaultValues.getPvpGameConfiguration = function() {
+	var slotsPVP = [];
+	slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
+	slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
+	var configuration = model_DefaultValues.getDefaultGameConfiguration();
+	configuration.slots = slotsPVP;
+	configuration.mobAmount = 2;
+	return configuration;
+};
+model_MainMenuDefaultValues.getPveGameConfiguration = function() {
+	var slotsPVE = [];
+	slotsPVE.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	slotsPVE.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2",2));
+	slotsPVE.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3",2));
+	slotsPVE.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4",2));
+	slotsPVE.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5",2));
+	slotsPVE.push(new model_Slot("bot 5",model_PlayerType.ELF,model_ControlType.BOT_HARD,700,300,"p6",3));
+	var configuration = model_DefaultValues.getDefaultGameConfiguration();
+	configuration.slots = slotsPVE;
+	configuration.mobAmount = 3;
+	return configuration;
+};
+model_MainMenuDefaultValues.getTeamsGameConfiguration = function() {
+	var slotsTEAMS = [];
+	slotsTEAMS.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	slotsTEAMS.push(new model_Slot("Player 2",model_PlayerType.SWORDMAN,model_ControlType.ARROWS,200,300,"p2",1));
+	slotsTEAMS.push(new model_Slot("Player 3",model_PlayerType.ELF,model_ControlType.AWSD,300,300,"p3",1));
+	slotsTEAMS.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_HARD,500,300,"p4",3));
+	slotsTEAMS.push(new model_Slot("bot 2",model_PlayerType.MAGE,model_ControlType.BOT_HARD,600,300,"p5",3));
+	slotsTEAMS.push(new model_Slot("bot 3",model_PlayerType.HORSEMAN,model_ControlType.BOT_HARD,700,300,"p6",3));
+	var configuration = model_DefaultValues.getDefaultGameConfiguration();
+	configuration.slots = slotsTEAMS;
+	configuration.mobAmount = 3;
+	return configuration;
+};
 var model_Model = function() { };
 model_Model.__name__ = true;
-model_Model.init = function() {
-	model_Model.mobAmount = model_MainMenuDefaultValues.mobAmount;
+model_Model.init = function(configuration) {
+	model_Model.mobAmount = configuration.mobAmount;
 	model_Model.maxLvl = model_DefaultValues.maxLvl;
-	model_Model.baseExpGain = model_MainMenuDefaultValues.baseExpGain;
-	model_Model.screenMode = model_MainMenuDefaultValues.screenMode;
-	model_Model.showLabel = model_MainMenuDefaultValues.showLabel;
+	model_Model.baseExpGain = configuration.baseExpGain;
+	model_Model.screenMode = configuration.screenMode;
+	model_Model.showLabel = configuration.showLabel;
 	var _g = 0;
 	while(_g < 6) {
 		var i = _g++;
-		if(model_MainMenuDefaultValues.slots[i] != null) {
-			model_Model.playersStartConfig.push(model_Model.getCharStartConfigByDefaultValues(i));
+		if(configuration.slots[i] != null) {
+			model_Model.playersStartConfig.push(model_Model.getCharStartConfigByDefaultValues(i,configuration.slots));
 		} else {
 			break;
 		}
 	}
 };
-model_Model.getCharStartConfigByDefaultValues = function(id) {
-	var charType = model_MainMenuDefaultValues.slots[id].charType;
-	var name = model_MainMenuDefaultValues.slots[id].name;
-	var label = model_MainMenuDefaultValues.slots[id].label;
-	var x = model_MainMenuDefaultValues.slots[id].x;
-	var y = model_MainMenuDefaultValues.slots[id].y;
-	var control = model_MainMenuDefaultValues.slots[id].controlType;
-	var skin = model_MainMenuDefaultValues.slots[id].skin;
+model_Model.getCharStartConfigByDefaultValues = function(id,slots) {
+	var charType = slots[id].charType;
+	var name = slots[id].name;
+	var label = slots[id].label;
+	var x = slots[id].x;
+	var y = slots[id].y;
+	var control = slots[id].controlType;
+	var skin = slots[id].skin;
 	return new model_CharStartConfig(charType,x,y,label,name,control,skin);
 };
 var msignal_Signal0 = function() {
@@ -1123,7 +1309,7 @@ phasergame_MoverCharacters.prototype = {
 		while(_g < allMobList.length) {
 			var currentMob = allMobList[_g];
 			++_g;
-			this.simpleBotModel(currentMob,model_Model.mobTimeoutDelay);
+			this.simpleBotModel(currentMob,model_DefaultValues.mobTimeoutDelay);
 		}
 	}
 	,initPlayers: function(allPlayersList) {
@@ -1135,11 +1321,11 @@ phasergame_MoverCharacters.prototype = {
 			var id = currentPlayer.getPhysicBody().name;
 			var _this = model_Model.playersData;
 			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.BOT_SIMPLE) {
-				this.simpleBotModel(currentPlayer,model_Model.botSimpleTimeoutDelay);
+				this.simpleBotModel(currentPlayer,model_DefaultValues.botSimpleTimeoutDelay);
 			} else {
 				var _this1 = model_Model.playersData;
 				if((__map_reserved[id] != null ? _this1.getReserved(id) : _this1.h[id]).control == model_ControlType.BOT_HARD) {
-					this.hardBotModel(currentPlayer,model_Model.botHardTimeoutDelay);
+					this.hardBotModel(currentPlayer,model_DefaultValues.botHardTimeoutDelay);
 				}
 			}
 		}
@@ -1895,17 +2081,14 @@ model_DefaultValues.mobLabels = ["lvl 1","lvl 2","lvl 3","lvl 4","lvl 5"];
 model_DefaultValues.mobSpeeds = [100,5,25,300,300];
 model_DefaultValues.maxMobLvlId = 4;
 model_DefaultValues.maxLvl = 5;
-model_MainMenuDefaultValues.slotsPVP = [];
-model_MainMenuDefaultValues.slotsPVE = [];
-model_MainMenuDefaultValues.slotsTEAMS = [];
-model_MainMenuDefaultValues.slots = [];
-model_MainMenuDefaultValues.mobAmount = 5;
-model_MainMenuDefaultValues.baseExpGain = 25;
-model_MainMenuDefaultValues.screenMode = "";
-model_MainMenuDefaultValues.showLabel = true;
-model_Model.botSimpleTimeoutDelay = 1000;
-model_Model.botHardTimeoutDelay = 750;
-model_Model.mobTimeoutDelay = 1000;
+model_DefaultValues.screenMode = "";
+model_DefaultValues.showLabel = true;
+model_DefaultValues.baseExpGain = 25;
+model_DefaultValues.botSimpleTimeoutDelay = 1000;
+model_DefaultValues.botHardTimeoutDelay = 750;
+model_DefaultValues.mobTimeoutDelay = 1000;
+model_MainMenuDefaultValues.gameConfigurationsData = new haxe_ds_EnumValueMap();
+model_MainMenuDefaultValues.page = model_Page.PVE;
 model_Model.playersStartConfig = [];
 model_Model.maxLvlInGame = 1;
 model_Model.teamMode = false;
