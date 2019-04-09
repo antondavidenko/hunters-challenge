@@ -1,8 +1,8 @@
 package htmlcontrols.mainmenu.lobby;
 
 
+import model.DataTypes.CharStartConfig;
 import model.DataTypes.Skin;
-import model.DataTypes.Slot;
 import model.DataTypes.ControlType;
 import model.DataTypes.PlayerType;
 import react.ReactComponent.ReactElement;
@@ -10,7 +10,7 @@ import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;
 
 typedef LobbyProps = {
-    var slots:Array<Slot>;
+    var slots:Array<CharStartConfig>;
 }
 
 class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
@@ -40,7 +40,7 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
         return [for (i in 0...props.slots.length) jsx('<tr>
             <td><TextInput className="fifthWidth" defaultValue="${props.slots[i].label}" id="${getNameId(i)}"/></td>
             <td><SelectInput className="fifthWidth" defaultValue="${props.slots[i].charType}" id="${getClassId(i)}" options=${this.getOptionsClass()}/></td>
-            <td><SelectInput className="fifthWidth" defaultValue="${props.slots[i].controlType}" id="${getControlId(i)}" options=${this.getOptionsControl()}/></td>
+            <td><SelectInput className="fifthWidth" defaultValue="${props.slots[i].control}" id="${getControlId(i)}" options=${this.getOptionsControl()}/></td>
             <td className="hidden"><TextInput className="hidden" defaultValue="${this.getXY(i)}" id="${getSpawnId(i)}"/></td>
             <td><SelectInput className="fifthWidth" defaultValue="${props.slots[i].skin}" id="${getSkinId(i)}" options=${this.getOptionsSkin()}/></td>
         </tr>')];

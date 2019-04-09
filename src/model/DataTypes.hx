@@ -38,7 +38,7 @@ class ControlType {
 }
 
 class CharStartConfig {
-    public function new(charType:String, x:Int, y:Int, label:String, name:String, control:String, skin:Int) {
+    public function new(label:String, charType:String, control:String, x:Int, y:Int, name:String, skin:Int) {
         this.charType = charType;
         this.x = x;
         this.y = y;
@@ -82,28 +82,8 @@ class MobData {
     public var currentLevel:Int;
 }
 
-class Slot {
-    public function new(label:String, charType:String, controlType:String, x:Int, y:Int, name:String, skin:Int) {
-        this.name = name;
-        this.controlType = controlType;
-        this.charType = charType;
-        this.x = x;
-        this.y = y;
-        this.label = label;
-        this.skin = skin;
-    }
-
-    public var name:String;
-    public var charType:String;
-    public var x:Int;
-    public var y:Int;
-    public var controlType:String;
-    public var label:String;
-    public var skin:Int;
-}
-
 typedef GameConfiguration = {
-    var slots:Array<Slot>;
+    var slots:Array<CharStartConfig>;
     var screenMode:String;
     var showLabel:Bool;
     var baseExpGain:Float;

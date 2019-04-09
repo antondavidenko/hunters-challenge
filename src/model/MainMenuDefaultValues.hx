@@ -1,8 +1,8 @@
 package model;
 
+import model.DataTypes.CharStartConfig;
 import model.DataTypes.Page;
 import model.DataTypes.GameConfiguration;
-import model.DataTypes.Slot;
 import model.DataTypes.ControlType;
 import model.DataTypes.PlayerType;
 
@@ -19,10 +19,10 @@ class MainMenuDefaultValues {
     }
 
     static private function getPvpGameConfiguration():GameConfiguration {
-        var slotsPVP:Array<Slot> = [];
-        slotsPVP.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
-        slotsPVP.push(new Slot("Player 2", PlayerType.BOWMAN, ControlType.ARROWS, 500, 300, "p2", 2));
-        slotsPVP.push(new Slot("Player 3", PlayerType.MAGE, ControlType.AWSD, 600, 300, "p3", 3));
+        var slotsPVP:Array<CharStartConfig> = [];
+        slotsPVP.push(new CharStartConfig("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
+        slotsPVP.push(new CharStartConfig("Player 2", PlayerType.BOWMAN, ControlType.ARROWS, 500, 300, "p2", 2));
+        slotsPVP.push(new CharStartConfig("Player 3", PlayerType.MAGE, ControlType.AWSD, 600, 300, "p3", 3));
         var configuration = DefaultValues.getDefaultGameConfiguration();
         configuration.slots = slotsPVP;
         configuration.mobAmount = 2;
@@ -30,13 +30,13 @@ class MainMenuDefaultValues {
     }
 
     static private function getPveGameConfiguration():GameConfiguration {
-        var slotsPVE:Array<Slot> = [];
-        slotsPVE.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
-        slotsPVE.push(new Slot("bot 1", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 200, 300, "p2", 2));
-        slotsPVE.push(new Slot("bot 2", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 300, 300, "p3", 2));
-        slotsPVE.push(new Slot("bot 3", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 500, 300, "p4", 2));
-        slotsPVE.push(new Slot("bot 4", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 600, 300, "p5", 2));
-        slotsPVE.push(new Slot("bot 5", PlayerType.ELF, ControlType.BOT_HARD, 700, 300, "p6", 3));
+        var slotsPVE:Array<CharStartConfig> = [];
+        slotsPVE.push(new CharStartConfig("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
+        slotsPVE.push(new CharStartConfig("bot 1", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 200, 300, "p2", 2));
+        slotsPVE.push(new CharStartConfig("bot 2", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 300, 300, "p3", 2));
+        slotsPVE.push(new CharStartConfig("bot 3", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 500, 300, "p4", 2));
+        slotsPVE.push(new CharStartConfig("bot 4", PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 600, 300, "p5", 2));
+        slotsPVE.push(new CharStartConfig("bot 5", PlayerType.ELF, ControlType.BOT_HARD, 700, 300, "p6", 3));
         var configuration = DefaultValues.getDefaultGameConfiguration();
         configuration.slots = slotsPVE;
         configuration.mobAmount = 3;
@@ -44,13 +44,13 @@ class MainMenuDefaultValues {
     }
 
     static private function getTeamsGameConfiguration():GameConfiguration {
-        var slotsTEAMS:Array<Slot> = [];
-        slotsTEAMS.push(new Slot("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
-        slotsTEAMS.push(new Slot("Player 2", PlayerType.SWORDMAN, ControlType.ARROWS, 200, 300, "p2", 1));
-        slotsTEAMS.push(new Slot("Player 3", PlayerType.ELF, ControlType.AWSD, 300, 300, "p3", 1));
-        slotsTEAMS.push(new Slot("bot 1", PlayerType.SWORDMAN, ControlType.BOT_HARD, 500, 300, "p4", 3));
-        slotsTEAMS.push(new Slot("bot 2", PlayerType.MAGE, ControlType.BOT_HARD, 600, 300, "p5", 3));
-        slotsTEAMS.push(new Slot("bot 3", PlayerType.HORSEMAN, ControlType.BOT_HARD, 700, 300, "p6", 3));
+        var slotsTEAMS:Array<CharStartConfig> = [];
+        slotsTEAMS.push(new CharStartConfig("Player 1", PlayerType.HORSEMAN, ControlType.MOUSE, 400, 300, "p1", 1));
+        slotsTEAMS.push(new CharStartConfig("Player 2", PlayerType.SWORDMAN, ControlType.ARROWS, 200, 300, "p2", 1));
+        slotsTEAMS.push(new CharStartConfig("Player 3", PlayerType.ELF, ControlType.AWSD, 300, 300, "p3", 1));
+        slotsTEAMS.push(new CharStartConfig("bot 1", PlayerType.SWORDMAN, ControlType.BOT_HARD, 500, 300, "p4", 3));
+        slotsTEAMS.push(new CharStartConfig("bot 2", PlayerType.MAGE, ControlType.BOT_HARD, 600, 300, "p5", 3));
+        slotsTEAMS.push(new CharStartConfig("bot 3", PlayerType.HORSEMAN, ControlType.BOT_HARD, 700, 300, "p6", 3));
         var configuration = DefaultValues.getDefaultGameConfiguration();
         configuration.slots = slotsTEAMS;
         configuration.mobAmount = 3;

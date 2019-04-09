@@ -51,7 +51,7 @@ class MobsCollection {
     private function getMobConfigByLvl(lvlId:Int, mobId:Int):CharStartConfig {
         var mobX:Int = Utils.getRandomScreenX();
         var mobY:Int = Utils.getRandomScreenY();
-        return new CharStartConfig(DefaultValues.mobTypes[lvlId], mobX, mobY, "", "m"+mobId, ControlType.BOT_SIMPLE, 1);
+        return new CharStartConfig("", DefaultValues.mobTypes[lvlId], ControlType.BOT_SIMPLE, mobX, mobY, "m"+mobId, 1);
     }
 
     public function update(time:Float, delta:Float):Void {

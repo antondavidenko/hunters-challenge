@@ -1,6 +1,5 @@
 package model;
 
-import model.DataTypes.Slot;
 import model.DataTypes.GameConfiguration;
 import model.DataTypes.PlayerData;
 import model.DataTypes.MobData;
@@ -31,23 +30,12 @@ class Model {
         screenMode = configuration.screenMode;
         showLabel = configuration.showLabel;
 
-        for (i in 0...6) {
-            if (configuration.slots[i] != null ) {
-                playersStartConfig.push(getCharStartConfigByDefaultValues(i, configuration.slots));
-            } else {
-                break;
-            }
+        for (slot in configuration.slots) {
+            playersStartConfig.push(getCharStartConfigByDefaultValues(slot));
         }
     }
 
-    static private function getCharStartConfigByDefaultValues(id:Int, slots:Array<Slot>):CharStartConfig {
-        var charType:String = slots[id].charType;
-        var name:String = slots[id].name;
-        var label:String = slots[id].label;
-        var x:Int = slots[id].x;
-        var y:Int = slots[id].y;
-        var control:String = slots[id].controlType;
-        var skin:Int = slots[id].skin;
-        return new CharStartConfig(charType, x, y, label, name, control, skin);
+    static private function getCharStartConfigByDefaultValues(slot:CharStartConfig):CharStartConfig {
+        return new CharStartConfig(slot.label, slot.charType, slot.control, slot.x,slot.y, slot.name, slot.skin);
     }
 }

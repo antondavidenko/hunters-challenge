@@ -661,7 +661,7 @@ htmlcontrols_mainmenu_MainMenuControl.prototype = {
 		var skin = this.getById("slot" + i + "Skin");
 		var x = Std.parseInt(spawnXY[0]);
 		var y = Std.parseInt(spawnXY[1]);
-		this.configuration.slots[i] = new model_Slot(label,charType,controlType,x,y,"p" + i,skin);
+		this.configuration.slots[i] = new model_CharStartConfig(label,charType,controlType,x,y,"p" + i,skin);
 	}
 	,elementIsExist: function(i) {
 		return window.document.getElementById("slot" + i + "Label") != null;
@@ -700,7 +700,7 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.proto
 		var _g1 = this.props.slots.length;
 		while(_g2 < _g1) {
 			var i = _g2++;
-			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i), className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), className : "fifthWidth", options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].controlType, id : this.getControlId(i), className : "fifthWidth", options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "hidden", children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i), className : "hidden"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].skin, id : this.getSkinId(i), className : "fifthWidth", options : this.getOptionsSkin()}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
+			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i), className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), className : "fifthWidth", options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].control, id : this.getControlId(i), className : "fifthWidth", options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "hidden", children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i), className : "hidden"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].skin, id : this.getSkinId(i), className : "fifthWidth", options : this.getOptionsSkin()}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
 		}
 		return _g;
 	}
@@ -984,7 +984,7 @@ var model_PlayerType = function() { };
 model_PlayerType.__name__ = true;
 var model_ControlType = function() { };
 model_ControlType.__name__ = true;
-var model_CharStartConfig = function(charType,x,y,label,name,control,skin) {
+var model_CharStartConfig = function(label,charType,control,x,y,name,skin) {
 	this.charType = charType;
 	this.x = x;
 	this.y = y;
@@ -1007,16 +1007,6 @@ var model_MobData = function(currentLevel) {
 	this.currentLevel = currentLevel;
 };
 model_MobData.__name__ = true;
-var model_Slot = function(label,charType,controlType,x,y,name,skin) {
-	this.name = name;
-	this.controlType = controlType;
-	this.charType = charType;
-	this.x = x;
-	this.y = y;
-	this.label = label;
-	this.skin = skin;
-};
-model_Slot.__name__ = true;
 var model_DefaultValues = function() { };
 model_DefaultValues.__name__ = true;
 model_DefaultValues.getDefaultGameConfiguration = function() {
@@ -1040,9 +1030,9 @@ model_MainMenuDefaultValues.init = function() {
 };
 model_MainMenuDefaultValues.getPvpGameConfiguration = function() {
 	var slotsPVP = [];
-	slotsPVP.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	slotsPVP.push(new model_Slot("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
-	slotsPVP.push(new model_Slot("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
+	slotsPVP.push(new model_CharStartConfig("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	slotsPVP.push(new model_CharStartConfig("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
+	slotsPVP.push(new model_CharStartConfig("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
 	var configuration = model_DefaultValues.getDefaultGameConfiguration();
 	configuration.slots = slotsPVP;
 	configuration.mobAmount = 2;
@@ -1050,12 +1040,12 @@ model_MainMenuDefaultValues.getPvpGameConfiguration = function() {
 };
 model_MainMenuDefaultValues.getPveGameConfiguration = function() {
 	var slotsPVE = [];
-	slotsPVE.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	slotsPVE.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2",2));
-	slotsPVE.push(new model_Slot("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3",2));
-	slotsPVE.push(new model_Slot("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4",2));
-	slotsPVE.push(new model_Slot("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5",2));
-	slotsPVE.push(new model_Slot("bot 5",model_PlayerType.ELF,model_ControlType.BOT_HARD,700,300,"p6",3));
+	slotsPVE.push(new model_CharStartConfig("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	slotsPVE.push(new model_CharStartConfig("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2",2));
+	slotsPVE.push(new model_CharStartConfig("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3",2));
+	slotsPVE.push(new model_CharStartConfig("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4",2));
+	slotsPVE.push(new model_CharStartConfig("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5",2));
+	slotsPVE.push(new model_CharStartConfig("bot 5",model_PlayerType.ELF,model_ControlType.BOT_HARD,700,300,"p6",3));
 	var configuration = model_DefaultValues.getDefaultGameConfiguration();
 	configuration.slots = slotsPVE;
 	configuration.mobAmount = 3;
@@ -1063,12 +1053,12 @@ model_MainMenuDefaultValues.getPveGameConfiguration = function() {
 };
 model_MainMenuDefaultValues.getTeamsGameConfiguration = function() {
 	var slotsTEAMS = [];
-	slotsTEAMS.push(new model_Slot("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	slotsTEAMS.push(new model_Slot("Player 2",model_PlayerType.SWORDMAN,model_ControlType.ARROWS,200,300,"p2",1));
-	slotsTEAMS.push(new model_Slot("Player 3",model_PlayerType.ELF,model_ControlType.AWSD,300,300,"p3",1));
-	slotsTEAMS.push(new model_Slot("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_HARD,500,300,"p4",3));
-	slotsTEAMS.push(new model_Slot("bot 2",model_PlayerType.MAGE,model_ControlType.BOT_HARD,600,300,"p5",3));
-	slotsTEAMS.push(new model_Slot("bot 3",model_PlayerType.HORSEMAN,model_ControlType.BOT_HARD,700,300,"p6",3));
+	slotsTEAMS.push(new model_CharStartConfig("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
+	slotsTEAMS.push(new model_CharStartConfig("Player 2",model_PlayerType.SWORDMAN,model_ControlType.ARROWS,200,300,"p2",1));
+	slotsTEAMS.push(new model_CharStartConfig("Player 3",model_PlayerType.ELF,model_ControlType.AWSD,300,300,"p3",1));
+	slotsTEAMS.push(new model_CharStartConfig("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_HARD,500,300,"p4",3));
+	slotsTEAMS.push(new model_CharStartConfig("bot 2",model_PlayerType.MAGE,model_ControlType.BOT_HARD,600,300,"p5",3));
+	slotsTEAMS.push(new model_CharStartConfig("bot 3",model_PlayerType.HORSEMAN,model_ControlType.BOT_HARD,700,300,"p6",3));
 	var configuration = model_DefaultValues.getDefaultGameConfiguration();
 	configuration.slots = slotsTEAMS;
 	configuration.mobAmount = 3;
@@ -1083,24 +1073,15 @@ model_Model.init = function(configuration) {
 	model_Model.screenMode = configuration.screenMode;
 	model_Model.showLabel = configuration.showLabel;
 	var _g = 0;
-	while(_g < 6) {
-		var i = _g++;
-		if(configuration.slots[i] != null) {
-			model_Model.playersStartConfig.push(model_Model.getCharStartConfigByDefaultValues(i,configuration.slots));
-		} else {
-			break;
-		}
+	var _g1 = configuration.slots;
+	while(_g < _g1.length) {
+		var slot = _g1[_g];
+		++_g;
+		model_Model.playersStartConfig.push(model_Model.getCharStartConfigByDefaultValues(slot));
 	}
 };
-model_Model.getCharStartConfigByDefaultValues = function(id,slots) {
-	var charType = slots[id].charType;
-	var name = slots[id].name;
-	var label = slots[id].label;
-	var x = slots[id].x;
-	var y = slots[id].y;
-	var control = slots[id].controlType;
-	var skin = slots[id].skin;
-	return new model_CharStartConfig(charType,x,y,label,name,control,skin);
+model_Model.getCharStartConfigByDefaultValues = function(slot) {
+	return new model_CharStartConfig(slot.label,slot.charType,slot.control,slot.x,slot.y,slot.name,slot.skin);
 };
 var msignal_Signal0 = function() {
 	msignal_Signal.call(this);
@@ -1826,7 +1807,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	,getMobConfigByLvl: function(lvlId,mobId) {
 		var mobX = Utils.getRandomScreenX();
 		var mobY = Utils.getRandomScreenY();
-		return new model_CharStartConfig(model_DefaultValues.mobTypes[lvlId],mobX,mobY,"","m" + mobId,model_ControlType.BOT_SIMPLE,1);
+		return new model_CharStartConfig("",model_DefaultValues.mobTypes[lvlId],model_ControlType.BOT_SIMPLE,mobX,mobY,"m" + mobId,1);
 	}
 	,update: function(time,delta) {
 		var _g = 0;

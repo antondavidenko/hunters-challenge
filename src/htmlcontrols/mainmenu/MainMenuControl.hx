@@ -1,9 +1,9 @@
 package htmlcontrols.mainmenu;
 
+import model.DataTypes.CharStartConfig;
 import model.DefaultValues;
 import model.DataTypes.GameConfiguration;
 import model.DataTypes.Page;
-import model.DataTypes.Slot;
 import htmlcontrols.mainmenu.MainMenu.MainMenuActions;
 import model.Model;
 
@@ -46,7 +46,7 @@ class MainMenuControl {
         var skin:Int = getById('slot${i}Skin');
         var x:Int = Std.parseInt(spawnXY[0]);
         var y:Int = Std.parseInt(spawnXY[1]);
-        configuration.slots[i] = new Slot(label, charType, controlType, x, y, "p" + i, skin);
+        configuration.slots[i] = new CharStartConfig(label, charType, controlType, x, y, "p" + i, skin);
     }
 
     private function elementIsExist(i:Int):Bool {
