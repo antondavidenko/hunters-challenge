@@ -41,7 +41,7 @@ class MobsCollection {
             mob.init();
             mob.setSpeed(DefaultValues.mobSpeeds[lvlId]);
             allMobList.push(mob);
-            Model.mobsData[mob.getPhysicBody().name] = new MobData(1);
+            Model.mobsData[mob.getPhysicBody().name] = {currentLevel:1};
             mobId++;
         }
 

@@ -15,26 +15,26 @@ typedef CharacterConfig = {
 }
 
 class Skin {
-    static public var RED:Int = 1;
-    static public var GREEN:Int = 2;
-    static public var BLUE:Int = 3;
+    static public inline var RED:Int = 1;
+    static public inline var GREEN:Int = 2;
+    static public inline var BLUE:Int = 3;
 }
 
 class PlayerType {
-    static public var SWORDMAN:String = "swordman";
-    static public var BOWMAN:String = "bowman";
-    static public var ELF:String = "elf";
-    static public var MAGE:String = "mage";
-    static public var HORSEMAN:String = "horseman";
+    static public inline var SWORDMAN:String = "swordman";
+    static public inline var BOWMAN:String = "bowman";
+    static public inline var ELF:String = "elf";
+    static public inline var MAGE:String = "mage";
+    static public inline var HORSEMAN:String = "horseman";
 }
 
 class ControlType {
-    static public var MOUSE:String = "mouse";
-    static public var ARROWS:String = "keys_arrows";
-    static public var AWSD:String = "keys_awsd";
-    static public var BOT_SIMPLE:String = "bot_simple";
-    static public var BOT_HARD:String = "bot_hard";
-    static public var NONE:String = "none";
+    static public inline var MOUSE:String = "mouse";
+    static public inline var ARROWS:String = "keys_arrows";
+    static public inline var AWSD:String = "keys_awsd";
+    static public inline var BOT_SIMPLE:String = "bot_simple";
+    static public inline var BOT_HARD:String = "bot_hard";
+    static public inline var NONE:String = "none";
 }
 
 class CharStartConfig {
@@ -57,29 +57,17 @@ class CharStartConfig {
     public var skin:Int;
 }
 
-class PlayerData {
-    public function new(slayedCounter:Int, expGained:Float, currentLevel:Int, label:String, control:String, teamId:Int) {
-        this.slayedCounter = slayedCounter;
-        this.expGained = expGained;
-        this.currentLevel = currentLevel;
-        this.label = label;
-        this.control = control;
-        this.teamId = teamId;
-    }
-
-    public var slayedCounter:Int;
-    public var expGained:Float;
-    public var currentLevel:Int;
-    public var label:String;
-    public var control:String;
-    public var teamId:Int;
+typedef PlayerData = {
+    var slayedCounter:Int;
+    var expGained:Float;
+    var currentLevel:Int;
+    var label:String;
+    var control:String;
+    var teamId:Int;
 }
 
-class MobData {
-    public function new(currentLevel:Int) {
-        this.currentLevel = currentLevel;
-    }
-    public var currentLevel:Int;
+typedef MobData = {
+    var currentLevel:Int;
 }
 
 typedef GameConfiguration = {

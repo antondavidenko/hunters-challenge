@@ -44,14 +44,25 @@ class PlayersCollection {
             var playerConfig:CharStartConfig = Model.playersStartConfig[i];
             if (playerConfig != null && playerConfig.control != ControlType.NONE) {
                 var player:Character = preparePlayerByConfig(playerConfig);
-                Model.playersData[playerConfig.name] = new PlayerData(0, 0, 1, playerConfig.label, playerConfig.control, playerConfig.skin);
+                Model.playersData[playerConfig.name] = getNewPlayerData(playerConfig.label, playerConfig.control, playerConfig.skin);
                 var teamId:String = "team" + playerConfig.skin;
                 if (Model.playersData[teamId] == null) {
-                    Model.playersData[teamId] = new PlayerData(0, 0, 1, teamId, "", -1);
+                    Model.playersData[teamId] = getNewPlayerData(teamId, "", -1);
                 }
             }
         }
         onReadyToMove(allPlayersList);
+    }
+
+    private function getNewPlayerData(label:String, control:String, skin:Int):PlayerData {
+        return{
+            slayedCounter: 0,
+            expGained: 0,
+            currentLevel: 1,
+            label: label,
+            control: control,
+            teamId: skin
+        };
     }
 
     public function update(time:Float, delta:Float):Void {

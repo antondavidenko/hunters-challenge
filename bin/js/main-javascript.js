@@ -723,13 +723,13 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.proto
 		return "" + this.props.slots[i].x + "," + this.props.slots[i].y;
 	}
 	,getOptionsClass: function() {
-		return [model_PlayerType.HORSEMAN,model_PlayerType.BOWMAN,model_PlayerType.ELF,model_PlayerType.MAGE,model_PlayerType.SWORDMAN];
+		return ["horseman","bowman","elf","mage","swordman"];
 	}
 	,getOptionsControl: function() {
-		return [model_ControlType.MOUSE,model_ControlType.AWSD,model_ControlType.ARROWS,model_ControlType.BOT_SIMPLE,model_ControlType.BOT_HARD,model_ControlType.NONE];
+		return ["mouse","keys_awsd","keys_arrows","bot_simple","bot_hard","none"];
 	}
 	,getOptionsSkin: function() {
-		return [model_Skin.RED,model_Skin.GREEN,model_Skin.BLUE];
+		return [1,2,3];
 	}
 });
 var htmlcontrols_mainmenu_lobby_SelectInput = function(props) {
@@ -994,19 +994,6 @@ var model_CharStartConfig = function(label,charType,control,x,y,name,skin) {
 	this.skin = skin;
 };
 model_CharStartConfig.__name__ = true;
-var model_PlayerData = function(slayedCounter,expGained,currentLevel,label,control,teamId) {
-	this.slayedCounter = slayedCounter;
-	this.expGained = expGained;
-	this.currentLevel = currentLevel;
-	this.label = label;
-	this.control = control;
-	this.teamId = teamId;
-};
-model_PlayerData.__name__ = true;
-var model_MobData = function(currentLevel) {
-	this.currentLevel = currentLevel;
-};
-model_MobData.__name__ = true;
 var model_DefaultValues = function() { };
 model_DefaultValues.__name__ = true;
 model_DefaultValues.getDefaultGameConfiguration = function() {
@@ -1030,9 +1017,9 @@ model_MainMenuDefaultValues.init = function() {
 };
 model_MainMenuDefaultValues.getPvpGameConfiguration = function() {
 	var slotsPVP = [];
-	slotsPVP.push(new model_CharStartConfig("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	slotsPVP.push(new model_CharStartConfig("Player 2",model_PlayerType.BOWMAN,model_ControlType.ARROWS,500,300,"p2",2));
-	slotsPVP.push(new model_CharStartConfig("Player 3",model_PlayerType.MAGE,model_ControlType.AWSD,600,300,"p3",3));
+	slotsPVP.push(new model_CharStartConfig("Player 1","horseman","mouse",400,300,"p1",1));
+	slotsPVP.push(new model_CharStartConfig("Player 2","bowman","keys_arrows",500,300,"p2",2));
+	slotsPVP.push(new model_CharStartConfig("Player 3","mage","keys_awsd",600,300,"p3",3));
 	var configuration = model_DefaultValues.getDefaultGameConfiguration();
 	configuration.slots = slotsPVP;
 	configuration.mobAmount = 2;
@@ -1040,12 +1027,12 @@ model_MainMenuDefaultValues.getPvpGameConfiguration = function() {
 };
 model_MainMenuDefaultValues.getPveGameConfiguration = function() {
 	var slotsPVE = [];
-	slotsPVE.push(new model_CharStartConfig("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	slotsPVE.push(new model_CharStartConfig("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,200,300,"p2",2));
-	slotsPVE.push(new model_CharStartConfig("bot 2",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,300,300,"p3",2));
-	slotsPVE.push(new model_CharStartConfig("bot 3",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,500,300,"p4",2));
-	slotsPVE.push(new model_CharStartConfig("bot 4",model_PlayerType.SWORDMAN,model_ControlType.BOT_SIMPLE,600,300,"p5",2));
-	slotsPVE.push(new model_CharStartConfig("bot 5",model_PlayerType.ELF,model_ControlType.BOT_HARD,700,300,"p6",3));
+	slotsPVE.push(new model_CharStartConfig("Player 1","horseman","mouse",400,300,"p1",1));
+	slotsPVE.push(new model_CharStartConfig("bot 1","swordman","bot_simple",200,300,"p2",2));
+	slotsPVE.push(new model_CharStartConfig("bot 2","swordman","bot_simple",300,300,"p3",2));
+	slotsPVE.push(new model_CharStartConfig("bot 3","swordman","bot_simple",500,300,"p4",2));
+	slotsPVE.push(new model_CharStartConfig("bot 4","swordman","bot_simple",600,300,"p5",2));
+	slotsPVE.push(new model_CharStartConfig("bot 5","elf","bot_hard",700,300,"p6",3));
 	var configuration = model_DefaultValues.getDefaultGameConfiguration();
 	configuration.slots = slotsPVE;
 	configuration.mobAmount = 3;
@@ -1053,12 +1040,12 @@ model_MainMenuDefaultValues.getPveGameConfiguration = function() {
 };
 model_MainMenuDefaultValues.getTeamsGameConfiguration = function() {
 	var slotsTEAMS = [];
-	slotsTEAMS.push(new model_CharStartConfig("Player 1",model_PlayerType.HORSEMAN,model_ControlType.MOUSE,400,300,"p1",1));
-	slotsTEAMS.push(new model_CharStartConfig("Player 2",model_PlayerType.SWORDMAN,model_ControlType.ARROWS,200,300,"p2",1));
-	slotsTEAMS.push(new model_CharStartConfig("Player 3",model_PlayerType.ELF,model_ControlType.AWSD,300,300,"p3",1));
-	slotsTEAMS.push(new model_CharStartConfig("bot 1",model_PlayerType.SWORDMAN,model_ControlType.BOT_HARD,500,300,"p4",3));
-	slotsTEAMS.push(new model_CharStartConfig("bot 2",model_PlayerType.MAGE,model_ControlType.BOT_HARD,600,300,"p5",3));
-	slotsTEAMS.push(new model_CharStartConfig("bot 3",model_PlayerType.HORSEMAN,model_ControlType.BOT_HARD,700,300,"p6",3));
+	slotsTEAMS.push(new model_CharStartConfig("Player 1","horseman","mouse",400,300,"p1",1));
+	slotsTEAMS.push(new model_CharStartConfig("Player 2","swordman","keys_arrows",200,300,"p2",1));
+	slotsTEAMS.push(new model_CharStartConfig("Player 3","elf","keys_awsd",300,300,"p3",1));
+	slotsTEAMS.push(new model_CharStartConfig("bot 1","swordman","bot_hard",500,300,"p4",3));
+	slotsTEAMS.push(new model_CharStartConfig("bot 2","mage","bot_hard",600,300,"p5",3));
+	slotsTEAMS.push(new model_CharStartConfig("bot 3","horseman","bot_hard",700,300,"p6",3));
 	var configuration = model_DefaultValues.getDefaultGameConfiguration();
 	configuration.slots = slotsTEAMS;
 	configuration.mobAmount = 3;
@@ -1077,10 +1064,10 @@ model_Model.init = function(configuration) {
 	while(_g < _g1.length) {
 		var slot = _g1[_g];
 		++_g;
-		model_Model.playersStartConfig.push(model_Model.getCharStartConfigByDefaultValues(slot));
+		model_Model.playersStartConfig.push(model_Model.getCharStartConfigBySlotValue(slot));
 	}
 };
-model_Model.getCharStartConfigByDefaultValues = function(slot) {
+model_Model.getCharStartConfigBySlotValue = function(slot) {
 	return new model_CharStartConfig(slot.label,slot.charType,slot.control,slot.x,slot.y,slot.name,slot.skin);
 };
 var msignal_Signal0 = function() {
@@ -1301,11 +1288,11 @@ phasergame_MoverCharacters.prototype = {
 			++_g;
 			var id = currentPlayer.getPhysicBody().name;
 			var _this = model_Model.playersData;
-			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.BOT_SIMPLE) {
+			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == "bot_simple") {
 				this.simpleBotModel(currentPlayer,model_DefaultValues.botSimpleTimeoutDelay);
 			} else {
 				var _this1 = model_Model.playersData;
-				if((__map_reserved[id] != null ? _this1.getReserved(id) : _this1.h[id]).control == model_ControlType.BOT_HARD) {
+				if((__map_reserved[id] != null ? _this1.getReserved(id) : _this1.h[id]).control == "bot_hard") {
 					this.hardBotModel(currentPlayer,model_DefaultValues.botHardTimeoutDelay);
 				}
 			}
@@ -1379,7 +1366,7 @@ phasergame_MoverCharacters.prototype = {
 			var id = currentPlayer.getPhysicBody().name;
 			var tmp;
 			var _this = model_Model.playersData;
-			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == model_ControlType.MOUSE) {
+			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == "mouse") {
 				tmp = !this.isPause;
 			} else {
 				tmp = false;
@@ -1397,14 +1384,14 @@ phasergame_MoverCharacters.prototype = {
 		var deltaAWSDx = this.defineCursorMoveAxis(this.keys.D.isDown,this.keys.A.isDown);
 		var deltaAWSDy = this.defineCursorMoveAxis(this.keys.S.isDown,this.keys.W.isDown);
 		if(deltaAWSDx != 0 || deltaAWSDy != 0) {
-			this.onControlKeysPressed(deltaAWSDx,deltaAWSDy,model_ControlType.AWSD);
+			this.onControlKeysPressed(deltaAWSDx,deltaAWSDy,"keys_awsd");
 		}
 	}
 	,checkCursorKeys: function() {
 		var deltaCursorX = this.defineCursorMoveAxis(this.cursor.right.isDown,this.cursor.left.isDown);
 		var deltaCursorY = this.defineCursorMoveAxis(this.cursor.down.isDown,this.cursor.up.isDown);
 		if(deltaCursorX != 0 || deltaCursorY != 0) {
-			this.onControlKeysPressed(deltaCursorX,deltaCursorY,model_ControlType.ARROWS);
+			this.onControlKeysPressed(deltaCursorX,deltaCursorY,"keys_arrows");
 		}
 	}
 	,defineCursorMoveAxis: function(isPositive,isNegative) {
@@ -1793,7 +1780,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 			this.allMobList.push(mob1);
 			var this1 = model_Model.mobsData;
 			var k = mob1.getPhysicBody().name;
-			var v = new model_MobData(1);
+			var v = { currentLevel : 1};
 			var _this = this1;
 			if(__map_reserved[k] != null) {
 				_this.setReserved(k,v);
@@ -1807,7 +1794,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	,getMobConfigByLvl: function(lvlId,mobId) {
 		var mobX = Utils.getRandomScreenX();
 		var mobY = Utils.getRandomScreenY();
-		return new model_CharStartConfig("",model_DefaultValues.mobTypes[lvlId],model_ControlType.BOT_SIMPLE,mobX,mobY,"m" + mobId,1);
+		return new model_CharStartConfig("",model_DefaultValues.mobTypes[lvlId],"bot_simple",mobX,mobY,"m" + mobId,1);
 	}
 	,update: function(time,delta) {
 		var _g = 0;
@@ -1878,45 +1865,40 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 	preload: function() {
 		var frameSize = 32;
 		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
-		this.phaserScene.load.spritesheet(model_PlayerType.SWORDMAN,"assets/char_swordman.png",frmeConfig);
-		var k = model_PlayerType.SWORDMAN;
+		this.phaserScene.load.spritesheet("swordman","assets/char_swordman.png",frmeConfig);
 		var _this = model_Model.skinsCollection;
-		if(__map_reserved[k] != null) {
-			_this.setReserved(k,3);
+		if(__map_reserved["swordman"] != null) {
+			_this.setReserved("swordman",3);
 		} else {
-			_this.h[k] = 3;
+			_this.h["swordman"] = 3;
 		}
-		this.phaserScene.load.spritesheet(model_PlayerType.BOWMAN,"assets/char_bowman.png",frmeConfig);
-		var k1 = model_PlayerType.BOWMAN;
+		this.phaserScene.load.spritesheet("bowman","assets/char_bowman.png",frmeConfig);
 		var _this1 = model_Model.skinsCollection;
-		if(__map_reserved[k1] != null) {
-			_this1.setReserved(k1,3);
+		if(__map_reserved["bowman"] != null) {
+			_this1.setReserved("bowman",3);
 		} else {
-			_this1.h[k1] = 3;
+			_this1.h["bowman"] = 3;
 		}
-		this.phaserScene.load.spritesheet(model_PlayerType.ELF,"assets/char_elf.png",frmeConfig);
-		var k2 = model_PlayerType.ELF;
+		this.phaserScene.load.spritesheet("elf","assets/char_elf.png",frmeConfig);
 		var _this2 = model_Model.skinsCollection;
-		if(__map_reserved[k2] != null) {
-			_this2.setReserved(k2,3);
+		if(__map_reserved["elf"] != null) {
+			_this2.setReserved("elf",3);
 		} else {
-			_this2.h[k2] = 3;
+			_this2.h["elf"] = 3;
 		}
-		this.phaserScene.load.spritesheet(model_PlayerType.MAGE,"assets/char_mage.png",frmeConfig);
-		var k3 = model_PlayerType.MAGE;
+		this.phaserScene.load.spritesheet("mage","assets/char_mage.png",frmeConfig);
 		var _this3 = model_Model.skinsCollection;
-		if(__map_reserved[k3] != null) {
-			_this3.setReserved(k3,3);
+		if(__map_reserved["mage"] != null) {
+			_this3.setReserved("mage",3);
 		} else {
-			_this3.h[k3] = 3;
+			_this3.h["mage"] = 3;
 		}
-		this.phaserScene.load.spritesheet(model_PlayerType.HORSEMAN,"assets/char_horseman.png",frmeConfig);
-		var k4 = model_PlayerType.HORSEMAN;
+		this.phaserScene.load.spritesheet("horseman","assets/char_horseman.png",frmeConfig);
 		var _this4 = model_Model.skinsCollection;
-		if(__map_reserved[k4] != null) {
-			_this4.setReserved(k4,3);
+		if(__map_reserved["horseman"] != null) {
+			_this4.setReserved("horseman",3);
 		} else {
-			_this4.h[k4] = 3;
+			_this4.h["horseman"] = 3;
 		}
 	}
 	,preparePlayerByConfig: function(config) {
@@ -1930,11 +1912,11 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 		while(_g < 6) {
 			var i = _g++;
 			var playerConfig = model_Model.playersStartConfig[i];
-			if(playerConfig != null && playerConfig.control != model_ControlType.NONE) {
+			if(playerConfig != null && playerConfig.control != "none") {
 				var player = this.preparePlayerByConfig(playerConfig);
 				var this1 = model_Model.playersData;
 				var k = playerConfig.name;
-				var v = new model_PlayerData(0,0,1,playerConfig.label,playerConfig.control,playerConfig.skin);
+				var v = this.getNewPlayerData(playerConfig.label,playerConfig.control,playerConfig.skin);
 				var _this = this1;
 				if(__map_reserved[k] != null) {
 					_this.setReserved(k,v);
@@ -1945,7 +1927,7 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 				var _this1 = model_Model.playersData;
 				if((__map_reserved[teamId] != null ? _this1.getReserved(teamId) : _this1.h[teamId]) == null) {
 					var this2 = model_Model.playersData;
-					var v1 = new model_PlayerData(0,0,1,teamId,"",-1);
+					var v1 = this.getNewPlayerData(teamId,"",-1);
 					var _this2 = this2;
 					if(__map_reserved[teamId] != null) {
 						_this2.setReserved(teamId,v1);
@@ -1956,6 +1938,9 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 			}
 		}
 		onReadyToMove(this.allPlayersList);
+	}
+	,getNewPlayerData: function(label,control,skin) {
+		return { slayedCounter : 0, expGained : 0, currentLevel : 1, label : label, control : control, teamId : skin};
 	}
 	,update: function(time,delta) {
 		var _g = 0;
