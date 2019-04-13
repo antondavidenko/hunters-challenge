@@ -7,13 +7,6 @@ enum Page {
     HELP;
 }
 
-typedef CharacterConfig = {
-    var MOVE_SPEED:Int;
-    var MIN_DISTANCE:Int;
-    var IDLE_POSE_ID:Int;
-    var COLISION_ANIM_ID:Int;
-}
-
 class Skin {
     static public inline var RED:Int = 1;
     static public inline var GREEN:Int = 2;
@@ -37,24 +30,21 @@ class ControlType {
     static public inline var NONE:String = "none";
 }
 
-class CharStartConfig {
-    public function new(label:String, charType:String, control:String, x:Int, y:Int, name:String, skin:Int) {
-        this.charType = charType;
-        this.x = x;
-        this.y = y;
-        this.label = label;
-        this.name = name;
-        this.control = control;
-        this.skin = skin;
-    }
+typedef CharacterConfig = {
+    var MOVE_SPEED:Int;
+    var MIN_DISTANCE:Int;
+    var IDLE_POSE_ID:Int;
+    var COLISION_ANIM_ID:Int;
+}
 
-    public var charType:String;
-    public var x:Int;
-    public var y:Int;
-    public var label:String;
-    public var name:String;
-    public var control:String;
-    public var skin:Int;
+typedef CharStartConfig = {
+    var charType:String;
+    var x:Int;
+    var y:Int;
+    var label:String;
+    var name:String;
+    var control:String;
+    var skin:Int;
 }
 
 typedef PlayerData = {

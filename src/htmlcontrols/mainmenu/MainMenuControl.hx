@@ -1,7 +1,6 @@
 package htmlcontrols.mainmenu;
 
-import model.DataTypes.CharStartConfig;
-import model.DefaultValues;
+import model.MainMenuDefaultValues;
 import model.DataTypes.GameConfiguration;
 import model.DataTypes.Page;
 import htmlcontrols.mainmenu.MainMenu.MainMenuActions;
@@ -10,7 +9,7 @@ import model.Model;
 class MainMenuControl {
 
     private var onLogin:GameConfiguration -> Void;
-    private var configuration:GameConfiguration = DefaultValues.getDefaultGameConfiguration();
+    private var configuration:GameConfiguration = MainMenuDefaultValues.getDefaultGameConfiguration();
 
     public function new(onLogin:GameConfiguration -> Void) {
         this.onLogin = onLogin;
@@ -39,14 +38,16 @@ class MainMenuControl {
     }
 
     private function setSlot(i:Int):Void {
-        var label:String = getById('slot${i}Label');
-        var charType:String = getById('slot${i}Class');
-        var controlType:String = getById('slot${i}Control');
         var spawnXY:Array<String> = Std.string(getById('slot${i}Spawn')).split(",");
-        var skin:Int = getById('slot${i}Skin');
-        var x:Int = Std.parseInt(spawnXY[0]);
-        var y:Int = Std.parseInt(spawnXY[1]);
-        configuration.slots[i] = new CharStartConfig(label, charType, controlType, x, y, "p" + i, skin);
+        configuration.slots[i] = {
+            label: getById('slot${i}Label'),
+            charType: getById('slot${i}Class'),
+            control: getById('slot${i}Control'),
+            x: Std.parseInt(spawnXY[0]),
+            y: Std.parseInt(spawnXY[1]),
+            name: "p" + i,
+            skin: getById('slot${i}Skin')
+        };
     }
 
     private function elementIsExist(i:Int):Bool {

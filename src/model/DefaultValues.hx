@@ -27,14 +27,4 @@ class DefaultValues {
     static public var botSimpleTimeoutDelay:Int = 1000;
     static public var botHardTimeoutDelay:Int = 750;
     static public var mobTimeoutDelay:Int = 1000;
-
-    static public function getDefaultGameConfiguration():GameConfiguration {
-        return {
-            slots:[],
-            screenMode:DefaultValues.screenMode,
-            showLabel:DefaultValues.showLabel,
-            baseExpGain:DefaultValues.baseExpGain,
-            mobAmount:5
-        };
-    }
 }

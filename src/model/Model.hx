@@ -31,11 +31,15 @@ class Model {
         showLabel = configuration.showLabel;
 
         for (slot in configuration.slots) {
-            playersStartConfig.push(getCharStartConfigBySlotValue(slot));
+            playersStartConfig.push({
+                label:slot.label,
+                charType:slot.charType,
+                control:slot.control,
+                x:slot.x,
+                y:slot.y,
+                name:slot.name,
+                skin:slot.skin
+            });
         }
-    }
-
-    static private function getCharStartConfigBySlotValue(slot:CharStartConfig):CharStartConfig {
-        return new CharStartConfig(slot.label, slot.charType, slot.control, slot.x,slot.y, slot.name, slot.skin);
     }
 }
