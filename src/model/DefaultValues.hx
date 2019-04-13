@@ -1,11 +1,10 @@
 package model;
 
-import model.DataTypes.GameConfiguration;
 import model.DataTypes.CharacterConfig;
 
 class DefaultValues {
-    static public var phaserGameWidth:Int = 950;
-    static public var phaserGameHeight:Int = 654;
+    static public inline var phaserGameWidth:Int = 950;
+    static public inline var phaserGameHeight:Int = 654;
 
     static public var characterConfig:CharacterConfig = {
         MOVE_SPEED:150,
@@ -19,12 +18,14 @@ class DefaultValues {
     static public var mobSpeeds:Array<Int> = [100, 5, 25, 300, 300];
     static public var maxMobLvlId = 4;
 
-    static public var maxLvl:Int = 5;
-    static public var screenMode:String = "";
-    static public var showLabel:Bool = true;
-    static public var baseExpGain:Float = 25;
+    static public inline var maxLvl:Int = 5;
+    static public inline var screenMode:String = "";
+    static public inline var showLabel:Bool = true;
+    static public inline var baseExpGain:Float = 25;
 
-    static public var botSimpleTimeoutDelay:Int = 1000;
-    static public var botHardTimeoutDelay:Int = 750;
-    static public var mobTimeoutDelay:Int = 1000;
+    static public inline var botSimpleTimeoutDelay:Int = 1000;
+    static public inline var botHardTimeoutDelay:Int = 750;
+    static public inline var mobTimeoutDelay:Int = 1000;
+
+    static public inline var MaxMainMenuSize:Int = 622;
 }

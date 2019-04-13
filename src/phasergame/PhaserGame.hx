@@ -1,5 +1,6 @@
 package phasergame;
 
+import msignal.Signal.Signal0;
 import model.DefaultValues;
 import phaser.gameobjects.Text;
 import phasergame.CollisionDetector.CharackterAndMobData;
@@ -10,16 +11,20 @@ import phasergame.sceneobjects.PlayersCollection;
 import phasergame.sceneobjects.MobsCollection;
 import phasergame.sceneobjects.Background;
 
+class PhaserGameActions
+{
+    public static var gameEnd:Signal0 = new Signal0();
+    public static var mobSlayed:Signal0 = new Signal0();
+}
+
 class PhaserGame {
     private var scene:PhaserScene;
     private var game:phaser.Game;
-    private var onGameEnd:Void -> Void;
 
     public function new() {}
 
     public function init(gameCanvas:CanvasElement, sidePanelControl:SidePanelControl) {
         scene = new PhaserScene(sidePanelControl);
-        scene.setCallbackOnGameEnd(onGameEndPhaserGame);
         game = new phaser.Game({
             width: DefaultValues.phaserGameWidth,
             height: DefaultValues.phaserGameHeight,
@@ -27,14 +32,6 @@ class PhaserGame {
             scene: scene,
             physics: {"default": "arcade", "arcade": { "debug": false }},
         });
-    }
-
-    public function setCallbackOnGameEnd(callback:Void -> Void):Void {
-        onGameEnd = callback;
-    }
-
-    public function onGameEndPhaserGame():Void {
-        onGameEnd();
     }
 }
 
@@ -48,7 +45,6 @@ class PhaserScene extends phaser.Scene {
     private var collisionDetector:CollisionDetector;
     private var moverCharacters:MoverCharacters;
 
-    private var onGameEnd:Void -> Void;
     private var isPaused:Bool = false;
 
     public function new(sidePanelControl:SidePanelControl) {
@@ -59,10 +55,6 @@ class PhaserScene extends phaser.Scene {
         collisionDetector = new CollisionDetector(this);
         moverCharacters = new MoverCharacters();
         this.sidePanelControl = sidePanelControl;
-    }
-
-    public function setCallbackOnGameEnd(callback:Void -> Void):Void {
-        onGameEnd = callback;
     }
 
     public function preload() {
@@ -103,6 +95,7 @@ class PhaserScene extends phaser.Scene {
 
     private function onCharackterAndMobCollision(dataNameId:CharackterAndMobData):Void {
         if (mobsCollection.onMobCollision(dataNameId.mob)) {
+            PhaserGameActions.mobSlayed.dispatch();
             var mobLvl:Int = PhaserGameModel.mobsData[dataNameId.mob].currentLevel;
             playersCollection.onPlayerSlayMob(dataNameId.charackter, mobLvl);
         }
@@ -112,7 +105,7 @@ class PhaserScene extends phaser.Scene {
         var isGameEnd:Bool = PhaserGameModel.maxLvlInGame == PhaserGameModel.maxLvl;
 
         if (isGameEnd) {
-            onGameEnd();
+            PhaserGameActions.gameEnd.dispatch();
             showEndGameMessage();
             this.physics.pause();
             moverCharacters.setPause(true);

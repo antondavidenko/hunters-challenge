@@ -18,6 +18,7 @@ HxOverrides.cca = function(s,index) {
 var Main = function() {
 	model_MainMenuDefaultValues.init();
 	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { page : model_MainMenuDefaultValues.page, data : model_MainMenuDefaultValues.gameConfigurationsData}, key : null, ref : null},window.document.getElementById("MainMenu"));
+	this.soundPlayer = new sounds_SoundPlayer();
 	this.gameCanvas = window.document.getElementById("gameCanvas");
 	this.sidePanel = window.document.getElementById("sidePanel");
 	this.loginPanel = window.document.getElementById("loginPanel");
@@ -43,6 +44,7 @@ Main.prototype = {
 		this.gameCanvas.style.left = w - 950 * multiplayer + "px";
 		this.gameCanvas.style.top = (h - 654 * multiplayer) / 2 + "px";
 		this.sidePanel.style.width = (w - 950 * multiplayer - 32 | 0) + "px";
+		this.loginPanel.style.marginTop = (h - 622) / 2 + "px";
 	}
 	,onLogin: function(configuration) {
 		model_PhaserGameModel.init(configuration);
@@ -51,12 +53,9 @@ Main.prototype = {
 		this.sidePanel.style.display = "block";
 		this.loginPanel.style.display = "none";
 		this.phaserGame.init(this.gameCanvas,this.sidePanelControl);
-		this.phaserGame.setCallbackOnGameEnd($bind(this,this.onGameEnd));
 		if(model_PhaserGameModel.screenMode == "Fullscreen") {
 			this.HTML5game.requestFullscreen();
 		}
-	}
-	,onGameEnd: function() {
 	}
 };
 Math.__name__ = true;
@@ -128,10 +127,10 @@ Utils.distanceBetween = function(x1,y1,x2,y2) {
 	return Math.sqrt(dx * dx + dy * dy);
 };
 Utils.getRandomScreenX = function() {
-	return Std.random(model_DefaultValues.phaserGameWidth);
+	return Std.random(950);
 };
 Utils.getRandomScreenY = function() {
-	return Std.random(model_DefaultValues.phaserGameHeight);
+	return Std.random(654);
 };
 var haxe_IMap = function() { };
 haxe_IMap.__name__ = true;
@@ -1033,7 +1032,7 @@ model_MainMenuDefaultValues.getTeamsGameConfiguration = function() {
 	return configuration;
 };
 model_MainMenuDefaultValues.getDefaultGameConfiguration = function() {
-	return { slots : [], screenMode : model_DefaultValues.screenMode, showLabel : model_DefaultValues.showLabel, baseExpGain : model_DefaultValues.baseExpGain, teamMode : false, mobAmount : 5};
+	return { slots : [], screenMode : "", showLabel : true, baseExpGain : 25, teamMode : false, mobAmount : 5};
 };
 model_MainMenuDefaultValues.getCharStartConfig = function(slotNum,charType,control,spawnPointId,skin) {
 	var prefix = control != "bot_hard" && control != "bot_simple" ? "Player" : "Bot";
@@ -1044,7 +1043,7 @@ var model_PhaserGameModel = function() { };
 model_PhaserGameModel.__name__ = true;
 model_PhaserGameModel.init = function(configuration) {
 	model_PhaserGameModel.mobAmount = configuration.mobAmount;
-	model_PhaserGameModel.maxLvl = model_DefaultValues.maxLvl;
+	model_PhaserGameModel.maxLvl = 5;
 	model_PhaserGameModel.baseExpGain = configuration.baseExpGain;
 	model_PhaserGameModel.screenMode = configuration.screenMode;
 	model_PhaserGameModel.showLabel = configuration.showLabel;
@@ -1264,7 +1263,7 @@ phasergame_MoverCharacters.prototype = {
 		while(_g < allMobList.length) {
 			var currentMob = allMobList[_g];
 			++_g;
-			this.simpleBotModel(currentMob,model_DefaultValues.mobTimeoutDelay);
+			this.simpleBotModel(currentMob,1000);
 		}
 	}
 	,initPlayers: function(allPlayersList) {
@@ -1276,11 +1275,11 @@ phasergame_MoverCharacters.prototype = {
 			var id = currentPlayer.getPhysicBody().name;
 			var _this = model_PhaserGameModel.playersData;
 			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == "bot_simple") {
-				this.simpleBotModel(currentPlayer,model_DefaultValues.botSimpleTimeoutDelay);
+				this.simpleBotModel(currentPlayer,1000);
 			} else {
 				var _this1 = model_PhaserGameModel.playersData;
 				if((__map_reserved[id] != null ? _this1.getReserved(id) : _this1.h[id]).control == "bot_hard") {
-					this.hardBotModel(currentPlayer,model_DefaultValues.botHardTimeoutDelay);
+					this.hardBotModel(currentPlayer,750);
 				}
 			}
 		}
@@ -1412,20 +1411,15 @@ phasergame_MoverCharacters.prototype = {
 		}
 	}
 };
+var phasergame_PhaserGameActions = function() { };
+phasergame_PhaserGameActions.__name__ = true;
 var phasergame_PhaserGame = function() {
 };
 phasergame_PhaserGame.__name__ = true;
 phasergame_PhaserGame.prototype = {
 	init: function(gameCanvas,sidePanelControl) {
 		this.scene = new phasergame_PhaserScene(sidePanelControl);
-		this.scene.setCallbackOnGameEnd($bind(this,this.onGameEndPhaserGame));
-		this.game = new Phaser.Game({ width : model_DefaultValues.phaserGameWidth, height : model_DefaultValues.phaserGameHeight, canvas : gameCanvas, scene : this.scene, physics : { "default" : "arcade", "arcade" : { "debug" : false}}});
-	}
-	,setCallbackOnGameEnd: function(callback) {
-		this.onGameEnd = callback;
-	}
-	,onGameEndPhaserGame: function() {
-		this.onGameEnd();
+		this.game = new Phaser.Game({ width : 950, height : 654, canvas : gameCanvas, scene : this.scene, physics : { "default" : "arcade", "arcade" : { "debug" : false}}});
 	}
 };
 var phasergame_PhaserScene = function(sidePanelControl) {
@@ -1441,10 +1435,7 @@ var phasergame_PhaserScene = function(sidePanelControl) {
 phasergame_PhaserScene.__name__ = true;
 phasergame_PhaserScene.__super__ = Phaser.Scene;
 phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
-	setCallbackOnGameEnd: function(callback) {
-		this.onGameEnd = callback;
-	}
-	,preload: function() {
+	preload: function() {
 		this.background.preload();
 		this.playersCollection.preload();
 		this.mobsCollection.preload();
@@ -1480,6 +1471,7 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 	}
 	,onCharackterAndMobCollision: function(dataNameId) {
 		if(this.mobsCollection.onMobCollision(dataNameId.mob)) {
+			phasergame_PhaserGameActions.mobSlayed.dispatch();
 			var key = dataNameId.mob;
 			var _this = model_PhaserGameModel.mobsData;
 			var mobLvl = (__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]).currentLevel;
@@ -1489,7 +1481,7 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 	,checkGameEndCreteria: function() {
 		var isGameEnd = model_PhaserGameModel.maxLvlInGame == model_PhaserGameModel.maxLvl;
 		if(isGameEnd) {
-			this.onGameEnd();
+			phasergame_PhaserGameActions.gameEnd.dispatch();
 			this.showEndGameMessage();
 			this.physics.pause();
 			this.moverCharacters.setPause(true);
@@ -1503,11 +1495,11 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		header.setStroke("#8ca7f7",16);
 		header.setShadow(2,2,"#333333",2,true,true);
 		header.depth = 100500;
-		header.x = (model_DefaultValues.phaserGameWidth - header.width) / 2;
+		header.x = (950 - header.width) / 2;
 		var info = this.add.text(120,310,"winner is: " + model_PhaserGameModel.leaderPlayerLabel,{ fontFamily : "Arial Black", fontSize : 46, color : "#ccd8ff"});
 		info.setShadow(2,2,"#333333",2,true,true);
 		info.depth = 100500;
-		info.x = (model_DefaultValues.phaserGameWidth - info.width) / 2;
+		info.x = (950 - info.width) / 2;
 	}
 });
 var phasergame_sceneobjects_Background = function(phaserScene) {
@@ -2002,6 +1994,40 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 };
 var react_ReactMacro = function() { };
 react_ReactMacro.__name__ = true;
+var sounds_SoundPlayer = function() {
+	this.sndVictory = new Howl(this.getOptionByFlieName("victory.mp3"));
+	this.sndClick = new Howl(this.getOptionByFlieName("click.mp3"));
+	this.sndHit = new Howl(this.getOptionByFlieName("hit.mp3"));
+	this.sndTheme = new Howl(this.getOptionByFlieName("theme.mp3"));
+	htmlcontrols_mainmenu_MainMenuActions.navigateToPage.add($bind(this,this.onButtonClick));
+	htmlcontrols_mainmenu_MainMenuActions.startGame.add($bind(this,this.onStartGame));
+	phasergame_PhaserGameActions.gameEnd.add($bind(this,this.onEndGame));
+	phasergame_PhaserGameActions.mobSlayed.add($bind(this,this.onMobSlayed));
+};
+sounds_SoundPlayer.__name__ = true;
+sounds_SoundPlayer.prototype = {
+	getOptionByFlieName: function(fileName) {
+		var options = { };
+		options.src = ["sounds/" + fileName];
+		options.autoplay = false;
+		options.loop = false;
+		return options;
+	}
+	,onButtonClick: function(page) {
+		this.sndClick.play();
+	}
+	,onStartGame: function(page) {
+		this.sndClick.play();
+		this.sndTheme.play();
+	}
+	,onEndGame: function() {
+		this.sndTheme.stop();
+		this.sndVictory.play();
+	}
+	,onMobSlayed: function() {
+		this.sndHit.play();
+	}
+};
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
 String.__name__ = true;
@@ -2048,6 +2074,7 @@ model_DefaultValues.baseExpGain = 25;
 model_DefaultValues.botSimpleTimeoutDelay = 1000;
 model_DefaultValues.botHardTimeoutDelay = 750;
 model_DefaultValues.mobTimeoutDelay = 1000;
+model_DefaultValues.MaxMainMenuSize = 622;
 model_MainMenuDefaultValues.gameConfigurationsData = new haxe_ds_EnumValueMap();
 model_MainMenuDefaultValues.page = model_Page.PVE;
 model_MainMenuDefaultValues.spawnPoints = ["200,300","300,300","400,300","500,300","600,300","700,300"];
@@ -2058,5 +2085,7 @@ model_PhaserGameModel.totalMobSlayedCounter = 0;
 model_PhaserGameModel.playersData = new haxe_ds_StringMap();
 model_PhaserGameModel.mobsData = new haxe_ds_StringMap();
 model_PhaserGameModel.skinsCollection = new haxe_ds_StringMap();
+phasergame_PhaserGameActions.gameEnd = new msignal_Signal0();
+phasergame_PhaserGameActions.mobSlayed = new msignal_Signal0();
 Main.main();
 })();

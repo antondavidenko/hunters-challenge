@@ -4,4 +4,5 @@
 -lib react
 -lib msignal
 -lib haxe-phaser3
+-lib howlerjs
 -D react_global

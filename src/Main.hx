@@ -1,3 +1,5 @@
+import sounds.SoundPlayer;
+import model.DefaultValues;
 import model.DataTypes.GameConfiguration;
 import htmlcontrols.mainmenu.MainMenu;
 import htmlcontrols.sidepanel.SidePanel;
@@ -21,6 +23,7 @@ class Main {
     private var phaserGame:PhaserGame;
     private var sidePanelControl:SidePanelControl;
     private var loginPanelControl:MainMenuControl;
+    private var soundPlayer:SoundPlayer;
 
     static function main() {
         return new Main();
@@ -28,7 +31,11 @@ class Main {
 
     public function new() {
         MainMenuDefaultValues.init();
-        ReactDOM.render(jsx('<$MainMenu data=${MainMenuDefaultValues.gameConfigurationsData} page=${MainMenuDefaultValues.page}/>'), js.Browser.document.getElementById('MainMenu'));
+        ReactDOM.render(
+            jsx('<$MainMenu data=${MainMenuDefaultValues.gameConfigurationsData} page=${MainMenuDefaultValues.page}/>'),
+            js.Browser.document.getElementById('MainMenu')
+        );
+        soundPlayer = new SoundPlayer();
         gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
         sidePanel = cast js.Browser.document.getElementById("sidePanel");
         loginPanel = cast js.Browser.document.getElementById("loginPanel");
@@ -53,20 +60,22 @@ class Main {
         gameCanvas.style.top = ((h - 654 * multiplayer) / 2) + 'px';
         //todo: use actual padding of sidePanel instead of hardcoded 16*2
         sidePanel.style.width = Std.int(w - 950 * multiplayer - 16*2) + 'px';
+
+        loginPanel.style.marginTop = (h - DefaultValues.MaxMainMenuSize)/2 + 'px';
     }
 
     private function onLogin(configuration:GameConfiguration) {
         PhaserGameModel.init(configuration);
-        ReactDOM.render(jsx('<$SidePanel players=${PhaserGameModel.playersStartConfig}/>'), js.Browser.document.getElementById('sidePanel'));
+        ReactDOM.render(
+            jsx('<$SidePanel players=${PhaserGameModel.playersStartConfig}/>'),
+            js.Browser.document.getElementById('sidePanel')
+        );
         gameCanvas.style.display = "block";
         sidePanel.style.display = "block";
         loginPanel.style.display = "none";
         phaserGame.init(gameCanvas, sidePanelControl);
-        phaserGame.setCallbackOnGameEnd(onGameEnd);
         if (PhaserGameModel.screenMode == "Fullscreen") {
             HTML5game.requestFullscreen();
         }
     }
-
-    private function onGameEnd() {}
 }
