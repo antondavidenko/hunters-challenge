@@ -5,7 +5,7 @@ import model.DataTypes.PlayerData;
 import model.DataTypes.MobData;
 import model.DataTypes.CharStartConfig;
 
-class Model {
+class PhaserGameModel {
     static public var playersStartConfig:Array<CharStartConfig> = [];
 
     static public var mobAmount:Int;
@@ -29,6 +29,7 @@ class Model {
         baseExpGain = configuration.baseExpGain;
         screenMode = configuration.screenMode;
         showLabel = configuration.showLabel;
+        teamMode = configuration.teamMode;
 
         for (slot in configuration.slots) {
             playersStartConfig.push({

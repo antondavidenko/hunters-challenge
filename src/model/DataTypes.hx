@@ -66,4 +66,5 @@ typedef GameConfiguration = {
     var showLabel:Bool;
     var baseExpGain:Float;
     var mobAmount:Int;
+    var teamMode:Bool;
 }

@@ -4,7 +4,7 @@ import model.DefaultValues;
 import phaser.gameobjects.Text;
 import phasergame.CollisionDetector.CharackterAndMobData;
 import htmlcontrols.sidepanel.SidePanelControl;
-import model.Model;
+import model.PhaserGameModel;
 import js.html.CanvasElement;
 import phasergame.sceneobjects.PlayersCollection;
 import phasergame.sceneobjects.MobsCollection;
@@ -103,13 +103,13 @@ class PhaserScene extends phaser.Scene {
 
     private function onCharackterAndMobCollision(dataNameId:CharackterAndMobData):Void {
         if (mobsCollection.onMobCollision(dataNameId.mob)) {
-            var mobLvl:Int = Model.mobsData[dataNameId.mob].currentLevel;
+            var mobLvl:Int = PhaserGameModel.mobsData[dataNameId.mob].currentLevel;
             playersCollection.onPlayerSlayMob(dataNameId.charackter, mobLvl);
         }
     }
 
     private function checkGameEndCreteria() {
-        var isGameEnd:Bool = Model.maxLvlInGame == Model.maxLvl;
+        var isGameEnd:Bool = PhaserGameModel.maxLvlInGame == PhaserGameModel.maxLvl;
 
         if (isGameEnd) {
             onGameEnd();
@@ -129,7 +129,7 @@ class PhaserScene extends phaser.Scene {
         header.depth = 100500;
         header.x = (DefaultValues.phaserGameWidth - header.width)/2;
 
-        var info:Text = this.add.text(120, 310, 'winner is: ${Model.leaderPlayerLabel}', { fontFamily: "Arial Black", fontSize: 46, color: "#ccd8ff" });
+        var info:Text = this.add.text(120, 310, 'winner is: ${PhaserGameModel.leaderPlayerLabel}', { fontFamily: "Arial Black", fontSize: 46, color: "#ccd8ff" });
         info.setShadow(2, 2, "#333333", 2, true, true);
         info.depth = 100500;
         info.x = (DefaultValues.phaserGameWidth - info.width)/2;

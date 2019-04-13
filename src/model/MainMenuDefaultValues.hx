@@ -64,6 +64,7 @@ class MainMenuDefaultValues {
             screenMode:DefaultValues.screenMode,
             showLabel:DefaultValues.showLabel,
             baseExpGain:DefaultValues.baseExpGain,
+            teamMode:false,
             mobAmount:5
         };
     }

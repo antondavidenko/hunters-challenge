@@ -3,7 +3,7 @@ package phasergame;
 import model.DefaultValues;
 import phaser.input.keyboard.CursorKeys;
 import model.DataTypes.ControlType;
-import model.Model;
+import model.PhaserGameModel;
 import phasergame.sceneobjects.Character;
 
 class MoverCharacters {
@@ -42,9 +42,9 @@ class MoverCharacters {
 
         for (currentPlayer in allPlayersList) {
             var id:String = currentPlayer.getPhysicBody().name;
-            if (Model.playersData[id].control == ControlType.BOT_SIMPLE) {
+            if (PhaserGameModel.playersData[id].control == ControlType.BOT_SIMPLE) {
                 simpleBotModel(currentPlayer, DefaultValues.botSimpleTimeoutDelay);
-            } else if (Model.playersData[id].control == ControlType.BOT_HARD) {
+            } else if (PhaserGameModel.playersData[id].control == ControlType.BOT_HARD) {
                 hardBotModel(currentPlayer, DefaultValues.botHardTimeoutDelay);
             }
         }
@@ -104,7 +104,7 @@ class MoverCharacters {
     private function moveMouseTypedToPointer(pointer):Void {
         for (currentPlayer in allPlayersList) {
             var id:String = currentPlayer.getPhysicBody().name;
-            if (Model.playersData[id].control == ControlType.MOUSE && !isPause) {
+            if (PhaserGameModel.playersData[id].control == ControlType.MOUSE && !isPause) {
                 currentPlayer.setGoToXY(pointer.x, pointer.y);
             }
         }
@@ -136,7 +136,7 @@ class MoverCharacters {
     private function onControlKeysPressed(deltaX:Int, deltaY:Int, keysFlag:String):Void {
         for (currentPlayer in allPlayersList) {
             var id:String = currentPlayer.getPhysicBody().name;
-            if (Model.playersData[id].control == keysFlag && !isPause) {
+            if (PhaserGameModel.playersData[id].control == keysFlag && !isPause) {
                 var targetX:Int = Std.int(currentPlayer.getPhysicBody().x) + deltaX;
                 var targetY:Int = Std.int(currentPlayer.getPhysicBody().y) + deltaY;
                 currentPlayer.setGoToXY(targetX, targetY);

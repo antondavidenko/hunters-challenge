@@ -4,7 +4,6 @@ import model.MainMenuDefaultValues;
 import model.DataTypes.GameConfiguration;
 import model.DataTypes.Page;
 import htmlcontrols.mainmenu.MainMenu.MainMenuActions;
-import model.Model;
 
 class MainMenuControl {
 
@@ -17,7 +16,7 @@ class MainMenuControl {
     }
 
     private function startGame(page:Page):Void {
-        Model.teamMode = page == Page.TEAMS;
+        configuration.teamMode = page == Page.TEAMS;
         updateDefaultValuesByInput();
         onLogin(configuration);
     }

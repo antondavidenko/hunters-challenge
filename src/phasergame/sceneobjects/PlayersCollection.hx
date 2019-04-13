@@ -5,7 +5,7 @@ import model.DataTypes.ControlType;
 import model.DataTypes.PlayerData;
 import model.DataTypes.PlayerType;
 import model.DataTypes.CharStartConfig;
-import model.Model;
+import model.PhaserGameModel;
 import phasergame.sceneobjects.Character;
 
 class PlayersCollection {
@@ -21,15 +21,15 @@ class PlayersCollection {
         var frameSize:Int = 32;
         var frmeConfig:ImageFrameConfig = {frameWidth:frameSize, frameHeight:frameSize};
         phaserScene.load.spritesheet(PlayerType.SWORDMAN, 'assets/char_swordman.png', frmeConfig);
-        Model.skinsCollection[PlayerType.SWORDMAN] = 3;
+        PhaserGameModel.skinsCollection[PlayerType.SWORDMAN] = 3;
         phaserScene.load.spritesheet(PlayerType.BOWMAN, 'assets/char_bowman.png', frmeConfig);
-        Model.skinsCollection[PlayerType.BOWMAN] = 3;
+        PhaserGameModel.skinsCollection[PlayerType.BOWMAN] = 3;
         phaserScene.load.spritesheet(PlayerType.ELF, 'assets/char_elf.png', frmeConfig);
-        Model.skinsCollection[PlayerType.ELF] = 3;
+        PhaserGameModel.skinsCollection[PlayerType.ELF] = 3;
         phaserScene.load.spritesheet(PlayerType.MAGE, 'assets/char_mage.png', frmeConfig);
-        Model.skinsCollection[PlayerType.MAGE] = 3;
+        PhaserGameModel.skinsCollection[PlayerType.MAGE] = 3;
         phaserScene.load.spritesheet(PlayerType.HORSEMAN, 'assets/char_horseman.png', frmeConfig);
-        Model.skinsCollection[PlayerType.HORSEMAN] = 3;
+        PhaserGameModel.skinsCollection[PlayerType.HORSEMAN] = 3;
     }
 
     private function preparePlayerByConfig(config:CharStartConfig):Character {
@@ -41,13 +41,13 @@ class PlayersCollection {
 
     public function init(onReadyToMove:Array<Character> -> Void) {
         for (i in 0...6) {
-            var playerConfig:CharStartConfig = Model.playersStartConfig[i];
+            var playerConfig:CharStartConfig = PhaserGameModel.playersStartConfig[i];
             if (playerConfig != null && playerConfig.control != ControlType.NONE) {
                 var player:Character = preparePlayerByConfig(playerConfig);
-                Model.playersData[playerConfig.name] = getNewPlayerData(playerConfig.label, playerConfig.control, playerConfig.skin);
+                PhaserGameModel.playersData[playerConfig.name] = getNewPlayerData(playerConfig.label, playerConfig.control, playerConfig.skin);
                 var teamId:String = "team" + playerConfig.skin;
-                if (Model.playersData[teamId] == null) {
-                    Model.playersData[teamId] = getNewPlayerData(teamId, "", -1);
+                if (PhaserGameModel.playersData[teamId] == null) {
+                    PhaserGameModel.playersData[teamId] = getNewPlayerData(teamId, "", -1);
                 }
             }
         }
@@ -82,28 +82,28 @@ class PlayersCollection {
     }
 
     public function onPlayerSlayMob(playerId:String, mobLvl:Int):Void {
-        Model.totalMobSlayedCounter++;
+        PhaserGameModel.totalMobSlayedCounter++;
         var player:Character = findPlayerById(playerId);
         player.setCollisionState(function(player:Character){
             player.setIdle();
         });
-        if (Model.teamMode) {
-            var teamData:PlayerData =  Model.playersData["team" + Model.playersData[playerId].teamId];
+        if (PhaserGameModel.teamMode) {
+            var teamData:PlayerData =  PhaserGameModel.playersData["team" + PhaserGameModel.playersData[playerId].teamId];
             updatePlayerDataOnMobSlayed(teamData, mobLvl);
         } else {
-            updatePlayerDataOnMobSlayed(Model.playersData[playerId], mobLvl);
+            updatePlayerDataOnMobSlayed(PhaserGameModel.playersData[playerId], mobLvl);
         }
     }
 
     private function updatePlayerDataOnMobSlayed(playerData:PlayerData, mobLvl:Int):Void {
         playerData.slayedCounter++;
-        playerData.expGained += Model.baseExpGain * mobLvl / playerData.currentLevel;
+        playerData.expGained += PhaserGameModel.baseExpGain * mobLvl / playerData.currentLevel;
         if (playerData.expGained >= 100) {
             playerData.currentLevel++;
-            playerData.expGained = (playerData.currentLevel == Model.maxLvl)?100:0;
-            if (playerData.currentLevel > Model.maxLvlInGame) {
-                Model.maxLvlInGame = playerData.currentLevel;
-                Model.leaderPlayerLabel = playerData.label;
+            playerData.expGained = (playerData.currentLevel == PhaserGameModel.maxLvl)?100:0;
+            if (playerData.currentLevel > PhaserGameModel.maxLvlInGame) {
+                PhaserGameModel.maxLvlInGame = playerData.currentLevel;
+                PhaserGameModel.leaderPlayerLabel = playerData.label;
             }
         }
     }

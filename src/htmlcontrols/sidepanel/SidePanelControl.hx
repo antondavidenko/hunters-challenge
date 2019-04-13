@@ -1,7 +1,7 @@
 package htmlcontrols.sidepanel;
 
 import model.DataTypes.PlayerData;
-import model.Model;
+import model.PhaserGameModel;
 import js.html.HtmlElement;
 
 class SidePanelControl {
@@ -50,12 +50,12 @@ class SidePanelControl {
 
     public function updateData():Void {
         for (i in 0...6) {
-            if (Model.teamMode) {
-                SidePanelLabels[i] = getLabelValueByPlayerData(Model.playersData['team${i}']);
-                SidePanelProgress[i] = getProgressString(Model.playersData['team${i}']);
+            if (PhaserGameModel.teamMode) {
+                SidePanelLabels[i] = getLabelValueByPlayerData(PhaserGameModel.playersData['team${i}']);
+                SidePanelProgress[i] = getProgressString(PhaserGameModel.playersData['team${i}']);
             } else {
-                SidePanelLabels[i] = getLabelValueByPlayerData(Model.playersData['p${i}']);
-                SidePanelProgress[i] = getProgressString(Model.playersData['p${i}']);
+                SidePanelLabels[i] = getLabelValueByPlayerData(PhaserGameModel.playersData['p${i}']);
+                SidePanelProgress[i] = getProgressString(PhaserGameModel.playersData['p${i}']);
             }
         }
     }

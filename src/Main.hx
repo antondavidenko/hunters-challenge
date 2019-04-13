@@ -6,7 +6,7 @@ import model.MainMenuDefaultValues;
 import htmlcontrols.mainmenu.MainMenuControl;
 import htmlcontrols.sidepanel.SidePanelControl;
 import js.html.HtmlElement;
-import model.Model;
+import model.PhaserGameModel;
 import phasergame.PhaserGame;
 import js.html.CanvasElement;
 import react.ReactMacro.jsx;
@@ -56,14 +56,14 @@ class Main {
     }
 
     private function onLogin(configuration:GameConfiguration) {
-        Model.init(configuration);
-        ReactDOM.render(jsx('<$SidePanel players=${Model.playersStartConfig}/>'), js.Browser.document.getElementById('sidePanel'));
+        PhaserGameModel.init(configuration);
+        ReactDOM.render(jsx('<$SidePanel players=${PhaserGameModel.playersStartConfig}/>'), js.Browser.document.getElementById('sidePanel'));
         gameCanvas.style.display = "block";
         sidePanel.style.display = "block";
         loginPanel.style.display = "none";
         phaserGame.init(gameCanvas, sidePanelControl);
         phaserGame.setCallbackOnGameEnd(onGameEnd);
-        if (Model.screenMode == "Fullscreen") {
+        if (PhaserGameModel.screenMode == "Fullscreen") {
             HTML5game.requestFullscreen();
         }
     }

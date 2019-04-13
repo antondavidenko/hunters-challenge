@@ -4,7 +4,7 @@ import model.DefaultValues;
 import phaser.animations.types.GenerateFrameNumbers;
 import model.DataTypes.CharStartConfig;
 import phaser.gameobjects.Text;
-import model.Model;
+import model.PhaserGameModel;
 import phaser.gameobjects.Sprite;
 
 class Character {
@@ -79,7 +79,7 @@ class Character {
 
     public function setLabel(label:String):Void {
         text = phaserScene.add.text(sprite.x, sprite.y, label);
-        text.visible = Model.showLabel;
+        text.visible = PhaserGameModel.showLabel;
         updateTextPosition();
     }
 
@@ -115,7 +115,7 @@ class Character {
     }
 
     private function getFrameConfigByLineId(lineId:Int):GenerateFrameNumbers {
-        var maxSkins:Int = Model.skinsCollection[config.charType];
+        var maxSkins:Int = PhaserGameModel.skinsCollection[config.charType];
         lineId = (lineId - 1) * 4 + 4 * (maxSkins - 1) * (lineId - 1) + 4 * (config.skin - 1);
         return getFrameConfig(lineId, lineId + 3);
     }
