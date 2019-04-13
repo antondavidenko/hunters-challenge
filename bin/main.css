@@ -138,5 +138,6 @@ table {
 .SWORDMAN { height: 64px; width: 64px; background: url('./assets/avatars.png') 0 -128px; }
 .MAGE { height: 64px; width: 64px; background: url('./assets/avatars.png') 0 -192px; }
 .ELF { height: 64px; width: 64px; background: url('./assets/avatars.png') 0 -256px; }
+.ASSASSIN { height: 64px; width: 64px; background: url('./assets/avatars.png') 0 -320px; }
 .helpPageClassDescription {width: 250px;}
 .helpPage {background-color: #ddd;}

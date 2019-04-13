@@ -4,11 +4,10 @@ FUTURE IMPROVE PLAN
 
 GAME LOOP:
 - harvest mode = v 0.7
-- add ASSASSIN class = v 0.7
 
 OPTIONS:
-- add validation to forms to avoid broken configuration = v 0.7
-- save options/menu in cookies = v 0.7
+- add validation to forms to avoid broken configuration = v 0.8
+- save options/menu in cookies = v 0.8
 
 GRAPHICS:
 + BUG: sometimes mob appears with the wrong skin; switch to correct one shortly;

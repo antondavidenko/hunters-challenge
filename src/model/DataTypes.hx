@@ -19,6 +19,7 @@ class PlayerType {
     static public inline var ELF:String = "elf";
     static public inline var MAGE:String = "mage";
     static public inline var HORSEMAN:String = "horseman";
+    static public inline var ASSASSIN:String = "assassin";
 }
 
 class ControlType {

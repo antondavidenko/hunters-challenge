@@ -49,9 +49,9 @@ class MainMenuDefaultValues {
         slotsTEAMS.push(getCharStartConfig(1, PlayerType.HORSEMAN, ControlType.MOUSE, 0, 1));
         slotsTEAMS.push(getCharStartConfig(2, PlayerType.SWORDMAN, ControlType.ARROWS, 1, 1));
         slotsTEAMS.push(getCharStartConfig(3, PlayerType.ELF, ControlType.AWSD, 2, 1));
-        slotsTEAMS.push(getCharStartConfig(4, PlayerType.SWORDMAN, ControlType.BOT_HARD, 3, 3));
+        slotsTEAMS.push(getCharStartConfig(4, PlayerType.ASSASSIN, ControlType.BOT_HARD, 3, 3));
         slotsTEAMS.push(getCharStartConfig(5, PlayerType.MAGE, ControlType.BOT_HARD, 4, 3));
-        slotsTEAMS.push(getCharStartConfig(6, PlayerType.HORSEMAN, ControlType.BOT_HARD, 5, 3));
+        slotsTEAMS.push(getCharStartConfig(6, PlayerType.BOWMAN, ControlType.BOT_HARD, 5, 3));
         var configuration = getDefaultGameConfiguration();
         configuration.slots = slotsTEAMS;
         configuration.mobAmount = 3;
@@ -75,7 +75,7 @@ class MainMenuDefaultValues {
         return {
             charType:charType,
             x:Std.parseInt(spawnXY[0]),
-            y:Std.parseInt(spawnXY[0]),
+            y:Std.parseInt(spawnXY[1]),
             label:'${prefix} ${slotNum}',
             name:'p${slotNum}',
             control:control,

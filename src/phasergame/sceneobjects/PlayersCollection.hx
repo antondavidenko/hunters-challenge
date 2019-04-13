@@ -30,6 +30,8 @@ class PlayersCollection {
         PhaserGameModel.skinsCollection[PlayerType.MAGE] = 3;
         phaserScene.load.spritesheet(PlayerType.HORSEMAN, 'assets/char_horseman.png', frmeConfig);
         PhaserGameModel.skinsCollection[PlayerType.HORSEMAN] = 3;
+        phaserScene.load.spritesheet(PlayerType.ASSASSIN, 'assets/char_assassin.png', frmeConfig);
+        PhaserGameModel.skinsCollection[PlayerType.ASSASSIN] = 3;
     }
 
     private function preparePlayerByConfig(config:CharStartConfig):Character {

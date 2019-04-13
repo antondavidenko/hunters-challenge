@@ -32,7 +32,8 @@ class HelpPage extends ReactComponentOfProps<Int> {
         <tr>
         <td><img className="ELF"/></td>
         <td className="helpPageClassDescription"><b>ELF</b> : Like a mystery the elf always has secrets and they will be hidden from others before it to late to stop it.</td>
-        <td></td><td></td>
+        <td><img className="ASSASSIN"/></td>
+        <td className="helpPageClassDescription"><b>ASSASSIN</b> : Ready for assassination for any moment with or without any reasons. No complaints, no regrets.</td>
         </tr>
         </tbody></table>
         </div>');

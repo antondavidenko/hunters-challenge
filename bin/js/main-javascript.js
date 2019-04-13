@@ -676,7 +676,7 @@ htmlcontrols_mainmenu_helppage_HelpPage.__name__ = true;
 htmlcontrols_mainmenu_helppage_HelpPage.__super__ = React.Component;
 htmlcontrols_mainmenu_helppage_HelpPage.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "div", props : { className : "helpPage", children : [{ "$$typeof" : $$tre, type : "h3", props : { children : "Game rules"}, key : null, ref : null},"The game itself is all about hunters challenge. There are from 2 to 6 hunters take a part in a challenge. It is could be only one winner. When hunters hunt their prey they get experience points. When hunter got 100 or more experience points he got level up. All hunters start with level 1. First who reach level 5 is the winner. All prey got level. Hunter receives more experience for the high-level prey.",{ "$$typeof" : $$tre, type : "h3", props : { children : "Classes description"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "HORSEMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "HORSEMAN"}, key : null, ref : null}," : The brave and the bold horseman put a heavy metal armor on his mighty muscular body."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "BOWMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "BOWMAN"}, key : null, ref : null}," : Sharp-eyed bowman like a hawks eye put all of his arrows in the exactly bull eye."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "SWORDMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "SWORDMAN"}, key : null, ref : null}," : Fight master, quick-armed swordman is always ready for a quick fight."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "MAGE"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "MAGE"}, key : null, ref : null}," : A wise and smart mage can cast a spell,  put enchant and even bring charm."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "ELF"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "ELF"}, key : null, ref : null}," : Like a mystery the elf always has secrets and they will be hidden from others before it to late to stop it."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { }, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { }, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "div", props : { className : "helpPage", children : [{ "$$typeof" : $$tre, type : "h3", props : { children : "Game rules"}, key : null, ref : null},"The game itself is all about hunters challenge. There are from 2 to 6 hunters take a part in a challenge. It is could be only one winner. When hunters hunt their prey they get experience points. When hunter got 100 or more experience points he got level up. All hunters start with level 1. First who reach level 5 is the winner. All prey got level. Hunter receives more experience for the high-level prey.",{ "$$typeof" : $$tre, type : "h3", props : { children : "Classes description"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "HORSEMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "HORSEMAN"}, key : null, ref : null}," : The brave and the bold horseman put a heavy metal armor on his mighty muscular body."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "BOWMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "BOWMAN"}, key : null, ref : null}," : Sharp-eyed bowman like a hawks eye put all of his arrows in the exactly bull eye."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "SWORDMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "SWORDMAN"}, key : null, ref : null}," : Fight master, quick-armed swordman is always ready for a quick fight."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "MAGE"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "MAGE"}, key : null, ref : null}," : A wise and smart mage can cast a spell,  put enchant and even bring charm."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "ELF"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "ELF"}, key : null, ref : null}," : Like a mystery the elf always has secrets and they will be hidden from others before it to late to stop it."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "ASSASSIN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "ASSASSIN"}, key : null, ref : null}," : Ready for assassination for any moment with or without any reasons. No complaints, no regrets."]}, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null};
 	}
 });
 var htmlcontrols_mainmenu_lobby_LobbyPanel = function(props) {
@@ -717,7 +717,7 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.proto
 		return "" + this.props.slots[i].x + "," + this.props.slots[i].y;
 	}
 	,getOptionsClass: function() {
-		return ["horseman","bowman","elf","mage","swordman"];
+		return ["horseman","bowman","elf","mage","swordman","assassin"];
 	}
 	,getOptionsControl: function() {
 		return ["mouse","keys_awsd","keys_arrows","bot_simple","bot_hard","none"];
@@ -1024,9 +1024,9 @@ model_MainMenuDefaultValues.getTeamsGameConfiguration = function() {
 	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(1,"horseman","mouse",0,1));
 	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(2,"swordman","keys_arrows",1,1));
 	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(3,"elf","keys_awsd",2,1));
-	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(4,"swordman","bot_hard",3,3));
+	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(4,"assassin","bot_hard",3,3));
 	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(5,"mage","bot_hard",4,3));
-	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(6,"horseman","bot_hard",5,3));
+	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(6,"bowman","bot_hard",5,3));
 	var configuration = model_MainMenuDefaultValues.getDefaultGameConfiguration();
 	configuration.slots = slotsTEAMS;
 	configuration.mobAmount = 3;
@@ -1038,7 +1038,7 @@ model_MainMenuDefaultValues.getDefaultGameConfiguration = function() {
 model_MainMenuDefaultValues.getCharStartConfig = function(slotNum,charType,control,spawnPointId,skin) {
 	var prefix = control != "bot_hard" && control != "bot_simple" ? "Player" : "Bot";
 	var spawnXY = model_MainMenuDefaultValues.spawnPoints[spawnPointId].split(",");
-	return { charType : charType, x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[0]), label : "" + prefix + " " + slotNum, name : "p" + slotNum, control : control, skin : skin};
+	return { charType : charType, x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), label : "" + prefix + " " + slotNum, name : "p" + slotNum, control : control, skin : skin};
 };
 var model_PhaserGameModel = function() { };
 model_PhaserGameModel.__name__ = true;
@@ -1887,6 +1887,13 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 		} else {
 			_this4.h["horseman"] = 3;
 		}
+		this.phaserScene.load.spritesheet("assassin","assets/char_assassin.png",frmeConfig);
+		var _this5 = model_PhaserGameModel.skinsCollection;
+		if(__map_reserved["assassin"] != null) {
+			_this5.setReserved("assassin",3);
+		} else {
+			_this5.h["assassin"] = 3;
+		}
 	}
 	,preparePlayerByConfig: function(config) {
 		var player = new phasergame_sceneobjects_Character(this.phaserScene,config);
@@ -2020,6 +2027,7 @@ model_PlayerType.BOWMAN = "bowman";
 model_PlayerType.ELF = "elf";
 model_PlayerType.MAGE = "mage";
 model_PlayerType.HORSEMAN = "horseman";
+model_PlayerType.ASSASSIN = "assassin";
 model_ControlType.MOUSE = "mouse";
 model_ControlType.ARROWS = "keys_arrows";
 model_ControlType.AWSD = "keys_awsd";
