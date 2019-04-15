@@ -11,7 +11,6 @@ OPTIONS:
 - save options/menu in cookies = v 0.8
 
 GRAPHICS:
-+ BUG: sometimes mob appears with the wrong skin; switch to correct one shortly; = v 0.7
 - add bushes decoration etc. Mobs can hide around bushes (special type for bots to search bushes?) = v 0.8
 - add exp visual number effect when mob is slayed = v 0.8
 

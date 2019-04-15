@@ -62,11 +62,14 @@ class Character {
             onCollision = true;
             phaserScene.physics.moveTo(sprite, sprite.x, sprite.y, 0);
             setAnimation(COLISION_ANIM_ID, function() {
-                onCollision = false;
                 animComplete(this);
                 sprite.off('animationcomplete');
             });
         }
+    }
+
+    public function releaseCollisionState():Void {
+        onCollision = false;
     }
 
     public function setIdle():Void {

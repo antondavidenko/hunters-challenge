@@ -88,6 +88,7 @@ class PlayersCollection {
         var player:Character = findPlayerById(playerId);
         player.setCollisionState(function(player:Character){
             player.setIdle();
+            player.releaseCollisionState();
         });
         if (PhaserGameModel.teamMode) {
             var teamData:PlayerData =  PhaserGameModel.playersData["team" + PhaserGameModel.playersData[playerId].teamId];

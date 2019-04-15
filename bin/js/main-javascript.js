@@ -369,7 +369,6 @@ htmlcontrols_mainmenu_GamePlayOptions.__name__ = true;
 htmlcontrols_mainmenu_GamePlayOptions.__super__ = React.Component;
 htmlcontrols_mainmenu_GamePlayOptions.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		console.log(Std.string(this.state.page) + " " + Std.string(this.props.page));
 		if(this.state.page != this.props.page) {
 			this.state = { mobAmount : this.props.data.get(this.props.page).mobAmount, page : this.props.page};
 		}
@@ -1608,11 +1607,13 @@ phasergame_sceneobjects_Character.prototype = {
 			this.onCollision = true;
 			this.phaserScene.physics.moveTo(this.sprite,this.sprite.x,this.sprite.y,0);
 			this.setAnimation(this.COLISION_ANIM_ID,function() {
-				_gthis.onCollision = false;
 				animComplete(_gthis);
 				_gthis.sprite.off("animationcomplete");
 			});
 		}
+	}
+	,releaseCollisionState: function() {
+		this.onCollision = false;
 	}
 	,setIdle: function() {
 		this.setAnimation(this.IDLE_POSE_ID);
@@ -1846,6 +1847,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 		mob.setSpeed(model_DefaultValues.mobSpeeds[lvlId]);
 		mob.setXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 		mob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
+		mob.releaseCollisionState();
 		var this1 = model_PhaserGameModel.mobsData;
 		var key = mob.getPhysicBody().name;
 		var _this = this1;
@@ -1983,6 +1985,7 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 		var player = this.findPlayerById(playerId);
 		player.setCollisionState(function(player1) {
 			player1.setIdle();
+			player1.releaseCollisionState();
 		});
 		if(model_PhaserGameModel.teamMode) {
 			var this1 = model_PhaserGameModel.playersData;

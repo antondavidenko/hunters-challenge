@@ -96,6 +96,7 @@ class MobsCollection {
         mob.setSpeed(DefaultValues.mobSpeeds[lvlId]);
         mob.setXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
         mob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
+        mob.releaseCollisionState();
         PhaserGameModel.mobsData[mob.getPhysicBody().name].currentLevel = lvlId + 1;
     }
 
