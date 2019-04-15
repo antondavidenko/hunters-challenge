@@ -7,7 +7,6 @@ GAME LOOP:
 - campaign mode = v 0.9
 
 OPTIONS:
-- additional game options to have effect on tab (mob amount) = v 0.7
 - add validation to forms to avoid broken configuration = v 0.8
 - save options/menu in cookies = v 0.8
 

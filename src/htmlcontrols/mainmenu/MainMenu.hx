@@ -25,13 +25,13 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
     public function new(props:MainMenuProps):Void
     {
         super(props);
-        state = {page:props.page, slots:props.data[props.page].slots}
+        state = {page:props.page, configuration:props.data[props.page]}
         MainMenuActions.navigateToPage.add(navigateToPage);
     }
 
     function navigateToPage(page:Page):Void
     {
-        setState({page:page, slots:props.data[page].slots});
+        setState({page:page, configuration:props.data[page]});
     }
 
     public override function render():ReactElement
@@ -53,7 +53,7 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
         if (state.page == Page.PVP || state.page == Page.PVE || state.page == Page.TEAMS) {
             return jsx('<div>
             <h2>GAME-PLAY OPTIONS</h2>
-            <GamePlayOptions></GamePlayOptions>
+            <GamePlayOptions data=${props.data} page=${state.page}></GamePlayOptions>
             </div>');
         } else {
             return jsx('<div></div>');
@@ -65,19 +65,19 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
         if (state.page == Page.PVP) {
             return jsx('<div>
             <h2>PVP LOBBY</h2>
-            <LobbyPanel slots="${state.slots}"></LobbyPanel>
+            <LobbyPanel slots="${state.configuration.slots}"></LobbyPanel>
             <button id="loginButton" onClick="$onPVPClicked">PLAY</button>
             </div>');
         } else if (state.page == Page.PVE) {
             return jsx('<div>
             <h2>PVE LOBBY</h2>
-            <LobbyPanel slots="${state.slots}"></LobbyPanel>
+            <LobbyPanel slots="${state.configuration.slots}"></LobbyPanel>
             <button id="loginButton" onClick="$onPVEClicked">PLAY</button>
             </div>');
         } else if (state.page == Page.TEAMS) {
             return jsx('<div>
             <h2>TEAMS LOBBY</h2>
-            <LobbyPanel slots="${state.slots}"></LobbyPanel>
+            <LobbyPanel slots="${state.configuration.slots}"></LobbyPanel>
             <button id="loginButton" onClick="$onTEAMSClicked">PLAY</button>
             </div>');
         } else if (state.page == Page.HELP) {
