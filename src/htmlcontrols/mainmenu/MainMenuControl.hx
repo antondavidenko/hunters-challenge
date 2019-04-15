@@ -45,7 +45,7 @@ class MainMenuControl {
             x: Std.parseInt(spawnXY[0]),
             y: Std.parseInt(spawnXY[1]),
             name: "p" + i,
-            skin: getById('slot${i}Skin')
+            skin: Utils.getSkinByColor(getById('slot${i}Skin'))
         };
     }
 

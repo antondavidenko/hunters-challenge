@@ -132,6 +132,26 @@ Utils.getRandomScreenX = function() {
 Utils.getRandomScreenY = function() {
 	return Std.random(654);
 };
+Utils.getSkinByColor = function(color) {
+	switch(color) {
+	case "green":
+		return 2;
+	case "red":
+		return 1;
+	default:
+		return 3;
+	}
+};
+Utils.getColorBySkin = function(skin) {
+	switch(skin) {
+	case 1:
+		return "red";
+	case 2:
+		return "green";
+	default:
+		return "blue";
+	}
+};
 var haxe_IMap = function() { };
 haxe_IMap.__name__ = true;
 var haxe_Timer = function(time_ms) {
@@ -654,7 +674,7 @@ htmlcontrols_mainmenu_MainMenuControl.prototype = {
 	}
 	,setSlot: function(i) {
 		var spawnXY = Std.string(this.getById("slot" + i + "Spawn")).split(",");
-		this.configuration.slots[i] = { label : this.getById("slot" + i + "Label"), charType : this.getById("slot" + i + "Class"), control : this.getById("slot" + i + "Control"), x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), name : "p" + i, skin : this.getById("slot" + i + "Skin")};
+		this.configuration.slots[i] = { label : this.getById("slot" + i + "Label"), charType : this.getById("slot" + i + "Class"), control : this.getById("slot" + i + "Control"), x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), name : "p" + i, skin : Utils.getSkinByColor(this.getById("slot" + i + "Skin"))};
 	}
 	,elementIsExist: function(i) {
 		return window.document.getElementById("slot" + i + "Label") != null;
@@ -693,7 +713,7 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.proto
 		var _g1 = this.props.slots.length;
 		while(_g2 < _g1) {
 			var i = _g2++;
-			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i), className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), className : "fifthWidth", options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].control, id : this.getControlId(i), className : "fifthWidth", options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "hidden", children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i), className : "hidden"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].skin, id : this.getSkinId(i), className : "fifthWidth", options : this.getOptionsSkin()}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
+			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i), className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), className : "fifthWidth", options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].control, id : this.getControlId(i), className : "fifthWidth", options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "hidden", children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i), className : "hidden"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : Utils.getColorBySkin(this.props.slots[i].skin), id : this.getSkinId(i), className : "fifthWidth", options : this.getOptionsSkin()}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
 		}
 		return _g;
 	}
@@ -722,7 +742,7 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.proto
 		return ["mouse","keys_awsd","keys_arrows","bot_simple","bot_hard","none"];
 	}
 	,getOptionsSkin: function() {
-		return [1,2,3];
+		return ["red","green","blue"];
 	}
 });
 var htmlcontrols_mainmenu_lobby_SelectInput = function(props) {
@@ -971,8 +991,8 @@ model_Page.TEAMS = ["TEAMS",2];
 model_Page.TEAMS.__enum__ = model_Page;
 model_Page.HELP = ["HELP",3];
 model_Page.HELP.__enum__ = model_Page;
-var model_Skin = function() { };
-model_Skin.__name__ = true;
+var model_PlayerColor = function() { };
+model_PlayerColor.__name__ = true;
 var model_PlayerType = function() { };
 model_PlayerType.__name__ = true;
 var model_ControlType = function() { };
@@ -2045,9 +2065,9 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.displayName = "LobbyPanel";
 htmlcontrols_mainmenu_lobby_SelectInput.displayName = "SelectInput";
 htmlcontrols_mainmenu_lobby_TextInput.displayName = "TextInput";
 htmlcontrols_sidepanel_SidePanel.displayName = "SidePanel";
-model_Skin.RED = 1;
-model_Skin.GREEN = 2;
-model_Skin.BLUE = 3;
+model_PlayerColor.RED = "red";
+model_PlayerColor.GREEN = "green";
+model_PlayerColor.BLUE = "blue";
 model_PlayerType.SWORDMAN = "swordman";
 model_PlayerType.BOWMAN = "bowman";
 model_PlayerType.ELF = "elf";

@@ -7,10 +7,10 @@ enum Page {
     HELP;
 }
 
-class Skin {
-    static public inline var RED:Int = 1;
-    static public inline var GREEN:Int = 2;
-    static public inline var BLUE:Int = 3;
+class PlayerColor {
+    static public inline var RED:String = "red";
+    static public inline var GREEN:String = "green";
+    static public inline var BLUE:String = "blue";
 }
 
 class PlayerType {

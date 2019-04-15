@@ -1,8 +1,8 @@
 package htmlcontrols.mainmenu.lobby;
 
 
+import model.DataTypes.PlayerColor;
 import model.DataTypes.CharStartConfig;
-import model.DataTypes.Skin;
 import model.DataTypes.ControlType;
 import model.DataTypes.PlayerType;
 import react.ReactComponent.ReactElement;
@@ -42,7 +42,7 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
             <td><SelectInput className="fifthWidth" defaultValue="${props.slots[i].charType}" id="${getClassId(i)}" options=${this.getOptionsClass()}/></td>
             <td><SelectInput className="fifthWidth" defaultValue="${props.slots[i].control}" id="${getControlId(i)}" options=${this.getOptionsControl()}/></td>
             <td className="hidden"><TextInput className="hidden" defaultValue="${this.getXY(i)}" id="${getSpawnId(i)}"/></td>
-            <td><SelectInput className="fifthWidth" defaultValue="${props.slots[i].skin}" id="${getSkinId(i)}" options=${this.getOptionsSkin()}/></td>
+            <td><SelectInput className="fifthWidth" defaultValue="${Utils.getColorBySkin(props.slots[i].skin)}" id="${getSkinId(i)}" options=${this.getOptionsSkin()}/></td>
         </tr>')];
     }
 
@@ -74,9 +74,9 @@ class LobbyPanel extends ReactComponentOfProps<LobbyProps> {
         ControlType.NONE];
     }
 
-    function getOptionsSkin():Array<Int> { return [
-        Skin.RED,
-        Skin.GREEN,
-        Skin.BLUE];
+    function getOptionsSkin():Array<String> { return [
+        PlayerColor.RED,
+        PlayerColor.GREEN,
+        PlayerColor.BLUE];
     }
 }
