@@ -382,6 +382,8 @@ htmlcontrols_SidePanelControl.__name__ = true;
 htmlcontrols_SidePanelControl.prototype = {
 	init: function() {
 		ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_sidepanel_SidePanel, props : { players : model_PhaserGameModel.playersStartConfig}, key : null, ref : null},window.document.getElementById("sidePanel"));
+		phasergame_PhaserGameActions.gameEnd.add($bind(this,this.onEndGame));
+		this.restartButton = window.document.getElementById("restartButton");
 	}
 	,updateView: function() {
 		var _g = 0;
@@ -451,9 +453,13 @@ htmlcontrols_SidePanelControl.prototype = {
 	}
 	,onResize: function(windowWidth,windowHeight,multiplayer) {
 		this.sidePanel.style.width = (windowWidth - 950 * multiplayer - 32 | 0) + "px";
+		this.sidePanel.style.height = (654 * multiplayer | 0) + "px";
 	}
 	,show: function() {
 		this.sidePanel.style.display = "block";
+	}
+	,onEndGame: function() {
+		this.restartButton.style.display = "block";
 	}
 };
 var htmlcontrols_mainmenu_GameModes = function(props) {
@@ -889,7 +895,7 @@ htmlcontrols_sidepanel_SidePanel.__name__ = true;
 htmlcontrols_sidepanel_SidePanel.__super__ = React.Component;
 htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "div", props : { children : this.createChildren()}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "div", props : { children : [this.createChildren(),{ "$$typeof" : $$tre, type : "button", props : { id : "restartButton", onClick : $bind(this,this.onRestartCicked), className : "restartButton", children : "RESTART"}, key : null, ref : null}]}, key : null, ref : null};
 	}
 	,createChildren: function() {
 		var _g = [];
@@ -912,6 +918,10 @@ htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
 	}
 	,getProgressClass: function(i) {
 		return "Player" + i + "progress expBarBgProgress";
+	}
+	,onRestartCicked: function(evt) {
+		var pageURL = window.location.href;
+		window.location.href = pageURL;
 	}
 });
 var js_Boot = function() { };

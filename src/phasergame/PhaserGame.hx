@@ -38,11 +38,11 @@ class PhaserGame {
     }
 
     public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
-        gameCanvas.style.height = Std.int(654 * multiplayer) + 'px';
-        gameCanvas.style.width = Std.int(950 * multiplayer) + 'px';
+        gameCanvas.style.height = Std.int(DefaultValues.phaserGameHeight * multiplayer) + 'px';
+        gameCanvas.style.width = Std.int(DefaultValues.phaserGameWidth * multiplayer) + 'px';
         gameCanvas.style.position = 'absolute';
-        gameCanvas.style.left = (windowWidth - 950 * multiplayer) + 'px';
-        gameCanvas.style.top = ((windowHeight - 654 * multiplayer) / 2) + 'px';
+        gameCanvas.style.left = (windowWidth - DefaultValues.phaserGameWidth * multiplayer) + 'px';
+        gameCanvas.style.top = ((windowHeight - DefaultValues.phaserGameHeight * multiplayer) / 2) + 'px';
     }
 
     public function show():Void {

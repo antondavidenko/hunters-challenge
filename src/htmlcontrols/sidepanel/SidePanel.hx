@@ -18,7 +18,9 @@ class SidePanel extends ReactComponentOfProps<SidePanelProps> {
 
     public override function render():ReactElement
     {
-        return jsx('<div>{this.createChildren()}</div>');
+        return jsx('<div>{this.createChildren()}
+        <button className="restartButton" id="restartButton" onClick="$onRestartCicked">RESTART</button>
+        </div>');
     }
 
     function createChildren():Array<ReactElement>
@@ -34,4 +36,9 @@ class SidePanel extends ReactComponentOfProps<SidePanelProps> {
     function getNameId(i:Int):String { return 'sidePanel_name${i}'; }
     function getProgressId(i:Int):String { return 'sidePanel_Player${i}progress'; }
     function getProgressClass(i:Int):String { return 'Player${i}progress expBarBgProgress'; }
+
+    function onRestartCicked(evt:js.html.Event):Void {
+        var pageURL:String =  js.Browser.window.location.href;
+        js.Browser.window.location.href = pageURL;
+    }
 }

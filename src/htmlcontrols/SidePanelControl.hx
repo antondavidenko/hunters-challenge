@@ -1,5 +1,7 @@
 package htmlcontrols;
 
+import phasergame.PhaserGame.PhaserGameActions;
+import model.DefaultValues;
 import htmlcontrols.sidepanel.SidePanel;
 import model.DataTypes.PlayerData;
 import model.PhaserGameModel;
@@ -12,6 +14,7 @@ class SidePanelControl {
     var SidePanelLabels:Array<String> = [];
     var SidePanelProgress:Array<String> = [];
     private var sidePanel:HtmlElement;
+    private var restartButton:HtmlElement;
 
     public function new() {
         sidePanel = cast js.Browser.document.getElementById("sidePanel");
@@ -22,6 +25,8 @@ class SidePanelControl {
             jsx('<$SidePanel players=${PhaserGameModel.playersStartConfig}/>'),
             js.Browser.document.getElementById('sidePanel')
         );
+        PhaserGameActions.gameEnd.add(onEndGame);
+        restartButton = cast js.Browser.document.getElementById("restartButton");
     }
 
     public function updateView():Void {
@@ -88,10 +93,15 @@ class SidePanelControl {
 
     public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
         //todo: use actual padding of sidePanel instead of hardcoded 16*2
-        sidePanel.style.width = Std.int(windowWidth - 950 * multiplayer - 16*2) + 'px';
+        sidePanel.style.width = Std.int(windowWidth - DefaultValues.phaserGameWidth * multiplayer - 16*2) + 'px';
+        sidePanel.style.height = Std.int(DefaultValues.phaserGameHeight * multiplayer) + 'px';
     }
 
     public function show():Void {
         sidePanel.style.display = "block";
+    }
+
+    private function onEndGame():Void {
+        restartButton.style.display = "block";
     }
 }
