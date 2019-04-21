@@ -452,6 +452,9 @@ htmlcontrols_SidePanelControl.prototype = {
 		this.updateView();
 	}
 	,onResize: function(windowWidth,windowHeight,multiplayer) {
+		var computedStyle = window.getComputedStyle(this.sidePanel);
+		var padding = Std.parseInt(computedStyle.padding);
+		console.log(padding);
 		this.sidePanel.style.width = (windowWidth - 950 * multiplayer - 32 | 0) + "px";
 		this.sidePanel.style.height = (654 * multiplayer | 0) + "px";
 	}

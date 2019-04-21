@@ -47,11 +47,6 @@ button:hover {
     background-color: #4ad650;
 }
 
-.container {
-    padding: 16px;
-    background-color: #b6b6b6;
-}
-
 .expBarBg {
   height: 10px;
   width: 100%;
@@ -75,13 +70,15 @@ button:hover {
 
 .valignTop { vertical-align:top; }
 
-.sidePanel {
+.containerSidePanel {
     display:none;
     background-image: url("./assets/bg_metal.jpg");
     -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
     border-radius: 5px;
+    padding: 16px;
+    background-color: #b6b6b6;
 }
 
 .restartButton {

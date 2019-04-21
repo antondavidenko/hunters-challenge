@@ -1,5 +1,6 @@
 package htmlcontrols;
 
+import js.html.CSSStyleDeclaration;
 import phasergame.PhaserGame.PhaserGameActions;
 import model.DefaultValues;
 import htmlcontrols.sidepanel.SidePanel;
@@ -92,8 +93,9 @@ class SidePanelControl {
     }
 
     public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
-        //todo: use actual padding of sidePanel instead of hardcoded 16*2
-        sidePanel.style.width = Std.int(windowWidth - DefaultValues.phaserGameWidth * multiplayer - 16*2) + 'px';
+        var computedStyle:CSSStyleDeclaration = js.Browser.window.getComputedStyle(sidePanel);
+        var padding:Int = Std.parseInt(computedStyle.padding);
+        sidePanel.style.width = Std.int(windowWidth - DefaultValues.phaserGameWidth * multiplayer - padding*2) + 'px';
         sidePanel.style.height = Std.int(DefaultValues.phaserGameHeight * multiplayer) + 'px';
     }
 
