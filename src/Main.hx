@@ -1,28 +1,19 @@
 import sounds.SoundPlayer;
-import model.DefaultValues;
 import model.DataTypes.GameConfiguration;
-import htmlcontrols.mainmenu.MainMenu;
-import htmlcontrols.sidepanel.SidePanel;
-import react.ReactDOM;
 import model.MainMenuDefaultValues;
-import htmlcontrols.mainmenu.MainMenuControl;
-import htmlcontrols.sidepanel.SidePanelControl;
+import htmlcontrols.MainMenuControl;
+import htmlcontrols.SidePanelControl;
 import js.html.HtmlElement;
 import model.PhaserGameModel;
 import phasergame.PhaserGame;
-import js.html.CanvasElement;
-import react.ReactMacro.jsx;
 
 class Main {
 
-    private var gameCanvas:CanvasElement;
-    private var sidePanel:HtmlElement;
-    private var loginPanel:HtmlElement;
     private var HTML5game:HtmlElement;
 
     private var phaserGame:PhaserGame;
     private var sidePanelControl:SidePanelControl;
-    private var loginPanelControl:MainMenuControl;
+    private var mainMenuControl:MainMenuControl;
     private var soundPlayer:SoundPlayer;
 
     static function main() {
@@ -31,49 +22,32 @@ class Main {
 
     public function new() {
         MainMenuDefaultValues.init();
-        ReactDOM.render(
-            jsx('<$MainMenu data=${MainMenuDefaultValues.gameConfigurationsData} page=${MainMenuDefaultValues.page}/>'),
-            js.Browser.document.getElementById('MainMenu')
-        );
         soundPlayer = new SoundPlayer();
-        gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
-        sidePanel = cast js.Browser.document.getElementById("sidePanel");
-        loginPanel = cast js.Browser.document.getElementById("loginPanel");
         HTML5game = cast js.Browser.document.getElementById("HTML5game");
         js.Browser.window.addEventListener("resize", onResize);
-        onResize();
         sidePanelControl = new SidePanelControl();
-        loginPanelControl = new MainMenuControl(onLogin);
+        mainMenuControl = new MainMenuControl(onLogin);
         phaserGame = new PhaserGame();
+        onResize();
     }
 
     private function onResize() {
-        var w:Int = js.Browser.window.innerWidth;
-        var h:Int = js.Browser.window.innerHeight;
+        var windowWidth:Int = js.Browser.window.innerWidth;
+        var windowHeight:Int = js.Browser.window.innerHeight;
+        var multiplayer:Float = ((windowWidth / 950) < (windowHeight / 654)) ? (windowWidth / 950) : (windowHeight / 654);
 
-        var multiplayer:Float = ((w / 950) < (h / 654)) ? (w / 950) : (h / 654);
-
-        gameCanvas.style.height = Std.int(654 * multiplayer) + 'px';
-        gameCanvas.style.width = Std.int(950 * multiplayer) + 'px';
-        gameCanvas.style.position = 'absolute';
-        gameCanvas.style.left = (w - 950 * multiplayer) + 'px';
-        gameCanvas.style.top = ((h - 654 * multiplayer) / 2) + 'px';
-        //todo: use actual padding of sidePanel instead of hardcoded 16*2
-        sidePanel.style.width = Std.int(w - 950 * multiplayer - 16*2) + 'px';
-
-        loginPanel.style.marginTop = (h - DefaultValues.MaxMainMenuSize)/2 + 'px';
+        phaserGame.onResize(windowWidth, windowHeight, multiplayer);
+        sidePanelControl.onResize(windowWidth, windowHeight, multiplayer);
+        mainMenuControl.onResize(windowWidth, windowHeight);
     }
 
     private function onLogin(configuration:GameConfiguration) {
         PhaserGameModel.init(configuration);
-        ReactDOM.render(
-            jsx('<$SidePanel players=${PhaserGameModel.playersStartConfig}/>'),
-            js.Browser.document.getElementById('sidePanel')
-        );
-        gameCanvas.style.display = "block";
-        sidePanel.style.display = "block";
-        loginPanel.style.display = "none";
-        phaserGame.init(gameCanvas, sidePanelControl);
+        sidePanelControl.init();
+        sidePanelControl.show();
+        mainMenuControl.hide();
+        phaserGame.init(sidePanelControl);
+        phaserGame.show();
         if (PhaserGameModel.screenMode == "Fullscreen") {
             HTML5game.requestFullscreen();
         }

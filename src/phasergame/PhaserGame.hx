@@ -4,7 +4,7 @@ import msignal.Signal.Signal0;
 import model.DefaultValues;
 import phaser.gameobjects.Text;
 import phasergame.CollisionDetector.CharackterAndMobData;
-import htmlcontrols.sidepanel.SidePanelControl;
+import htmlcontrols.SidePanelControl;
 import model.PhaserGameModel;
 import js.html.CanvasElement;
 import phasergame.sceneobjects.PlayersCollection;
@@ -20,10 +20,13 @@ class PhaserGameActions
 class PhaserGame {
     private var scene:PhaserScene;
     private var game:phaser.Game;
+    private var gameCanvas:CanvasElement;
 
-    public function new() {}
+    public function new() {
+        gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
+    }
 
-    public function init(gameCanvas:CanvasElement, sidePanelControl:SidePanelControl) {
+    public function init(sidePanelControl:SidePanelControl) {
         scene = new PhaserScene(sidePanelControl);
         game = new phaser.Game({
             width: DefaultValues.phaserGameWidth,
@@ -32,6 +35,18 @@ class PhaserGame {
             scene: scene,
             physics: {"default": "arcade", "arcade": { "debug": false }},
         });
+    }
+
+    public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
+        gameCanvas.style.height = Std.int(654 * multiplayer) + 'px';
+        gameCanvas.style.width = Std.int(950 * multiplayer) + 'px';
+        gameCanvas.style.position = 'absolute';
+        gameCanvas.style.left = (windowWidth - 950 * multiplayer) + 'px';
+        gameCanvas.style.top = ((windowHeight - 654 * multiplayer) / 2) + 'px';
+    }
+
+    public function show():Void {
+        gameCanvas.style.display = "block";
     }
 }
 

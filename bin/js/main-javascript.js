@@ -17,17 +17,13 @@ HxOverrides.cca = function(s,index) {
 };
 var Main = function() {
 	model_MainMenuDefaultValues.init();
-	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { page : model_MainMenuDefaultValues.page, data : model_MainMenuDefaultValues.gameConfigurationsData}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.soundPlayer = new sounds_SoundPlayer();
-	this.gameCanvas = window.document.getElementById("gameCanvas");
-	this.sidePanel = window.document.getElementById("sidePanel");
-	this.loginPanel = window.document.getElementById("loginPanel");
 	this.HTML5game = window.document.getElementById("HTML5game");
 	window.addEventListener("resize",$bind(this,this.onResize));
-	this.onResize();
-	this.sidePanelControl = new htmlcontrols_sidepanel_SidePanelControl();
-	this.loginPanelControl = new htmlcontrols_mainmenu_MainMenuControl($bind(this,this.onLogin));
+	this.sidePanelControl = new htmlcontrols_SidePanelControl();
+	this.mainMenuControl = new htmlcontrols_MainMenuControl($bind(this,this.onLogin));
 	this.phaserGame = new phasergame_PhaserGame();
+	this.onResize();
 };
 Main.__name__ = true;
 Main.main = function() {
@@ -35,24 +31,20 @@ Main.main = function() {
 };
 Main.prototype = {
 	onResize: function() {
-		var w = window.innerWidth;
-		var h = window.innerHeight;
-		var multiplayer = w / 950 < h / 654 ? w / 950 : h / 654;
-		this.gameCanvas.style.height = (654 * multiplayer | 0) + "px";
-		this.gameCanvas.style.width = (950 * multiplayer | 0) + "px";
-		this.gameCanvas.style.position = "absolute";
-		this.gameCanvas.style.left = w - 950 * multiplayer + "px";
-		this.gameCanvas.style.top = (h - 654 * multiplayer) / 2 + "px";
-		this.sidePanel.style.width = (w - 950 * multiplayer - 32 | 0) + "px";
-		this.loginPanel.style.marginTop = (h - 622) / 2 + "px";
+		var windowWidth = window.innerWidth;
+		var windowHeight = window.innerHeight;
+		var multiplayer = windowWidth / 950 < windowHeight / 654 ? windowWidth / 950 : windowHeight / 654;
+		this.phaserGame.onResize(windowWidth,windowHeight,multiplayer);
+		this.sidePanelControl.onResize(windowWidth,windowHeight,multiplayer);
+		this.mainMenuControl.onResize(windowWidth,windowHeight);
 	}
 	,onLogin: function(configuration) {
 		model_PhaserGameModel.init(configuration);
-		ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_sidepanel_SidePanel, props : { players : model_PhaserGameModel.playersStartConfig}, key : null, ref : null},window.document.getElementById("sidePanel"));
-		this.gameCanvas.style.display = "block";
-		this.sidePanel.style.display = "block";
-		this.loginPanel.style.display = "none";
-		this.phaserGame.init(this.gameCanvas,this.sidePanelControl);
+		this.sidePanelControl.init();
+		this.sidePanelControl.show();
+		this.mainMenuControl.hide();
+		this.phaserGame.init(this.sidePanelControl);
+		this.phaserGame.show();
 		if(model_PhaserGameModel.screenMode == "Fullscreen") {
 			this.HTML5game.requestFullscreen();
 		}
@@ -325,6 +317,143 @@ haxe_ds_StringMap.prototype = {
 		} else {
 			return this.rh["$" + key];
 		}
+	}
+};
+var htmlcontrols_MainMenuControl = function(onLogin) {
+	this.configuration = model_MainMenuDefaultValues.getDefaultGameConfiguration();
+	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { page : model_MainMenuDefaultValues.page, data : model_MainMenuDefaultValues.gameConfigurationsData}, key : null, ref : null},window.document.getElementById("MainMenu"));
+	this.loginPanel = window.document.getElementById("loginPanel");
+	this.onLogin = onLogin;
+	htmlcontrols_mainmenu_MainMenuActions.startGame.add($bind(this,this.startGame));
+};
+htmlcontrols_MainMenuControl.__name__ = true;
+htmlcontrols_MainMenuControl.prototype = {
+	startGame: function(page) {
+		this.configuration.teamMode = page == model_Page.TEAMS;
+		this.updateDefaultValuesByInput();
+		this.onLogin(this.configuration);
+	}
+	,updateDefaultValuesByInput: function() {
+		var _g = 0;
+		while(_g < 6) {
+			var i = _g++;
+			if(this.elementIsExist(i)) {
+				this.setSlot(i);
+			} else {
+				break;
+			}
+		}
+		var tmp = this.getById("mobsAmount");
+		this.configuration.mobAmount = Std.parseInt(tmp);
+		var tmp1 = parseFloat(this.getById("baseExp"));
+		this.configuration.baseExpGain = tmp1;
+		this.configuration.screenMode = this.getById("modeSwitcher");
+		var tmp2 = this.getById("labelsSwitcher");
+		this.configuration.showLabel = tmp2 == "ON";
+	}
+	,setSlot: function(i) {
+		var spawnXY = Std.string(this.getById("slot" + i + "Spawn")).split(",");
+		this.configuration.slots[i] = { label : this.getById("slot" + i + "Label"), charType : this.getById("slot" + i + "Class"), control : this.getById("slot" + i + "Control"), x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), name : "p" + i, skin : Utils.getSkinByColor(this.getById("slot" + i + "Skin"))};
+	}
+	,elementIsExist: function(i) {
+		return window.document.getElementById("slot" + i + "Label") != null;
+	}
+	,getById: function(id) {
+		var htmlData = window.document.getElementById(id);
+		return htmlData.value;
+	}
+	,setById: function(id,value) {
+		var htmlData = window.document.getElementById(id);
+		htmlData.value = value;
+	}
+	,onResize: function(windowWidth,windowHeight) {
+		this.loginPanel.style.marginTop = (windowHeight - 622) / 2 + "px";
+	}
+	,hide: function() {
+		this.loginPanel.style.display = "none";
+	}
+};
+var htmlcontrols_SidePanelControl = function() {
+	this.SidePanelProgress = [];
+	this.SidePanelLabels = [];
+	this.sidePanel = window.document.getElementById("sidePanel");
+};
+htmlcontrols_SidePanelControl.__name__ = true;
+htmlcontrols_SidePanelControl.prototype = {
+	init: function() {
+		ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_sidepanel_SidePanel, props : { players : model_PhaserGameModel.playersStartConfig}, key : null, ref : null},window.document.getElementById("sidePanel"));
+	}
+	,updateView: function() {
+		var _g = 0;
+		while(_g < 6) {
+			var i = _g++;
+			if(this.elementIsExist("sidePanel_name" + i)) {
+				this.mapDataToHTML("sidePanel_name" + i,this.SidePanelLabels[i],i);
+				this.mapProgressToHTML("sidePanel_Player" + i + "progress",this.SidePanelProgress[i]);
+			} else {
+				break;
+			}
+		}
+	}
+	,elementIsExist: function(htmlId) {
+		return window.document.getElementById(htmlId) != null;
+	}
+	,mapDataToHTML: function(htmlId,data,id) {
+		var nameHtml = window.document.getElementById(htmlId);
+		nameHtml.innerHTML = "<b>" + data + "</b>";
+		if(data == "") {
+			var panelHtml = window.document.getElementById("sidePanel_playerPanelId" + id);
+			panelHtml.style.display = "none";
+		}
+	}
+	,mapProgressToHTML: function(htmlId,data) {
+		var progressHtml = window.document.getElementById(htmlId);
+		progressHtml.style.width = data;
+	}
+	,getProgressString: function(data) {
+		if(data != null) {
+			return data.expGained + "%";
+		} else {
+			return "0%";
+		}
+	}
+	,updateData: function() {
+		var _g = 0;
+		while(_g < 6) {
+			var i = _g++;
+			if(model_PhaserGameModel.teamMode) {
+				var _this = model_PhaserGameModel.playersData;
+				var key = "team" + i;
+				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]);
+				var _this1 = model_PhaserGameModel.playersData;
+				var key1 = "team" + i;
+				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key1] != null ? _this1.getReserved(key1) : _this1.h[key1]);
+			} else {
+				var _this2 = model_PhaserGameModel.playersData;
+				var key2 = "p" + i;
+				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key2] != null ? _this2.getReserved(key2) : _this2.h[key2]);
+				var _this3 = model_PhaserGameModel.playersData;
+				var key3 = "p" + i;
+				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key3] != null ? _this3.getReserved(key3) : _this3.h[key3]);
+			}
+		}
+	}
+	,getLabelValueByPlayerData: function(data) {
+		if(data != null) {
+			return "" + data.label + " : mob slayed=" + data.slayedCounter + " lvl: " + data.currentLevel;
+		} else {
+			return "";
+		}
+	}
+	,update: function() {
+		this.updateData();
+		this.updateView();
+	}
+	,onResize: function(windowWidth,windowHeight,multiplayer) {
+		this.sidePanel.style.width = (windowWidth - 950 * multiplayer - 32 | 0) + "px";
+	}
+	,show: function() {
+		this.sidePanel.style.display = "block";
 	}
 };
 var htmlcontrols_mainmenu_GameModes = function(props) {
@@ -650,52 +779,6 @@ htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 		htmlcontrols_mainmenu_MainMenuActions.startGame.dispatch(model_Page.TEAMS);
 	}
 });
-var htmlcontrols_mainmenu_MainMenuControl = function(onLogin) {
-	this.configuration = model_MainMenuDefaultValues.getDefaultGameConfiguration();
-	this.onLogin = onLogin;
-	htmlcontrols_mainmenu_MainMenuActions.startGame.add($bind(this,this.startGame));
-};
-htmlcontrols_mainmenu_MainMenuControl.__name__ = true;
-htmlcontrols_mainmenu_MainMenuControl.prototype = {
-	startGame: function(page) {
-		this.configuration.teamMode = page == model_Page.TEAMS;
-		this.updateDefaultValuesByInput();
-		this.onLogin(this.configuration);
-	}
-	,updateDefaultValuesByInput: function() {
-		var _g = 0;
-		while(_g < 6) {
-			var i = _g++;
-			if(this.elementIsExist(i)) {
-				this.setSlot(i);
-			} else {
-				break;
-			}
-		}
-		var tmp = this.getById("mobsAmount");
-		this.configuration.mobAmount = Std.parseInt(tmp);
-		var tmp1 = parseFloat(this.getById("baseExp"));
-		this.configuration.baseExpGain = tmp1;
-		this.configuration.screenMode = this.getById("modeSwitcher");
-		var tmp2 = this.getById("labelsSwitcher");
-		this.configuration.showLabel = tmp2 == "ON";
-	}
-	,setSlot: function(i) {
-		var spawnXY = Std.string(this.getById("slot" + i + "Spawn")).split(",");
-		this.configuration.slots[i] = { label : this.getById("slot" + i + "Label"), charType : this.getById("slot" + i + "Class"), control : this.getById("slot" + i + "Control"), x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), name : "p" + i, skin : Utils.getSkinByColor(this.getById("slot" + i + "Skin"))};
-	}
-	,elementIsExist: function(i) {
-		return window.document.getElementById("slot" + i + "Label") != null;
-	}
-	,getById: function(id) {
-		var htmlData = window.document.getElementById(id);
-		return htmlData.value;
-	}
-	,setById: function(id,value) {
-		var htmlData = window.document.getElementById(id);
-		htmlData.value = value;
-	}
-};
 var htmlcontrols_mainmenu_helppage_HelpPage = function(props) {
 	React.Component.call(this,props);
 };
@@ -831,79 +914,6 @@ htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
 		return "Player" + i + "progress expBarBgProgress";
 	}
 });
-var htmlcontrols_sidepanel_SidePanelControl = function() {
-	this.SidePanelProgress = [];
-	this.SidePanelLabels = [];
-};
-htmlcontrols_sidepanel_SidePanelControl.__name__ = true;
-htmlcontrols_sidepanel_SidePanelControl.prototype = {
-	updateView: function() {
-		var _g = 0;
-		while(_g < 6) {
-			var i = _g++;
-			if(this.elementIsExist("sidePanel_name" + i)) {
-				this.mapDataToHTML("sidePanel_name" + i,this.SidePanelLabels[i],i);
-				this.mapProgressToHTML("sidePanel_Player" + i + "progress",this.SidePanelProgress[i]);
-			} else {
-				break;
-			}
-		}
-	}
-	,elementIsExist: function(htmlId) {
-		return window.document.getElementById(htmlId) != null;
-	}
-	,mapDataToHTML: function(htmlId,data,id) {
-		var nameHtml = window.document.getElementById(htmlId);
-		nameHtml.innerHTML = "<b>" + data + "</b>";
-		if(data == "") {
-			var panelHtml = window.document.getElementById("sidePanel_playerPanelId" + id);
-			panelHtml.style.display = "none";
-		}
-	}
-	,mapProgressToHTML: function(htmlId,data) {
-		var progressHtml = window.document.getElementById(htmlId);
-		progressHtml.style.width = data;
-	}
-	,getProgressString: function(data) {
-		if(data != null) {
-			return data.expGained + "%";
-		} else {
-			return "0%";
-		}
-	}
-	,updateData: function() {
-		var _g = 0;
-		while(_g < 6) {
-			var i = _g++;
-			if(model_PhaserGameModel.teamMode) {
-				var _this = model_PhaserGameModel.playersData;
-				var key = "team" + i;
-				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]);
-				var _this1 = model_PhaserGameModel.playersData;
-				var key1 = "team" + i;
-				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key1] != null ? _this1.getReserved(key1) : _this1.h[key1]);
-			} else {
-				var _this2 = model_PhaserGameModel.playersData;
-				var key2 = "p" + i;
-				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key2] != null ? _this2.getReserved(key2) : _this2.h[key2]);
-				var _this3 = model_PhaserGameModel.playersData;
-				var key3 = "p" + i;
-				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key3] != null ? _this3.getReserved(key3) : _this3.h[key3]);
-			}
-		}
-	}
-	,getLabelValueByPlayerData: function(data) {
-		if(data != null) {
-			return "" + data.label + " : mob slayed=" + data.slayedCounter + " lvl: " + data.currentLevel;
-		} else {
-			return "";
-		}
-	}
-	,update: function() {
-		this.updateData();
-		this.updateView();
-	}
-};
 var js_Boot = function() { };
 js_Boot.__name__ = true;
 js_Boot.__string_rec = function(o,s) {
@@ -1442,12 +1452,23 @@ phasergame_MoverCharacters.prototype = {
 var phasergame_PhaserGameActions = function() { };
 phasergame_PhaserGameActions.__name__ = true;
 var phasergame_PhaserGame = function() {
+	this.gameCanvas = window.document.getElementById("gameCanvas");
 };
 phasergame_PhaserGame.__name__ = true;
 phasergame_PhaserGame.prototype = {
-	init: function(gameCanvas,sidePanelControl) {
+	init: function(sidePanelControl) {
 		this.scene = new phasergame_PhaserScene(sidePanelControl);
-		this.game = new Phaser.Game({ width : 950, height : 654, canvas : gameCanvas, scene : this.scene, physics : { "default" : "arcade", "arcade" : { "debug" : false}}});
+		this.game = new Phaser.Game({ width : 950, height : 654, canvas : this.gameCanvas, scene : this.scene, physics : { "default" : "arcade", "arcade" : { "debug" : false}}});
+	}
+	,onResize: function(windowWidth,windowHeight,multiplayer) {
+		this.gameCanvas.style.height = (654 * multiplayer | 0) + "px";
+		this.gameCanvas.style.width = (950 * multiplayer | 0) + "px";
+		this.gameCanvas.style.position = "absolute";
+		this.gameCanvas.style.left = windowWidth - 950 * multiplayer + "px";
+		this.gameCanvas.style.top = (windowHeight - 654 * multiplayer) / 2 + "px";
+	}
+	,show: function() {
+		this.gameCanvas.style.display = "block";
 	}
 };
 var phasergame_PhaserScene = function(sidePanelControl) {

@@ -1,16 +1,27 @@
-package htmlcontrols.mainmenu;
+package htmlcontrols;
 
+import model.DefaultValues;
+import js.html.HtmlElement;
+import htmlcontrols.mainmenu.MainMenu;
 import model.MainMenuDefaultValues;
 import model.DataTypes.GameConfiguration;
 import model.DataTypes.Page;
 import htmlcontrols.mainmenu.MainMenu.MainMenuActions;
+import react.ReactMacro.jsx;
+import react.ReactDOM;
 
 class MainMenuControl {
 
     private var onLogin:GameConfiguration -> Void;
     private var configuration:GameConfiguration = MainMenuDefaultValues.getDefaultGameConfiguration();
+    private var loginPanel:HtmlElement;
 
     public function new(onLogin:GameConfiguration -> Void) {
+        ReactDOM.render(
+            jsx('<$MainMenu data=${MainMenuDefaultValues.gameConfigurationsData} page=${MainMenuDefaultValues.page}/>'),
+            js.Browser.document.getElementById('MainMenu')
+        );
+        loginPanel = cast js.Browser.document.getElementById("loginPanel");
         this.onLogin = onLogin;
         MainMenuActions.startGame.add(startGame);
     }
@@ -63,5 +74,13 @@ class MainMenuControl {
         var htmlData:Dynamic;
         htmlData = js.Browser.document.getElementById(id);
         htmlData.value = value;
+    }
+
+    public function onResize(windowWidth:Int, windowHeight:Int):Void {
+        loginPanel.style.marginTop = (windowHeight - DefaultValues.MaxMainMenuSize)/2 + 'px';
+    }
+
+    public function hide():Void {
+        loginPanel.style.display = "none";
     }
 }

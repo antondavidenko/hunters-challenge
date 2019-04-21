@@ -1,15 +1,28 @@
-package htmlcontrols.sidepanel;
+package htmlcontrols;
 
+import htmlcontrols.sidepanel.SidePanel;
 import model.DataTypes.PlayerData;
 import model.PhaserGameModel;
 import js.html.HtmlElement;
+import react.ReactMacro.jsx;
+import react.ReactDOM;
 
 class SidePanelControl {
 
     var SidePanelLabels:Array<String> = [];
     var SidePanelProgress:Array<String> = [];
+    private var sidePanel:HtmlElement;
 
-    public function new(){}
+    public function new() {
+        sidePanel = cast js.Browser.document.getElementById("sidePanel");
+    }
+
+    public function init() {
+        ReactDOM.render(
+            jsx('<$SidePanel players=${PhaserGameModel.playersStartConfig}/>'),
+            js.Browser.document.getElementById('sidePanel')
+        );
+    }
 
     public function updateView():Void {
         for (i in 0...6) {
@@ -71,5 +84,14 @@ class SidePanelControl {
     public function update():Void {
         updateData();
         updateView();
+    }
+
+    public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
+        //todo: use actual padding of sidePanel instead of hardcoded 16*2
+        sidePanel.style.width = Std.int(windowWidth - 950 * multiplayer - 16*2) + 'px';
+    }
+
+    public function show():Void {
+        sidePanel.style.display = "block";
     }
 }
