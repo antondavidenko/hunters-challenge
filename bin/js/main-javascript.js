@@ -299,6 +299,27 @@ haxe_ds_EnumValueMap.prototype = $extend(haxe_ds_BalancedTree.prototype,{
 		}
 	}
 });
+var haxe_ds__$StringMap_StringMapIterator = function(map,keys) {
+	this.map = map;
+	this.keys = keys;
+	this.index = 0;
+	this.count = keys.length;
+};
+haxe_ds__$StringMap_StringMapIterator.__name__ = true;
+haxe_ds__$StringMap_StringMapIterator.prototype = {
+	hasNext: function() {
+		return this.index < this.count;
+	}
+	,next: function() {
+		var _this = this.map;
+		var key = this.keys[this.index++];
+		if(__map_reserved[key] != null) {
+			return _this.getReserved(key);
+		} else {
+			return _this.h[key];
+		}
+	}
+};
 var haxe_ds_StringMap = function() {
 	this.h = { };
 };
@@ -317,6 +338,22 @@ haxe_ds_StringMap.prototype = {
 		} else {
 			return this.rh["$" + key];
 		}
+	}
+	,arrayKeys: function() {
+		var out = [];
+		for( var key in this.h ) {
+		if(this.h.hasOwnProperty(key)) {
+			out.push(key);
+		}
+		}
+		if(this.rh != null) {
+			for( var key in this.rh ) {
+			if(key.charCodeAt(0) == 36) {
+				out.push(key.substr(1));
+			}
+			}
+		}
+		return out;
 	}
 };
 var htmlcontrols_MainMenuControl = function(onLogin) {
@@ -374,8 +411,7 @@ htmlcontrols_MainMenuControl.prototype = {
 	}
 };
 var htmlcontrols_SidePanelControl = function() {
-	this.SidePanelProgress = [];
-	this.SidePanelLabels = [];
+	this.SidePanelData = [];
 	this.sidePanel = window.document.getElementById("sidePanel");
 };
 htmlcontrols_SidePanelControl.__name__ = true;
@@ -386,12 +422,13 @@ htmlcontrols_SidePanelControl.prototype = {
 		this.restartButton = window.document.getElementById("restartButton");
 	}
 	,updateView: function() {
-		var _g = 0;
-		while(_g < 6) {
-			var i = _g++;
+		var _g1 = 0;
+		var _g = this.SidePanelData.length;
+		while(_g1 < _g) {
+			var i = _g1++;
 			if(this.elementIsExist("sidePanel_name" + i)) {
-				this.mapDataToHTML("sidePanel_name" + i,this.SidePanelLabels[i],i);
-				this.mapProgressToHTML("sidePanel_Player" + i + "progress",this.SidePanelProgress[i]);
+				this.mapDataToHTML("sidePanel_name" + i,this.SidePanelData[i].labels,i);
+				this.mapProgressToHTML("sidePanel_Player" + i + "progress",this.SidePanelData[i].progress + "%");
 			} else {
 				break;
 			}
@@ -412,31 +449,17 @@ htmlcontrols_SidePanelControl.prototype = {
 		var progressHtml = window.document.getElementById(htmlId);
 		progressHtml.style.width = data;
 	}
-	,getProgressString: function(data) {
-		if(data != null) {
-			return data.expGained + "%";
-		} else {
-			return "0%";
-		}
-	}
 	,updateData: function() {
-		var _g = 0;
-		while(_g < 6) {
-			var i = _g++;
-			if(model_PhaserGameModel.teamMode) {
-				var _this = model_PhaserGameModel.playersData;
-				var key = "team" + i;
-				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]);
-				var _this1 = model_PhaserGameModel.playersData;
-				var key1 = "team" + i;
-				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key1] != null ? _this1.getReserved(key1) : _this1.h[key1]);
-			} else {
-				var _this2 = model_PhaserGameModel.playersData;
-				var key2 = "p" + i;
-				this.SidePanelLabels[i] = this.getLabelValueByPlayerData(__map_reserved[key2] != null ? _this2.getReserved(key2) : _this2.h[key2]);
-				var _this3 = model_PhaserGameModel.playersData;
-				var key3 = "p" + i;
-				this.SidePanelProgress[i] = this.getProgressString(__map_reserved[key3] != null ? _this3.getReserved(key3) : _this3.h[key3]);
+		this.SidePanelData = [];
+		var _this = model_PhaserGameModel.playersData;
+		var data = new haxe_ds__$StringMap_StringMapIterator(_this,_this.arrayKeys());
+		while(data.hasNext()) {
+			var data1 = data.next();
+			if(model_PhaserGameModel.teamMode && data1.label.indexOf("team") >= 0) {
+				this.SidePanelData.push({ labels : this.getLabelValueByPlayerData(data1), progress : this.getProgressString(data1)});
+			}
+			if(!model_PhaserGameModel.teamMode && data1.label.indexOf("team") == -1) {
+				this.SidePanelData.push({ labels : this.getLabelValueByPlayerData(data1), progress : this.getProgressString(data1)});
 			}
 		}
 	}
@@ -447,15 +470,34 @@ htmlcontrols_SidePanelControl.prototype = {
 			return "";
 		}
 	}
+	,getProgressString: function(data) {
+		if(data != null) {
+			var progress = (data.currentLevel - 1) * 25 + (data.expGained / 5 | 0);
+			return progress;
+		} else {
+			return 0;
+		}
+	}
+	,sortData: function() {
+		this.SidePanelData.sort(function(a,b) {
+			if(a.progress < b.progress) {
+				return 1;
+			} else if(a.progress > b.progress) {
+				return -1;
+			} else {
+				return 0;
+			}
+		});
+	}
 	,update: function() {
 		this.updateData();
+		this.sortData();
 		this.updateView();
 	}
 	,onResize: function(windowWidth,windowHeight,multiplayer) {
 		var computedStyle = window.getComputedStyle(this.sidePanel);
 		var padding = Std.parseInt(computedStyle.padding);
-		console.log(padding);
-		this.sidePanel.style.width = (windowWidth - 950 * multiplayer - 32 | 0) + "px";
+		this.sidePanel.style.width = (windowWidth - 950 * multiplayer - padding * 2 | 0) + "px";
 		this.sidePanel.style.height = (654 * multiplayer | 0) + "px";
 	}
 	,show: function() {
@@ -2038,7 +2080,7 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 		playerData.expGained += model_PhaserGameModel.baseExpGain * mobLvl / playerData.currentLevel;
 		if(playerData.expGained >= 100) {
 			playerData.currentLevel++;
-			playerData.expGained = playerData.currentLevel == model_PhaserGameModel.maxLvl ? 100 : 0;
+			playerData.expGained = 0;
 			if(playerData.currentLevel > model_PhaserGameModel.maxLvlInGame) {
 				model_PhaserGameModel.maxLvlInGame = playerData.currentLevel;
 				model_PhaserGameModel.leaderPlayerLabel = playerData.label;

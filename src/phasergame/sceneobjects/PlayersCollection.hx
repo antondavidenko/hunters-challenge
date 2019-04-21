@@ -103,7 +103,7 @@ class PlayersCollection {
         playerData.expGained += PhaserGameModel.baseExpGain * mobLvl / playerData.currentLevel;
         if (playerData.expGained >= 100) {
             playerData.currentLevel++;
-            playerData.expGained = (playerData.currentLevel == PhaserGameModel.maxLvl)?100:0;
+            playerData.expGained = 0;
             if (playerData.currentLevel > PhaserGameModel.maxLvlInGame) {
                 PhaserGameModel.maxLvlInGame = playerData.currentLevel;
                 PhaserGameModel.leaderPlayerLabel = playerData.label;

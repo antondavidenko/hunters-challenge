@@ -16,9 +16,9 @@ GRAPHICS:
 
 UI:
 - improve graphics to targeting full HD resolution = v0.8
-- sort realtime player-bot list by leader criteria = v0.8
 - start count up = v0.8
 - use images avatars for classes and player presentation + correct color on BG = v 0.8
 
 SOUNDS:
 - count up sound = v 0.8
+- different sounds for mobs = v 0.8 
