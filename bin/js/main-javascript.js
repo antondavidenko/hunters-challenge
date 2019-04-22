@@ -1608,14 +1608,18 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 });
 var phasergame_sceneobjects_Background = function(phaserScene) {
 	this.phaserScene = phaserScene;
-	this.tilesetName = "tiles";
 };
 phasergame_sceneobjects_Background.__name__ = true;
 phasergame_sceneobjects_Background.prototype = {
 	preload: function() {
-		this.phaserScene.load.image(this.tilesetName,"assets/tiles.png");
+		this.phaserScene.load.image("tiles","assets/tiles.png");
+		this.phaserScene.load.image("tiles_decor","assets/tiles_decor.png");
 	}
 	,init: function() {
+		this.createTilesLayer(9,"tiles");
+		this.createTilesLayer(90,"tiles_decor");
+	}
+	,createTilesLayer: function(randomMax,tileset) {
 		var _g = [];
 		var _g1 = 0;
 		while(_g1 < 22) {
@@ -1624,13 +1628,13 @@ phasergame_sceneobjects_Background.prototype = {
 			var _g3 = 0;
 			while(_g3 < 31) {
 				var y = _g3++;
-				_g2.push(Std.random(8));
+				_g2.push(Std.random(randomMax));
 			}
 			_g.push(_g2);
 		}
 		var dynamicMap = _g;
 		var map = this.phaserScene.add.tilemap("dynamicMap",32,32,0,0,dynamicMap);
-		var tiles = map.addTilesetImage(this.tilesetName);
+		var tiles = map.addTilesetImage(tileset);
 		var layer = map.createStaticLayer(0,tiles,0,0);
 	}
 };
@@ -2195,5 +2199,7 @@ model_PhaserGameModel.mobsData = new haxe_ds_StringMap();
 model_PhaserGameModel.skinsCollection = new haxe_ds_StringMap();
 phasergame_PhaserGameActions.gameEnd = new msignal_Signal0();
 phasergame_PhaserGameActions.mobSlayed = new msignal_Signal0();
+phasergame_sceneobjects_Background.tilesetName = "tiles";
+phasergame_sceneobjects_Background.tiledecorsetName = "tiles_decor";
 Main.main();
 })();
