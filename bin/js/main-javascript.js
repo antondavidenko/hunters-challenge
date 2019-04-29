@@ -1532,6 +1532,8 @@ var phasergame_PhaserScene = function(sidePanelControl) {
 	this.background = new phasergame_sceneobjects_Background(this);
 	this.playersCollection = new phasergame_sceneobjects_PlayersCollection(this);
 	this.mobsCollection = new phasergame_sceneobjects_MobsCollection(this);
+	this.textLabelsCollection = new phasergame_sceneobjects_TextLabelsCollection(this);
+	this.locationDetailsCollection = new phasergame_sceneobjects_LocationDetailsCollection(this);
 	this.collisionDetector = new phasergame_CollisionDetector(this);
 	this.moverCharacters = new phasergame_MoverCharacters();
 	this.sidePanelControl = sidePanelControl;
@@ -1543,12 +1545,14 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		this.background.preload();
 		this.playersCollection.preload();
 		this.mobsCollection.preload();
+		this.locationDetailsCollection.preload();
 	}
 	,create: function() {
 		var _gthis = this;
 		this.background.init();
 		this.mobsCollection.init(($_=this.moverCharacters,$bind($_,$_.initMobs)));
 		this.playersCollection.init(($_=this.moverCharacters,$bind($_,$_.initPlayers)));
+		this.locationDetailsCollection.init();
 		this.collisionDetector.init(this.playersCollection.getAllPlayersList(),this.mobsCollection.getAllMobList());
 		this.collisionDetector.onCharackterAndMob($bind(this,this.onCharackterAndMobCollision));
 		this.input.on("pointerdown",function(pointer) {
@@ -1586,24 +1590,13 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		var isGameEnd = model_PhaserGameModel.maxLvlInGame == model_PhaserGameModel.maxLvl;
 		if(isGameEnd) {
 			phasergame_PhaserGameActions.gameEnd.dispatch();
-			this.showEndGameMessage();
+			this.textLabelsCollection.showEndGameMessage();
 			this.physics.pause();
 			this.moverCharacters.setPause(true);
 			this.playersCollection.stopAll();
 			this.mobsCollection.stopAll();
 			this.isPaused = true;
 		}
-	}
-	,showEndGameMessage: function() {
-		var header = this.add.text(100,210,"Challenge is over",{ fontFamily : "Arial Black", fontSize : 74, color : "#ccd8ff"});
-		header.setStroke("#8ca7f7",16);
-		header.setShadow(2,2,"#333333",2,true,true);
-		header.depth = 100500;
-		header.x = (950 - header.width) / 2;
-		var info = this.add.text(120,310,"winner is: " + model_PhaserGameModel.leaderPlayerLabel,{ fontFamily : "Arial Black", fontSize : 46, color : "#ccd8ff"});
-		info.setShadow(2,2,"#333333",2,true,true);
-		info.depth = 100500;
-		info.x = (950 - info.width) / 2;
 	}
 });
 var phasergame_sceneobjects_Background = function(phaserScene) {
@@ -1803,6 +1796,50 @@ phasergame_sceneobjects_Character.prototype = {
 	}
 	,getPhysicBody: function() {
 		return this.sprite;
+	}
+};
+var phasergame_sceneobjects_LocationDetailsCollection = function(phaserScene) {
+	this.phaserScene = phaserScene;
+};
+phasergame_sceneobjects_LocationDetailsCollection.__name__ = true;
+phasergame_sceneobjects_LocationDetailsCollection.prototype = {
+	preload: function() {
+		var frameSize = 32;
+		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
+		this.phaserScene.load.spritesheet("objects_small","assets/objects_small.png",frmeConfig);
+		this.phaserScene.load.spritesheet("objects_tree","assets/objects_tree.png",frmeConfig);
+	}
+	,init: function() {
+		this.spawnSmallObjects();
+		var _g = 0;
+		var _g1 = model_DefaultValues.forestPoints;
+		while(_g < _g1.length) {
+			var point = _g1[_g];
+			++_g;
+			this.spawnForest(point[0],point[1]);
+		}
+	}
+	,spawnSmallObjects: function() {
+		var _g = 0;
+		while(_g < 100) {
+			var i = _g++;
+			var randomX = Utils.getRandomScreenX();
+			var randomY = Utils.getRandomScreenY();
+			var randomDecorId = Std.random(9);
+			var sprite = this.phaserScene.add.sprite(randomX,randomY,"objects_small",randomDecorId).setScale(1.25);
+			sprite.depth = sprite.y;
+		}
+	}
+	,spawnForest: function(forestX,forestY) {
+		var delta = 100;
+		var _g = 0;
+		while(_g < 25) {
+			var i = _g++;
+			var spawnX = forestX + (delta / 2 - Std.random(delta) | 0);
+			var spawnY = forestY + (delta / 2 - Std.random(delta) | 0);
+			var sprite = this.phaserScene.add.sprite(spawnX,spawnY,"objects_tree").setScale(1.75);
+			sprite.depth = sprite.y;
+		}
 	}
 };
 var phasergame_sceneobjects_MobsCollection = function(phaserScene) {
@@ -2104,6 +2141,23 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 		return null;
 	}
 };
+var phasergame_sceneobjects_TextLabelsCollection = function(phaserScene) {
+	this.phaserScene = phaserScene;
+};
+phasergame_sceneobjects_TextLabelsCollection.__name__ = true;
+phasergame_sceneobjects_TextLabelsCollection.prototype = {
+	showEndGameMessage: function() {
+		var header = this.phaserScene.add.text(100,210,"Challenge is over",{ fontFamily : "Arial Black", fontSize : 74, color : "#ccd8ff"});
+		header.setStroke("#8ca7f7",16);
+		header.setShadow(2,2,"#333333",2,true,true);
+		header.depth = 100500;
+		header.x = (950 - header.width) / 2;
+		var info = this.phaserScene.add.text(120,310,"winner is: " + model_PhaserGameModel.leaderPlayerLabel,{ fontFamily : "Arial Black", fontSize : 46, color : "#ccd8ff"});
+		info.setShadow(2,2,"#333333",2,true,true);
+		info.depth = 100500;
+		info.x = (950 - info.width) / 2;
+	}
+};
 var react_ReactMacro = function() { };
 react_ReactMacro.__name__ = true;
 var sounds_SoundPlayer = function() {
@@ -2177,6 +2231,12 @@ model_DefaultValues.phaserGameHeight = 654;
 model_DefaultValues.characterConfig = { MOVE_SPEED : 150, MIN_DISTANCE : 3, IDLE_POSE_ID : 1, COLISION_ANIM_ID : 2};
 model_DefaultValues.mobTypes = ["mob1lvl","mob2lvl","mob3lvl","mob4lvl","mob5lvl"];
 model_DefaultValues.mobLabels = ["lvl 1","lvl 2","lvl 3","lvl 4","lvl 5"];
+model_DefaultValues.objectsSmall = "objects_small";
+model_DefaultValues.objectsTree = "objects_tree";
+model_DefaultValues.objectsSmallAmount = 100;
+model_DefaultValues.objectsTreeAmount = 25;
+model_DefaultValues.objectsTreePositionRandomizer = 100;
+model_DefaultValues.forestPoints = [[100,100],[300,100],[500,100],[700,100],[100,500],[300,500],[500,500],[700,500]];
 model_DefaultValues.mobSpeeds = [100,5,25,300,300];
 model_DefaultValues.maxMobLvlId = 4;
 model_DefaultValues.maxLvl = 5;

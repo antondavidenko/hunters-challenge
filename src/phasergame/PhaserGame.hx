@@ -1,8 +1,9 @@
 package phasergame;
 
+import phasergame.sceneobjects.LocationDetailsCollection;
+import phasergame.sceneobjects.TextLabelsCollection;
 import msignal.Signal.Signal0;
 import model.DefaultValues;
-import phaser.gameobjects.Text;
 import phasergame.CollisionDetector.CharackterAndMobData;
 import htmlcontrols.SidePanelControl;
 import model.PhaserGameModel;
@@ -11,8 +12,7 @@ import phasergame.sceneobjects.PlayersCollection;
 import phasergame.sceneobjects.MobsCollection;
 import phasergame.sceneobjects.Background;
 
-class PhaserGameActions
-{
+class PhaserGameActions {
     public static var gameEnd:Signal0 = new Signal0();
     public static var mobSlayed:Signal0 = new Signal0();
 }
@@ -55,6 +55,8 @@ class PhaserScene extends phaser.Scene {
     private var background:Background;
     private var playersCollection:PlayersCollection;
     private var mobsCollection:MobsCollection;
+    private var textLabelsCollection:TextLabelsCollection;
+    private var locationDetailsCollection:LocationDetailsCollection;
 
     private var sidePanelControl:SidePanelControl;
     private var collisionDetector:CollisionDetector;
@@ -67,6 +69,8 @@ class PhaserScene extends phaser.Scene {
         background = new Background(this);
         playersCollection = new PlayersCollection(this);
         mobsCollection = new MobsCollection(this);
+        textLabelsCollection = new TextLabelsCollection(this);
+        locationDetailsCollection = new LocationDetailsCollection(this);
         collisionDetector = new CollisionDetector(this);
         moverCharacters = new MoverCharacters();
         this.sidePanelControl = sidePanelControl;
@@ -76,12 +80,14 @@ class PhaserScene extends phaser.Scene {
         background.preload();
         playersCollection.preload();
         mobsCollection.preload();
+        locationDetailsCollection.preload();
     }
 
     public function create() {
         background.init();
         mobsCollection.init(moverCharacters.initMobs);
         playersCollection.init(moverCharacters.initPlayers);
+        locationDetailsCollection.init();
         collisionDetector.init(playersCollection.getAllPlayersList(), mobsCollection.getAllMobList());
         collisionDetector.onCharackterAndMob(onCharackterAndMobCollision);
         this.input.on('pointerdown', function(pointer) {
@@ -121,25 +127,12 @@ class PhaserScene extends phaser.Scene {
 
         if (isGameEnd) {
             PhaserGameActions.gameEnd.dispatch();
-            showEndGameMessage();
+            textLabelsCollection.showEndGameMessage();
             this.physics.pause();
             moverCharacters.setPause(true);
             playersCollection.stopAll();
             mobsCollection.stopAll();
             isPaused = true;
         }
-    }
-
-    private function showEndGameMessage():Void {
-        var header:Text = this.add.text(100, 210, "Challenge is over", { fontFamily: "Arial Black", fontSize: 74, color: "#ccd8ff" });
-        header.setStroke('#8ca7f7', 16);
-        header.setShadow(2, 2, "#333333", 2, true, true);
-        header.depth = 100500;
-        header.x = (DefaultValues.phaserGameWidth - header.width)/2;
-
-        var info:Text = this.add.text(120, 310, 'winner is: ${PhaserGameModel.leaderPlayerLabel}', { fontFamily: "Arial Black", fontSize: 46, color: "#ccd8ff" });
-        info.setShadow(2, 2, "#333333", 2, true, true);
-        info.depth = 100500;
-        info.x = (DefaultValues.phaserGameWidth - info.width)/2;
     }
 }

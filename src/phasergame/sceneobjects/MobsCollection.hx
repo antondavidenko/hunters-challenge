@@ -3,7 +3,6 @@ package phasergame.sceneobjects;
 import model.DefaultValues;
 import phaser.loader.filetypes.ImageFrameConfig;
 import model.DataTypes.ControlType;
-import model.DataTypes.MobData;
 import model.DataTypes.CharStartConfig;
 import model.PhaserGameModel;
 import phasergame.sceneobjects.Character;
@@ -57,7 +56,7 @@ class MobsCollection {
             control: ControlType.BOT_SIMPLE,
             x: mobX,
             y: mobY,
-            name: "m"+mobId,
+            name: "m" + mobId,
             skin: 1
         };
     }

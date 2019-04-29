@@ -15,6 +15,16 @@ class DefaultValues {
 
     static public var mobTypes:Array<String> = ["mob1lvl", "mob2lvl", "mob3lvl", "mob4lvl", "mob5lvl"];
     static public var mobLabels:Array<String> = ["lvl 1", "lvl 2", "lvl 3", "lvl 4", "lvl 5"];
+
+    static public inline var objectsSmall:String = "objects_small";
+    static public inline var objectsTree:String = "objects_tree";
+    static public inline var objectsSmallAmount:Int = 100;
+    static public inline var objectsTreeAmount:Int = 25;
+    static public inline var objectsTreePositionRandomizer:Int = 100;
+    static public var forestPoints:Array<Array<Int>> =
+    [[100, 100], [300, 100], [500, 100], [700, 100],
+    [100, 500], [300, 500], [500, 500], [700, 500]];
+
     static public var mobSpeeds:Array<Int> = [100, 5, 25, 300, 300];
     static public var maxMobLvlId = 4;
 

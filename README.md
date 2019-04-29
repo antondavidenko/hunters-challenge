@@ -11,7 +11,6 @@ OPTIONS:
 - save options/menu in cookies = v 0.8
 
 GRAPHICS:
-- add bushes decoration etc. Mobs can hide around bushes (special type for bots to search bushes?) = v 0.8
 - add exp visual number effect when mob is slayed = v 0.8
 
 UI:
