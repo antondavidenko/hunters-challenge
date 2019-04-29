@@ -1577,13 +1577,13 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 			this.checkGameEndCreteria();
 		}
 	}
-	,onCharackterAndMobCollision: function(dataNameId) {
-		if(this.mobsCollection.onMobCollision(dataNameId.mob)) {
-			phasergame_PhaserGameActions.mobSlayed.dispatch();
-			var key = dataNameId.mob;
+	,onCharackterAndMobCollision: function(collisionMembers) {
+		if(this.mobsCollection.onMobCollision(collisionMembers.mob)) {
+			var key = collisionMembers.mob;
 			var _this = model_PhaserGameModel.mobsData;
 			var mobLvl = (__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]).currentLevel;
-			this.playersCollection.onPlayerSlayMob(dataNameId.charackter,mobLvl);
+			phasergame_PhaserGameActions.mobSlayed.dispatch(mobLvl);
+			this.playersCollection.onPlayerSlayMob(collisionMembers.charackter,mobLvl);
 		}
 	}
 	,checkGameEndCreteria: function() {
@@ -2163,8 +2163,11 @@ react_ReactMacro.__name__ = true;
 var sounds_SoundPlayer = function() {
 	this.sndVictory = new Howl(this.getOptionByFlieName("victory.mp3"));
 	this.sndClick = new Howl(this.getOptionByFlieName("click.mp3"));
-	this.sndHit = new Howl(this.getOptionByFlieName("hit.mp3"));
+	this.sndAnimal = new Howl(this.getOptionByFlieName("animal.mp3"));
+	this.sndZombie = new Howl(this.getOptionByFlieName("zombie.mp3"));
+	this.sndDragon = new Howl(this.getOptionByFlieName("dragon.mp3"));
 	this.sndTheme = new Howl(this.getOptionByFlieName("theme.mp3"));
+	this.hitSndList = [this.sndAnimal,this.sndZombie,this.sndZombie,this.sndDragon,this.sndDragon];
 	htmlcontrols_mainmenu_MainMenuActions.navigateToPage.add($bind(this,this.onButtonClick));
 	htmlcontrols_mainmenu_MainMenuActions.startGame.add($bind(this,this.onStartGame));
 	phasergame_PhaserGameActions.gameEnd.add($bind(this,this.onEndGame));
@@ -2190,8 +2193,8 @@ sounds_SoundPlayer.prototype = {
 		this.sndTheme.stop();
 		this.sndVictory.play();
 	}
-	,onMobSlayed: function() {
-		this.sndHit.play();
+	,onMobSlayed: function(mobLvl) {
+		this.hitSndList[mobLvl - 1].play();
 	}
 };
 var $_, $fid = 0;
@@ -2258,7 +2261,7 @@ model_PhaserGameModel.playersData = new haxe_ds_StringMap();
 model_PhaserGameModel.mobsData = new haxe_ds_StringMap();
 model_PhaserGameModel.skinsCollection = new haxe_ds_StringMap();
 phasergame_PhaserGameActions.gameEnd = new msignal_Signal0();
-phasergame_PhaserGameActions.mobSlayed = new msignal_Signal0();
+phasergame_PhaserGameActions.mobSlayed = new msignal_Signal1();
 phasergame_sceneobjects_Background.tilesetName = "tiles";
 phasergame_sceneobjects_Background.tiledecorsetName = "tiles_decor";
 Main.main();

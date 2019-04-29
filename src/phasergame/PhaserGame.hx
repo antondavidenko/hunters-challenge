@@ -1,5 +1,6 @@
 package phasergame;
 
+import msignal.Signal.Signal1;
 import phasergame.sceneobjects.LocationDetailsCollection;
 import phasergame.sceneobjects.TextLabelsCollection;
 import msignal.Signal.Signal0;
@@ -14,7 +15,7 @@ import phasergame.sceneobjects.Background;
 
 class PhaserGameActions {
     public static var gameEnd:Signal0 = new Signal0();
-    public static var mobSlayed:Signal0 = new Signal0();
+    public static var mobSlayed:Signal1<Int> = new Signal1();
 }
 
 class PhaserGame {
@@ -114,11 +115,11 @@ class PhaserScene extends phaser.Scene {
         }
     }
 
-    private function onCharackterAndMobCollision(dataNameId:CharackterAndMobData):Void {
-        if (mobsCollection.onMobCollision(dataNameId.mob)) {
-            PhaserGameActions.mobSlayed.dispatch();
-            var mobLvl:Int = PhaserGameModel.mobsData[dataNameId.mob].currentLevel;
-            playersCollection.onPlayerSlayMob(dataNameId.charackter, mobLvl);
+    private function onCharackterAndMobCollision(collisionMembers:CharackterAndMobData):Void {
+        if (mobsCollection.onMobCollision(collisionMembers.mob)) {
+            var mobLvl:Int = PhaserGameModel.mobsData[collisionMembers.mob].currentLevel;
+            PhaserGameActions.mobSlayed.dispatch(mobLvl);
+            playersCollection.onPlayerSlayMob(collisionMembers.charackter, mobLvl);
         }
     }
 

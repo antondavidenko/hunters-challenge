@@ -10,13 +10,19 @@ class SoundPlayer {
     private var sndVictory:Howl;
     private var sndTheme:Howl;
     private var sndClick:Howl;
-    private var sndHit:Howl;
+    private var sndAnimal:Howl;
+    private var sndZombie:Howl;
+    private var sndDragon:Howl;
+    private var hitSndList:Array<Howl>;
 
     public function new() {
         sndVictory = new Howl(getOptionByFlieName("victory.mp3"));
         sndClick = new Howl(getOptionByFlieName("click.mp3"));
-        sndHit = new Howl(getOptionByFlieName("hit.mp3"));
+        sndAnimal = new Howl(getOptionByFlieName("animal.mp3"));
+        sndZombie = new Howl(getOptionByFlieName("zombie.mp3"));
+        sndDragon = new Howl(getOptionByFlieName("dragon.mp3"));
         sndTheme = new Howl(getOptionByFlieName("theme.mp3"));
+        hitSndList = [sndAnimal, sndZombie, sndZombie, sndDragon, sndDragon];
 
         MainMenuActions.navigateToPage.add(onButtonClick);
         MainMenuActions.startGame.add(onStartGame);
@@ -46,7 +52,7 @@ class SoundPlayer {
         sndVictory.play();
     }
 
-    private function onMobSlayed():Void {
-        sndHit.play();
+    private function onMobSlayed(mobLvl:Int):Void {
+        hitSndList[mobLvl-1].play();
     }
 }

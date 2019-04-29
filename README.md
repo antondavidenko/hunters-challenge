@@ -20,4 +20,3 @@ UI:
 
 SOUNDS:
 - count up sound = v 0.8
-- different sounds for mobs = v 0.8 
