@@ -154,7 +154,14 @@ var haxe_Timer = function(time_ms) {
 };
 haxe_Timer.__name__ = true;
 haxe_Timer.prototype = {
-	run: function() {
+	stop: function() {
+		if(this.id == null) {
+			return;
+		}
+		clearInterval(this.id);
+		this.id = null;
+	}
+	,run: function() {
 	}
 };
 var haxe_ds_BalancedTree = function() {
@@ -552,7 +559,7 @@ htmlcontrols_mainmenu_GamePlayOptions.prototype = $extend(React.Component.protot
 		if(this.state.page != this.props.page) {
 			this.state = { mobAmount : this.props.data.get(this.props.page).mobAmount, page : this.props.page};
 		}
-		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Mobs amount"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Base exp gain"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Labels"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Screen mode"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "mobsAmount", onChange : $bind(this,this.onChange), value : this.state.mobAmount, type : "text", placeholder : "Enter mobs amount", className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "baseExp", defaultValue : "25", type : "text", placeholder : "Base exp gain", className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "labelsSwitcher", className : "fifthWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "ON", children : "ON"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "OFF", children : "OFF"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "modeSwitcher", className : "fifthWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "Windowed", children : "Windowed"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "Fullscreen", children : "Fullscreen"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Mobs amount"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Base exp gain"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Labels"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Screen mode"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "mobsAmount", onChange : $bind(this,this.onChange), value : this.state.mobAmount, type : "text", placeholder : "Enter mobs amount", className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "baseExp", defaultValue : "25", type : "text", placeholder : "Base exp gain", className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "labelsSwitcher", className : "fifthWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "ON", children : "ON"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "OFF", children : "OFF"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "modeSwitcher", className : "fifthWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "Fullscreen", children : "Fullscreen"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "Windowed", children : "Windowed"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
 	}
 	,onChange: function(event) {
 		var page = this.state.page;
@@ -1125,7 +1132,7 @@ model_MainMenuDefaultValues.getTeamsGameConfiguration = function() {
 	return configuration;
 };
 model_MainMenuDefaultValues.getDefaultGameConfiguration = function() {
-	return { slots : [], screenMode : "", showLabel : true, baseExpGain : 25, teamMode : false, mobAmount : 5};
+	return { slots : [], screenMode : "Fullscreen", showLabel : true, baseExpGain : 25, teamMode : false, mobAmount : 5};
 };
 model_MainMenuDefaultValues.getCharStartConfig = function(slotNum,charType,control,spawnPointId,skin) {
 	var prefix = control != "bot_hard" && control != "bot_simple" ? "Player" : "Bot";
@@ -1537,6 +1544,7 @@ var phasergame_PhaserScene = function(sidePanelControl) {
 	this.collisionDetector = new phasergame_CollisionDetector(this);
 	this.moverCharacters = new phasergame_MoverCharacters();
 	this.sidePanelControl = sidePanelControl;
+	phasergame_PhaserGameActions.countUpFinish.add($bind(this,this.onGameStart));
 };
 phasergame_PhaserScene.__name__ = true;
 phasergame_PhaserScene.__super__ = Phaser.Scene;
@@ -1566,6 +1574,8 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		},this);
 		this.moverCharacters.setKeys(this.input.keyboard.addKeys("A,W,S,D"));
 		this.moverCharacters.setCursor(this.input.keyboard.createCursorKeys());
+		this.textLabelsCollection.showCountUpMessage();
+		this.physics.pause();
 	}
 	,update: function(time,delta) {
 		if(!this.isPaused) {
@@ -1597,6 +1607,10 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 			this.mobsCollection.stopAll();
 			this.isPaused = true;
 		}
+	}
+	,onGameStart: function() {
+		this.physics.resume();
+		console.log("GO!");
 	}
 });
 var phasergame_sceneobjects_Background = function(phaserScene) {
@@ -2142,20 +2156,52 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 	}
 };
 var phasergame_sceneobjects_TextLabelsCollection = function(phaserScene) {
+	this.smallTextStyle = { fontFamily : "Arial Black", fontSize : 46, color : "#ccd8ff"};
+	this.bigTextStyle = { fontFamily : "Arial Black", fontSize : 74, color : "#ccd8ff"};
+	this.countUpSmallLabels = ["1","2","3","GO!"];
+	this.countUpBigLabels = ["Ready","Ready","Steady","GO!"];
+	this.countUpCounter = 0;
 	this.phaserScene = phaserScene;
 };
 phasergame_sceneobjects_TextLabelsCollection.__name__ = true;
 phasergame_sceneobjects_TextLabelsCollection.prototype = {
-	showEndGameMessage: function() {
-		var header = this.phaserScene.add.text(100,210,"Challenge is over",{ fontFamily : "Arial Black", fontSize : 74, color : "#ccd8ff"});
+	showCountUpMessage: function() {
+		var _gthis = this;
+		var countUpBig = this.createText(100,110,this.bigTextStyle);
+		countUpBig.setStroke("#8ca7f7",16);
+		var countUpSmall = this.createText(120,210,this.smallTextStyle);
+		var timer = new haxe_Timer(1000);
+		timer.run = function() {
+			if(_gthis.countUpSmallLabels[_gthis.countUpCounter] != null) {
+				_gthis.setTextLabel(countUpSmall,_gthis.countUpSmallLabels[_gthis.countUpCounter]);
+				_gthis.setTextLabel(countUpBig,_gthis.countUpBigLabels[_gthis.countUpCounter]);
+				phasergame_PhaserGameActions.countUpProgress.dispatch(_gthis.countUpCounter);
+			} else {
+				timer.stop();
+				countUpSmall.visible = false;
+				countUpBig.visible = false;
+				phasergame_PhaserGameActions.countUpFinish.dispatch();
+			}
+			_gthis.countUpCounter++;
+		};
+	}
+	,showEndGameMessage: function() {
+		var header = this.createText(100,210,this.bigTextStyle);
 		header.setStroke("#8ca7f7",16);
-		header.setShadow(2,2,"#333333",2,true,true);
-		header.depth = 100500;
-		header.x = (950 - header.width) / 2;
-		var info = this.phaserScene.add.text(120,310,"winner is: " + model_PhaserGameModel.leaderPlayerLabel,{ fontFamily : "Arial Black", fontSize : 46, color : "#ccd8ff"});
-		info.setShadow(2,2,"#333333",2,true,true);
-		info.depth = 100500;
-		info.x = (950 - info.width) / 2;
+		this.setTextLabel(header,"Challenge is over");
+		var info = this.createText(120,310,this.smallTextStyle);
+		this.setTextLabel(info,"winner is: " + model_PhaserGameModel.leaderPlayerLabel);
+	}
+	,createText: function(x,y,style) {
+		var text = this.phaserScene.add.text(x,y,"",style);
+		text.setShadow(2,2,"#333333",2,true,true);
+		text.depth = 100500;
+		return text;
+	}
+	,setTextLabel: function(text,label) {
+		text.text = label;
+		text.updateText();
+		text.x = (950 - text.width) / 2;
 	}
 };
 var react_ReactMacro = function() { };
@@ -2163,13 +2209,20 @@ react_ReactMacro.__name__ = true;
 var sounds_SoundPlayer = function() {
 	this.sndVictory = new Howl(this.getOptionByFlieName("victory.mp3"));
 	this.sndClick = new Howl(this.getOptionByFlieName("click.mp3"));
-	this.sndAnimal = new Howl(this.getOptionByFlieName("animal.mp3"));
-	this.sndZombie = new Howl(this.getOptionByFlieName("zombie.mp3"));
-	this.sndDragon = new Howl(this.getOptionByFlieName("dragon.mp3"));
 	this.sndTheme = new Howl(this.getOptionByFlieName("theme.mp3"));
-	this.hitSndList = [this.sndAnimal,this.sndZombie,this.sndZombie,this.sndDragon,this.sndDragon];
+	var sndAnimal = new Howl(this.getOptionByFlieName("animal.mp3"));
+	var sndZombie = new Howl(this.getOptionByFlieName("zombie.mp3"));
+	var sndDragon = new Howl(this.getOptionByFlieName("dragon.mp3"));
+	this.hitSndList = [sndAnimal,sndZombie,sndZombie,sndDragon,sndDragon];
+	var count1 = new Howl(this.getOptionByFlieName("count_1.mp3"));
+	var count2 = new Howl(this.getOptionByFlieName("count_2.mp3"));
+	var count3 = new Howl(this.getOptionByFlieName("count_3.mp3"));
+	var countGO = new Howl(this.getOptionByFlieName("count_GO.mp3"));
+	this.countUpList = [count1,count2,count3,countGO];
 	htmlcontrols_mainmenu_MainMenuActions.navigateToPage.add($bind(this,this.onButtonClick));
-	htmlcontrols_mainmenu_MainMenuActions.startGame.add($bind(this,this.onStartGame));
+	htmlcontrols_mainmenu_MainMenuActions.startGame.add($bind(this,this.onButtonClick));
+	phasergame_PhaserGameActions.countUpFinish.add($bind(this,this.onCountUpFinish));
+	phasergame_PhaserGameActions.countUpProgress.add($bind(this,this.onCountUpProgress));
 	phasergame_PhaserGameActions.gameEnd.add($bind(this,this.onEndGame));
 	phasergame_PhaserGameActions.mobSlayed.add($bind(this,this.onMobSlayed));
 };
@@ -2185,8 +2238,7 @@ sounds_SoundPlayer.prototype = {
 	,onButtonClick: function(page) {
 		this.sndClick.play();
 	}
-	,onStartGame: function(page) {
-		this.sndClick.play();
+	,onCountUpFinish: function() {
 		this.sndTheme.play();
 	}
 	,onEndGame: function() {
@@ -2195,6 +2247,9 @@ sounds_SoundPlayer.prototype = {
 	}
 	,onMobSlayed: function(mobLvl) {
 		this.hitSndList[mobLvl - 1].play();
+	}
+	,onCountUpProgress: function(count) {
+		this.countUpList[count].play();
 	}
 };
 var $_, $fid = 0;
@@ -2243,7 +2298,7 @@ model_DefaultValues.forestPoints = [[100,100],[300,100],[500,100],[700,100],[100
 model_DefaultValues.mobSpeeds = [100,5,25,300,300];
 model_DefaultValues.maxMobLvlId = 4;
 model_DefaultValues.maxLvl = 5;
-model_DefaultValues.screenMode = "";
+model_DefaultValues.screenMode = "Fullscreen";
 model_DefaultValues.showLabel = true;
 model_DefaultValues.baseExpGain = 25;
 model_DefaultValues.botSimpleTimeoutDelay = 1000;
@@ -2261,6 +2316,8 @@ model_PhaserGameModel.playersData = new haxe_ds_StringMap();
 model_PhaserGameModel.mobsData = new haxe_ds_StringMap();
 model_PhaserGameModel.skinsCollection = new haxe_ds_StringMap();
 phasergame_PhaserGameActions.gameEnd = new msignal_Signal0();
+phasergame_PhaserGameActions.countUpFinish = new msignal_Signal0();
+phasergame_PhaserGameActions.countUpProgress = new msignal_Signal1();
 phasergame_PhaserGameActions.mobSlayed = new msignal_Signal1();
 phasergame_sceneobjects_Background.tilesetName = "tiles";
 phasergame_sceneobjects_Background.tiledecorsetName = "tiles_decor";

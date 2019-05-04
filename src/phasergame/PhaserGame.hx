@@ -15,6 +15,8 @@ import phasergame.sceneobjects.Background;
 
 class PhaserGameActions {
     public static var gameEnd:Signal0 = new Signal0();
+    public static var countUpFinish:Signal0 = new Signal0();
+    public static var countUpProgress:Signal1<Int> = new Signal1();
     public static var mobSlayed:Signal1<Int> = new Signal1();
 }
 
@@ -75,6 +77,7 @@ class PhaserScene extends phaser.Scene {
         collisionDetector = new CollisionDetector(this);
         moverCharacters = new MoverCharacters();
         this.sidePanelControl = sidePanelControl;
+        PhaserGameActions.countUpFinish.add(onGameStart);
     }
 
     public function preload() {
@@ -102,6 +105,8 @@ class PhaserScene extends phaser.Scene {
         }, this);
         moverCharacters.setKeys(this.input.keyboard.addKeys('A,W,S,D'));
         moverCharacters.setCursor(this.input.keyboard.createCursorKeys());
+        textLabelsCollection.showCountUpMessage();
+        this.physics.pause();
     }
 
     override public function update(time:Float, delta:Float):Void {
@@ -135,5 +140,10 @@ class PhaserScene extends phaser.Scene {
             mobsCollection.stopAll();
             isPaused = true;
         }
+    }
+
+    private function onGameStart() {
+        this.physics.resume();
+        trace("GO!");
     }
 }

@@ -41,8 +41,8 @@ class GamePlayOptions extends ReactComponentOfProps<GamePlayOptionsProps> {
             </td>
             <td>
                 <select id="modeSwitcher" className="fifthWidth">
-                    <option value="Windowed">Windowed</option>
                     <option value="Fullscreen">Fullscreen</option>
+                    <option value="Windowed">Windowed</option>
                 </select>
             </td>
         </tr>
