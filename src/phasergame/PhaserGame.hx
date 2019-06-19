@@ -144,6 +144,5 @@ class PhaserScene extends phaser.Scene {
 
     private function onGameStart() {
         this.physics.resume();
-        trace("GO!");
     }
 }

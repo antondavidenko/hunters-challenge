@@ -1,42 +1,37 @@
 package phasergame.sceneobjects;
 
+import model.ConfigTypes.AbstractCharacterAssetsConfig;
 import model.DefaultValues;
 import phaser.loader.filetypes.ImageFrameConfig;
 import model.DataTypes.ControlType;
 import model.DataTypes.CharStartConfig;
 import model.PhaserGameModel;
-import phasergame.sceneobjects.Character;
+import phasergame.sceneobjects.AbstractCharacter;
 
 class MobsCollection {
 
     private var phaserScene:phaser.Scene;
-    private var allMobList:Array<Character> = [];
+    private var allMobList:Array<AbstractCharacter> = [];
 
     public function new(phaserScene:phaser.Scene) {
         this.phaserScene = phaserScene;
     }
 
     public function preload() {
-        var frameSize:Int = 32;
-        var frmeConfig:ImageFrameConfig = {frameWidth:frameSize, frameHeight:frameSize};
-        phaserScene.load.spritesheet(DefaultValues.mobTypes[0], 'assets/mob1lvl.png', frmeConfig);
-        PhaserGameModel.skinsCollection[DefaultValues.mobTypes[0]] = 1;
-        phaserScene.load.spritesheet(DefaultValues.mobTypes[1], 'assets/mob2lvl.png', frmeConfig);
-        PhaserGameModel.skinsCollection[DefaultValues.mobTypes[1]] = 1;
-        phaserScene.load.spritesheet(DefaultValues.mobTypes[2], 'assets/mob3lvl.png', frmeConfig);
-        PhaserGameModel.skinsCollection[DefaultValues.mobTypes[2]] = 1;
-        phaserScene.load.spritesheet(DefaultValues.mobTypes[3], 'assets/mob4lvl.png', frmeConfig);
-        PhaserGameModel.skinsCollection[DefaultValues.mobTypes[3]] = 1;
-        phaserScene.load.spritesheet(DefaultValues.mobTypes[4], 'assets/mob5lvl.png', frmeConfig);
-        PhaserGameModel.skinsCollection[DefaultValues.mobTypes[4]] = 1;
+        var mobsAssetsConfig:AbstractCharacterAssetsConfig = Utils.getDataStorage().configsList.MobsAssets;
+        var frmeConfig:ImageFrameConfig = {frameWidth:mobsAssetsConfig.frameSize, frameHeight:mobsAssetsConfig.frameSize};
+        for (asset in mobsAssetsConfig.assetsList) {
+            phaserScene.load.spritesheet(asset.id, asset.url, frmeConfig);
+            PhaserGameModel.skinsCollection[asset.id] = mobsAssetsConfig.skins;
+        }
     }
 
-    public function init(onReadyToMove:Array<Character> -> Void) {
+    public function init(onReadyToMove:Array<AbstractCharacter> -> Void) {
         var lvlId:Int = 0;
         var mobId:Int = 1;
         for (mob in 0...PhaserGameModel.mobAmount) {
             var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId, mobId);
-            var mob = new Character(phaserScene, mobConfig);
+            var mob = new AbstractCharacter(phaserScene, mobConfig);
             mob.init();
             mob.setSpeed(DefaultValues.mobSpeeds[lvlId]);
             allMobList.push(mob);
@@ -73,12 +68,12 @@ class MobsCollection {
         }
     }
 
-    public function getAllMobList():Array<Character> {
+    public function getAllMobList():Array<AbstractCharacter> {
         return allMobList;
     }
 
     public function onMobCollision(mobId:String):Bool {
-        var mob:Character = findMobById(mobId);
+        var mob:AbstractCharacter = findMobById(mobId);
         var mobSlayed:Bool = false;
         if (mob != null) {
             mobSlayed = !mob.isOnCollision();
@@ -87,7 +82,7 @@ class MobsCollection {
         return mobSlayed;
     }
 
-    private function respawnMob(mob:Character) {
+    private function respawnMob(mob:AbstractCharacter) {
         var lvlId:Int = Std.random(PhaserGameModel.maxLvlInGame + 1);
         lvlId = (lvlId > DefaultValues.maxMobLvlId) ? DefaultValues.maxMobLvlId : lvlId;
         var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId, 0);
@@ -99,7 +94,7 @@ class MobsCollection {
         PhaserGameModel.mobsData[mob.getPhysicBody().name].currentLevel = lvlId + 1;
     }
 
-    private function findMobById(mobId:String):Character {
+    private function findMobById(mobId:String):AbstractCharacter {
         for (currentMob in allMobList) {
             if (currentMob.getPhysicBody().name == mobId) {
                 return currentMob;

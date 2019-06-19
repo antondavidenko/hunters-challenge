@@ -34,4 +34,37 @@ class Utils {
             default: return PlayerColor.BLUE;
         }
     }
+
+    static private var dataStorage:Dynamic;
+
+    static public function loadConfig(configUrl:String, onLoad:Void->Void) {
+
+        var http = new haxe.Http(configUrl);
+
+        http.onData = function (data:String) {
+            dataStorage = haxe.Json.parse(data);
+            parseDataTypes();
+            onLoad();
+        }
+
+        http.onError = function (error) {
+            trace('error: $error');
+        }
+
+        http.request();
+    }
+
+    static public function getDataStorage():Dynamic {
+        return dataStorage;
+    }
+
+    static private function parseDataTypes() {
+        parseAbstractCharacterAssetsConfig(dataStorage.configsList.PlayersAssets);
+        parseAbstractCharacterAssetsConfig(dataStorage.configsList.MobsAssets);
+    }
+
+    static private function parseAbstractCharacterAssetsConfig(assetsConfig:Dynamic) {
+        assetsConfig.frameSize = Std.parseInt(assetsConfig.frameSize);
+        assetsConfig.skins = Std.parseInt(assetsConfig.skins);
+    }
 }

@@ -21,6 +21,10 @@ class Main {
     }
 
     public function new() {
+        Utils.loadConfig("./config.json", init);
+    }
+
+    public function init() {
         MainMenuDefaultValues.init();
         soundPlayer = new SoundPlayer();
         HTML5game = cast js.Browser.document.getElementById("HTML5game");

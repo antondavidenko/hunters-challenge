@@ -31,13 +31,6 @@ class ControlType {
     static public inline var NONE:String = "none";
 }
 
-typedef CharacterConfig = {
-    var MOVE_SPEED:Int;
-    var MIN_DISTANCE:Int;
-    var IDLE_POSE_ID:Int;
-    var COLISION_ANIM_ID:Int;
-}
-
 typedef CharStartConfig = {
     var charType:String;
     var x:Int;

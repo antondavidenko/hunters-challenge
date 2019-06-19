@@ -1,23 +1,20 @@
 package phasergame.sceneobjects;
 
-import model.DefaultValues;
+import model.ConfigTypes.AbstractCharacterConfig;
 import phaser.animations.types.GenerateFrameNumbers;
 import model.DataTypes.CharStartConfig;
 import phaser.gameobjects.Text;
 import model.PhaserGameModel;
 import phaser.gameobjects.Sprite;
 
-class Character {
+class AbstractCharacter {
 
     private var sprite:Sprite;
     private var phaserScene:phaser.Scene;
     private var config:CharStartConfig;
     private var text:Text;
-
-    private var IDLE_POSE_ID:Int = DefaultValues.characterConfig.IDLE_POSE_ID;
-    private var COLISION_ANIM_ID:Int = DefaultValues.characterConfig.COLISION_ANIM_ID;
-    private var MOVE_SPEED:Int = DefaultValues.characterConfig.MOVE_SPEED;
-    private var MIN_DISTANCE:Int = DefaultValues.characterConfig.MIN_DISTANCE;
+    private var currentSpeed:Int;
+    private var classConfig:AbstractCharacterConfig;
     private var xDestination:Int;
     private var yDestination:Int;
     private var onCollision:Bool = false;
@@ -25,6 +22,7 @@ class Character {
     public function new(phaserScene:phaser.Scene, config:CharStartConfig) {
         this.phaserScene = phaserScene;
         this.config = config;
+        classConfig = Utils.getDataStorage().configsList.AbstractCharacter;
     }
 
     public function init():Void {
@@ -40,7 +38,7 @@ class Character {
         sprite.body.offset.y = 8;
         sprite.name = config.name;
         sprite.depth = config.y;
-        setAnimation(IDLE_POSE_ID);
+        setAnimation(classConfig.IDLE_POSE_ID);
         setLabel(config.label);
     }
 
@@ -52,7 +50,7 @@ class Character {
                 phaserScene.anims.create(getAnimationConfig(config.charType, i));
             }
         }
-        setAnimation(IDLE_POSE_ID);
+        setAnimation(classConfig.IDLE_POSE_ID);
         text.text = config.label;
         text.updateText();
     }
@@ -61,7 +59,7 @@ class Character {
         if (!onCollision) {
             onCollision = true;
             phaserScene.physics.moveTo(sprite, sprite.x, sprite.y, 0);
-            setAnimation(COLISION_ANIM_ID, function() {
+            setAnimation(classConfig.COLISION_ANIM_ID, function() {
                 animComplete(this);
                 sprite.off('animationcomplete');
             });
@@ -73,7 +71,7 @@ class Character {
     }
 
     public function setIdle():Void {
-        setAnimation(IDLE_POSE_ID);
+        setAnimation(classConfig.IDLE_POSE_ID);
     }
 
     public function isOnCollision():Bool {
@@ -87,7 +85,7 @@ class Character {
     }
 
     public function setSpeed(speed:Int):Void {
-        MOVE_SPEED = speed;
+        currentSpeed = speed;
     }
 
     private function setAnimation(lineId:Int, ?animComplete:Void -> Void):Void {
@@ -139,7 +137,7 @@ class Character {
             var rad:Float = Math.atan2(ty, tx);
             var angle:Float = rad / Math.PI * 180;
             setAnimation(detectPosByAngle(angle));
-            phaserScene.physics.moveTo(sprite, x, y, MOVE_SPEED);
+            phaserScene.physics.moveTo(sprite, x, y, currentSpeed);
             xDestination = x;
             yDestination = y;
         }
@@ -151,16 +149,14 @@ class Character {
     }
 
     private function detectPosByAngle(angle:Float):Int {
-        var result:Int = 3;
+        var result:Int = classConfig.deffaultPosition;
         angle = angle + 180;
-
-        if (angle <= 112 && angle >= 67) { result = 6; }
-        if (angle <= 67 && angle >= 22) { result = 10; }
-        if (angle <= 157 && angle >= 112) { result = 9; }
-        if (angle <= 202 && angle >= 157) { result = 4; }
-        if (angle <= 247 && angle >= 202) { result = 7; }
-        if (angle <= 292 && angle >= 247) { result = 5; }
-        if (angle <= 337 && angle >= 292) { result = 8; }
+        for (setup in classConfig.positionsSetup) {
+            if (angle <= setup.from && angle >= setup.to) {
+                result = setup.result;
+                break;
+            }
+        }
         return result;
     }
 
@@ -178,12 +174,12 @@ class Character {
 
     private function checkDestinationReached():Void {
         var distance:Float = Utils.distanceBetween(sprite.x, sprite.y, xDestination, yDestination);
-        if (distance < MIN_DISTANCE) {
+        if (distance < classConfig.MIN_DISTANCE) {
             sprite.body.velocity.x = 0;
             sprite.body.velocity.y = 0;
             sprite.x = xDestination;
             sprite.y = yDestination;
-            setAnimation(IDLE_POSE_ID);
+            setAnimation(classConfig.IDLE_POSE_ID);
         }
     }
 

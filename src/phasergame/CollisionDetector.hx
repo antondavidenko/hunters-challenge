@@ -1,7 +1,7 @@
 package phasergame;
 
 import phaser.gameobjects.Sprite;
-import phasergame.sceneobjects.Character;
+import phasergame.sceneobjects.AbstractCharacter;
 
 class CharackterAndMobData {
 
@@ -16,8 +16,8 @@ class CharackterAndMobData {
 
 class CollisionDetector {
 
-    private var allCharacktersList:Array<Character>;
-    private var allMobList:Array<Character>;
+    private var allCharacktersList:Array<AbstractCharacter>;
+    private var allMobList:Array<AbstractCharacter>;
     private var phaserScene:phaser.Scene;
 
     private var onCharackterAndMobCallback:CharackterAndMobData->Void;
@@ -26,7 +26,7 @@ class CollisionDetector {
         this.phaserScene = phaserScene;
     }
 
-    public function init(allCharacktersList:Array<Character>, allMobList:Array<Character>) {
+    public function init(allCharacktersList:Array<AbstractCharacter>, allMobList:Array<AbstractCharacter>) {
         this.allCharacktersList = allCharacktersList;
         this.allMobList = allMobList;
         initCollisionDetections();

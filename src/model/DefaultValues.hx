@@ -1,17 +1,8 @@
 package model;
 
-import model.DataTypes.CharacterConfig;
-
 class DefaultValues {
     static public inline var phaserGameWidth:Int = 950;
     static public inline var phaserGameHeight:Int = 654;
-
-    static public var characterConfig:CharacterConfig = {
-        MOVE_SPEED:150,
-        MIN_DISTANCE:3,
-        IDLE_POSE_ID:1,
-        COLISION_ANIM_ID:2
-    };
 
     static public var mobTypes:Array<String> = ["mob1lvl", "mob2lvl", "mob3lvl", "mob4lvl", "mob5lvl"];
     static public var mobLabels:Array<String> = ["lvl 1", "lvl 2", "lvl 3", "lvl 4", "lvl 5"];

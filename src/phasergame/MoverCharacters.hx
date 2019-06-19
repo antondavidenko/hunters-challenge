@@ -4,12 +4,12 @@ import model.DefaultValues;
 import phaser.input.keyboard.CursorKeys;
 import model.DataTypes.ControlType;
 import model.PhaserGameModel;
-import phasergame.sceneobjects.Character;
+import phasergame.sceneobjects.AbstractCharacter;
 
 class MoverCharacters {
 
-    private var allMobList:Array<Character> = [];
-    private var allPlayersList:Array<Character> = [];
+    private var allMobList:Array<AbstractCharacter> = [];
+    private var allPlayersList:Array<AbstractCharacter> = [];
     private var keys:Dynamic;
     private var cursor:CursorKeys;
     private var onPointerpressed:Bool = false;
@@ -29,7 +29,7 @@ class MoverCharacters {
         this.cursor = cursor;
     }
 
-    public function initMobs(allMobList:Array<Character>) {
+    public function initMobs(allMobList:Array<AbstractCharacter>) {
         this.allMobList = allMobList;
 
         for (currentMob in allMobList) {
@@ -37,7 +37,7 @@ class MoverCharacters {
         }
     }
 
-    public function initPlayers(allPlayersList:Array<Character>) {
+    public function initPlayers(allPlayersList:Array<AbstractCharacter>) {
         this.allPlayersList = allPlayersList;
 
         for (currentPlayer in allPlayersList) {
@@ -50,7 +50,7 @@ class MoverCharacters {
         }
     }
 
-    private function simpleBotModel(target:Character, delay:Int) {
+    private function simpleBotModel(target:AbstractCharacter, delay:Int) {
         target.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
         var timer = new haxe.Timer(Std.random(Std.int(delay / 2)) + Std.int(delay / 2));
         timer.run = function() {
@@ -60,23 +60,23 @@ class MoverCharacters {
         }
     }
 
-    private function hardBotModel(target:Character, delay:Int) {
-        var closestMob:Character = getClosestMob(target.getPhysicBody().x, target.getPhysicBody().y);
+    private function hardBotModel(target:AbstractCharacter, delay:Int) {
+        var closestMob:AbstractCharacter = getClosestMob(target.getPhysicBody().x, target.getPhysicBody().y);
         target.setGoToXY(Std.int(closestMob.getPhysicBody().x), Std.int(closestMob.getPhysicBody().y));
         var timer = new haxe.Timer(Std.random(Std.int(delay / 2)) + Std.int(delay / 2));
         timer.run = function() {
             if (!isPause) {
-                var closestMob:Character = getClosestMob(target.getPhysicBody().x, target.getPhysicBody().y);
+                var closestMob:AbstractCharacter = getClosestMob(target.getPhysicBody().x, target.getPhysicBody().y);
                 target.setGoToXY(Std.int(closestMob.getPhysicBody().x), Std.int(closestMob.getPhysicBody().y));
             }
         }
     }
 
-    private function getClosestMob(x:Float, y:Float):Character {
-        var result:Character = allMobList[0];
+    private function getClosestMob(x:Float, y:Float):AbstractCharacter {
+        var result:AbstractCharacter = allMobList[0];
         var minDistanation:Float = Utils.distanceBetween(x, y, result.getPhysicBody().x, result.getPhysicBody().y);
         for (i in 0...allMobList.length) {
-            var mob:Character = allMobList[i];
+            var mob:AbstractCharacter = allMobList[i];
             var distanation:Float = Utils.distanceBetween(x, y, mob.getPhysicBody().x, mob.getPhysicBody().y);
             if (distanation < minDistanation) {
                 minDistanation = distanation;

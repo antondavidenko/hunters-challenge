@@ -1,0 +1,41 @@
+{"configsList": {
+  "MobsAssets": {
+    "frameSize":"32",
+    "skins": "1",
+    "assetsList": [
+      {"id":"mob1lvl", "url":"assets/mob1lvl.png"},
+      {"id":"mob2lvl", "url":"assets/mob2lvl.png"},
+      {"id":"mob3lvl", "url":"assets/mob3lvl.png"},
+      {"id":"mob4lvl", "url":"assets/mob4lvl.png"},
+      {"id":"mob5lvl", "url":"assets/mob5lvl.png"}
+    ]
+  },
+  "PlayersAssets": {
+    "frameSize":"32",
+    "skins": "3",
+    "assetsList": [
+      {"id":"swordman", "url":"assets/char_swordman.png"},
+      {"id":"bowman", "url":"assets/char_bowman.png"},
+      {"id":"elf", "url":"assets/char_elf.png"},
+      {"id":"mage", "url":"assets/char_mage.png"},
+      {"id":"horseman", "url":"assets/char_horseman.png"},
+      {"id":"assassin", "url":"assets/char_assassin.png"}
+    ]
+  },
+  "AbstractCharacter": {
+    "MIN_DISTANCE":"3",
+    "IDLE_POSE_ID":"1",
+    "COLISION_ANIM_ID":"2",
+
+    "deffaultPosition":"3",
+    "positionsSetup":[
+      {"from":"112", "to":"67", "result":"6"},
+      {"from":"67", "to":"22", "result":"10"},
+      {"from":"157", "to":"112", "result":"9"},
+      {"from":"202", "to":"157", "result":"4"},
+      {"from":"247", "to":"202", "result":"7"},
+      {"from":"292", "to":"247", "result":"5"},
+      {"from":"337", "to":"292", "result":"8"}
+    ]
+  }
+}}

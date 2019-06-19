@@ -6,6 +6,20 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var EReg = function(r,opt) {
+	this.r = new RegExp(r,opt.split("u").join(""));
+};
+EReg.__name__ = true;
+EReg.prototype = {
+	match: function(s) {
+		if(this.r.global) {
+			this.r.lastIndex = 0;
+		}
+		this.r.m = this.r.exec(s);
+		this.r.s = s;
+		return this.r.m != null;
+	}
+};
 var HxOverrides = function() { };
 HxOverrides.__name__ = true;
 HxOverrides.cca = function(s,index) {
@@ -15,22 +29,65 @@ HxOverrides.cca = function(s,index) {
 	}
 	return x;
 };
+var Lambda = function() { };
+Lambda.__name__ = true;
+Lambda.exists = function(it,f) {
+	var x = it.iterator();
+	while(x.hasNext()) {
+		var x1 = x.next();
+		if(f(x1)) {
+			return true;
+		}
+	}
+	return false;
+};
+var List = function() {
+	this.length = 0;
+};
+List.__name__ = true;
+List.prototype = {
+	iterator: function() {
+		return new _$List_ListIterator(this.h);
+	}
+};
+var _$List_ListNode = function(item,next) {
+	this.item = item;
+	this.next = next;
+};
+_$List_ListNode.__name__ = true;
+var _$List_ListIterator = function(head) {
+	this.head = head;
+};
+_$List_ListIterator.__name__ = true;
+_$List_ListIterator.prototype = {
+	hasNext: function() {
+		return this.head != null;
+	}
+	,next: function() {
+		var val = this.head.item;
+		this.head = this.head.next;
+		return val;
+	}
+};
 var Main = function() {
-	model_MainMenuDefaultValues.init();
-	this.soundPlayer = new sounds_SoundPlayer();
-	this.HTML5game = window.document.getElementById("HTML5game");
-	window.addEventListener("resize",$bind(this,this.onResize));
-	this.sidePanelControl = new htmlcontrols_SidePanelControl();
-	this.mainMenuControl = new htmlcontrols_MainMenuControl($bind(this,this.onLogin));
-	this.phaserGame = new phasergame_PhaserGame();
-	this.onResize();
+	Utils.loadConfig("./config.json",$bind(this,this.init));
 };
 Main.__name__ = true;
 Main.main = function() {
 	return new Main();
 };
 Main.prototype = {
-	onResize: function() {
+	init: function() {
+		model_MainMenuDefaultValues.init();
+		this.soundPlayer = new sounds_SoundPlayer();
+		this.HTML5game = window.document.getElementById("HTML5game");
+		window.addEventListener("resize",$bind(this,this.onResize));
+		this.sidePanelControl = new htmlcontrols_SidePanelControl();
+		this.mainMenuControl = new htmlcontrols_MainMenuControl($bind(this,this.onLogin));
+		this.phaserGame = new phasergame_PhaserGame();
+		this.onResize();
+	}
+	,onResize: function() {
 		var windowWidth = window.innerWidth;
 		var windowHeight = window.innerHeight;
 		var multiplayer = windowWidth / 950 < windowHeight / 654 ? windowWidth / 950 : windowHeight / 654;
@@ -144,8 +201,159 @@ Utils.getColorBySkin = function(skin) {
 		return "blue";
 	}
 };
+Utils.loadConfig = function(configUrl,onLoad) {
+	var http = new haxe_Http(configUrl);
+	http.onData = function(data) {
+		Utils.dataStorage = JSON.parse(data);
+		Utils.parseDataTypes();
+		onLoad();
+	};
+	http.onError = function(error) {
+		console.log("error: " + error);
+	};
+	http.request();
+};
+Utils.getDataStorage = function() {
+	return Utils.dataStorage;
+};
+Utils.parseDataTypes = function() {
+	Utils.parseAbstractCharacterAssetsConfig(Utils.dataStorage.configsList.PlayersAssets);
+	Utils.parseAbstractCharacterAssetsConfig(Utils.dataStorage.configsList.MobsAssets);
+};
+Utils.parseAbstractCharacterAssetsConfig = function(assetsConfig) {
+	assetsConfig.frameSize = Std.parseInt(assetsConfig.frameSize);
+	assetsConfig.skins = Std.parseInt(assetsConfig.skins);
+};
 var haxe_IMap = function() { };
 haxe_IMap.__name__ = true;
+var haxe_Http = function(url) {
+	this.url = url;
+	this.headers = new List();
+	this.params = new List();
+	this.async = true;
+	this.withCredentials = false;
+};
+haxe_Http.__name__ = true;
+haxe_Http.prototype = {
+	request: function(post) {
+		var me = this;
+		me.responseData = null;
+		var r = this.req = js_Browser.createXMLHttpRequest();
+		var onreadystatechange = function(_) {
+			if(r.readyState != 4) {
+				return;
+			}
+			var s;
+			try {
+				s = r.status;
+			} catch( e ) {
+				s = null;
+			}
+			if(s != null && "undefined" !== typeof window) {
+				var protocol = window.location.protocol.toLowerCase();
+				var rlocalProtocol = new EReg("^(?:about|app|app-storage|.+-extension|file|res|widget):$","");
+				var isLocal = rlocalProtocol.match(protocol);
+				if(isLocal) {
+					if(r.responseText != null) {
+						s = 200;
+					} else {
+						s = 404;
+					}
+				}
+			}
+			if(s == undefined) {
+				s = null;
+			}
+			if(s != null) {
+				me.onStatus(s);
+			}
+			if(s != null && s >= 200 && s < 400) {
+				me.req = null;
+				me.onData(me.responseData = r.responseText);
+			} else if(s == null) {
+				me.req = null;
+				me.onError("Failed to connect or resolve host");
+			} else {
+				switch(s) {
+				case 12007:
+					me.req = null;
+					me.onError("Unknown host");
+					break;
+				case 12029:
+					me.req = null;
+					me.onError("Failed to connect to host");
+					break;
+				default:
+					me.req = null;
+					me.responseData = r.responseText;
+					me.onError("Http Error #" + r.status);
+				}
+			}
+		};
+		if(this.async) {
+			r.onreadystatechange = onreadystatechange;
+		}
+		var uri = this.postData;
+		if(uri != null) {
+			post = true;
+		} else {
+			var _g_head = this.params.h;
+			while(_g_head != null) {
+				var val = _g_head.item;
+				_g_head = _g_head.next;
+				var p = val;
+				if(uri == null) {
+					uri = "";
+				} else {
+					uri += "&";
+				}
+				var s1 = p.param;
+				var uri1 = encodeURIComponent(s1) + "=";
+				var s2 = p.value;
+				uri += uri1 + encodeURIComponent(s2);
+			}
+		}
+		try {
+			if(post) {
+				r.open("POST",this.url,this.async);
+			} else if(uri != null) {
+				var question = this.url.split("?").length <= 1;
+				r.open("GET",this.url + (question ? "?" : "&") + uri,this.async);
+				uri = null;
+			} else {
+				r.open("GET",this.url,this.async);
+			}
+		} catch( e1 ) {
+			if (e1 instanceof js__$Boot_HaxeError) e1 = e1.val;
+			me.req = null;
+			this.onError(e1.toString());
+			return;
+		}
+		r.withCredentials = this.withCredentials;
+		if(!Lambda.exists(this.headers,function(h) {
+			return h.header == "Content-Type";
+		}) && post && this.postData == null) {
+			r.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		}
+		var _g_head1 = this.headers.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var h1 = val1;
+			r.setRequestHeader(h1.header,h1.value);
+		}
+		r.send(uri);
+		if(!this.async) {
+			onreadystatechange(null);
+		}
+	}
+	,onData: function(data) {
+	}
+	,onError: function(msg) {
+	}
+	,onStatus: function(status) {
+	}
+};
 var haxe_Timer = function(time_ms) {
 	var me = this;
 	this.id = setInterval(function() {
@@ -976,6 +1184,25 @@ htmlcontrols_sidepanel_SidePanel.prototype = $extend(React.Component.prototype,{
 		window.location.href = pageURL;
 	}
 });
+var js__$Boot_HaxeError = function(val) {
+	Error.call(this);
+	this.val = val;
+	this.message = String(val);
+	if(Error.captureStackTrace) {
+		Error.captureStackTrace(this,js__$Boot_HaxeError);
+	}
+};
+js__$Boot_HaxeError.__name__ = true;
+js__$Boot_HaxeError.wrap = function(val) {
+	if((val instanceof Error)) {
+		return val;
+	} else {
+		return new js__$Boot_HaxeError(val);
+	}
+};
+js__$Boot_HaxeError.__super__ = Error;
+js__$Boot_HaxeError.prototype = $extend(Error.prototype,{
+});
 var js_Boot = function() { };
 js_Boot.__name__ = true;
 js_Boot.__string_rec = function(o,s) {
@@ -1061,6 +1288,17 @@ js_Boot.__string_rec = function(o,s) {
 	default:
 		return String(o);
 	}
+};
+var js_Browser = function() { };
+js_Browser.__name__ = true;
+js_Browser.createXMLHttpRequest = function() {
+	if(typeof XMLHttpRequest != "undefined") {
+		return new XMLHttpRequest();
+	}
+	if(typeof ActiveXObject != "undefined") {
+		return new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	throw new js__$Boot_HaxeError("Unable to create XMLHttpRequest object.");
 };
 var model_Page = { __ename__ : true, __constructs__ : ["PVP","PVE","TEAMS","HELP"] };
 model_Page.PVP = ["PVP",0];
@@ -1610,52 +1848,16 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 	}
 	,onGameStart: function() {
 		this.physics.resume();
-		console.log("GO!");
 	}
 });
-var phasergame_sceneobjects_Background = function(phaserScene) {
-	this.phaserScene = phaserScene;
-};
-phasergame_sceneobjects_Background.__name__ = true;
-phasergame_sceneobjects_Background.prototype = {
-	preload: function() {
-		this.phaserScene.load.image("tiles","assets/tiles.png");
-		this.phaserScene.load.image("tiles_decor","assets/tiles_decor.png");
-	}
-	,init: function() {
-		this.createTilesLayer(9,"tiles");
-		this.createTilesLayer(90,"tiles_decor");
-	}
-	,createTilesLayer: function(randomMax,tileset) {
-		var _g = [];
-		var _g1 = 0;
-		while(_g1 < 22) {
-			var x = _g1++;
-			var _g2 = [];
-			var _g3 = 0;
-			while(_g3 < 31) {
-				var y = _g3++;
-				_g2.push(Std.random(randomMax));
-			}
-			_g.push(_g2);
-		}
-		var dynamicMap = _g;
-		var map = this.phaserScene.add.tilemap("dynamicMap",32,32,0,0,dynamicMap);
-		var tiles = map.addTilesetImage(tileset);
-		var layer = map.createStaticLayer(0,tiles,0,0);
-	}
-};
-var phasergame_sceneobjects_Character = function(phaserScene,config) {
+var phasergame_sceneobjects_AbstractCharacter = function(phaserScene,config) {
 	this.onCollision = false;
-	this.MIN_DISTANCE = model_DefaultValues.characterConfig.MIN_DISTANCE;
-	this.MOVE_SPEED = model_DefaultValues.characterConfig.MOVE_SPEED;
-	this.COLISION_ANIM_ID = model_DefaultValues.characterConfig.COLISION_ANIM_ID;
-	this.IDLE_POSE_ID = model_DefaultValues.characterConfig.IDLE_POSE_ID;
 	this.phaserScene = phaserScene;
 	this.config = config;
+	this.classConfig = Utils.getDataStorage().configsList.AbstractCharacter;
 };
-phasergame_sceneobjects_Character.__name__ = true;
-phasergame_sceneobjects_Character.prototype = {
+phasergame_sceneobjects_AbstractCharacter.__name__ = true;
+phasergame_sceneobjects_AbstractCharacter.prototype = {
 	init: function() {
 		var _g = 1;
 		while(_g < 11) {
@@ -1671,7 +1873,7 @@ phasergame_sceneobjects_Character.prototype = {
 		this.sprite.body.offset.y = 8;
 		this.sprite.name = this.config.name;
 		this.sprite.depth = this.config.y;
-		this.setAnimation(this.IDLE_POSE_ID);
+		this.setAnimation(this.classConfig.IDLE_POSE_ID);
 		this.setLabel(this.config.label);
 	}
 	,reinit: function(config) {
@@ -1684,7 +1886,7 @@ phasergame_sceneobjects_Character.prototype = {
 				this.phaserScene.anims.create(this.getAnimationConfig(config.charType,i));
 			}
 		}
-		this.setAnimation(this.IDLE_POSE_ID);
+		this.setAnimation(this.classConfig.IDLE_POSE_ID);
 		this.text.text = config.label;
 		this.text.updateText();
 	}
@@ -1693,7 +1895,7 @@ phasergame_sceneobjects_Character.prototype = {
 		if(!this.onCollision) {
 			this.onCollision = true;
 			this.phaserScene.physics.moveTo(this.sprite,this.sprite.x,this.sprite.y,0);
-			this.setAnimation(this.COLISION_ANIM_ID,function() {
+			this.setAnimation(this.classConfig.COLISION_ANIM_ID,function() {
 				animComplete(_gthis);
 				_gthis.sprite.off("animationcomplete");
 			});
@@ -1703,7 +1905,7 @@ phasergame_sceneobjects_Character.prototype = {
 		this.onCollision = false;
 	}
 	,setIdle: function() {
-		this.setAnimation(this.IDLE_POSE_ID);
+		this.setAnimation(this.classConfig.IDLE_POSE_ID);
 	}
 	,isOnCollision: function() {
 		return this.onCollision;
@@ -1714,7 +1916,7 @@ phasergame_sceneobjects_Character.prototype = {
 		this.updateTextPosition();
 	}
 	,setSpeed: function(speed) {
-		this.MOVE_SPEED = speed;
+		this.currentSpeed = speed;
 	}
 	,setAnimation: function(lineId,animComplete) {
 		var animationId = this.getIdByLine(lineId);
@@ -1753,7 +1955,7 @@ phasergame_sceneobjects_Character.prototype = {
 			var rad = Math.atan2(ty,tx);
 			var angle = rad / Math.PI * 180;
 			this.setAnimation(this.detectPosByAngle(angle));
-			this.phaserScene.physics.moveTo(this.sprite,x,y,this.MOVE_SPEED);
+			this.phaserScene.physics.moveTo(this.sprite,x,y,this.currentSpeed);
 			this.xDestination = x;
 			this.yDestination = y;
 		}
@@ -1763,28 +1965,17 @@ phasergame_sceneobjects_Character.prototype = {
 		this.sprite.y = y;
 	}
 	,detectPosByAngle: function(angle) {
-		var result = 3;
+		var result = this.classConfig.deffaultPosition;
 		angle += 180;
-		if(angle <= 112 && angle >= 67) {
-			result = 6;
-		}
-		if(angle <= 67 && angle >= 22) {
-			result = 10;
-		}
-		if(angle <= 157 && angle >= 112) {
-			result = 9;
-		}
-		if(angle <= 202 && angle >= 157) {
-			result = 4;
-		}
-		if(angle <= 247 && angle >= 202) {
-			result = 7;
-		}
-		if(angle <= 292 && angle >= 247) {
-			result = 5;
-		}
-		if(angle <= 337 && angle >= 292) {
-			result = 8;
+		var _g = 0;
+		var _g1 = this.classConfig.positionsSetup;
+		while(_g < _g1.length) {
+			var setup = _g1[_g];
+			++_g;
+			if(angle <= setup.from && angle >= setup.to) {
+				result = setup.result;
+				break;
+			}
 		}
 		return result;
 	}
@@ -1800,16 +1991,48 @@ phasergame_sceneobjects_Character.prototype = {
 	}
 	,checkDestinationReached: function() {
 		var distance = Utils.distanceBetween(this.sprite.x,this.sprite.y,this.xDestination,this.yDestination);
-		if(distance < this.MIN_DISTANCE) {
+		if(distance < this.classConfig.MIN_DISTANCE) {
 			this.sprite.body.velocity.x = 0;
 			this.sprite.body.velocity.y = 0;
 			this.sprite.x = this.xDestination;
 			this.sprite.y = this.yDestination;
-			this.setAnimation(this.IDLE_POSE_ID);
+			this.setAnimation(this.classConfig.IDLE_POSE_ID);
 		}
 	}
 	,getPhysicBody: function() {
 		return this.sprite;
+	}
+};
+var phasergame_sceneobjects_Background = function(phaserScene) {
+	this.phaserScene = phaserScene;
+};
+phasergame_sceneobjects_Background.__name__ = true;
+phasergame_sceneobjects_Background.prototype = {
+	preload: function() {
+		this.phaserScene.load.image("tiles","assets/tiles.png");
+		this.phaserScene.load.image("tiles_decor","assets/tiles_decor.png");
+	}
+	,init: function() {
+		this.createTilesLayer(9,"tiles");
+		this.createTilesLayer(90,"tiles_decor");
+	}
+	,createTilesLayer: function(randomMax,tileset) {
+		var _g = [];
+		var _g1 = 0;
+		while(_g1 < 22) {
+			var x = _g1++;
+			var _g2 = [];
+			var _g3 = 0;
+			while(_g3 < 31) {
+				var y = _g3++;
+				_g2.push(Std.random(randomMax));
+			}
+			_g.push(_g2);
+		}
+		var dynamicMap = _g;
+		var map = this.phaserScene.add.tilemap("dynamicMap",32,32,0,0,dynamicMap);
+		var tiles = map.addTilesetImage(tileset);
+		var layer = map.createStaticLayer(0,tiles,0,0);
 	}
 };
 var phasergame_sceneobjects_LocationDetailsCollection = function(phaserScene) {
@@ -1863,47 +2086,22 @@ var phasergame_sceneobjects_MobsCollection = function(phaserScene) {
 phasergame_sceneobjects_MobsCollection.__name__ = true;
 phasergame_sceneobjects_MobsCollection.prototype = {
 	preload: function() {
-		var frameSize = 32;
-		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
-		this.phaserScene.load.spritesheet(model_DefaultValues.mobTypes[0],"assets/mob1lvl.png",frmeConfig);
-		var k = model_DefaultValues.mobTypes[0];
-		var _this = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved[k] != null) {
-			_this.setReserved(k,1);
-		} else {
-			_this.h[k] = 1;
-		}
-		this.phaserScene.load.spritesheet(model_DefaultValues.mobTypes[1],"assets/mob2lvl.png",frmeConfig);
-		var k1 = model_DefaultValues.mobTypes[1];
-		var _this1 = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved[k1] != null) {
-			_this1.setReserved(k1,1);
-		} else {
-			_this1.h[k1] = 1;
-		}
-		this.phaserScene.load.spritesheet(model_DefaultValues.mobTypes[2],"assets/mob3lvl.png",frmeConfig);
-		var k2 = model_DefaultValues.mobTypes[2];
-		var _this2 = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved[k2] != null) {
-			_this2.setReserved(k2,1);
-		} else {
-			_this2.h[k2] = 1;
-		}
-		this.phaserScene.load.spritesheet(model_DefaultValues.mobTypes[3],"assets/mob4lvl.png",frmeConfig);
-		var k3 = model_DefaultValues.mobTypes[3];
-		var _this3 = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved[k3] != null) {
-			_this3.setReserved(k3,1);
-		} else {
-			_this3.h[k3] = 1;
-		}
-		this.phaserScene.load.spritesheet(model_DefaultValues.mobTypes[4],"assets/mob5lvl.png",frmeConfig);
-		var k4 = model_DefaultValues.mobTypes[4];
-		var _this4 = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved[k4] != null) {
-			_this4.setReserved(k4,1);
-		} else {
-			_this4.h[k4] = 1;
+		var mobsAssetsConfig = Utils.getDataStorage().configsList.MobsAssets;
+		var frmeConfig = { frameWidth : mobsAssetsConfig.frameSize, frameHeight : mobsAssetsConfig.frameSize};
+		var _g = 0;
+		var _g1 = mobsAssetsConfig.assetsList;
+		while(_g < _g1.length) {
+			var asset = _g1[_g];
+			++_g;
+			this.phaserScene.load.spritesheet(asset.id,asset.url,frmeConfig);
+			var k = asset.id;
+			var v = mobsAssetsConfig.skins;
+			var _this = model_PhaserGameModel.skinsCollection;
+			if(__map_reserved[k] != null) {
+				_this.setReserved(k,v);
+			} else {
+				_this.h[k] = v;
+			}
 		}
 	}
 	,init: function(onReadyToMove) {
@@ -1914,7 +2112,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 		while(_g1 < _g) {
 			var mob = _g1++;
 			var mobConfig = this.getMobConfigByLvl(lvlId,mobId);
-			var mob1 = new phasergame_sceneobjects_Character(this.phaserScene,mobConfig);
+			var mob1 = new phasergame_sceneobjects_AbstractCharacter(this.phaserScene,mobConfig);
 			mob1.init();
 			mob1.setSpeed(model_DefaultValues.mobSpeeds[lvlId]);
 			this.allMobList.push(mob1);
@@ -2004,53 +2202,26 @@ var phasergame_sceneobjects_PlayersCollection = function(phaserScene) {
 phasergame_sceneobjects_PlayersCollection.__name__ = true;
 phasergame_sceneobjects_PlayersCollection.prototype = {
 	preload: function() {
-		var frameSize = 32;
-		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
-		this.phaserScene.load.spritesheet("swordman","assets/char_swordman.png",frmeConfig);
-		var _this = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved["swordman"] != null) {
-			_this.setReserved("swordman",3);
-		} else {
-			_this.h["swordman"] = 3;
-		}
-		this.phaserScene.load.spritesheet("bowman","assets/char_bowman.png",frmeConfig);
-		var _this1 = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved["bowman"] != null) {
-			_this1.setReserved("bowman",3);
-		} else {
-			_this1.h["bowman"] = 3;
-		}
-		this.phaserScene.load.spritesheet("elf","assets/char_elf.png",frmeConfig);
-		var _this2 = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved["elf"] != null) {
-			_this2.setReserved("elf",3);
-		} else {
-			_this2.h["elf"] = 3;
-		}
-		this.phaserScene.load.spritesheet("mage","assets/char_mage.png",frmeConfig);
-		var _this3 = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved["mage"] != null) {
-			_this3.setReserved("mage",3);
-		} else {
-			_this3.h["mage"] = 3;
-		}
-		this.phaserScene.load.spritesheet("horseman","assets/char_horseman.png",frmeConfig);
-		var _this4 = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved["horseman"] != null) {
-			_this4.setReserved("horseman",3);
-		} else {
-			_this4.h["horseman"] = 3;
-		}
-		this.phaserScene.load.spritesheet("assassin","assets/char_assassin.png",frmeConfig);
-		var _this5 = model_PhaserGameModel.skinsCollection;
-		if(__map_reserved["assassin"] != null) {
-			_this5.setReserved("assassin",3);
-		} else {
-			_this5.h["assassin"] = 3;
+		var playersAssetsConfig = Utils.getDataStorage().configsList.PlayersAssets;
+		var frmeConfig = { frameWidth : playersAssetsConfig.frameSize, frameHeight : playersAssetsConfig.frameSize};
+		var _g = 0;
+		var _g1 = playersAssetsConfig.assetsList;
+		while(_g < _g1.length) {
+			var asset = _g1[_g];
+			++_g;
+			this.phaserScene.load.spritesheet(asset.id,asset.url,frmeConfig);
+			var k = asset.id;
+			var v = playersAssetsConfig.skins;
+			var _this = model_PhaserGameModel.skinsCollection;
+			if(__map_reserved[k] != null) {
+				_this.setReserved(k,v);
+			} else {
+				_this.h[k] = v;
+			}
 		}
 	}
 	,preparePlayerByConfig: function(config) {
-		var player = new phasergame_sceneobjects_Character(this.phaserScene,config);
+		var player = new phasergame_sceneobjects_AbstractCharacter(this.phaserScene,config);
 		player.init();
 		this.allPlayersList.push(player);
 		return player;
@@ -2286,7 +2457,6 @@ model_ControlType.BOT_HARD = "bot_hard";
 model_ControlType.NONE = "none";
 model_DefaultValues.phaserGameWidth = 950;
 model_DefaultValues.phaserGameHeight = 654;
-model_DefaultValues.characterConfig = { MOVE_SPEED : 150, MIN_DISTANCE : 3, IDLE_POSE_ID : 1, COLISION_ANIM_ID : 2};
 model_DefaultValues.mobTypes = ["mob1lvl","mob2lvl","mob3lvl","mob4lvl","mob5lvl"];
 model_DefaultValues.mobLabels = ["lvl 1","lvl 2","lvl 3","lvl 4","lvl 5"];
 model_DefaultValues.objectsSmall = "objects_small";
