@@ -11,7 +11,7 @@ typedef AssetConfig = {
     var url:String;
 }
 
-typedef AbstractCharacterConfig = {
+typedef MovingObjectConfig = {
     var MIN_DISTANCE:Int;
     var IDLE_POSE_ID:Int;
     var COLISION_ANIM_ID:Int;

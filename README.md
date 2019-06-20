@@ -2,6 +2,10 @@
 
 FUTURE IMPROVE PLAN
 
+REFACTOR:
+- move menu config to external json
+- move all default values to external json
+
 GAME LOOP:
 - harvest mode = v 0.8
 - campaign mode = v 0.9

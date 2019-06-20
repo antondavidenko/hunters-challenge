@@ -1,57 +1,57 @@
 package phasergame.sceneobjects;
 
-import model.ConfigTypes.AbstractCharacterConfig;
+import model.ConfigTypes.MovingObjectConfig;
 import phaser.animations.types.GenerateFrameNumbers;
-import model.DataTypes.CharStartConfig;
+import model.DataTypes.MovingObjectState;
 import phaser.gameobjects.Text;
 import model.PhaserGameModel;
 import phaser.gameobjects.Sprite;
 
-class AbstractCharacter {
+class MovingObject {
 
     private var sprite:Sprite;
     private var phaserScene:phaser.Scene;
-    private var config:CharStartConfig;
+    private var state:MovingObjectState;
     private var text:Text;
     private var currentSpeed:Int;
-    private var classConfig:AbstractCharacterConfig;
+    private var config:MovingObjectConfig;
     private var xDestination:Int;
     private var yDestination:Int;
     private var onCollision:Bool = false;
 
-    public function new(phaserScene:phaser.Scene, config:CharStartConfig) {
+    public function new(phaserScene:phaser.Scene, state:MovingObjectState) {
         this.phaserScene = phaserScene;
-        this.config = config;
-        classConfig = Utils.getDataStorage().configsList.AbstractCharacter;
+        this.state = state;
+        config = Utils.getDataStorage().configsList.MovingObjectConfig;
     }
 
     public function init():Void {
         for (i in 1...11) {
             var key:String = getIdByLine(i);
             if (phaserScene.anims.get(key) == null) {
-                phaserScene.anims.create(getAnimationConfig(config.charType, i));
+                phaserScene.anims.create(getAnimationConfig(state.charType, i));
             }
         }
-        sprite = phaserScene.physics.add.sprite(config.x, config.y, config.charType).setScale(1.5);
+        sprite = phaserScene.physics.add.sprite(state.x, state.y, state.charType).setScale(1.5);
         sprite.setSize(16, 16);
         sprite.body.offset.x = 8;
         sprite.body.offset.y = 8;
-        sprite.name = config.name;
-        sprite.depth = config.y;
-        setAnimation(classConfig.IDLE_POSE_ID);
-        setLabel(config.label);
+        sprite.name = state.name;
+        sprite.depth = state.y;
+        setAnimation(config.IDLE_POSE_ID);
+        setLabel(state.label);
     }
 
-    public function reinit(config:CharStartConfig):Void {
-        this.config = config;
+    public function reinit(state:MovingObjectState):Void {
+        this.state = state;
         for (i in 1...11) {
             var key:String = getIdByLine(i);
             if (phaserScene.anims.get(key) == null) {
-                phaserScene.anims.create(getAnimationConfig(config.charType, i));
+                phaserScene.anims.create(getAnimationConfig(state.charType, i));
             }
         }
-        setAnimation(classConfig.IDLE_POSE_ID);
-        text.text = config.label;
+        setAnimation(config.IDLE_POSE_ID);
+        text.text = state.label;
         text.updateText();
     }
 
@@ -59,7 +59,7 @@ class AbstractCharacter {
         if (!onCollision) {
             onCollision = true;
             phaserScene.physics.moveTo(sprite, sprite.x, sprite.y, 0);
-            setAnimation(classConfig.COLISION_ANIM_ID, function() {
+            setAnimation(config.COLISION_ANIM_ID, function() {
                 animComplete(this);
                 sprite.off('animationcomplete');
             });
@@ -71,7 +71,7 @@ class AbstractCharacter {
     }
 
     public function setIdle():Void {
-        setAnimation(classConfig.IDLE_POSE_ID);
+        setAnimation(config.IDLE_POSE_ID);
     }
 
     public function isOnCollision():Bool {
@@ -101,7 +101,7 @@ class AbstractCharacter {
     }
 
     private function getIdByLine(lineId:Int):String {
-        return 'typeId:${config.charType}}_lineId:${lineId}_skin:${config.skin}';
+        return 'typeId:${state.charType}}_lineId:${lineId}_skin:${state.skin}';
     }
 
     private function getAnimationConfig(typeId:String, lineId:Int):phaser.animations.types.Animation {
@@ -116,8 +116,8 @@ class AbstractCharacter {
     }
 
     private function getFrameConfigByLineId(lineId:Int):GenerateFrameNumbers {
-        var maxSkins:Int = PhaserGameModel.skinsCollection[config.charType];
-        lineId = (lineId - 1) * 4 + 4 * (maxSkins - 1) * (lineId - 1) + 4 * (config.skin - 1);
+        var maxSkins:Int = PhaserGameModel.skinsCollection[state.charType];
+        lineId = (lineId - 1) * 4 + 4 * (maxSkins - 1) * (lineId - 1) + 4 * (state.skin - 1);
         return getFrameConfig(lineId, lineId + 3);
     }
 
@@ -149,9 +149,9 @@ class AbstractCharacter {
     }
 
     private function detectPosByAngle(angle:Float):Int {
-        var result:Int = classConfig.deffaultPosition;
+        var result:Int = config.deffaultPosition;
         angle = angle + 180;
-        for (setup in classConfig.positionsSetup) {
+        for (setup in config.positionsSetup) {
             if (angle <= setup.from && angle >= setup.to) {
                 result = setup.result;
                 break;
@@ -174,12 +174,12 @@ class AbstractCharacter {
 
     private function checkDestinationReached():Void {
         var distance:Float = Utils.distanceBetween(sprite.x, sprite.y, xDestination, yDestination);
-        if (distance < classConfig.MIN_DISTANCE) {
+        if (distance < config.MIN_DISTANCE) {
             sprite.body.velocity.x = 0;
             sprite.body.velocity.y = 0;
             sprite.x = xDestination;
             sprite.y = yDestination;
-            setAnimation(classConfig.IDLE_POSE_ID);
+            setAnimation(config.IDLE_POSE_ID);
         }
     }
 

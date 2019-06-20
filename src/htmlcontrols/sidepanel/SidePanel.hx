@@ -1,12 +1,12 @@
 package htmlcontrols.sidepanel;
 
-import model.DataTypes.CharStartConfig;
+import model.DataTypes.MovingObjectState;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactComponent.ReactElement;
 import react.ReactMacro.jsx;
 
 typedef SidePanelProps = {
-    var players:Array<CharStartConfig>;
+    var players:Array<MovingObjectState>;
 }
 
 class SidePanel extends ReactComponentOfProps<SidePanelProps> {

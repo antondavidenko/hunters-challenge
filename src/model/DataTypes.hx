@@ -31,7 +31,7 @@ class ControlType {
     static public inline var NONE:String = "none";
 }
 
-typedef CharStartConfig = {
+typedef MovingObjectState = {
     var charType:String;
     var x:Int;
     var y:Int;
@@ -55,7 +55,7 @@ typedef MobData = {
 }
 
 typedef GameConfiguration = {
-    var slots:Array<CharStartConfig>;
+    var slots:Array<MovingObjectState>;
     var screenMode:String;
     var showLabel:Bool;
     var baseExpGain:Float;

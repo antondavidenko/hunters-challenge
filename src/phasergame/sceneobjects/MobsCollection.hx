@@ -4,14 +4,14 @@ import model.ConfigTypes.AbstractCharacterAssetsConfig;
 import model.DefaultValues;
 import phaser.loader.filetypes.ImageFrameConfig;
 import model.DataTypes.ControlType;
-import model.DataTypes.CharStartConfig;
+import model.DataTypes.MovingObjectState;
 import model.PhaserGameModel;
-import phasergame.sceneobjects.AbstractCharacter;
+import phasergame.sceneobjects.MovingObject;
 
 class MobsCollection {
 
     private var phaserScene:phaser.Scene;
-    private var allMobList:Array<AbstractCharacter> = [];
+    private var allMobList:Array<MovingObject> = [];
 
     public function new(phaserScene:phaser.Scene) {
         this.phaserScene = phaserScene;
@@ -26,12 +26,12 @@ class MobsCollection {
         }
     }
 
-    public function init(onReadyToMove:Array<AbstractCharacter> -> Void) {
+    public function init(onReadyToMove:Array<MovingObject> -> Void) {
         var lvlId:Int = 0;
         var mobId:Int = 1;
         for (mob in 0...PhaserGameModel.mobAmount) {
-            var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId, mobId);
-            var mob = new AbstractCharacter(phaserScene, mobConfig);
+            var mobState:MovingObjectState = createMobStateByLvl(lvlId, mobId);
+            var mob = new MovingObject(phaserScene, mobState);
             mob.init();
             mob.setSpeed(DefaultValues.mobSpeeds[lvlId]);
             allMobList.push(mob);
@@ -42,7 +42,7 @@ class MobsCollection {
         onReadyToMove(allMobList);
     }
 
-    private function getMobConfigByLvl(lvlId:Int, mobId:Int):CharStartConfig {
+    private function createMobStateByLvl(lvlId:Int, mobId:Int):MovingObjectState {
         var mobX:Int = Utils.getRandomScreenX();
         var mobY:Int = Utils.getRandomScreenY();
         return {
@@ -68,12 +68,12 @@ class MobsCollection {
         }
     }
 
-    public function getAllMobList():Array<AbstractCharacter> {
+    public function getAllMobList():Array<MovingObject> {
         return allMobList;
     }
 
     public function onMobCollision(mobId:String):Bool {
-        var mob:AbstractCharacter = findMobById(mobId);
+        var mob:MovingObject = findMobById(mobId);
         var mobSlayed:Bool = false;
         if (mob != null) {
             mobSlayed = !mob.isOnCollision();
@@ -82,11 +82,11 @@ class MobsCollection {
         return mobSlayed;
     }
 
-    private function respawnMob(mob:AbstractCharacter) {
+    private function respawnMob(mob:MovingObject) {
         var lvlId:Int = Std.random(PhaserGameModel.maxLvlInGame + 1);
         lvlId = (lvlId > DefaultValues.maxMobLvlId) ? DefaultValues.maxMobLvlId : lvlId;
-        var mobConfig:CharStartConfig = getMobConfigByLvl(lvlId, 0);
-        mob.reinit(mobConfig);
+        var mobState:MovingObjectState = createMobStateByLvl(lvlId, 0);
+        mob.reinit(mobState);
         mob.setSpeed(DefaultValues.mobSpeeds[lvlId]);
         mob.setXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
         mob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
@@ -94,7 +94,7 @@ class MobsCollection {
         PhaserGameModel.mobsData[mob.getPhysicBody().name].currentLevel = lvlId + 1;
     }
 
-    private function findMobById(mobId:String):AbstractCharacter {
+    private function findMobById(mobId:String):MovingObject {
         for (currentMob in allMobList) {
             if (currentMob.getPhysicBody().name == mobId) {
                 return currentMob;

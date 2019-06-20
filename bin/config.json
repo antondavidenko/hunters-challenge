@@ -22,7 +22,7 @@
       {"id":"assassin", "url":"assets/char_assassin.png"}
     ]
   },
-  "AbstractCharacter": {
+  "MovingObjectConfig": {
     "MIN_DISTANCE":"3",
     "IDLE_POSE_ID":"1",
     "COLISION_ANIM_ID":"2",

@@ -1,6 +1,6 @@
 package model;
 
-import model.DataTypes.CharStartConfig;
+import model.DataTypes.MovingObjectState;
 import model.DataTypes.Page;
 import model.DataTypes.GameConfiguration;
 import model.DataTypes.ControlType;
@@ -20,7 +20,7 @@ class MainMenuDefaultValues {
     }
 
     static private function getPvpGameConfiguration():GameConfiguration {
-        var slotsPVP:Array<CharStartConfig> = [];
+        var slotsPVP:Array<MovingObjectState> = [];
         slotsPVP.push(getCharStartConfig(1, PlayerType.HORSEMAN, ControlType.MOUSE, 2, 1));
         slotsPVP.push(getCharStartConfig(2, PlayerType.BOWMAN, ControlType.ARROWS, 3, 2));
         slotsPVP.push(getCharStartConfig(3, PlayerType.MAGE, ControlType.AWSD, 4, 3));
@@ -31,7 +31,7 @@ class MainMenuDefaultValues {
     }
 
     static private function getPveGameConfiguration():GameConfiguration {
-        var slotsPVE:Array<CharStartConfig> = [];
+        var slotsPVE:Array<MovingObjectState> = [];
         slotsPVE.push(getCharStartConfig(1, PlayerType.HORSEMAN, ControlType.MOUSE, 0, 1));
         slotsPVE.push(getCharStartConfig(2, PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 1, 2));
         slotsPVE.push(getCharStartConfig(3, PlayerType.SWORDMAN, ControlType.BOT_SIMPLE, 2, 2));
@@ -45,7 +45,7 @@ class MainMenuDefaultValues {
     }
 
     static private function getTeamsGameConfiguration():GameConfiguration {
-        var slotsTEAMS:Array<CharStartConfig> = [];
+        var slotsTEAMS:Array<MovingObjectState> = [];
         slotsTEAMS.push(getCharStartConfig(1, PlayerType.HORSEMAN, ControlType.MOUSE, 0, 1));
         slotsTEAMS.push(getCharStartConfig(2, PlayerType.SWORDMAN, ControlType.ARROWS, 1, 1));
         slotsTEAMS.push(getCharStartConfig(3, PlayerType.ELF, ControlType.AWSD, 2, 1));
@@ -69,7 +69,7 @@ class MainMenuDefaultValues {
         };
     }
 
-    static private function getCharStartConfig(slotNum:Int, charType:String, control:String, spawnPointId:Int, skin:Int):CharStartConfig {
+    static private function getCharStartConfig(slotNum:Int, charType:String, control:String, spawnPointId:Int, skin:Int):MovingObjectState {
         var prefix = (control!=ControlType.BOT_HARD && control!=ControlType.BOT_SIMPLE)?"Player":"Bot";
         var spawnXY:Array<String> = spawnPoints[spawnPointId].split(",");
         return {

@@ -2,7 +2,7 @@ package htmlcontrols.mainmenu.lobby;
 
 
 import model.DataTypes.PlayerColor;
-import model.DataTypes.CharStartConfig;
+import model.DataTypes.MovingObjectState;
 import model.DataTypes.ControlType;
 import model.DataTypes.PlayerType;
 import react.ReactComponent.ReactElement;
@@ -10,7 +10,7 @@ import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;
 
 typedef LobbyProps = {
-    var slots:Array<CharStartConfig>;
+    var slots:Array<MovingObjectState>;
 }
 
 class LobbyPanel extends ReactComponentOfProps<LobbyProps> {

@@ -3,10 +3,10 @@ package model;
 import model.DataTypes.GameConfiguration;
 import model.DataTypes.PlayerData;
 import model.DataTypes.MobData;
-import model.DataTypes.CharStartConfig;
+import model.DataTypes.MovingObjectState;
 
 class PhaserGameModel {
-    static public var playersStartConfig:Array<CharStartConfig> = [];
+    static public var playersStartConfig:Array<MovingObjectState> = [];
 
     static public var mobAmount:Int;
     static public var maxLvl:Int;

@@ -1850,159 +1850,6 @@ phasergame_PhaserScene.prototype = $extend(Phaser.Scene.prototype,{
 		this.physics.resume();
 	}
 });
-var phasergame_sceneobjects_AbstractCharacter = function(phaserScene,config) {
-	this.onCollision = false;
-	this.phaserScene = phaserScene;
-	this.config = config;
-	this.classConfig = Utils.getDataStorage().configsList.AbstractCharacter;
-};
-phasergame_sceneobjects_AbstractCharacter.__name__ = true;
-phasergame_sceneobjects_AbstractCharacter.prototype = {
-	init: function() {
-		var _g = 1;
-		while(_g < 11) {
-			var i = _g++;
-			var key = this.getIdByLine(i);
-			if(this.phaserScene.anims.get(key) == null) {
-				this.phaserScene.anims.create(this.getAnimationConfig(this.config.charType,i));
-			}
-		}
-		this.sprite = this.phaserScene.physics.add.sprite(this.config.x,this.config.y,this.config.charType).setScale(1.5);
-		this.sprite.setSize(16,16);
-		this.sprite.body.offset.x = 8;
-		this.sprite.body.offset.y = 8;
-		this.sprite.name = this.config.name;
-		this.sprite.depth = this.config.y;
-		this.setAnimation(this.classConfig.IDLE_POSE_ID);
-		this.setLabel(this.config.label);
-	}
-	,reinit: function(config) {
-		this.config = config;
-		var _g = 1;
-		while(_g < 11) {
-			var i = _g++;
-			var key = this.getIdByLine(i);
-			if(this.phaserScene.anims.get(key) == null) {
-				this.phaserScene.anims.create(this.getAnimationConfig(config.charType,i));
-			}
-		}
-		this.setAnimation(this.classConfig.IDLE_POSE_ID);
-		this.text.text = config.label;
-		this.text.updateText();
-	}
-	,setCollisionState: function(animComplete) {
-		var _gthis = this;
-		if(!this.onCollision) {
-			this.onCollision = true;
-			this.phaserScene.physics.moveTo(this.sprite,this.sprite.x,this.sprite.y,0);
-			this.setAnimation(this.classConfig.COLISION_ANIM_ID,function() {
-				animComplete(_gthis);
-				_gthis.sprite.off("animationcomplete");
-			});
-		}
-	}
-	,releaseCollisionState: function() {
-		this.onCollision = false;
-	}
-	,setIdle: function() {
-		this.setAnimation(this.classConfig.IDLE_POSE_ID);
-	}
-	,isOnCollision: function() {
-		return this.onCollision;
-	}
-	,setLabel: function(label) {
-		this.text = this.phaserScene.add.text(this.sprite.x,this.sprite.y,label);
-		this.text.visible = model_PhaserGameModel.showLabel;
-		this.updateTextPosition();
-	}
-	,setSpeed: function(speed) {
-		this.currentSpeed = speed;
-	}
-	,setAnimation: function(lineId,animComplete) {
-		var animationId = this.getIdByLine(lineId);
-		if(this.sprite.anims.getCurrentKey() != animationId) {
-			this.sprite.anims.load(animationId);
-			if(animComplete != null) {
-				this.sprite.on("animationcomplete",animComplete);
-				this.sprite.anims.stopOnRepeat();
-			}
-			this.sprite.anims.play(animationId);
-		}
-	}
-	,getIdByLine: function(lineId) {
-		return "typeId:" + this.config.charType + "}_lineId:" + lineId + "_skin:" + this.config.skin;
-	}
-	,getAnimationConfig: function(typeId,lineId) {
-		var result = { key : this.getIdByLine(lineId), frames : this.phaserScene.anims.generateFrameNumbers(typeId,this.getFrameConfigByLineId(lineId)), frameRate : 6, yoyo : false, repeat : -1};
-		return result;
-	}
-	,getFrameConfigByLineId: function(lineId) {
-		var key = this.config.charType;
-		var _this = model_PhaserGameModel.skinsCollection;
-		var maxSkins = __map_reserved[key] != null ? _this.getReserved(key) : _this.h[key];
-		lineId = (lineId - 1) * 4 + 4 * (maxSkins - 1) * (lineId - 1) + 4 * (this.config.skin - 1);
-		return this.getFrameConfig(lineId,lineId + 3);
-	}
-	,getFrameConfig: function(start,end) {
-		var result = { start : start, end : end};
-		return result;
-	}
-	,setGoToXY: function(x,y) {
-		if(!this.onCollision) {
-			var tx = x - this.sprite.x;
-			var ty = y - this.sprite.y;
-			var dist = Math.sqrt(tx * tx + ty * ty);
-			var rad = Math.atan2(ty,tx);
-			var angle = rad / Math.PI * 180;
-			this.setAnimation(this.detectPosByAngle(angle));
-			this.phaserScene.physics.moveTo(this.sprite,x,y,this.currentSpeed);
-			this.xDestination = x;
-			this.yDestination = y;
-		}
-	}
-	,setXY: function(x,y) {
-		this.sprite.x = x;
-		this.sprite.y = y;
-	}
-	,detectPosByAngle: function(angle) {
-		var result = this.classConfig.deffaultPosition;
-		angle += 180;
-		var _g = 0;
-		var _g1 = this.classConfig.positionsSetup;
-		while(_g < _g1.length) {
-			var setup = _g1[_g];
-			++_g;
-			if(angle <= setup.from && angle >= setup.to) {
-				result = setup.result;
-				break;
-			}
-		}
-		return result;
-	}
-	,update: function(time,delta) {
-		this.checkDestinationReached();
-		this.sprite.depth = this.sprite.y;
-		this.updateTextPosition();
-	}
-	,updateTextPosition: function() {
-		this.text.x = this.sprite.x - this.text.width / 2;
-		this.text.y = this.sprite.y - this.sprite.height * 1.35;
-		this.text.depth = this.sprite.y + 1;
-	}
-	,checkDestinationReached: function() {
-		var distance = Utils.distanceBetween(this.sprite.x,this.sprite.y,this.xDestination,this.yDestination);
-		if(distance < this.classConfig.MIN_DISTANCE) {
-			this.sprite.body.velocity.x = 0;
-			this.sprite.body.velocity.y = 0;
-			this.sprite.x = this.xDestination;
-			this.sprite.y = this.yDestination;
-			this.setAnimation(this.classConfig.IDLE_POSE_ID);
-		}
-	}
-	,getPhysicBody: function() {
-		return this.sprite;
-	}
-};
 var phasergame_sceneobjects_Background = function(phaserScene) {
 	this.phaserScene = phaserScene;
 };
@@ -2111,8 +1958,8 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 		var _g = model_PhaserGameModel.mobAmount;
 		while(_g1 < _g) {
 			var mob = _g1++;
-			var mobConfig = this.getMobConfigByLvl(lvlId,mobId);
-			var mob1 = new phasergame_sceneobjects_AbstractCharacter(this.phaserScene,mobConfig);
+			var mobState = this.createMobStateByLvl(lvlId,mobId);
+			var mob1 = new phasergame_sceneobjects_MovingObject(this.phaserScene,mobState);
 			mob1.init();
 			mob1.setSpeed(model_DefaultValues.mobSpeeds[lvlId]);
 			this.allMobList.push(mob1);
@@ -2129,7 +1976,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 		}
 		onReadyToMove(this.allMobList);
 	}
-	,getMobConfigByLvl: function(lvlId,mobId) {
+	,createMobStateByLvl: function(lvlId,mobId) {
 		var mobX = Utils.getRandomScreenX();
 		var mobY = Utils.getRandomScreenY();
 		return { label : "", charType : model_DefaultValues.mobTypes[lvlId], control : "bot_simple", x : mobX, y : mobY, name : "m" + mobId, skin : 1};
@@ -2171,8 +2018,8 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 		} else {
 			lvlId = lvlId;
 		}
-		var mobConfig = this.getMobConfigByLvl(lvlId,0);
-		mob.reinit(mobConfig);
+		var mobState = this.createMobStateByLvl(lvlId,0);
+		mob.reinit(mobState);
 		mob.setSpeed(model_DefaultValues.mobSpeeds[lvlId]);
 		mob.setXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 		mob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
@@ -2193,6 +2040,159 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 			}
 		}
 		return null;
+	}
+};
+var phasergame_sceneobjects_MovingObject = function(phaserScene,state) {
+	this.onCollision = false;
+	this.phaserScene = phaserScene;
+	this.state = state;
+	this.config = Utils.getDataStorage().configsList.MovingObjectConfig;
+};
+phasergame_sceneobjects_MovingObject.__name__ = true;
+phasergame_sceneobjects_MovingObject.prototype = {
+	init: function() {
+		var _g = 1;
+		while(_g < 11) {
+			var i = _g++;
+			var key = this.getIdByLine(i);
+			if(this.phaserScene.anims.get(key) == null) {
+				this.phaserScene.anims.create(this.getAnimationConfig(this.state.charType,i));
+			}
+		}
+		this.sprite = this.phaserScene.physics.add.sprite(this.state.x,this.state.y,this.state.charType).setScale(1.5);
+		this.sprite.setSize(16,16);
+		this.sprite.body.offset.x = 8;
+		this.sprite.body.offset.y = 8;
+		this.sprite.name = this.state.name;
+		this.sprite.depth = this.state.y;
+		this.setAnimation(this.config.IDLE_POSE_ID);
+		this.setLabel(this.state.label);
+	}
+	,reinit: function(state) {
+		this.state = state;
+		var _g = 1;
+		while(_g < 11) {
+			var i = _g++;
+			var key = this.getIdByLine(i);
+			if(this.phaserScene.anims.get(key) == null) {
+				this.phaserScene.anims.create(this.getAnimationConfig(state.charType,i));
+			}
+		}
+		this.setAnimation(this.config.IDLE_POSE_ID);
+		this.text.text = state.label;
+		this.text.updateText();
+	}
+	,setCollisionState: function(animComplete) {
+		var _gthis = this;
+		if(!this.onCollision) {
+			this.onCollision = true;
+			this.phaserScene.physics.moveTo(this.sprite,this.sprite.x,this.sprite.y,0);
+			this.setAnimation(this.config.COLISION_ANIM_ID,function() {
+				animComplete(_gthis);
+				_gthis.sprite.off("animationcomplete");
+			});
+		}
+	}
+	,releaseCollisionState: function() {
+		this.onCollision = false;
+	}
+	,setIdle: function() {
+		this.setAnimation(this.config.IDLE_POSE_ID);
+	}
+	,isOnCollision: function() {
+		return this.onCollision;
+	}
+	,setLabel: function(label) {
+		this.text = this.phaserScene.add.text(this.sprite.x,this.sprite.y,label);
+		this.text.visible = model_PhaserGameModel.showLabel;
+		this.updateTextPosition();
+	}
+	,setSpeed: function(speed) {
+		this.currentSpeed = speed;
+	}
+	,setAnimation: function(lineId,animComplete) {
+		var animationId = this.getIdByLine(lineId);
+		if(this.sprite.anims.getCurrentKey() != animationId) {
+			this.sprite.anims.load(animationId);
+			if(animComplete != null) {
+				this.sprite.on("animationcomplete",animComplete);
+				this.sprite.anims.stopOnRepeat();
+			}
+			this.sprite.anims.play(animationId);
+		}
+	}
+	,getIdByLine: function(lineId) {
+		return "typeId:" + this.state.charType + "}_lineId:" + lineId + "_skin:" + this.state.skin;
+	}
+	,getAnimationConfig: function(typeId,lineId) {
+		var result = { key : this.getIdByLine(lineId), frames : this.phaserScene.anims.generateFrameNumbers(typeId,this.getFrameConfigByLineId(lineId)), frameRate : 6, yoyo : false, repeat : -1};
+		return result;
+	}
+	,getFrameConfigByLineId: function(lineId) {
+		var key = this.state.charType;
+		var _this = model_PhaserGameModel.skinsCollection;
+		var maxSkins = __map_reserved[key] != null ? _this.getReserved(key) : _this.h[key];
+		lineId = (lineId - 1) * 4 + 4 * (maxSkins - 1) * (lineId - 1) + 4 * (this.state.skin - 1);
+		return this.getFrameConfig(lineId,lineId + 3);
+	}
+	,getFrameConfig: function(start,end) {
+		var result = { start : start, end : end};
+		return result;
+	}
+	,setGoToXY: function(x,y) {
+		if(!this.onCollision) {
+			var tx = x - this.sprite.x;
+			var ty = y - this.sprite.y;
+			var dist = Math.sqrt(tx * tx + ty * ty);
+			var rad = Math.atan2(ty,tx);
+			var angle = rad / Math.PI * 180;
+			this.setAnimation(this.detectPosByAngle(angle));
+			this.phaserScene.physics.moveTo(this.sprite,x,y,this.currentSpeed);
+			this.xDestination = x;
+			this.yDestination = y;
+		}
+	}
+	,setXY: function(x,y) {
+		this.sprite.x = x;
+		this.sprite.y = y;
+	}
+	,detectPosByAngle: function(angle) {
+		var result = this.config.deffaultPosition;
+		angle += 180;
+		var _g = 0;
+		var _g1 = this.config.positionsSetup;
+		while(_g < _g1.length) {
+			var setup = _g1[_g];
+			++_g;
+			if(angle <= setup.from && angle >= setup.to) {
+				result = setup.result;
+				break;
+			}
+		}
+		return result;
+	}
+	,update: function(time,delta) {
+		this.checkDestinationReached();
+		this.sprite.depth = this.sprite.y;
+		this.updateTextPosition();
+	}
+	,updateTextPosition: function() {
+		this.text.x = this.sprite.x - this.text.width / 2;
+		this.text.y = this.sprite.y - this.sprite.height * 1.35;
+		this.text.depth = this.sprite.y + 1;
+	}
+	,checkDestinationReached: function() {
+		var distance = Utils.distanceBetween(this.sprite.x,this.sprite.y,this.xDestination,this.yDestination);
+		if(distance < this.config.MIN_DISTANCE) {
+			this.sprite.body.velocity.x = 0;
+			this.sprite.body.velocity.y = 0;
+			this.sprite.x = this.xDestination;
+			this.sprite.y = this.yDestination;
+			this.setAnimation(this.config.IDLE_POSE_ID);
+		}
+	}
+	,getPhysicBody: function() {
+		return this.sprite;
 	}
 };
 var phasergame_sceneobjects_PlayersCollection = function(phaserScene) {
@@ -2220,8 +2220,8 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 			}
 		}
 	}
-	,preparePlayerByConfig: function(config) {
-		var player = new phasergame_sceneobjects_AbstractCharacter(this.phaserScene,config);
+	,preparePlayerByConfig: function(state) {
+		var player = new phasergame_sceneobjects_MovingObject(this.phaserScene,state);
 		player.init();
 		this.allPlayersList.push(player);
 		return player;
@@ -2230,19 +2230,19 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 		var _g = 0;
 		while(_g < 6) {
 			var i = _g++;
-			var playerConfig = model_PhaserGameModel.playersStartConfig[i];
-			if(playerConfig != null && playerConfig.control != "none") {
-				var player = this.preparePlayerByConfig(playerConfig);
+			var playerState = model_PhaserGameModel.playersStartConfig[i];
+			if(playerState != null && playerState.control != "none") {
+				var player = this.preparePlayerByConfig(playerState);
 				var this1 = model_PhaserGameModel.playersData;
-				var k = playerConfig.name;
-				var v = this.getNewPlayerData(playerConfig.label,playerConfig.control,playerConfig.skin);
+				var k = playerState.name;
+				var v = this.getNewPlayerData(playerState.label,playerState.control,playerState.skin);
 				var _this = this1;
 				if(__map_reserved[k] != null) {
 					_this.setReserved(k,v);
 				} else {
 					_this.h[k] = v;
 				}
-				var teamId = "team" + playerConfig.skin;
+				var teamId = "team" + playerState.skin;
 				var _this1 = model_PhaserGameModel.playersData;
 				if((__map_reserved[teamId] != null ? _this1.getReserved(teamId) : _this1.h[teamId]) == null) {
 					var this2 = model_PhaserGameModel.playersData;
