@@ -110,6 +110,25 @@ Main.prototype = {
 Math.__name__ = true;
 var Reflect = function() { };
 Reflect.__name__ = true;
+Reflect.field = function(o,field) {
+	try {
+		return o[field];
+	} catch( e ) {
+		return null;
+	}
+};
+Reflect.fields = function(o) {
+	var a = [];
+	if(o != null) {
+		var hasOwnProperty = Object.prototype.hasOwnProperty;
+		for( var f in o ) {
+		if(f != "__id__" && f != "hx__closures__" && hasOwnProperty.call(o,f)) {
+			a.push(f);
+		}
+		}
+	}
+	return a;
+};
 Reflect.isFunction = function(f) {
 	if(typeof(f) == "function") {
 		return !(f.__name__ || f.__ename__);
@@ -145,6 +164,17 @@ Reflect.isEnumValue = function(v) {
 	} else {
 		return false;
 	}
+};
+Reflect.copy = function(o) {
+	var o2 = { };
+	var _g = 0;
+	var _g1 = Reflect.fields(o);
+	while(_g < _g1.length) {
+		var f = _g1[_g];
+		++_g;
+		o2[f] = Reflect.field(o,f);
+	}
+	return o2;
 };
 var Std = function() { };
 Std.__name__ = true;
@@ -219,10 +249,17 @@ Utils.getDataStorage = function() {
 Utils.parseDataTypes = function() {
 	Utils.parseAbstractCharacterAssetsConfig(Utils.dataStorage.configsList.PlayersAssets);
 	Utils.parseAbstractCharacterAssetsConfig(Utils.dataStorage.configsList.MobsAssets);
+	Utils.parseGameConfiguration(Utils.dataStorage.configsList.MainMenu.DefaultGameConfiguration);
 };
 Utils.parseAbstractCharacterAssetsConfig = function(assetsConfig) {
 	assetsConfig.frameSize = Std.parseInt(assetsConfig.frameSize);
 	assetsConfig.skins = Std.parseInt(assetsConfig.skins);
+};
+Utils.parseGameConfiguration = function(config) {
+	config.showLabel = config.showLabel == "true";
+	config.baseExpGain = Std.parseInt(config.baseExpGain);
+	config.teamMode = config.teamMode == "true";
+	config.mobAmount = Std.parseInt(config.mobAmount);
 };
 var haxe_IMap = function() { };
 haxe_IMap.__name__ = true;
@@ -572,7 +609,6 @@ haxe_ds_StringMap.prototype = {
 	}
 };
 var htmlcontrols_MainMenuControl = function(onLogin) {
-	this.configuration = model_MainMenuDefaultValues.getDefaultGameConfiguration();
 	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { page : model_MainMenuDefaultValues.page, data : model_MainMenuDefaultValues.gameConfigurationsData}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.loginPanel = window.document.getElementById("loginPanel");
 	this.onLogin = onLogin;
@@ -1320,6 +1356,8 @@ model_DefaultValues.__name__ = true;
 var model_MainMenuDefaultValues = function() { };
 model_MainMenuDefaultValues.__name__ = true;
 model_MainMenuDefaultValues.init = function() {
+	model_MainMenuDefaultValues.config = Utils.getDataStorage().configsList.MainMenu;
+	model_MainMenuDefaultValues.spawnPoints = model_MainMenuDefaultValues.config.spawnPoints;
 	var this1 = model_MainMenuDefaultValues.gameConfigurationsData;
 	var v = model_MainMenuDefaultValues.getPveGameConfiguration();
 	this1.set(model_Page.PVE,v);
@@ -1330,52 +1368,41 @@ model_MainMenuDefaultValues.init = function() {
 	var v2 = model_MainMenuDefaultValues.getTeamsGameConfiguration();
 	this3.set(model_Page.TEAMS,v2);
 	var this4 = model_MainMenuDefaultValues.gameConfigurationsData;
-	var v3 = model_MainMenuDefaultValues.getDefaultGameConfiguration();
+	var v3 = Reflect.copy(model_MainMenuDefaultValues.config.DefaultGameConfiguration);
 	this4.set(model_Page.HELP,v3);
 };
 model_MainMenuDefaultValues.getPvpGameConfiguration = function() {
-	var slotsPVP = [];
-	slotsPVP.push(model_MainMenuDefaultValues.getCharStartConfig(1,"horseman","mouse",2,1));
-	slotsPVP.push(model_MainMenuDefaultValues.getCharStartConfig(2,"bowman","keys_arrows",3,2));
-	slotsPVP.push(model_MainMenuDefaultValues.getCharStartConfig(3,"mage","keys_awsd",4,3));
-	var configuration = model_MainMenuDefaultValues.getDefaultGameConfiguration();
-	configuration.slots = slotsPVP;
+	var configuration = Reflect.copy(model_MainMenuDefaultValues.config.DefaultGameConfiguration);
+	configuration.slots = model_MainMenuDefaultValues.getSlotArray(model_MainMenuDefaultValues.config.LobbyPvpSlots);
 	configuration.mobAmount = 2;
 	return configuration;
 };
 model_MainMenuDefaultValues.getPveGameConfiguration = function() {
-	var slotsPVE = [];
-	slotsPVE.push(model_MainMenuDefaultValues.getCharStartConfig(1,"horseman","mouse",0,1));
-	slotsPVE.push(model_MainMenuDefaultValues.getCharStartConfig(2,"swordman","bot_simple",1,2));
-	slotsPVE.push(model_MainMenuDefaultValues.getCharStartConfig(3,"swordman","bot_simple",2,2));
-	slotsPVE.push(model_MainMenuDefaultValues.getCharStartConfig(4,"swordman","bot_simple",3,2));
-	slotsPVE.push(model_MainMenuDefaultValues.getCharStartConfig(5,"swordman","bot_simple",4,2));
-	slotsPVE.push(model_MainMenuDefaultValues.getCharStartConfig(6,"elf","bot_hard",5,3));
-	var configuration = model_MainMenuDefaultValues.getDefaultGameConfiguration();
-	configuration.slots = slotsPVE;
+	var configuration = Reflect.copy(model_MainMenuDefaultValues.config.DefaultGameConfiguration);
+	configuration.slots = model_MainMenuDefaultValues.getSlotArray(model_MainMenuDefaultValues.config.LobbyPveSlots);
 	configuration.mobAmount = 3;
 	return configuration;
 };
 model_MainMenuDefaultValues.getTeamsGameConfiguration = function() {
-	var slotsTEAMS = [];
-	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(1,"horseman","mouse",0,1));
-	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(2,"swordman","keys_arrows",1,1));
-	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(3,"elf","keys_awsd",2,1));
-	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(4,"assassin","bot_hard",3,3));
-	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(5,"mage","bot_hard",4,3));
-	slotsTEAMS.push(model_MainMenuDefaultValues.getCharStartConfig(6,"bowman","bot_hard",5,3));
-	var configuration = model_MainMenuDefaultValues.getDefaultGameConfiguration();
-	configuration.slots = slotsTEAMS;
+	var configuration = Reflect.copy(model_MainMenuDefaultValues.config.DefaultGameConfiguration);
+	configuration.slots = model_MainMenuDefaultValues.getSlotArray(model_MainMenuDefaultValues.config.LobbyTeamsSlots);
 	configuration.mobAmount = 3;
 	return configuration;
 };
-model_MainMenuDefaultValues.getDefaultGameConfiguration = function() {
-	return { slots : [], screenMode : "Fullscreen", showLabel : true, baseExpGain : 25, teamMode : false, mobAmount : 5};
+model_MainMenuDefaultValues.getSlotArray = function(congigArray) {
+	var slotArray = [];
+	var _g = 0;
+	while(_g < congigArray.length) {
+		var slotConfig = congigArray[_g];
+		++_g;
+		slotArray.push(model_MainMenuDefaultValues.getCharStartConfig(slotConfig));
+	}
+	return slotArray;
 };
-model_MainMenuDefaultValues.getCharStartConfig = function(slotNum,charType,control,spawnPointId,skin) {
-	var prefix = control != "bot_hard" && control != "bot_simple" ? "Player" : "Bot";
-	var spawnXY = model_MainMenuDefaultValues.spawnPoints[spawnPointId].split(",");
-	return { charType : charType, x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), label : "" + prefix + " " + slotNum, name : "p" + slotNum, control : control, skin : skin};
+model_MainMenuDefaultValues.getCharStartConfig = function(config) {
+	var prefix = config.control != "bot_hard" && config.control != "bot_simple" ? "Player" : "Bot";
+	var spawnXY = model_MainMenuDefaultValues.spawnPoints[Std.parseInt(config.spawnPointId)].split(",");
+	return { charType : config.charType, x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), label : "" + prefix + " " + config.slotNum, name : "p" + config.slotNum, control : config.control, skin : Std.parseInt(config.skin)};
 };
 var model_PhaserGameModel = function() { };
 model_PhaserGameModel.__name__ = true;
@@ -2468,16 +2495,12 @@ model_DefaultValues.forestPoints = [[100,100],[300,100],[500,100],[700,100],[100
 model_DefaultValues.mobSpeeds = [100,5,25,300,300];
 model_DefaultValues.maxMobLvlId = 4;
 model_DefaultValues.maxLvl = 5;
-model_DefaultValues.screenMode = "Fullscreen";
-model_DefaultValues.showLabel = true;
-model_DefaultValues.baseExpGain = 25;
 model_DefaultValues.botSimpleTimeoutDelay = 1000;
 model_DefaultValues.botHardTimeoutDelay = 750;
 model_DefaultValues.mobTimeoutDelay = 1000;
 model_DefaultValues.MaxMainMenuSize = 622;
 model_MainMenuDefaultValues.gameConfigurationsData = new haxe_ds_EnumValueMap();
 model_MainMenuDefaultValues.page = model_Page.PVE;
-model_MainMenuDefaultValues.spawnPoints = ["200,300","300,300","400,300","500,300","600,300","700,300"];
 model_PhaserGameModel.playersStartConfig = [];
 model_PhaserGameModel.maxLvlInGame = 1;
 model_PhaserGameModel.teamMode = false;

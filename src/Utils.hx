@@ -61,10 +61,18 @@ class Utils {
     static private function parseDataTypes() {
         parseAbstractCharacterAssetsConfig(dataStorage.configsList.PlayersAssets);
         parseAbstractCharacterAssetsConfig(dataStorage.configsList.MobsAssets);
+        parseGameConfiguration(dataStorage.configsList.MainMenu.DefaultGameConfiguration);
     }
 
     static private function parseAbstractCharacterAssetsConfig(assetsConfig:Dynamic) {
         assetsConfig.frameSize = Std.parseInt(assetsConfig.frameSize);
         assetsConfig.skins = Std.parseInt(assetsConfig.skins);
+    }
+
+    static private function parseGameConfiguration(config:Dynamic) {
+      config.showLabel = config.showLabel == "true";
+        config.baseExpGain = Std.parseInt(config.baseExpGain);
+        config.teamMode = config.teamMode == "true";
+        config.mobAmount = Std.parseInt(config.mobAmount);
     }
 }

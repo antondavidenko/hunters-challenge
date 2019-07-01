@@ -20,9 +20,6 @@ class DefaultValues {
     static public var maxMobLvlId = 4;
 
     static public inline var maxLvl:Int = 5;
-    static public inline var screenMode:String = "Fullscreen";
-    static public inline var showLabel:Bool = true;
-    static public inline var baseExpGain:Float = 25;
 
     static public inline var botSimpleTimeoutDelay:Int = 1000;
     static public inline var botHardTimeoutDelay:Int = 750;

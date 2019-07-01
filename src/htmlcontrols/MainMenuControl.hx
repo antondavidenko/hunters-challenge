@@ -13,7 +13,7 @@ import react.ReactDOM;
 class MainMenuControl {
 
     private var onLogin:GameConfiguration -> Void;
-    private var configuration:GameConfiguration = MainMenuDefaultValues.getDefaultGameConfiguration();
+    private var configuration:GameConfiguration;
     private var loginPanel:HtmlElement;
 
     public function new(onLogin:GameConfiguration -> Void) {

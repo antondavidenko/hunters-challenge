@@ -7,7 +7,7 @@ REFACTOR:
 - move all default values to external json
 
 GAME LOOP:
-- harvest mode = v 0.8
+- harvest mode = ???
 - campaign mode = v 0.9
 - 3 stars evaluation: winer + red dragon + no one 4 lvl = v 0.9
 - different locations (town \ forest \ arena? ) = v 0.9
@@ -15,7 +15,7 @@ GAME LOOP:
 
 OPTIONS:
 - add validation to forms to avoid broken configuration = v 0.8
-- save options/menu in cookies = v 0.8
+- save options/menu/progress in cookies = v 0.9
 - re-design character slot to make it even more game-like = v 0.9
 
 GRAPHICS:
@@ -24,3 +24,4 @@ GRAPHICS:
 UI:
 - improve graphics to targeting full HD resolution = v0.8
 - use images avatars for classes and player presentation + correct color on BG = v 0.8
+- mobile devices adaptation: no multiplayer, no input options, different panel
