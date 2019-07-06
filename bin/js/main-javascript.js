@@ -249,7 +249,7 @@ Utils.getDataStorage = function() {
 Utils.parseDataTypes = function() {
 	Utils.parseAbstractCharacterAssetsConfig(Utils.dataStorage.configsList.PlayersAssets);
 	Utils.parseAbstractCharacterAssetsConfig(Utils.dataStorage.configsList.MobsAssets);
-	Utils.parseGameConfiguration(Utils.dataStorage.configsList.MainMenu.DefaultGameConfiguration);
+	Utils.parseGameConfiguration(Utils.dataStorage.configsList.MainMenu.defaultGameConfiguration);
 };
 Utils.parseAbstractCharacterAssetsConfig = function(assetsConfig) {
 	assetsConfig.frameSize = Std.parseInt(assetsConfig.frameSize);
@@ -1359,34 +1359,22 @@ model_MainMenuDefaultValues.init = function() {
 	model_MainMenuDefaultValues.config = Utils.getDataStorage().configsList.MainMenu;
 	model_MainMenuDefaultValues.spawnPoints = model_MainMenuDefaultValues.config.spawnPoints;
 	var this1 = model_MainMenuDefaultValues.gameConfigurationsData;
-	var v = model_MainMenuDefaultValues.getPveGameConfiguration();
+	var v = model_MainMenuDefaultValues.getGameConfiguration(model_MainMenuDefaultValues.config.pveGameConfiguration);
 	this1.set(model_Page.PVE,v);
 	var this2 = model_MainMenuDefaultValues.gameConfigurationsData;
-	var v1 = model_MainMenuDefaultValues.getPvpGameConfiguration();
+	var v1 = model_MainMenuDefaultValues.getGameConfiguration(model_MainMenuDefaultValues.config.pvpGameConfiguration);
 	this2.set(model_Page.PVP,v1);
 	var this3 = model_MainMenuDefaultValues.gameConfigurationsData;
-	var v2 = model_MainMenuDefaultValues.getTeamsGameConfiguration();
+	var v2 = model_MainMenuDefaultValues.getGameConfiguration(model_MainMenuDefaultValues.config.teamsGameConfiguration);
 	this3.set(model_Page.TEAMS,v2);
 	var this4 = model_MainMenuDefaultValues.gameConfigurationsData;
-	var v3 = Reflect.copy(model_MainMenuDefaultValues.config.DefaultGameConfiguration);
+	var v3 = Reflect.copy(model_MainMenuDefaultValues.config.defaultGameConfiguration);
 	this4.set(model_Page.HELP,v3);
 };
-model_MainMenuDefaultValues.getPvpGameConfiguration = function() {
-	var configuration = Reflect.copy(model_MainMenuDefaultValues.config.DefaultGameConfiguration);
-	configuration.slots = model_MainMenuDefaultValues.getSlotArray(model_MainMenuDefaultValues.config.LobbyPvpSlots);
-	configuration.mobAmount = 2;
-	return configuration;
-};
-model_MainMenuDefaultValues.getPveGameConfiguration = function() {
-	var configuration = Reflect.copy(model_MainMenuDefaultValues.config.DefaultGameConfiguration);
-	configuration.slots = model_MainMenuDefaultValues.getSlotArray(model_MainMenuDefaultValues.config.LobbyPveSlots);
-	configuration.mobAmount = 3;
-	return configuration;
-};
-model_MainMenuDefaultValues.getTeamsGameConfiguration = function() {
-	var configuration = Reflect.copy(model_MainMenuDefaultValues.config.DefaultGameConfiguration);
-	configuration.slots = model_MainMenuDefaultValues.getSlotArray(model_MainMenuDefaultValues.config.LobbyTeamsSlots);
-	configuration.mobAmount = 3;
+model_MainMenuDefaultValues.getGameConfiguration = function(preconfig) {
+	var configuration = Reflect.copy(model_MainMenuDefaultValues.config.defaultGameConfiguration);
+	configuration.slots = model_MainMenuDefaultValues.getSlotArray(preconfig.slots);
+	configuration.mobAmount = Std.parseInt(preconfig.mobAmount);
 	return configuration;
 };
 model_MainMenuDefaultValues.getSlotArray = function(congigArray) {

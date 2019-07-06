@@ -29,9 +29,9 @@ typedef PositionRange = {
 
 typedef MainMenuConfig = {
     var spawnPoints:Array<String>;
-    var lobbyPvpSlots:Array<SlotConfig>;
-    var lobbyPveSlots:Array<SlotConfig>;
-    var lobbyTeamsSlots:Array<SlotConfig>;
+    var pvpGameConfiguration:Array<SlotConfig>;
+    var pveGameConfiguration:Array<SlotConfig>;
+    var teamsGameConfiguration:Array<SlotConfig>;
     var defaultGameConfiguration:GameConfiguration;
 }
 

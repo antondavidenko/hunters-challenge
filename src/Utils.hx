@@ -37,17 +37,17 @@ class Utils {
 
     static private var dataStorage:Dynamic;
 
-    static public function loadConfig(configUrl:String, onLoad:Void->Void) {
+    static public function loadConfig(configUrl:String, onLoad:Void -> Void) {
 
         var http = new haxe.Http(configUrl);
 
-        http.onData = function (data:String) {
+        http.onData = function(data:String) {
             dataStorage = haxe.Json.parse(data);
             parseDataTypes();
             onLoad();
         }
 
-        http.onError = function (error) {
+        http.onError = function(error) {
             trace('error: $error');
         }
 
@@ -61,7 +61,7 @@ class Utils {
     static private function parseDataTypes() {
         parseAbstractCharacterAssetsConfig(dataStorage.configsList.PlayersAssets);
         parseAbstractCharacterAssetsConfig(dataStorage.configsList.MobsAssets);
-        parseGameConfiguration(dataStorage.configsList.MainMenu.DefaultGameConfiguration);
+        parseGameConfiguration(dataStorage.configsList.MainMenu.defaultGameConfiguration);
     }
 
     static private function parseAbstractCharacterAssetsConfig(assetsConfig:Dynamic) {
@@ -70,7 +70,7 @@ class Utils {
     }
 
     static private function parseGameConfiguration(config:Dynamic) {
-      config.showLabel = config.showLabel == "true";
+        config.showLabel = config.showLabel == "true";
         config.baseExpGain = Std.parseInt(config.baseExpGain);
         config.teamMode = config.teamMode == "true";
         config.mobAmount = Std.parseInt(config.mobAmount);

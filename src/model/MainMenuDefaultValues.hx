@@ -17,30 +17,16 @@ class MainMenuDefaultValues {
     static public function init():Void {
         config = Utils.getDataStorage().configsList.MainMenu;
         spawnPoints = config.spawnPoints;
-        gameConfigurationsData[Page.PVE] = getPveGameConfiguration();
-        gameConfigurationsData[Page.PVP] = getPvpGameConfiguration();
-        gameConfigurationsData[Page.TEAMS] = getTeamsGameConfiguration();
+        gameConfigurationsData[Page.PVE] = getGameConfiguration(config.pveGameConfiguration);
+        gameConfigurationsData[Page.PVP] = getGameConfiguration(config.pvpGameConfiguration);
+        gameConfigurationsData[Page.TEAMS] = getGameConfiguration(config.teamsGameConfiguration);
         gameConfigurationsData[Page.HELP] = Reflect.copy(config.defaultGameConfiguration);
     }
 
-    static private function getPvpGameConfiguration():GameConfiguration {
+    static private function getGameConfiguration(preconfig:Dynamic):GameConfiguration {
         var configuration = Reflect.copy(config.defaultGameConfiguration);
-        configuration.slots = getSlotArray(config.lobbyPvpSlots);
-        configuration.mobAmount = 2;
-        return configuration;
-    }
-
-    static private function getPveGameConfiguration():GameConfiguration {
-        var configuration = Reflect.copy(config.defaultGameConfiguration);
-        configuration.slots = getSlotArray(config.lobbyPveSlots);
-        configuration.mobAmount = 3;
-        return configuration;
-    }
-
-    static private function getTeamsGameConfiguration():GameConfiguration {
-        var configuration = Reflect.copy(config.defaultGameConfiguration);
-        configuration.slots = getSlotArray(config.lobbyTeamsSlots);
-        configuration.mobAmount = 3;
+        configuration.slots = getSlotArray(preconfig.slots);
+        configuration.mobAmount = Std.parseInt(preconfig.mobAmount);
         return configuration;
     }
 
@@ -53,7 +39,7 @@ class MainMenuDefaultValues {
     }
 
     static private function getCharStartConfig(config:SlotConfig):MovingObjectState {
-        var prefix = (config.control!=ControlType.BOT_HARD && config.control!=ControlType.BOT_SIMPLE)?"Player":"Bot";
+        var prefix = (config.control != ControlType.BOT_HARD && config.control != ControlType.BOT_SIMPLE) ? "Player" : "Bot";
         var spawnXY:Array<String> = spawnPoints[Std.parseInt(config.spawnPointId)].split(",");
         return {
             charType:config.charType,

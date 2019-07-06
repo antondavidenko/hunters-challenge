@@ -9,27 +9,36 @@
       "mobAmount":"5"
     },
     "spawnPoints" : ["200,300","300,300","400,300","500,300","600,300","700,300"],
-    "lobbyPvpSlots": [
-      {"slotNum":"1", "charType":"horseman", "control":"mouse", "spawnPointId":"2", "skin":"1"},
-      {"slotNum":"2", "charType":"bowman", "control":"arrows", "spawnPointId":"3", "skin":"2"},
-      {"slotNum":"3", "charType":"mage", "control":"awsd", "spawnPointId":"4", "skin":"3"}
-    ],
-    "lobbyPveSlots": [
-      {"slotNum":"1", "charType":"horseman", "control":"mouse", "spawnPointId":"0", "skin":"1"},
-      {"slotNum":"2", "charType":"swordman", "control":"bot_simple", "spawnPointId":"1", "skin":"2"},
-      {"slotNum":"3", "charType":"swordman", "control":"bot_simple", "spawnPointId":"2", "skin":"2"},
-      {"slotNum":"4", "charType":"swordman", "control":"bot_simple", "spawnPointId":"3", "skin":"2"},
-      {"slotNum":"5", "charType":"swordman", "control":"bot_simple", "spawnPointId":"4", "skin":"2"},
-      {"slotNum":"6", "charType":"elf", "control":"bot_hard", "spawnPointId":"5", "skin":"3"}
-    ],
-    "lobbyTeamsSlots": [
-      {"slotNum":"1", "charType":"horseman", "control":"mouse", "spawnPointId":"0", "skin":"1"},
-      {"slotNum":"2", "charType":"swordman", "control":"keys_arrows", "spawnPointId":"1", "skin":"1"},
-      {"slotNum":"3", "charType":"elf", "control":"keys_awsd", "spawnPointId":"2", "skin":"1"},
-      {"slotNum":"4", "charType":"assassin", "control":"bot_hard", "spawnPointId":"3", "skin":"3"},
-      {"slotNum":"5", "charType":"mage", "control":"bot_hard", "spawnPointId":"4", "skin":"3"},
-      {"slotNum":"6", "charType":"bowman", "control":"bot_hard", "spawnPointId":"5", "skin":"3"}
-    ]
+    "pvpGameConfiguration": {
+      "slots":[
+        {"slotNum":"1", "charType":"horseman", "control":"mouse", "spawnPointId":"2", "skin":"1"},
+        {"slotNum":"2", "charType":"bowman", "control":"arrows", "spawnPointId":"3", "skin":"2"},
+        {"slotNum":"3", "charType":"mage", "control":"awsd", "spawnPointId":"4", "skin":"3"}
+      ],
+      "mobAmount":"2"
+    },
+    "pveGameConfiguration": {
+      "slots":[
+        {"slotNum":"1", "charType":"horseman", "control":"mouse", "spawnPointId":"0", "skin":"1"},
+        {"slotNum":"2", "charType":"swordman", "control":"bot_simple", "spawnPointId":"1", "skin":"2"},
+        {"slotNum":"3", "charType":"swordman", "control":"bot_simple", "spawnPointId":"2", "skin":"2"},
+        {"slotNum":"4", "charType":"swordman", "control":"bot_simple", "spawnPointId":"3", "skin":"2"},
+        {"slotNum":"5", "charType":"swordman", "control":"bot_simple", "spawnPointId":"4", "skin":"2"},
+        {"slotNum":"6", "charType":"elf", "control":"bot_hard", "spawnPointId":"5", "skin":"3"}
+      ],
+      "mobAmount":"3"
+    },
+    "teamsGameConfiguration": {
+      "slots":[
+        {"slotNum":"1", "charType":"horseman", "control":"mouse", "spawnPointId":"0", "skin":"1"},
+        {"slotNum":"2", "charType":"swordman", "control":"keys_arrows", "spawnPointId":"1", "skin":"1"},
+        {"slotNum":"3", "charType":"elf", "control":"keys_awsd", "spawnPointId":"2", "skin":"1"},
+        {"slotNum":"4", "charType":"assassin", "control":"bot_hard", "spawnPointId":"3", "skin":"3"},
+        {"slotNum":"5", "charType":"mage", "control":"bot_hard", "spawnPointId":"4", "skin":"3"},
+        {"slotNum":"6", "charType":"bowman", "control":"bot_hard", "spawnPointId":"5", "skin":"3"}
+      ],
+      "mobAmount":"3"
+    }
   },
   "MobsAssets": {
     "frameSize":"32",
