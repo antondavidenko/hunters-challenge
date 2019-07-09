@@ -12,28 +12,29 @@ class HelpPage extends ReactComponentOfProps<Int> {
 
     public override function render():ReactElement
     {
+        var local:Map<String, String> = Utils.getLocalization();
         return jsx('<div className="helpPage">
-        <h3>Game rules</h3>
-        The game itself is all about hunters challenge. There are from 2 to 6 hunters take a part in a challenge. It is could be only one winner. When hunters hunt their prey they get experience points. When hunter got 100 or more experience points he got level up. All hunters start with level 1. First who reach level 5 is the winner. All prey got level. Hunter receives more experience for the high-level prey.
-        <h3>Classes description</h3>
+        <h3>{local["html_mainMenu_help_rulesTitle"]}</h3>
+        {local["html_mainMenu_help_rulesText"]}
+        <h3>{local["html_mainMenu_help_classTitle"]}</h3>
         <table><tbody>
         <tr>
         <td><img className="HORSEMAN"/></td>
-        <td className="helpPageClassDescription"><b>HORSEMAN</b> : The brave and the bold horseman put a heavy metal armor on his mighty muscular body.</td>
+        <td className="helpPageClassDescription"><b>{local["general_horseman"]}</b> : {local["html_mainMenu_help_horsemanDescription"]}</td>
         <td><img className="BOWMAN"/></td>
-        <td className="helpPageClassDescription"><b>BOWMAN</b> : Sharp-eyed bowman like a hawks eye put all of his arrows in the exactly bull eye.</td>
+        <td className="helpPageClassDescription"><b>{local["general_bowman"]}</b> : {local["html_mainMenu_help_bowmanDescription"]}</td>
         </tr>
         <tr>
         <td><img className="SWORDMAN"/></td>
-        <td className="helpPageClassDescription"><b>SWORDMAN</b> : Fight master, quick-armed swordman is always ready for a quick fight.</td>
+        <td className="helpPageClassDescription"><b>{local["general_swordman"]}</b> : {local["html_mainMenu_help_swordmanDescription"]}</td>
         <td><img className="MAGE"/></td>
-        <td className="helpPageClassDescription"><b>MAGE</b> : A wise and smart mage can cast a spell,  put enchant and even bring charm.</td>
+        <td className="helpPageClassDescription"><b>{local["general_mage"]}</b> : {local["html_mainMenu_help_mageDescription"]}</td>
         </tr>
         <tr>
         <td><img className="ELF"/></td>
-        <td className="helpPageClassDescription"><b>ELF</b> : Like a mystery the elf always has secrets and they will be hidden from others before it to late to stop it.</td>
+        <td className="helpPageClassDescription"><b>{local["general_elf"]}</b> : {local["html_mainMenu_help_elfDescription"]}</td>
         <td><img className="ASSASSIN"/></td>
-        <td className="helpPageClassDescription"><b>ASSASSIN</b> : Ready for assassination for any moment with or without any reasons. No complaints, no regrets.</td>
+        <td className="helpPageClassDescription"><b>{local["general_assassin"]}</b> : {local["html_mainMenu_help_assassinDescription"]}</td>
         </tr>
         </tbody></table>
         </div>');

@@ -36,15 +36,15 @@ class Utils {
     }
 
     static private var dataStorage:Dynamic;
+    static private var localizationStorage:Map<String, String> = new Map();
+    static private var onLoadAll:Void -> Void;
 
-    static public function loadConfig(configUrl:String, onLoad:Void -> Void) {
+    static private function loadFile(fileUrl:String, onLoad:String -> Void) {
 
-        var http = new haxe.Http(configUrl);
+        var http = new haxe.Http(fileUrl);
 
         http.onData = function(data:String) {
-            dataStorage = haxe.Json.parse(data);
-            parseDataTypes();
-            onLoad();
+            onLoad(data);
         }
 
         http.onError = function(error) {
@@ -54,14 +54,37 @@ class Utils {
         http.request();
     }
 
+    static public function loadConfig(configUrl:String, onLoad:Void -> Void) {
+        onLoadAll = onLoad;
+        loadFile(configUrl, onConfigLoad);
+    }
+
+    static private function onConfigLoad(data:String) {
+        dataStorage = haxe.Json.parse(data);
+        parseDataTypes();
+        loadFile(getDataStorage().General.localizationFile, onLocalizationLoad);
+    }
+
+    static private function onLocalizationLoad(data:String) {
+        var parse = haxe.Json.parse(data).texts;
+        for(field in Reflect.fields(parse)) {
+            localizationStorage.set(field, Reflect.field(parse, field));
+        }
+        onLoadAll();
+    }
+
     static public function getDataStorage():Dynamic {
-        return dataStorage;
+        return dataStorage.configsList;
+    }
+
+    static public function getLocalization():Map<String, String> {
+        return localizationStorage;
     }
 
     static private function parseDataTypes() {
-        parseAbstractCharacterAssetsConfig(dataStorage.configsList.PlayersAssets);
-        parseAbstractCharacterAssetsConfig(dataStorage.configsList.MobsAssets);
-        parseGameConfiguration(dataStorage.configsList.MainMenu.defaultGameConfiguration);
+        parseAbstractCharacterAssetsConfig(getDataStorage().PlayersAssets);
+        parseAbstractCharacterAssetsConfig(getDataStorage().MobsAssets);
+        parseGameConfiguration(getDataStorage().MainMenu.defaultGameConfiguration);
     }
 
     static private function parseAbstractCharacterAssetsConfig(assetsConfig:Dynamic) {

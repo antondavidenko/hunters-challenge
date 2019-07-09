@@ -231,25 +231,53 @@ Utils.getColorBySkin = function(skin) {
 		return "blue";
 	}
 };
-Utils.loadConfig = function(configUrl,onLoad) {
-	var http = new haxe_Http(configUrl);
+Utils.loadFile = function(fileUrl,onLoad) {
+	var http = new haxe_Http(fileUrl);
 	http.onData = function(data) {
-		Utils.dataStorage = JSON.parse(data);
-		Utils.parseDataTypes();
-		onLoad();
+		onLoad(data);
 	};
 	http.onError = function(error) {
 		console.log("error: " + error);
 	};
 	http.request();
 };
+Utils.loadConfig = function(configUrl,onLoad) {
+	Utils.onLoadAll = onLoad;
+	Utils.loadFile(configUrl,Utils.onConfigLoad);
+};
+Utils.onConfigLoad = function(data) {
+	Utils.dataStorage = JSON.parse(data);
+	Utils.parseDataTypes();
+	Utils.loadFile(Utils.getDataStorage().General.localizationFile,Utils.onLocalizationLoad);
+};
+Utils.onLocalizationLoad = function(data) {
+	var parse = JSON.parse(data).texts;
+	var _g = 0;
+	var _g1 = Reflect.fields(parse);
+	while(_g < _g1.length) {
+		var field = _g1[_g];
+		++_g;
+		var this1 = Utils.localizationStorage;
+		var value = Reflect.field(parse,field);
+		var _this = this1;
+		if(__map_reserved[field] != null) {
+			_this.setReserved(field,value);
+		} else {
+			_this.h[field] = value;
+		}
+	}
+	Utils.onLoadAll();
+};
 Utils.getDataStorage = function() {
-	return Utils.dataStorage;
+	return Utils.dataStorage.configsList;
+};
+Utils.getLocalization = function() {
+	return Utils.localizationStorage;
 };
 Utils.parseDataTypes = function() {
-	Utils.parseAbstractCharacterAssetsConfig(Utils.dataStorage.configsList.PlayersAssets);
-	Utils.parseAbstractCharacterAssetsConfig(Utils.dataStorage.configsList.MobsAssets);
-	Utils.parseGameConfiguration(Utils.dataStorage.configsList.MainMenu.defaultGameConfiguration);
+	Utils.parseAbstractCharacterAssetsConfig(Utils.getDataStorage().PlayersAssets);
+	Utils.parseAbstractCharacterAssetsConfig(Utils.getDataStorage().MobsAssets);
+	Utils.parseGameConfiguration(Utils.getDataStorage().MainMenu.defaultGameConfiguration);
 };
 Utils.parseAbstractCharacterAssetsConfig = function(assetsConfig) {
 	assetsConfig.frameSize = Std.parseInt(assetsConfig.frameSize);
@@ -609,6 +637,7 @@ haxe_ds_StringMap.prototype = {
 	}
 };
 var htmlcontrols_MainMenuControl = function(onLogin) {
+	this.configuration = Reflect.copy(Utils.getDataStorage().MainMenu.defaultGameConfiguration);
 	ReactDOM.render({ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_MainMenu, props : { page : model_MainMenuDefaultValues.page, data : model_MainMenuDefaultValues.gameConfigurationsData}, key : null, ref : null},window.document.getElementById("MainMenu"));
 	this.loginPanel = window.document.getElementById("loginPanel");
 	this.onLogin = onLogin;
@@ -1088,7 +1117,49 @@ htmlcontrols_mainmenu_helppage_HelpPage.__name__ = true;
 htmlcontrols_mainmenu_helppage_HelpPage.__super__ = React.Component;
 htmlcontrols_mainmenu_helppage_HelpPage.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "div", props : { className : "helpPage", children : [{ "$$typeof" : $$tre, type : "h3", props : { children : "Game rules"}, key : null, ref : null},"The game itself is all about hunters challenge. There are from 2 to 6 hunters take a part in a challenge. It is could be only one winner. When hunters hunt their prey they get experience points. When hunter got 100 or more experience points he got level up. All hunters start with level 1. First who reach level 5 is the winner. All prey got level. Hunter receives more experience for the high-level prey.",{ "$$typeof" : $$tre, type : "h3", props : { children : "Classes description"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "HORSEMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "HORSEMAN"}, key : null, ref : null}," : The brave and the bold horseman put a heavy metal armor on his mighty muscular body."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "BOWMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "BOWMAN"}, key : null, ref : null}," : Sharp-eyed bowman like a hawks eye put all of his arrows in the exactly bull eye."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "SWORDMAN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "SWORDMAN"}, key : null, ref : null}," : Fight master, quick-armed swordman is always ready for a quick fight."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "MAGE"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "MAGE"}, key : null, ref : null}," : A wise and smart mage can cast a spell,  put enchant and even bring charm."]}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "ELF"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "ELF"}, key : null, ref : null}," : Like a mystery the elf always has secrets and they will be hidden from others before it to late to stop it."]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "ASSASSIN"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "helpPageClassDescription", children : [{ "$$typeof" : $$tre, type : "b", props : { children : "ASSASSIN"}, key : null, ref : null}," : Ready for assassination for any moment with or without any reasons. No complaints, no regrets."]}, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null};
+		var local = Utils.getLocalization();
+		var tmp = $$tre;
+		var tmp1 = $$tre;
+		var tmp2 = __map_reserved["html_mainMenu_help_rulesTitle"] != null ? local.getReserved("html_mainMenu_help_rulesTitle") : local.h["html_mainMenu_help_rulesTitle"];
+		var tmp3 = __map_reserved["html_mainMenu_help_rulesText"] != null ? local.getReserved("html_mainMenu_help_rulesText") : local.h["html_mainMenu_help_rulesText"];
+		var tmp4 = $$tre;
+		var tmp5 = __map_reserved["html_mainMenu_help_classTitle"] != null ? local.getReserved("html_mainMenu_help_classTitle") : local.h["html_mainMenu_help_classTitle"];
+		var tmp6 = $$tre;
+		var tmp7 = $$tre;
+		var tmp8 = $$tre;
+		var tmp9 = { "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "HORSEMAN"}, key : null, ref : null}}, key : null, ref : null};
+		var tmp10 = $$tre;
+		var tmp11 = $$tre;
+		var tmp12 = __map_reserved["general_horseman"] != null ? local.getReserved("general_horseman") : local.h["general_horseman"];
+		var tmp13 = __map_reserved["html_mainMenu_help_horsemanDescription"] != null ? local.getReserved("html_mainMenu_help_horsemanDescription") : local.h["html_mainMenu_help_horsemanDescription"];
+		var tmp14 = { "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "BOWMAN"}, key : null, ref : null}}, key : null, ref : null};
+		var tmp15 = $$tre;
+		var tmp16 = $$tre;
+		var tmp17 = __map_reserved["general_bowman"] != null ? local.getReserved("general_bowman") : local.h["general_bowman"];
+		var tmp18 = __map_reserved["html_mainMenu_help_bowmanDescription"] != null ? local.getReserved("html_mainMenu_help_bowmanDescription") : local.h["html_mainMenu_help_bowmanDescription"];
+		var tmp19 = $$tre;
+		var tmp20 = { "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "SWORDMAN"}, key : null, ref : null}}, key : null, ref : null};
+		var tmp21 = $$tre;
+		var tmp22 = $$tre;
+		var tmp23 = __map_reserved["general_swordman"] != null ? local.getReserved("general_swordman") : local.h["general_swordman"];
+		var tmp24 = __map_reserved["html_mainMenu_help_swordmanDescription"] != null ? local.getReserved("html_mainMenu_help_swordmanDescription") : local.h["html_mainMenu_help_swordmanDescription"];
+		var tmp25 = { "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "MAGE"}, key : null, ref : null}}, key : null, ref : null};
+		var tmp26 = $$tre;
+		var tmp27 = $$tre;
+		var tmp28 = __map_reserved["general_mage"] != null ? local.getReserved("general_mage") : local.h["general_mage"];
+		var tmp29 = __map_reserved["html_mainMenu_help_mageDescription"] != null ? local.getReserved("html_mainMenu_help_mageDescription") : local.h["html_mainMenu_help_mageDescription"];
+		var tmp30 = $$tre;
+		var tmp31 = { "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "ELF"}, key : null, ref : null}}, key : null, ref : null};
+		var tmp32 = $$tre;
+		var tmp33 = $$tre;
+		var tmp34 = __map_reserved["general_elf"] != null ? local.getReserved("general_elf") : local.h["general_elf"];
+		var tmp35 = __map_reserved["html_mainMenu_help_elfDescription"] != null ? local.getReserved("html_mainMenu_help_elfDescription") : local.h["html_mainMenu_help_elfDescription"];
+		var tmp36 = { "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "img", props : { className : "ASSASSIN"}, key : null, ref : null}}, key : null, ref : null};
+		var tmp37 = $$tre;
+		var tmp38 = $$tre;
+		var tmp39 = __map_reserved["general_assassin"] != null ? local.getReserved("general_assassin") : local.h["general_assassin"];
+		var tmp40 = __map_reserved["html_mainMenu_help_assassinDescription"] != null ? local.getReserved("html_mainMenu_help_assassinDescription") : local.h["html_mainMenu_help_assassinDescription"];
+		return { $$typeof : tmp, type : "div", props : { className : "helpPage", children : [{ $$typeof : tmp1, type : "h3", props : { children : tmp2}, key : null, ref : null},tmp3,{ $$typeof : tmp4, type : "h3", props : { children : tmp5}, key : null, ref : null},{ $$typeof : tmp6, type : "table", props : { children : { $$typeof : tmp7, type : "tbody", props : { children : [{ $$typeof : tmp8, type : "tr", props : { children : [tmp9,{ $$typeof : tmp10, type : "td", props : { className : "helpPageClassDescription", children : [{ $$typeof : tmp11, type : "b", props : { children : tmp12}, key : null, ref : null}," : ",tmp13]}, key : null, ref : null},tmp14,{ $$typeof : tmp15, type : "td", props : { className : "helpPageClassDescription", children : [{ $$typeof : tmp16, type : "b", props : { children : tmp17}, key : null, ref : null}," : ",tmp18]}, key : null, ref : null}]}, key : null, ref : null},{ $$typeof : tmp19, type : "tr", props : { children : [tmp20,{ $$typeof : tmp21, type : "td", props : { className : "helpPageClassDescription", children : [{ $$typeof : tmp22, type : "b", props : { children : tmp23}, key : null, ref : null}," : ",tmp24]}, key : null, ref : null},tmp25,{ $$typeof : tmp26, type : "td", props : { className : "helpPageClassDescription", children : [{ $$typeof : tmp27, type : "b", props : { children : tmp28}, key : null, ref : null}," : ",tmp29]}, key : null, ref : null}]}, key : null, ref : null},{ $$typeof : tmp30, type : "tr", props : { children : [tmp31,{ $$typeof : tmp32, type : "td", props : { className : "helpPageClassDescription", children : [{ $$typeof : tmp33, type : "b", props : { children : tmp34}, key : null, ref : null}," : ",tmp35]}, key : null, ref : null},tmp36,{ $$typeof : tmp37, type : "td", props : { className : "helpPageClassDescription", children : [{ $$typeof : tmp38, type : "b", props : { children : tmp39}, key : null, ref : null}," : ",tmp40]}, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null};
 	}
 });
 var htmlcontrols_mainmenu_lobby_LobbyPanel = function(props) {
@@ -1356,7 +1427,7 @@ model_DefaultValues.__name__ = true;
 var model_MainMenuDefaultValues = function() { };
 model_MainMenuDefaultValues.__name__ = true;
 model_MainMenuDefaultValues.init = function() {
-	model_MainMenuDefaultValues.config = Utils.getDataStorage().configsList.MainMenu;
+	model_MainMenuDefaultValues.config = Utils.getDataStorage().MainMenu;
 	model_MainMenuDefaultValues.spawnPoints = model_MainMenuDefaultValues.config.spawnPoints;
 	var this1 = model_MainMenuDefaultValues.gameConfigurationsData;
 	var v = model_MainMenuDefaultValues.getGameConfiguration(model_MainMenuDefaultValues.config.pveGameConfiguration);
@@ -1948,7 +2019,7 @@ var phasergame_sceneobjects_MobsCollection = function(phaserScene) {
 phasergame_sceneobjects_MobsCollection.__name__ = true;
 phasergame_sceneobjects_MobsCollection.prototype = {
 	preload: function() {
-		var mobsAssetsConfig = Utils.getDataStorage().configsList.MobsAssets;
+		var mobsAssetsConfig = Utils.getDataStorage().MobsAssets;
 		var frmeConfig = { frameWidth : mobsAssetsConfig.frameSize, frameHeight : mobsAssetsConfig.frameSize};
 		var _g = 0;
 		var _g1 = mobsAssetsConfig.assetsList;
@@ -2061,7 +2132,7 @@ var phasergame_sceneobjects_MovingObject = function(phaserScene,state) {
 	this.onCollision = false;
 	this.phaserScene = phaserScene;
 	this.state = state;
-	this.config = Utils.getDataStorage().configsList.MovingObjectConfig;
+	this.config = Utils.getDataStorage().MovingObjectConfig;
 };
 phasergame_sceneobjects_MovingObject.__name__ = true;
 phasergame_sceneobjects_MovingObject.prototype = {
@@ -2217,7 +2288,7 @@ var phasergame_sceneobjects_PlayersCollection = function(phaserScene) {
 phasergame_sceneobjects_PlayersCollection.__name__ = true;
 phasergame_sceneobjects_PlayersCollection.prototype = {
 	preload: function() {
-		var playersAssetsConfig = Utils.getDataStorage().configsList.PlayersAssets;
+		var playersAssetsConfig = Utils.getDataStorage().PlayersAssets;
 		var frmeConfig = { frameWidth : playersAssetsConfig.frameSize, frameHeight : playersAssetsConfig.frameSize};
 		var _g = 0;
 		var _g1 = playersAssetsConfig.assetsList;
@@ -2445,6 +2516,7 @@ Array.__name__ = true;
 var __map_reserved = {};
 var $$tre = (typeof Symbol === "function" && Symbol.for && Symbol.for("react.element")) || 0xeac7;
 msignal_SlotList.NIL = new msignal_SlotList(null,null);
+Utils.localizationStorage = new haxe_ds_StringMap();
 htmlcontrols_mainmenu_GameModes.displayName = "GameModes";
 htmlcontrols_mainmenu_GamePlayOptions.displayName = "GamePlayOptions";
 htmlcontrols_mainmenu_MainMenuActions.navigateToPage = new msignal_Signal1();

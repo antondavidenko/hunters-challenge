@@ -2,6 +2,10 @@
 
 FUTURE IMPROVE PLAN
 
+MOBILE:
+- add base mobile adaptation input (no keyboard)
+- add mobile adaptation menu (no multiplayer)
+
 REFACTOR:
 - move menu config to external json
 - move all default values to external json
@@ -25,3 +29,4 @@ UI:
 - improve graphics to targeting full HD resolution = v0.8
 - use images avatars for classes and player presentation + correct color on BG = v 0.8
 - mobile devices adaptation: no multiplayer, no input options, different panel
+- add no wide screen adaptation for panel

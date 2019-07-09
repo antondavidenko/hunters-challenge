@@ -22,7 +22,7 @@ class MovingObject {
     public function new(phaserScene:phaser.Scene, state:MovingObjectState) {
         this.phaserScene = phaserScene;
         this.state = state;
-        config = Utils.getDataStorage().configsList.MovingObjectConfig;
+        config = Utils.getDataStorage().MovingObjectConfig;
     }
 
     public function init():Void {

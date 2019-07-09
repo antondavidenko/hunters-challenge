@@ -15,7 +15,7 @@ class MainMenuDefaultValues {
     static private var config:MainMenuConfig;
 
     static public function init():Void {
-        config = Utils.getDataStorage().configsList.MainMenu;
+        config = Utils.getDataStorage().MainMenu;
         spawnPoints = config.spawnPoints;
         gameConfigurationsData[Page.PVE] = getGameConfiguration(config.pveGameConfiguration);
         gameConfigurationsData[Page.PVP] = getGameConfiguration(config.pvpGameConfiguration);

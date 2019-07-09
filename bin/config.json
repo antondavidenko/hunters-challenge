@@ -1,4 +1,7 @@
 {"configsList": {
+  "General": {
+    "localizationFile": "./localization/en.json"
+  },
   "MainMenu": {
     "defaultGameConfiguration": {
       "slots":[],

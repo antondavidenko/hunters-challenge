@@ -18,7 +18,7 @@ class MobsCollection {
     }
 
     public function preload() {
-        var mobsAssetsConfig:AbstractCharacterAssetsConfig = Utils.getDataStorage().configsList.MobsAssets;
+        var mobsAssetsConfig:AbstractCharacterAssetsConfig = Utils.getDataStorage().MobsAssets;
         var frmeConfig:ImageFrameConfig = {frameWidth:mobsAssetsConfig.frameSize, frameHeight:mobsAssetsConfig.frameSize};
         for (asset in mobsAssetsConfig.assetsList) {
             phaserScene.load.spritesheet(asset.id, asset.url, frmeConfig);
