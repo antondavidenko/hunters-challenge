@@ -1,5 +1,6 @@
 package ;
 
+import model.Localization;
 import model.DataTypes.PlayerColor;
 import model.DefaultValues;
 
@@ -34,10 +35,28 @@ class Utils {
             default: return PlayerColor.BLUE;
         }
     }
+}
 
-    static private var dataStorage:Dynamic;
-    static private var localizationStorage:Map<String, String> = new Map();
+class Loader {
     static private var onLoadAll:Void -> Void;
+
+    static public function loadConfig(configUrl:String, onLoad:Void -> Void) {
+        onLoadAll = onLoad;
+        loadFile(configUrl, onConfigLoad);
+    }
+
+    static private function onConfigLoad(data:String) {
+        DefaultValues.setDataStorage(DataParser.parse(haxe.Json.parse(data).configsList));
+        loadFile(DefaultValues.getGeneralConfig().localizationFile, onLocalizationLoad);
+    }
+
+    static private function onLocalizationLoad(data:String) {
+        var parse = haxe.Json.parse(data).texts;
+        for(field in Reflect.fields(parse)) {
+            Localization.set(field, Reflect.field(parse, field));
+        }
+        onLoadAll();
+    }
 
     static private function loadFile(fileUrl:String, onLoad:String -> Void) {
 
@@ -53,38 +72,14 @@ class Utils {
 
         http.request();
     }
+}
 
-    static public function loadConfig(configUrl:String, onLoad:Void -> Void) {
-        onLoadAll = onLoad;
-        loadFile(configUrl, onConfigLoad);
-    }
-
-    static private function onConfigLoad(data:String) {
-        dataStorage = haxe.Json.parse(data);
-        parseDataTypes();
-        loadFile(getDataStorage().General.localizationFile, onLocalizationLoad);
-    }
-
-    static private function onLocalizationLoad(data:String) {
-        var parse = haxe.Json.parse(data).texts;
-        for(field in Reflect.fields(parse)) {
-            localizationStorage.set(field, Reflect.field(parse, field));
-        }
-        onLoadAll();
-    }
-
-    static public function getDataStorage():Dynamic {
-        return dataStorage.configsList;
-    }
-
-    static public function getLocalization():Map<String, String> {
-        return localizationStorage;
-    }
-
-    static private function parseDataTypes() {
-        parseAbstractCharacterAssetsConfig(getDataStorage().PlayersAssets);
-        parseAbstractCharacterAssetsConfig(getDataStorage().MobsAssets);
-        parseGameConfiguration(getDataStorage().MainMenu.defaultGameConfiguration);
+class DataParser {
+    static public function parse(data:Dynamic):Dynamic {
+        parseAbstractCharacterAssetsConfig(data.PlayersAssets);
+        parseAbstractCharacterAssetsConfig(data.MobsAssets);
+        parseGameConfiguration(data.MainMenu.defaultGameConfiguration);
+        return data;
     }
 
     static private function parseAbstractCharacterAssetsConfig(assetsConfig:Dynamic) {

@@ -1,3 +1,4 @@
+import Utils.Loader;
 import sounds.SoundPlayer;
 import model.DataTypes.GameConfiguration;
 import model.MainMenuDefaultValues;
@@ -21,7 +22,7 @@ class Main {
     }
 
     public function new() {
-        Utils.loadConfig("./config.json", init);
+        Loader.loadConfig("./config.json", init);
     }
 
     public function init() {

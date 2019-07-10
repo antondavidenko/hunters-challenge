@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import model.DefaultValues;
 import model.ConfigTypes.MovingObjectConfig;
 import phaser.animations.types.GenerateFrameNumbers;
 import model.DataTypes.MovingObjectState;
@@ -22,7 +23,7 @@ class MovingObject {
     public function new(phaserScene:phaser.Scene, state:MovingObjectState) {
         this.phaserScene = phaserScene;
         this.state = state;
-        config = Utils.getDataStorage().MovingObjectConfig;
+        config = DefaultValues.getMovingObjectConfig();
     }
 
     public function init():Void {

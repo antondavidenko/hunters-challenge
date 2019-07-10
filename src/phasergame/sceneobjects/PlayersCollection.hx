@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import model.DefaultValues;
 import model.ConfigTypes.AbstractCharacterAssetsConfig;
 import phaser.loader.filetypes.ImageFrameConfig;
 import model.DataTypes.ControlType;
@@ -18,7 +19,7 @@ class PlayersCollection {
     }
 
     public function preload() {
-        var playersAssetsConfig:AbstractCharacterAssetsConfig = Utils.getDataStorage().PlayersAssets;
+        var playersAssetsConfig:AbstractCharacterAssetsConfig = DefaultValues.getPlayersAssetsConfig();
         var frmeConfig:ImageFrameConfig = {frameWidth:playersAssetsConfig.frameSize, frameHeight:playersAssetsConfig.frameSize};
         for (asset in playersAssetsConfig.assetsList) {
             phaserScene.load.spritesheet(asset.id, asset.url, frmeConfig);

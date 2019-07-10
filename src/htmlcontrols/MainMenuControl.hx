@@ -17,7 +17,7 @@ class MainMenuControl {
     private var loginPanel:HtmlElement;
 
     public function new(onLogin:GameConfiguration -> Void) {
-        configuration = Reflect.copy(Utils.getDataStorage().MainMenu.defaultGameConfiguration);
+        configuration = Reflect.copy(DefaultValues.getMainMenuConfig().defaultGameConfiguration);
         ReactDOM.render(
             jsx('<$MainMenu data=${MainMenuDefaultValues.gameConfigurationsData} page=${MainMenuDefaultValues.page}/>'),
             js.Browser.document.getElementById('MainMenu')
