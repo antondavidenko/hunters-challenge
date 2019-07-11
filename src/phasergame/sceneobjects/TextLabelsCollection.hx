@@ -62,6 +62,6 @@ class TextLabelsCollection {
     private function setTextLabel(text:Text, label:String):Void {
         text.text = label;
         text.updateText();
-        text.x = (DefaultValues.phaserGameWidth - text.width) / 2;
+        text.x = (DefaultValues.getGeneralConfig().phaserGameWidth - text.width) / 2;
     }
 }

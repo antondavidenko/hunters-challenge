@@ -2,6 +2,13 @@ package model;
 
 import model.DataTypes.GameConfiguration;
 
+typedef GeneralConfig = {
+    var localizationFile:String;
+    var phaserGameWidth:Int;
+    var phaserGameHeight:Int;
+    var maxLvl:Int;
+}
+
 typedef AbstractCharacterAssetsConfig = {
     var frameSize:Int;
     var skins:Int;

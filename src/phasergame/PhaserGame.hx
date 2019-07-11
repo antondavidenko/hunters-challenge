@@ -32,8 +32,8 @@ class PhaserGame {
     public function init(sidePanelControl:SidePanelControl) {
         scene = new PhaserScene(sidePanelControl);
         game = new phaser.Game({
-            width: DefaultValues.phaserGameWidth,
-            height: DefaultValues.phaserGameHeight,
+            width: DefaultValues.getGeneralConfig().phaserGameWidth,
+            height: DefaultValues.getGeneralConfig().phaserGameHeight,
             canvas: gameCanvas,
             scene: scene,
             physics: {"default": "arcade", "arcade": { "debug": false }},
@@ -41,11 +41,11 @@ class PhaserGame {
     }
 
     public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
-        gameCanvas.style.height = Std.int(DefaultValues.phaserGameHeight * multiplayer) + 'px';
-        gameCanvas.style.width = Std.int(DefaultValues.phaserGameWidth * multiplayer) + 'px';
+        gameCanvas.style.height = Std.int(DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer) + 'px';
+        gameCanvas.style.width = Std.int(DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer) + 'px';
         gameCanvas.style.position = 'absolute';
-        gameCanvas.style.left = (windowWidth - DefaultValues.phaserGameWidth * multiplayer) + 'px';
-        gameCanvas.style.top = ((windowHeight - DefaultValues.phaserGameHeight * multiplayer) / 2) + 'px';
+        gameCanvas.style.left = (windowWidth - DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer) + 'px';
+        gameCanvas.style.top = ((windowHeight - DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer) / 2) + 'px';
     }
 
     public function show():Void {

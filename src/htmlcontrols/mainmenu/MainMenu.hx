@@ -40,24 +40,13 @@ class MainMenu extends ReactComponentOfProps<MainMenuProps> {
         <td className="valignTop">
             <h2>MAIN MENU</h2>
             <GameModes page="${props.page}"></GameModes>
+            <h2>OPTIONS</h2>
+            <GamePlayOptions data=${props.data} page=${state.page}></GamePlayOptions>
         </td><td className="mainMenuGap">
         </td><td className="valignTop">
-            {this.getOptionsByState()}
             {this.getContentByState()}
         </td>
         </tr></tbody></table>');
-    }
-
-    function getOptionsByState():ReactElement
-    {
-        if (state.page == Page.PVP || state.page == Page.PVE || state.page == Page.TEAMS) {
-            return jsx('<div>
-            <h2>GAME-PLAY OPTIONS</h2>
-            <GamePlayOptions data=${props.data} page=${state.page}></GamePlayOptions>
-            </div>');
-        } else {
-            return jsx('<div></div>');
-        }
     }
 
     function getContentByState():ReactElement

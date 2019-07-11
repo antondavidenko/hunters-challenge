@@ -108,8 +108,8 @@ class SidePanelControl {
     public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
         var computedStyle:CSSStyleDeclaration = js.Browser.window.getComputedStyle(sidePanel);
         var padding:Int = Std.parseInt(computedStyle.padding);
-        sidePanel.style.width = Std.int(windowWidth - DefaultValues.phaserGameWidth * multiplayer - padding*2) + 'px';
-        sidePanel.style.height = Std.int(DefaultValues.phaserGameHeight * multiplayer) + 'px';
+        sidePanel.style.width = Std.int(windowWidth - DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer - padding*2) + 'px';
+        sidePanel.style.height = Std.int(DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer) + 'px';
     }
 
     public function show():Void {

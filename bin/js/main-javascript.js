@@ -206,10 +206,10 @@ Utils.distanceBetween = function(x1,y1,x2,y2) {
 	return Math.sqrt(dx * dx + dy * dy);
 };
 Utils.getRandomScreenX = function() {
-	return Std.random(950);
+	return Std.random(model_DefaultValues.getGeneralConfig().phaserGameWidth);
 };
 Utils.getRandomScreenY = function() {
-	return Std.random(654);
+	return Std.random(model_DefaultValues.getGeneralConfig().phaserGameHeight);
 };
 Utils.getSkinByColor = function(color) {
 	switch(color) {
@@ -268,6 +268,7 @@ DataParser.parse = function(data) {
 	DataParser.parseAbstractCharacterAssetsConfig(data.PlayersAssets);
 	DataParser.parseAbstractCharacterAssetsConfig(data.MobsAssets);
 	DataParser.parseGameConfiguration(data.MainMenu.defaultGameConfiguration);
+	DataParser.parseGeneral(data.General);
 	return data;
 };
 DataParser.parseAbstractCharacterAssetsConfig = function(assetsConfig) {
@@ -279,6 +280,11 @@ DataParser.parseGameConfiguration = function(config) {
 	config.baseExpGain = Std.parseInt(config.baseExpGain);
 	config.teamMode = config.teamMode == "true";
 	config.mobAmount = Std.parseInt(config.mobAmount);
+};
+DataParser.parseGeneral = function(config) {
+	config.phaserGameWidth = Std.parseInt(config.phaserGameWidth);
+	config.phaserGameHeight = Std.parseInt(config.phaserGameHeight);
+	config.maxLvl = Std.parseInt(config.maxLvl);
 };
 var haxe_IMap = function() { };
 haxe_IMap.__name__ = true;
@@ -768,8 +774,10 @@ htmlcontrols_SidePanelControl.prototype = {
 	,onResize: function(windowWidth,windowHeight,multiplayer) {
 		var computedStyle = window.getComputedStyle(this.sidePanel);
 		var padding = Std.parseInt(computedStyle.padding);
-		this.sidePanel.style.width = (windowWidth - 950 * multiplayer - padding * 2 | 0) + "px";
-		this.sidePanel.style.height = (654 * multiplayer | 0) + "px";
+		var tmp = windowWidth - model_DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer - padding * 2 | 0;
+		this.sidePanel.style.width = tmp + "px";
+		var tmp1 = model_DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer | 0;
+		this.sidePanel.style.height = tmp1 + "px";
 	}
 	,show: function() {
 		this.sidePanel.style.display = "block";
@@ -823,11 +831,18 @@ htmlcontrols_mainmenu_GamePlayOptions.prototype = $extend(React.Component.protot
 		if(this.state.page != this.props.page) {
 			this.state = { mobAmount : this.props.data.get(this.props.page).mobAmount, page : this.props.page};
 		}
-		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Mobs amount"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Base exp gain"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Labels"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Screen mode"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "mobsAmount", onChange : $bind(this,this.onChange), value : this.state.mobAmount, type : "text", placeholder : "Enter mobs amount", className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "input", props : { id : "baseExp", defaultValue : "25", type : "text", placeholder : "Base exp gain", className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "labelsSwitcher", className : "fifthWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "ON", children : "ON"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "OFF", children : "OFF"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : "select", props : { id : "modeSwitcher", className : "fifthWidth", children : [{ "$$typeof" : $$tre, type : "option", props : { value : "Fullscreen", children : "Fullscreen"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "option", props : { value : "Windowed", children : "Windowed"}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : model_Localization.get("html_mainMenu_options_screenMode")}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "tr", props : { children : { "$$typeof" : $$tre, type : "td", props : { children : [{ "$$typeof" : $$tre, type : "input", props : { id : "mobsAmount", value : this.state.mobAmount, type : "hidden", placeholder : "Enter mobs amount", className : "fifthWidth"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "input", props : { id : "baseExp", defaultValue : "25", type : "hidden", placeholder : "Base exp gain", className : "fifthWidth"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "input", props : { id : "labelsSwitcher", defaultValue : "ON", type : "hidden"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.getDefaultScreenOption(), id : "modeSwitcher", className : "fifthWidth", options : this.getScreenOptions()}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null};
 	}
-	,onChange: function(event) {
-		var page = this.state.page;
-		this.setState({ mobAmount : event.target.value, page : page});
+	,getScreenOptions: function() {
+		return [model_Localization.get("html_mainMenu_options_fullscreen"),model_Localization.get("html_mainMenu_options_windowed")];
+	}
+	,getDefaultScreenOption: function() {
+		var screenMode = model_DefaultValues.getMainMenuConfig().defaultGameConfiguration.screenMode;
+		if(screenMode == "Fullscreen") {
+			return "Fullscreen";
+		} else {
+			return "Windowed";
+		}
 	}
 });
 var msignal_Signal = function(valueClasses) {
@@ -1069,14 +1084,7 @@ htmlcontrols_mainmenu_MainMenu.prototype = $extend(React.Component.prototype,{
 		this.setState({ page : page, configuration : this.props.data.get(page)});
 	}
 	,render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "MAIN MENU"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { page : this.props.page}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "mainMenuGap"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [this.getOptionsByState(),this.getContentByState()]}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
-	}
-	,getOptionsByState: function() {
-		if(this.state.page == model_Page.PVP || this.state.page == model_Page.PVE || this.state.page == model_Page.TEAMS) {
-			return { "$$typeof" : $$tre, type : "div", props : { children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "GAME-PLAY OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GamePlayOptions, props : { page : this.state.page, data : this.props.data}, key : null, ref : null}]}, key : null, ref : null};
-		} else {
-			return { "$$typeof" : $$tre, type : "div", props : { }, key : null, ref : null};
-		}
+		return { "$$typeof" : $$tre, type : "table", props : { children : { "$$typeof" : $$tre, type : "tbody", props : { children : { "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : [{ "$$typeof" : $$tre, type : "h2", props : { children : "MAIN MENU"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GameModes, props : { page : this.props.page}, key : null, ref : null},{ "$$typeof" : $$tre, type : "h2", props : { children : "OPTIONS"}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_GamePlayOptions, props : { page : this.state.page, data : this.props.data}, key : null, ref : null}]}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "mainMenuGap"}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "valignTop", children : this.getContentByState()}, key : null, ref : null}]}, key : null, ref : null}}, key : null, ref : null}}, key : null, ref : null};
 	}
 	,getContentByState: function() {
 		if(this.state.page == model_Page.PVP) {
@@ -1452,7 +1460,7 @@ var model_PhaserGameModel = function() { };
 model_PhaserGameModel.__name__ = true;
 model_PhaserGameModel.init = function(configuration) {
 	model_PhaserGameModel.mobAmount = configuration.mobAmount;
-	model_PhaserGameModel.maxLvl = 5;
+	model_PhaserGameModel.maxLvl = model_DefaultValues.getGeneralConfig().maxLvl;
 	model_PhaserGameModel.baseExpGain = configuration.baseExpGain;
 	model_PhaserGameModel.screenMode = configuration.screenMode;
 	model_PhaserGameModel.showLabel = configuration.showLabel;
@@ -1829,14 +1837,18 @@ phasergame_PhaserGame.__name__ = true;
 phasergame_PhaserGame.prototype = {
 	init: function(sidePanelControl) {
 		this.scene = new phasergame_PhaserScene(sidePanelControl);
-		this.game = new Phaser.Game({ width : 950, height : 654, canvas : this.gameCanvas, scene : this.scene, physics : { "default" : "arcade", "arcade" : { "debug" : false}}});
+		this.game = new Phaser.Game({ width : model_DefaultValues.getGeneralConfig().phaserGameWidth, height : model_DefaultValues.getGeneralConfig().phaserGameHeight, canvas : this.gameCanvas, scene : this.scene, physics : { "default" : "arcade", "arcade" : { "debug" : false}}});
 	}
 	,onResize: function(windowWidth,windowHeight,multiplayer) {
-		this.gameCanvas.style.height = (654 * multiplayer | 0) + "px";
-		this.gameCanvas.style.width = (950 * multiplayer | 0) + "px";
+		var tmp = model_DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer | 0;
+		this.gameCanvas.style.height = tmp + "px";
+		var tmp1 = model_DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer | 0;
+		this.gameCanvas.style.width = tmp1 + "px";
 		this.gameCanvas.style.position = "absolute";
-		this.gameCanvas.style.left = windowWidth - 950 * multiplayer + "px";
-		this.gameCanvas.style.top = (windowHeight - 654 * multiplayer) / 2 + "px";
+		var tmp2 = windowWidth - model_DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer;
+		this.gameCanvas.style.left = tmp2 + "px";
+		var tmp3 = (windowHeight - model_DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer) / 2;
+		this.gameCanvas.style.top = tmp3 + "px";
 	}
 	,show: function() {
 		this.gameCanvas.style.display = "block";
@@ -2443,7 +2455,7 @@ phasergame_sceneobjects_TextLabelsCollection.prototype = {
 	,setTextLabel: function(text,label) {
 		text.text = label;
 		text.updateText();
-		text.x = (950 - text.width) / 2;
+		text.x = (model_DefaultValues.getGeneralConfig().phaserGameWidth - text.width) / 2;
 	}
 };
 var react_ReactMacro = function() { };
@@ -2526,8 +2538,6 @@ model_ControlType.AWSD = "keys_awsd";
 model_ControlType.BOT_SIMPLE = "bot_simple";
 model_ControlType.BOT_HARD = "bot_hard";
 model_ControlType.NONE = "none";
-model_DefaultValues.phaserGameWidth = 950;
-model_DefaultValues.phaserGameHeight = 654;
 model_DefaultValues.mobTypes = ["mob1lvl","mob2lvl","mob3lvl","mob4lvl","mob5lvl"];
 model_DefaultValues.mobLabels = ["lvl 1","lvl 2","lvl 3","lvl 4","lvl 5"];
 model_DefaultValues.objectsSmall = "objects_small";
@@ -2538,7 +2548,6 @@ model_DefaultValues.objectsTreePositionRandomizer = 100;
 model_DefaultValues.forestPoints = [[100,100],[300,100],[500,100],[700,100],[100,500],[300,500],[500,500],[700,500]];
 model_DefaultValues.mobSpeeds = [100,5,25,300,300];
 model_DefaultValues.maxMobLvlId = 4;
-model_DefaultValues.maxLvl = 5;
 model_DefaultValues.botSimpleTimeoutDelay = 1000;
 model_DefaultValues.botHardTimeoutDelay = 750;
 model_DefaultValues.mobTimeoutDelay = 1000;

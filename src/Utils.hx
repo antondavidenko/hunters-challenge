@@ -13,11 +13,11 @@ class Utils {
     }
 
     static public function getRandomScreenX():Int {
-        return Std.random(DefaultValues.phaserGameWidth);
+        return Std.random(DefaultValues.getGeneralConfig().phaserGameWidth);
     }
 
     static public function getRandomScreenY():Int {
-        return Std.random(DefaultValues.phaserGameHeight);
+        return Std.random(DefaultValues.getGeneralConfig().phaserGameHeight);
     }
 
     static public function getSkinByColor(color:String):Int {
@@ -79,6 +79,7 @@ class DataParser {
         parseAbstractCharacterAssetsConfig(data.PlayersAssets);
         parseAbstractCharacterAssetsConfig(data.MobsAssets);
         parseGameConfiguration(data.MainMenu.defaultGameConfiguration);
+        parseGeneral(data.General);
         return data;
     }
 
@@ -92,5 +93,11 @@ class DataParser {
         config.baseExpGain = Std.parseInt(config.baseExpGain);
         config.teamMode = config.teamMode == "true";
         config.mobAmount = Std.parseInt(config.mobAmount);
+    }
+
+    static private function parseGeneral(config:Dynamic) {
+        config.phaserGameWidth = Std.parseInt(config.phaserGameWidth);
+        config.phaserGameHeight = Std.parseInt(config.phaserGameHeight);
+        config.maxLvl = Std.parseInt(config.maxLvl);
     }
 }

@@ -1,10 +1,13 @@
 package htmlcontrols.mainmenu;
 
+import model.DefaultValues;
+import model.Localization;
 import model.DataTypes.Page;
 import model.DataTypes.GameConfiguration;
 import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactMacro.jsx;
+import htmlcontrols.mainmenu.lobby.SelectInput;
 
 typedef GamePlayOptionsProps = {
     var data:Map<Page, GameConfiguration>;
@@ -25,32 +28,26 @@ class GamePlayOptions extends ReactComponentOfProps<GamePlayOptionsProps> {
         }
         return jsx('<table><tbody>
         <tr>
-            <th className="fifthWidth"><b>Mobs amount</b></th>
-            <th className="fifthWidth"><b>Base exp gain</b></th>
-            <th className="fifthWidth"><b>Labels</b></th>
-            <th className="fifthWidth"><b>Screen mode</b></th>
+            <th className="fifthWidth"><b>{Localization.get("html_mainMenu_options_screenMode")}</b></th>
         </tr>
         <tr>
-            <td><input id="mobsAmount" type="text" placeholder="Enter mobs amount" value="${state.mobAmount}" className="fifthWidth" onChange="${onChange}"/></td>
-            <td><input id="baseExp" type="text" placeholder="Base exp gain" defaultValue="25" className="fifthWidth"/></td>
             <td>
-                <select id="labelsSwitcher" className="fifthWidth">
-                    <option value="ON">ON</option>
-                    <option value="OFF">OFF</option>
-                </select>
-            </td>
-            <td>
-                <select id="modeSwitcher" className="fifthWidth">
-                    <option value="Fullscreen">Fullscreen</option>
-                    <option value="Windowed">Windowed</option>
-                </select>
+            <input id="mobsAmount" type="hidden" placeholder="Enter mobs amount" value="${state.mobAmount}" className="fifthWidth"/>
+            <input id="baseExp" type="hidden" placeholder="Base exp gain" defaultValue="25" className="fifthWidth"/>
+            <input id="labelsSwitcher" type="hidden" defaultValue="ON"/>
+            <SelectInput className="fifthWidth" defaultValue="${this.getDefaultScreenOption()}" id="modeSwitcher" options=${this.getScreenOptions()}/>
             </td>
         </tr>
         </tbody></table>');
     }
 
-    private function onChange(event):Void {
-        var page = state.page;
-        this.setState({mobAmount:event.target.value, page:page});
+    function getScreenOptions():Array<String> { return [
+        Localization.get("html_mainMenu_options_fullscreen"),
+        Localization.get("html_mainMenu_options_windowed")];
+    }
+
+    function getDefaultScreenOption():String {
+        var screenMode:String = DefaultValues.getMainMenuConfig().defaultGameConfiguration.screenMode;
+        return (screenMode == "Fullscreen")?"Fullscreen":"Windowed";
     }
 }

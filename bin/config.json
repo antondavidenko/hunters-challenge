@@ -1,11 +1,14 @@
 {"configsList": {
   "General": {
-    "localizationFile": "./localization/en.json"
+    "localizationFile": "./localization/en.json",
+    "phaserGameWidth": "950",
+    "phaserGameHeight": "654",
+    "maxLvl": "5"
   },
   "MainMenu": {
     "defaultGameConfiguration": {
       "slots":[],
-      "screenMode":"Fullscreen",
+      "screenMode":"Windowed",
       "showLabel":"true",
       "baseExpGain":"25",
       "teamMode":"false",
@@ -16,7 +19,10 @@
       "slots":[
         {"slotNum":"1", "charType":"horseman", "control":"mouse", "spawnPointId":"2", "skin":"1"},
         {"slotNum":"2", "charType":"bowman", "control":"arrows", "spawnPointId":"3", "skin":"2"},
-        {"slotNum":"3", "charType":"mage", "control":"awsd", "spawnPointId":"4", "skin":"3"}
+        {"slotNum":"3", "charType":"mage", "control":"awsd", "spawnPointId":"4", "skin":"3"},
+        {"slotNum":"4", "charType":"swordman", "control":"none", "spawnPointId":"2", "skin":"2"},
+        {"slotNum":"5", "charType":"swordman", "control":"none", "spawnPointId":"3", "skin":"2"},
+        {"slotNum":"6", "charType":"swordman", "control":"none", "spawnPointId":"4", "skin":"2"}
       ],
       "mobAmount":"2"
     },

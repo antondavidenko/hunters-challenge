@@ -17,5 +17,9 @@
     "html_mainMenu_help_swordmanDescription": "Fight master, quick-armed swordman is always ready for a quick fight.",
     "html_mainMenu_help_mageDescription": "A wise and smart mage can cast a spell,  put enchant and even bring charm.",
     "html_mainMenu_help_elfDescription": "Like a mystery the elf always has secrets and they will be hidden from others before it to late to stop it.",
-    "html_mainMenu_help_assassinDescription": "Ready for assassination for any moment with or without any reasons. No complaints, no regrets."
+    "html_mainMenu_help_assassinDescription": "Ready for assassination for any moment with or without any reasons. No complaints, no regrets.",
+
+    "html_mainMenu_options_screenMode": "Screen mode",
+    "html_mainMenu_options_fullscreen": "Fullscreen",
+    "html_mainMenu_options_windowed": "Windowed"
 }}
