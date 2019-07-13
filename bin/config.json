@@ -5,7 +5,18 @@
     "phaserGameHeight": "654",
     "maxLvl": "5"
   },
+  "Location": {
+    "objectsSmallKey":"objects_small",
+    "objectsSmallAssets":"assets/objects_small.png",
+    "objectsTreeKey":"objects_tree",
+    "objectsTreeAssets":"assets/objects_tree.png",
+    "objectsSmallAmount":"100",
+    "objectsTreeAmount":"25",
+    "objectsTreePositionRandomizer":"100",
+    "forestPoints": ["100,100", "300,100", "500,100", "700,100", "100,500", "300,500", "500,500", "700, 500"]
+  },
   "MainMenu": {
+    "maxMainMenuSize":"622",
     "defaultGameConfiguration": {
       "slots":[],
       "screenMode":"Windowed",

@@ -681,7 +681,8 @@ htmlcontrols_MainMenuControl.prototype = {
 		htmlData.value = value;
 	}
 	,onResize: function(windowWidth,windowHeight) {
-		this.loginPanel.style.marginTop = (windowHeight - 622) / 2 + "px";
+		var maxMainMenuSize = Std.parseInt(model_DefaultValues.getMainMenuConfig().maxMainMenuSize);
+		this.loginPanel.style.marginTop = (windowHeight - maxMainMenuSize) / 2 + "px";
 	}
 	,hide: function() {
 		this.loginPanel.style.display = "none";
@@ -1387,6 +1388,9 @@ model_DefaultValues.setDataStorage = function(newDataStorage) {
 model_DefaultValues.getGeneralConfig = function() {
 	return model_DefaultValues.dataStorage.General;
 };
+model_DefaultValues.getLocationConfig = function() {
+	return model_DefaultValues.dataStorage.Location;
+};
 model_DefaultValues.getMainMenuConfig = function() {
 	return model_DefaultValues.dataStorage.MainMenu;
 };
@@ -1967,44 +1971,48 @@ phasergame_sceneobjects_Background.prototype = {
 };
 var phasergame_sceneobjects_LocationDetailsCollection = function(phaserScene) {
 	this.phaserScene = phaserScene;
+	this.config = model_DefaultValues.getLocationConfig();
 };
 phasergame_sceneobjects_LocationDetailsCollection.__name__ = true;
 phasergame_sceneobjects_LocationDetailsCollection.prototype = {
 	preload: function() {
 		var frameSize = 32;
 		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
-		this.phaserScene.load.spritesheet("objects_small","assets/objects_small.png",frmeConfig);
-		this.phaserScene.load.spritesheet("objects_tree","assets/objects_tree.png",frmeConfig);
+		this.phaserScene.load.spritesheet(this.config.objectsSmallKey,this.config.objectsSmallAssets,frmeConfig);
+		this.phaserScene.load.spritesheet(this.config.objectsTreeKey,this.config.objectsTreeAssets,frmeConfig);
 	}
 	,init: function() {
 		this.spawnSmallObjects();
 		var _g = 0;
-		var _g1 = model_DefaultValues.forestPoints;
+		var _g1 = this.config.forestPoints;
 		while(_g < _g1.length) {
 			var point = _g1[_g];
 			++_g;
-			this.spawnForest(point[0],point[1]);
+			var points = point.split(",");
+			this.spawnForest(Std.parseInt(points[0]),Std.parseInt(points[1]));
 		}
 	}
 	,spawnSmallObjects: function() {
-		var _g = 0;
-		while(_g < 100) {
-			var i = _g++;
+		var _g1 = 0;
+		var _g = this.config.objectsSmallAmount;
+		while(_g1 < _g) {
+			var i = _g1++;
 			var randomX = Utils.getRandomScreenX();
 			var randomY = Utils.getRandomScreenY();
 			var randomDecorId = Std.random(9);
-			var sprite = this.phaserScene.add.sprite(randomX,randomY,"objects_small",randomDecorId).setScale(1.25);
+			var sprite = this.phaserScene.add.sprite(randomX,randomY,this.config.objectsSmallKey,randomDecorId).setScale(1.25);
 			sprite.depth = sprite.y;
 		}
 	}
 	,spawnForest: function(forestX,forestY) {
-		var delta = 100;
-		var _g = 0;
-		while(_g < 25) {
-			var i = _g++;
+		var delta = this.config.objectsTreePositionRandomizer;
+		var _g1 = 0;
+		var _g = this.config.objectsTreeAmount;
+		while(_g1 < _g) {
+			var i = _g1++;
 			var spawnX = forestX + (delta / 2 - Std.random(delta) | 0);
 			var spawnY = forestY + (delta / 2 - Std.random(delta) | 0);
-			var sprite = this.phaserScene.add.sprite(spawnX,spawnY,"objects_tree").setScale(1.75);
+			var sprite = this.phaserScene.add.sprite(spawnX,spawnY,this.config.objectsTreeKey).setScale(1.75);
 			sprite.depth = sprite.y;
 		}
 	}
@@ -2540,18 +2548,11 @@ model_ControlType.BOT_HARD = "bot_hard";
 model_ControlType.NONE = "none";
 model_DefaultValues.mobTypes = ["mob1lvl","mob2lvl","mob3lvl","mob4lvl","mob5lvl"];
 model_DefaultValues.mobLabels = ["lvl 1","lvl 2","lvl 3","lvl 4","lvl 5"];
-model_DefaultValues.objectsSmall = "objects_small";
-model_DefaultValues.objectsTree = "objects_tree";
-model_DefaultValues.objectsSmallAmount = 100;
-model_DefaultValues.objectsTreeAmount = 25;
-model_DefaultValues.objectsTreePositionRandomizer = 100;
-model_DefaultValues.forestPoints = [[100,100],[300,100],[500,100],[700,100],[100,500],[300,500],[500,500],[700,500]];
 model_DefaultValues.mobSpeeds = [100,5,25,300,300];
 model_DefaultValues.maxMobLvlId = 4;
+model_DefaultValues.mobTimeoutDelay = 1000;
 model_DefaultValues.botSimpleTimeoutDelay = 1000;
 model_DefaultValues.botHardTimeoutDelay = 750;
-model_DefaultValues.mobTimeoutDelay = 1000;
-model_DefaultValues.MaxMainMenuSize = 622;
 model_Localization.localizationStorage = new haxe_ds_StringMap();
 model_MainMenuDefaultValues.gameConfigurationsData = new haxe_ds_EnumValueMap();
 model_MainMenuDefaultValues.page = model_Page.PVE;

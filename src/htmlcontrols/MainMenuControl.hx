@@ -78,7 +78,8 @@ class MainMenuControl {
     }
 
     public function onResize(windowWidth:Int, windowHeight:Int):Void {
-        loginPanel.style.marginTop = (windowHeight - DefaultValues.MaxMainMenuSize)/2 + 'px';
+        var maxMainMenuSize:Int = Std.parseInt(DefaultValues.getMainMenuConfig().maxMainMenuSize);
+        loginPanel.style.marginTop = (windowHeight - maxMainMenuSize)/2 + 'px';
     }
 
     public function hide():Void {

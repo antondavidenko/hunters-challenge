@@ -35,6 +35,7 @@ typedef PositionRange = {
 }
 
 typedef MainMenuConfig = {
+    var maxMainMenuSize:String;
     var spawnPoints:Array<String>;
     var pvpGameConfiguration:Array<SlotConfig>;
     var pveGameConfiguration:Array<SlotConfig>;
@@ -48,4 +49,15 @@ typedef SlotConfig = {
     var control:String;
     var spawnPointId:String;
     var skin:String;
+}
+
+typedef LocationConfig = {
+    var objectsSmallKey:String;
+    var objectsSmallAssets:String;
+    var objectsTreeKey:String;
+    var objectsTreeAssets:String;
+    var objectsSmallAmount:Int;
+    var objectsTreeAmount:Int;
+    var objectsTreePositionRandomizer:Int;
+    var forestPoints:Array<String>;
 }

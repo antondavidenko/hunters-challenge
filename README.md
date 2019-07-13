@@ -9,6 +9,7 @@ MOBILE:
 REFACTOR:
 - move menu config to external json
 - move all default values to external json
+- MoverCharacters to DeirrectionDefiner
 
 GAME LOOP:
 - harvest mode = ???
