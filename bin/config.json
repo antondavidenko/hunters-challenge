@@ -2,7 +2,14 @@
   "General": {
     "localizationFile": "./localization/en.json",
     "phaserGameWidth": "950",
-    "phaserGameHeight": "654",
+    "phaserGameHeight": "654"
+  },
+  "Gameplay": {
+    "mobSpeeds": [100, 5, 25, 300, 300],
+    "maxMobLvlId": "4",
+    "mobTimeoutDelay": "1000",
+    "botSimpleTimeoutDelay": "1000",
+    "botHardTimeoutDelay": "750",
     "maxLvl": "5"
   },
   "Location": {

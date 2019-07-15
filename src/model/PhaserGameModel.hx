@@ -25,7 +25,7 @@ class PhaserGameModel {
 
     static public function init(configuration:GameConfiguration):Void {
         mobAmount = configuration.mobAmount;
-        maxLvl = DefaultValues.getGeneralConfig().maxLvl;
+        maxLvl = DefaultValues.getGameplayConfig().maxLvl;
         baseExpGain = configuration.baseExpGain;
         screenMode = configuration.screenMode;
         showLabel = configuration.showLabel;

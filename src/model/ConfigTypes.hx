@@ -6,10 +6,9 @@ typedef GeneralConfig = {
     var localizationFile:String;
     var phaserGameWidth:Int;
     var phaserGameHeight:Int;
-    var maxLvl:Int;
 }
 
-typedef AbstractCharacterAssetsConfig = {
+typedef CharactersAssetsConfig = {
     var frameSize:Int;
     var skins:Int;
     var assetsList:Array<AssetConfig>;
@@ -60,4 +59,13 @@ typedef LocationConfig = {
     var objectsTreeAmount:Int;
     var objectsTreePositionRandomizer:Int;
     var forestPoints:Array<String>;
+}
+
+typedef GameplayConfig = {
+    var mobSpeeds:Array<Int>;
+    var maxMobLvlId:Int;
+    var mobTimeoutDelay:Int;
+    var botSimpleTimeoutDelay:Int;
+    var botHardTimeoutDelay:Int;
+    var maxLvl:Int;
 }

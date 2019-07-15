@@ -1,6 +1,7 @@
 package phasergame.sceneobjects;
 
-import model.ConfigTypes.AbstractCharacterAssetsConfig;
+import model.ConfigTypes.GameplayConfig;
+import model.ConfigTypes.CharactersAssetsConfig;
 import model.DefaultValues;
 import phaser.loader.filetypes.ImageFrameConfig;
 import model.DataTypes.ControlType;
@@ -12,13 +13,15 @@ class MobsCollection {
 
     private var phaserScene:phaser.Scene;
     private var allMobList:Array<MovingObject> = [];
+    private var config:GameplayConfig;
 
     public function new(phaserScene:phaser.Scene) {
         this.phaserScene = phaserScene;
+        config = DefaultValues.getGameplayConfig();
     }
 
     public function preload() {
-        var mobsAssetsConfig:AbstractCharacterAssetsConfig = DefaultValues.getMobsAssetsConfig();
+        var mobsAssetsConfig:CharactersAssetsConfig = DefaultValues.getMobsAssetsConfig();
         var frmeConfig:ImageFrameConfig = {frameWidth:mobsAssetsConfig.frameSize, frameHeight:mobsAssetsConfig.frameSize};
         for (asset in mobsAssetsConfig.assetsList) {
             phaserScene.load.spritesheet(asset.id, asset.url, frmeConfig);
@@ -33,7 +36,7 @@ class MobsCollection {
             var mobState:MovingObjectState = createMobStateByLvl(lvlId, mobId);
             var mob = new MovingObject(phaserScene, mobState);
             mob.init();
-            mob.setSpeed(DefaultValues.mobSpeeds[lvlId]);
+            mob.setSpeed(config.mobSpeeds[lvlId]);
             allMobList.push(mob);
             PhaserGameModel.mobsData[mob.getPhysicBody().name] = {currentLevel:1};
             mobId++;
@@ -84,10 +87,10 @@ class MobsCollection {
 
     private function respawnMob(mob:MovingObject) {
         var lvlId:Int = Std.random(PhaserGameModel.maxLvlInGame + 1);
-        lvlId = (lvlId > DefaultValues.maxMobLvlId) ? DefaultValues.maxMobLvlId : lvlId;
+        lvlId = (lvlId > config.maxMobLvlId) ? config.maxMobLvlId : lvlId;
         var mobState:MovingObjectState = createMobStateByLvl(lvlId, 0);
         mob.reinit(mobState);
-        mob.setSpeed(DefaultValues.mobSpeeds[lvlId]);
+        mob.setSpeed(config.mobSpeeds[lvlId]);
         mob.setXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
         mob.setGoToXY(Utils.getRandomScreenX(), Utils.getRandomScreenY());
         mob.releaseCollisionState();

@@ -76,14 +76,14 @@ class Loader {
 
 class DataParser {
     static public function parse(data:Dynamic):Dynamic {
-        parseAbstractCharacterAssetsConfig(data.PlayersAssets);
-        parseAbstractCharacterAssetsConfig(data.MobsAssets);
+        parseCharactersAssetsConfig(data.PlayersAssets);
+        parseCharactersAssetsConfig(data.MobsAssets);
         parseGameConfiguration(data.MainMenu.defaultGameConfiguration);
         parseGeneral(data.General);
         return data;
     }
 
-    static private function parseAbstractCharacterAssetsConfig(assetsConfig:Dynamic) {
+    static private function parseCharactersAssetsConfig(assetsConfig:Dynamic) {
         assetsConfig.frameSize = Std.parseInt(assetsConfig.frameSize);
         assetsConfig.skins = Std.parseInt(assetsConfig.skins);
     }

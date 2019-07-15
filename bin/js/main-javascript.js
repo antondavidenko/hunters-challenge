@@ -265,13 +265,13 @@ Loader.loadFile = function(fileUrl,onLoad) {
 var DataParser = function() { };
 DataParser.__name__ = true;
 DataParser.parse = function(data) {
-	DataParser.parseAbstractCharacterAssetsConfig(data.PlayersAssets);
-	DataParser.parseAbstractCharacterAssetsConfig(data.MobsAssets);
+	DataParser.parseCharactersAssetsConfig(data.PlayersAssets);
+	DataParser.parseCharactersAssetsConfig(data.MobsAssets);
 	DataParser.parseGameConfiguration(data.MainMenu.defaultGameConfiguration);
 	DataParser.parseGeneral(data.General);
 	return data;
 };
-DataParser.parseAbstractCharacterAssetsConfig = function(assetsConfig) {
+DataParser.parseCharactersAssetsConfig = function(assetsConfig) {
 	assetsConfig.frameSize = Std.parseInt(assetsConfig.frameSize);
 	assetsConfig.skins = Std.parseInt(assetsConfig.skins);
 };
@@ -1388,6 +1388,9 @@ model_DefaultValues.setDataStorage = function(newDataStorage) {
 model_DefaultValues.getGeneralConfig = function() {
 	return model_DefaultValues.dataStorage.General;
 };
+model_DefaultValues.getGameplayConfig = function() {
+	return model_DefaultValues.dataStorage.Gameplay;
+};
 model_DefaultValues.getLocationConfig = function() {
 	return model_DefaultValues.dataStorage.Location;
 };
@@ -1464,7 +1467,7 @@ var model_PhaserGameModel = function() { };
 model_PhaserGameModel.__name__ = true;
 model_PhaserGameModel.init = function(configuration) {
 	model_PhaserGameModel.mobAmount = configuration.mobAmount;
-	model_PhaserGameModel.maxLvl = model_DefaultValues.getGeneralConfig().maxLvl;
+	model_PhaserGameModel.maxLvl = model_DefaultValues.getGameplayConfig().maxLvl;
 	model_PhaserGameModel.baseExpGain = configuration.baseExpGain;
 	model_PhaserGameModel.screenMode = configuration.screenMode;
 	model_PhaserGameModel.showLabel = configuration.showLabel;
@@ -1661,14 +1664,15 @@ phasergame_CollisionDetector.prototype = {
 		}
 	}
 };
-var phasergame_MoverCharacters = function() {
+var phasergame_DirectionDefiner = function() {
 	this.isPause = false;
 	this.onPointerpressed = false;
 	this.allPlayersList = [];
 	this.allMobList = [];
+	this.config = model_DefaultValues.getGameplayConfig();
 };
-phasergame_MoverCharacters.__name__ = true;
-phasergame_MoverCharacters.prototype = {
+phasergame_DirectionDefiner.__name__ = true;
+phasergame_DirectionDefiner.prototype = {
 	setPause: function(pause) {
 		this.isPause = pause;
 	}
@@ -1684,7 +1688,7 @@ phasergame_MoverCharacters.prototype = {
 		while(_g < allMobList.length) {
 			var currentMob = allMobList[_g];
 			++_g;
-			this.simpleBotModel(currentMob,1000);
+			this.simpleBotModel(currentMob,this.config.mobTimeoutDelay);
 		}
 	}
 	,initPlayers: function(allPlayersList) {
@@ -1696,11 +1700,11 @@ phasergame_MoverCharacters.prototype = {
 			var id = currentPlayer.getPhysicBody().name;
 			var _this = model_PhaserGameModel.playersData;
 			if((__map_reserved[id] != null ? _this.getReserved(id) : _this.h[id]).control == "bot_simple") {
-				this.simpleBotModel(currentPlayer,1000);
+				this.simpleBotModel(currentPlayer,this.config.botSimpleTimeoutDelay);
 			} else {
 				var _this1 = model_PhaserGameModel.playersData;
 				if((__map_reserved[id] != null ? _this1.getReserved(id) : _this1.h[id]).control == "bot_hard") {
-					this.hardBotModel(currentPlayer,750);
+					this.hardBotModel(currentPlayer,this.config.botHardTimeoutDelay);
 				}
 			}
 		}
@@ -1867,7 +1871,7 @@ var phasergame_PhaserScene = function(sidePanelControl) {
 	this.textLabelsCollection = new phasergame_sceneobjects_TextLabelsCollection(this);
 	this.locationDetailsCollection = new phasergame_sceneobjects_LocationDetailsCollection(this);
 	this.collisionDetector = new phasergame_CollisionDetector(this);
-	this.moverCharacters = new phasergame_MoverCharacters();
+	this.moverCharacters = new phasergame_DirectionDefiner();
 	this.sidePanelControl = sidePanelControl;
 	phasergame_PhaserGameActions.countUpFinish.add($bind(this,this.onGameStart));
 };
@@ -2020,6 +2024,7 @@ phasergame_sceneobjects_LocationDetailsCollection.prototype = {
 var phasergame_sceneobjects_MobsCollection = function(phaserScene) {
 	this.allMobList = [];
 	this.phaserScene = phaserScene;
+	this.config = model_DefaultValues.getGameplayConfig();
 };
 phasergame_sceneobjects_MobsCollection.__name__ = true;
 phasergame_sceneobjects_MobsCollection.prototype = {
@@ -2052,7 +2057,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 			var mobState = this.createMobStateByLvl(lvlId,mobId);
 			var mob1 = new phasergame_sceneobjects_MovingObject(this.phaserScene,mobState);
 			mob1.init();
-			mob1.setSpeed(model_DefaultValues.mobSpeeds[lvlId]);
+			mob1.setSpeed(this.config.mobSpeeds[lvlId]);
 			this.allMobList.push(mob1);
 			var this1 = model_PhaserGameModel.mobsData;
 			var k = mob1.getPhysicBody().name;
@@ -2104,14 +2109,14 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	}
 	,respawnMob: function(mob) {
 		var lvlId = Std.random(model_PhaserGameModel.maxLvlInGame + 1);
-		if(lvlId > model_DefaultValues.maxMobLvlId) {
-			lvlId = model_DefaultValues.maxMobLvlId;
+		if(lvlId > this.config.maxMobLvlId) {
+			lvlId = this.config.maxMobLvlId;
 		} else {
 			lvlId = lvlId;
 		}
 		var mobState = this.createMobStateByLvl(lvlId,0);
 		mob.reinit(mobState);
-		mob.setSpeed(model_DefaultValues.mobSpeeds[lvlId]);
+		mob.setSpeed(this.config.mobSpeeds[lvlId]);
 		mob.setXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 		mob.setGoToXY(Utils.getRandomScreenX(),Utils.getRandomScreenY());
 		mob.releaseCollisionState();
@@ -2547,12 +2552,6 @@ model_ControlType.BOT_SIMPLE = "bot_simple";
 model_ControlType.BOT_HARD = "bot_hard";
 model_ControlType.NONE = "none";
 model_DefaultValues.mobTypes = ["mob1lvl","mob2lvl","mob3lvl","mob4lvl","mob5lvl"];
-model_DefaultValues.mobLabels = ["lvl 1","lvl 2","lvl 3","lvl 4","lvl 5"];
-model_DefaultValues.mobSpeeds = [100,5,25,300,300];
-model_DefaultValues.maxMobLvlId = 4;
-model_DefaultValues.mobTimeoutDelay = 1000;
-model_DefaultValues.botSimpleTimeoutDelay = 1000;
-model_DefaultValues.botHardTimeoutDelay = 750;
 model_Localization.localizationStorage = new haxe_ds_StringMap();
 model_MainMenuDefaultValues.gameConfigurationsData = new haxe_ds_EnumValueMap();
 model_MainMenuDefaultValues.page = model_Page.PVE;

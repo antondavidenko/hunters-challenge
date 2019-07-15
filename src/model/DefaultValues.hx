@@ -1,21 +1,14 @@
 package model;
 
+import model.ConfigTypes.GameplayConfig;
 import model.ConfigTypes.LocationConfig;
 import model.ConfigTypes.GeneralConfig;
 import model.ConfigTypes.MovingObjectConfig;
-import model.ConfigTypes.AbstractCharacterAssetsConfig;
+import model.ConfigTypes.CharactersAssetsConfig;
 import model.ConfigTypes.MainMenuConfig;
 
 class DefaultValues {
     static public var mobTypes:Array<String> = ["mob1lvl", "mob2lvl", "mob3lvl", "mob4lvl", "mob5lvl"];
-    static public var mobLabels:Array<String> = ["lvl 1", "lvl 2", "lvl 3", "lvl 4", "lvl 5"];
-    static public var mobSpeeds:Array<Int> = [100, 5, 25, 300, 300];
-    static public var maxMobLvlId = 4;
-    static public inline var mobTimeoutDelay:Int = 1000;
-
-    static public inline var botSimpleTimeoutDelay:Int = 1000;
-    static public inline var botHardTimeoutDelay:Int = 750;
-
     static private var dataStorage:Dynamic;
 
     static public function setDataStorage(newDataStorage:Dynamic):Void {
@@ -26,6 +19,10 @@ class DefaultValues {
         return dataStorage.General;
     }
 
+    static public function getGameplayConfig():GameplayConfig {
+        return dataStorage.Gameplay;
+    }
+
     static public function getLocationConfig():LocationConfig {
         return dataStorage.Location;
     }
@@ -34,11 +31,11 @@ class DefaultValues {
         return dataStorage.MainMenu;
     }
 
-    static public function getMobsAssetsConfig():AbstractCharacterAssetsConfig {
+    static public function getMobsAssetsConfig():CharactersAssetsConfig {
         return dataStorage.MobsAssets;
     }
 
-    static public function getPlayersAssetsConfig():AbstractCharacterAssetsConfig {
+    static public function getPlayersAssetsConfig():CharactersAssetsConfig {
         return dataStorage.PlayersAssets;
     }
 

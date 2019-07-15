@@ -1,12 +1,13 @@
 package phasergame;
 
+import model.ConfigTypes.GameplayConfig;
 import model.DefaultValues;
 import phaser.input.keyboard.CursorKeys;
 import model.DataTypes.ControlType;
 import model.PhaserGameModel;
 import phasergame.sceneobjects.MovingObject;
 
-class MoverCharacters {
+class DirectionDefiner {
 
     private var allMobList:Array<MovingObject> = [];
     private var allPlayersList:Array<MovingObject> = [];
@@ -14,8 +15,11 @@ class MoverCharacters {
     private var cursor:CursorKeys;
     private var onPointerpressed:Bool = false;
     private var isPause:Bool = false;
+    private var config:GameplayConfig;
 
-    public function new() {}
+    public function new() {
+        config = DefaultValues.getGameplayConfig();
+    }
 
     public function setPause(pause:Bool):Void {
         isPause = pause;
@@ -33,7 +37,7 @@ class MoverCharacters {
         this.allMobList = allMobList;
 
         for (currentMob in allMobList) {
-            simpleBotModel(currentMob, DefaultValues.mobTimeoutDelay);
+            simpleBotModel(currentMob, config.mobTimeoutDelay);
         }
     }
 
@@ -43,9 +47,9 @@ class MoverCharacters {
         for (currentPlayer in allPlayersList) {
             var id:String = currentPlayer.getPhysicBody().name;
             if (PhaserGameModel.playersData[id].control == ControlType.BOT_SIMPLE) {
-                simpleBotModel(currentPlayer, DefaultValues.botSimpleTimeoutDelay);
+                simpleBotModel(currentPlayer, config.botSimpleTimeoutDelay);
             } else if (PhaserGameModel.playersData[id].control == ControlType.BOT_HARD) {
-                hardBotModel(currentPlayer, DefaultValues.botHardTimeoutDelay);
+                hardBotModel(currentPlayer, config.botHardTimeoutDelay);
             }
         }
     }

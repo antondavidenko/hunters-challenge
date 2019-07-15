@@ -63,7 +63,7 @@ class PhaserScene extends phaser.Scene {
 
     private var sidePanelControl:SidePanelControl;
     private var collisionDetector:CollisionDetector;
-    private var moverCharacters:MoverCharacters;
+    private var moverCharacters:DirectionDefiner;
 
     private var isPaused:Bool = false;
 
@@ -75,7 +75,7 @@ class PhaserScene extends phaser.Scene {
         textLabelsCollection = new TextLabelsCollection(this);
         locationDetailsCollection = new LocationDetailsCollection(this);
         collisionDetector = new CollisionDetector(this);
-        moverCharacters = new MoverCharacters();
+        moverCharacters = new DirectionDefiner();
         this.sidePanelControl = sidePanelControl;
         PhaserGameActions.countUpFinish.add(onGameStart);
     }
