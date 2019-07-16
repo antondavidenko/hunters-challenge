@@ -4,11 +4,12 @@ import model.ConfigTypes.GameplayConfig;
 import model.ConfigTypes.LocationConfig;
 import model.ConfigTypes.GeneralConfig;
 import model.ConfigTypes.MovingObjectConfig;
-import model.ConfigTypes.CharactersAssetsConfig;
+import model.ConfigTypes.AssetsConfig;
 import model.ConfigTypes.MainMenuConfig;
 
 class DefaultValues {
     static public var mobTypes:Array<String> = ["mob1lvl", "mob2lvl", "mob3lvl", "mob4lvl", "mob5lvl"];
+
     static private var dataStorage:Dynamic;
 
     static public function setDataStorage(newDataStorage:Dynamic):Void {
@@ -27,15 +28,19 @@ class DefaultValues {
         return dataStorage.Location;
     }
 
+    static public function getLocationAssetsConfig():AssetsConfig {
+        return dataStorage.LocationAssets;
+    }
+
     static public function getMainMenuConfig():MainMenuConfig {
         return dataStorage.MainMenu;
     }
 
-    static public function getMobsAssetsConfig():CharactersAssetsConfig {
+    static public function getMobsAssetsConfig():AssetsConfig {
         return dataStorage.MobsAssets;
     }
 
-    static public function getPlayersAssetsConfig():CharactersAssetsConfig {
+    static public function getPlayersAssetsConfig():AssetsConfig {
         return dataStorage.PlayersAssets;
     }
 

@@ -8,13 +8,13 @@ typedef GeneralConfig = {
     var phaserGameHeight:Int;
 }
 
-typedef CharactersAssetsConfig = {
+typedef AssetsConfig = {
     var frameSize:Int;
     var skins:Int;
-    var assetsList:Array<AssetConfig>;
+    var assetsList:Array<AssetItem>;
 }
 
-typedef AssetConfig = {
+typedef AssetItem = {
     var id:String;
     var url:String;
 }
@@ -51,10 +51,6 @@ typedef SlotConfig = {
 }
 
 typedef LocationConfig = {
-    var objectsSmallKey:String;
-    var objectsSmallAssets:String;
-    var objectsTreeKey:String;
-    var objectsTreeAssets:String;
     var objectsSmallAmount:Int;
     var objectsTreeAmount:Int;
     var objectsTreePositionRandomizer:Int;

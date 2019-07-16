@@ -267,6 +267,7 @@ DataParser.__name__ = true;
 DataParser.parse = function(data) {
 	DataParser.parseCharactersAssetsConfig(data.PlayersAssets);
 	DataParser.parseCharactersAssetsConfig(data.MobsAssets);
+	DataParser.parseCharactersAssetsConfig(data.LocationAssets);
 	DataParser.parseGameConfiguration(data.MainMenu.defaultGameConfiguration);
 	DataParser.parseGeneral(data.General);
 	return data;
@@ -667,7 +668,7 @@ htmlcontrols_MainMenuControl.prototype = {
 	}
 	,setSlot: function(i) {
 		var spawnXY = Std.string(this.getById("slot" + i + "Spawn")).split(",");
-		this.configuration.slots[i] = { label : this.getById("slot" + i + "Label"), charType : this.getById("slot" + i + "Class"), control : this.getById("slot" + i + "Control"), x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), name : "p" + i, skin : Utils.getSkinByColor(this.getById("slot" + i + "Skin"))};
+		this.configuration.slots[i] = { label : this.getById("slot" + i + "Label"), charType : this.getById("slot" + i + "Class"), control : this.getById("slot" + i + "Control"), x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), id : "p" + i, skin : Utils.getSkinByColor(this.getById("slot" + i + "Skin"))};
 	}
 	,elementIsExist: function(i) {
 		return window.document.getElementById("slot" + i + "Label") != null;
@@ -1127,7 +1128,7 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.__name__ = true;
 htmlcontrols_mainmenu_lobby_LobbyPanel.__super__ = React.Component;
 htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.prototype,{
 	render: function() {
-		return { "$$typeof" : $$tre, type : "table", props : { cellPadding : "0", cellSpacing : "0", children : { "$$typeof" : $$tre, type : "tbody", props : { children : [{ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Name"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Class"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Control"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "hidden", children : { "$$typeof" : $$tre, type : "b", props : { children : "Spawn: x,y"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "th", props : { className : "fifthWidth", children : { "$$typeof" : $$tre, type : "b", props : { children : "Color"}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null},this.createChildren()]}, key : null, ref : null}}, key : null, ref : null};
+		return { "$$typeof" : $$tre, type : "div", props : { children : this.createChildren()}, key : null, ref : null};
 	}
 	,createChildren: function() {
 		var _g = [];
@@ -1135,7 +1136,7 @@ htmlcontrols_mainmenu_lobby_LobbyPanel.prototype = $extend(React.Component.proto
 		var _g1 = this.props.slots.length;
 		while(_g2 < _g1) {
 			var i = _g2++;
-			_g.push({ "$$typeof" : $$tre, type : "tr", props : { children : [{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i), className : "fifthWidth"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), className : "fifthWidth", options : this.getOptionsClass()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].control, id : this.getControlId(i), className : "fifthWidth", options : this.getOptionsControl()}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { className : "hidden", children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i), className : "hidden"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "td", props : { children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : Utils.getColorBySkin(this.props.slots[i].skin), id : this.getSkinId(i), className : "fifthWidth", options : this.getOptionsSkin()}, key : null, ref : null}}, key : null, ref : null}]}, key : null, ref : null});
+			_g.push({ "$$typeof" : $$tre, type : "div", props : { className : "menuSlot", children : [{ "$$typeof" : $$tre, type : "div", props : { className : "hidden", children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.props.slots[i].label, id : this.getNameId(i), className : "hidden"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : "div", props : { className : "hidden", children : { "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_TextInput, props : { defaultValue : this.getXY(i), id : this.getSpawnId(i), className : "hidden"}, key : null, ref : null}}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].charType, id : this.getClassId(i), className : "fifthWidth", options : this.getOptionsClass()}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : this.props.slots[i].control, id : this.getControlId(i), className : "fifthWidth", options : this.getOptionsControl()}, key : null, ref : null},{ "$$typeof" : $$tre, type : htmlcontrols_mainmenu_lobby_SelectInput, props : { defaultValue : Utils.getColorBySkin(this.props.slots[i].skin), id : this.getSkinId(i), className : "fifthWidth", options : this.getOptionsSkin()}, key : null, ref : null}]}, key : null, ref : null});
 		}
 		return _g;
 	}
@@ -1394,6 +1395,9 @@ model_DefaultValues.getGameplayConfig = function() {
 model_DefaultValues.getLocationConfig = function() {
 	return model_DefaultValues.dataStorage.Location;
 };
+model_DefaultValues.getLocationAssetsConfig = function() {
+	return model_DefaultValues.dataStorage.LocationAssets;
+};
 model_DefaultValues.getMainMenuConfig = function() {
 	return model_DefaultValues.dataStorage.MainMenu;
 };
@@ -1461,7 +1465,7 @@ model_MainMenuDefaultValues.getSlotArray = function(congigArray) {
 model_MainMenuDefaultValues.getCharStartConfig = function(config) {
 	var prefix = config.control != "bot_hard" && config.control != "bot_simple" ? "Player" : "Bot";
 	var spawnXY = model_MainMenuDefaultValues.spawnPoints[Std.parseInt(config.spawnPointId)].split(",");
-	return { charType : config.charType, x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), label : "" + prefix + " " + config.slotNum, name : "p" + config.slotNum, control : config.control, skin : Std.parseInt(config.skin)};
+	return { charType : config.charType, x : Std.parseInt(spawnXY[0]), y : Std.parseInt(spawnXY[1]), label : "label", id : "p" + config.slotNum, control : config.control, skin : Std.parseInt(config.skin)};
 };
 var model_PhaserGameModel = function() { };
 model_PhaserGameModel.__name__ = true;
@@ -1477,7 +1481,7 @@ model_PhaserGameModel.init = function(configuration) {
 	while(_g < _g1.length) {
 		var slot = _g1[_g];
 		++_g;
-		model_PhaserGameModel.playersStartConfig.push({ label : slot.label, charType : slot.charType, control : slot.control, x : slot.x, y : slot.y, name : slot.name, skin : slot.skin});
+		model_PhaserGameModel.playersStartConfig.push({ label : slot.label, charType : slot.charType, control : slot.control, x : slot.x, y : slot.y, id : slot.id, skin : slot.skin});
 	}
 };
 var msignal_Signal0 = function() {
@@ -1974,16 +1978,23 @@ phasergame_sceneobjects_Background.prototype = {
 	}
 };
 var phasergame_sceneobjects_LocationDetailsCollection = function(phaserScene) {
+	this.objectsTreeKey = "objects_tree";
+	this.objectsSmallKey = "objects_small";
 	this.phaserScene = phaserScene;
 	this.config = model_DefaultValues.getLocationConfig();
 };
 phasergame_sceneobjects_LocationDetailsCollection.__name__ = true;
 phasergame_sceneobjects_LocationDetailsCollection.prototype = {
 	preload: function() {
-		var frameSize = 32;
-		var frmeConfig = { frameWidth : frameSize, frameHeight : frameSize};
-		this.phaserScene.load.spritesheet(this.config.objectsSmallKey,this.config.objectsSmallAssets,frmeConfig);
-		this.phaserScene.load.spritesheet(this.config.objectsTreeKey,this.config.objectsTreeAssets,frmeConfig);
+		var assetsConfig = model_DefaultValues.getLocationAssetsConfig();
+		var frmeConfig = { frameWidth : assetsConfig.frameSize, frameHeight : assetsConfig.frameSize};
+		var _g = 0;
+		var _g1 = assetsConfig.assetsList;
+		while(_g < _g1.length) {
+			var asset = _g1[_g];
+			++_g;
+			this.phaserScene.load.spritesheet(asset.id,asset.url,frmeConfig);
+		}
 	}
 	,init: function() {
 		this.spawnSmallObjects();
@@ -2004,7 +2015,7 @@ phasergame_sceneobjects_LocationDetailsCollection.prototype = {
 			var randomX = Utils.getRandomScreenX();
 			var randomY = Utils.getRandomScreenY();
 			var randomDecorId = Std.random(9);
-			var sprite = this.phaserScene.add.sprite(randomX,randomY,this.config.objectsSmallKey,randomDecorId).setScale(1.25);
+			var sprite = this.phaserScene.add.sprite(randomX,randomY,this.objectsSmallKey,randomDecorId).setScale(1.25);
 			sprite.depth = sprite.y;
 		}
 	}
@@ -2016,7 +2027,7 @@ phasergame_sceneobjects_LocationDetailsCollection.prototype = {
 			var i = _g1++;
 			var spawnX = forestX + (delta / 2 - Std.random(delta) | 0);
 			var spawnY = forestY + (delta / 2 - Std.random(delta) | 0);
-			var sprite = this.phaserScene.add.sprite(spawnX,spawnY,this.config.objectsTreeKey).setScale(1.75);
+			var sprite = this.phaserScene.add.sprite(spawnX,spawnY,this.objectsTreeKey).setScale(1.75);
 			sprite.depth = sprite.y;
 		}
 	}
@@ -2075,7 +2086,7 @@ phasergame_sceneobjects_MobsCollection.prototype = {
 	,createMobStateByLvl: function(lvlId,mobId) {
 		var mobX = Utils.getRandomScreenX();
 		var mobY = Utils.getRandomScreenY();
-		return { label : "", charType : model_DefaultValues.mobTypes[lvlId], control : "bot_simple", x : mobX, y : mobY, name : "m" + mobId, skin : 1};
+		return { label : "", charType : model_DefaultValues.mobTypes[lvlId], control : "bot_simple", x : mobX, y : mobY, id : "m" + mobId, skin : 1};
 	}
 	,update: function(time,delta) {
 		var _g = 0;
@@ -2159,7 +2170,7 @@ phasergame_sceneobjects_MovingObject.prototype = {
 		this.sprite.setSize(16,16);
 		this.sprite.body.offset.x = 8;
 		this.sprite.body.offset.y = 8;
-		this.sprite.name = this.state.name;
+		this.sprite.name = this.state.id;
 		this.sprite.depth = this.state.y;
 		this.setAnimation(this.config.IDLE_POSE_ID);
 		this.setLabel(this.state.label);
@@ -2330,7 +2341,7 @@ phasergame_sceneobjects_PlayersCollection.prototype = {
 			if(playerState != null && playerState.control != "none") {
 				var player = this.preparePlayerByConfig(playerState);
 				var this1 = model_PhaserGameModel.playersData;
-				var k = playerState.name;
+				var k = playerState.id;
 				var v = this.getNewPlayerData(playerState.label,playerState.control,playerState.skin);
 				var _this = this1;
 				if(__map_reserved[k] != null) {

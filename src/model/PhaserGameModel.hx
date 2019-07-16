@@ -38,7 +38,7 @@ class PhaserGameModel {
                 control:slot.control,
                 x:slot.x,
                 y:slot.y,
-                name:slot.name,
+                id:slot.id,
                 skin:slot.skin
             });
         }

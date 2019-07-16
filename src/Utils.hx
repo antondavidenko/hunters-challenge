@@ -78,6 +78,7 @@ class DataParser {
     static public function parse(data:Dynamic):Dynamic {
         parseCharactersAssetsConfig(data.PlayersAssets);
         parseCharactersAssetsConfig(data.MobsAssets);
+        parseCharactersAssetsConfig(data.LocationAssets);
         parseGameConfiguration(data.MainMenu.defaultGameConfiguration);
         parseGeneral(data.General);
         return data;

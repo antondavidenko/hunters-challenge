@@ -1,7 +1,7 @@
 package phasergame.sceneobjects;
 
 import model.ConfigTypes.GameplayConfig;
-import model.ConfigTypes.CharactersAssetsConfig;
+import model.ConfigTypes.AssetsConfig;
 import model.DefaultValues;
 import phaser.loader.filetypes.ImageFrameConfig;
 import model.DataTypes.ControlType;
@@ -21,7 +21,7 @@ class MobsCollection {
     }
 
     public function preload() {
-        var mobsAssetsConfig:CharactersAssetsConfig = DefaultValues.getMobsAssetsConfig();
+        var mobsAssetsConfig:AssetsConfig = DefaultValues.getMobsAssetsConfig();
         var frmeConfig:ImageFrameConfig = {frameWidth:mobsAssetsConfig.frameSize, frameHeight:mobsAssetsConfig.frameSize};
         for (asset in mobsAssetsConfig.assetsList) {
             phaserScene.load.spritesheet(asset.id, asset.url, frmeConfig);
@@ -54,7 +54,7 @@ class MobsCollection {
             control: ControlType.BOT_SIMPLE,
             x: mobX,
             y: mobY,
-            name: "m" + mobId,
+            id: "m" + mobId,
             skin: 1
         };
     }

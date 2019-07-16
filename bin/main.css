@@ -53,6 +53,15 @@ button:hover {
   background-color: #333;
 }
 
+.menuSlot {
+  background-color: #ddd;
+  margin-top: 10px;
+  width: 512px;
+
+  justify-content: space-between;
+  display: flex;
+}
+
 .Player1progress { width: 10%; }
 .Player2progress { width: 20%; }
 .Player3progress { width: 30%; }
@@ -126,6 +135,7 @@ button:hover {
 
 .fifthWidth {
     width: 128px;
+    align-content: space-between;
 }
 
 table {

@@ -18,6 +18,8 @@ GAME LOOP:
 
 OPTIONS:
 - re-design character slot to make it even more game-like = v 0.8
+- add sound option (maybe volume) = v 0.9
+- add localization = v 0.9
 - save options/menu/progress in cookies = ???
 
 GRAPHICS:

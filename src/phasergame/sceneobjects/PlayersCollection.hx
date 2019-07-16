@@ -1,7 +1,7 @@
 package phasergame.sceneobjects;
 
 import model.DefaultValues;
-import model.ConfigTypes.CharactersAssetsConfig;
+import model.ConfigTypes.AssetsConfig;
 import phaser.loader.filetypes.ImageFrameConfig;
 import model.DataTypes.ControlType;
 import model.DataTypes.PlayerData;
@@ -19,7 +19,7 @@ class PlayersCollection {
     }
 
     public function preload() {
-        var playersAssetsConfig:CharactersAssetsConfig = DefaultValues.getPlayersAssetsConfig();
+        var playersAssetsConfig:AssetsConfig = DefaultValues.getPlayersAssetsConfig();
         var frmeConfig:ImageFrameConfig = {frameWidth:playersAssetsConfig.frameSize, frameHeight:playersAssetsConfig.frameSize};
         for (asset in playersAssetsConfig.assetsList) {
             phaserScene.load.spritesheet(asset.id, asset.url, frmeConfig);
@@ -39,7 +39,7 @@ class PlayersCollection {
             var playerState:MovingObjectState = PhaserGameModel.playersStartConfig[i];
             if (playerState != null && playerState.control != ControlType.NONE) {
                 var player:MovingObject = preparePlayerByConfig(playerState);
-                PhaserGameModel.playersData[playerState.name] = getNewPlayerData(playerState.label, playerState.control, playerState.skin);
+                PhaserGameModel.playersData[playerState.id] = getNewPlayerData(playerState.label, playerState.control, playerState.skin);
                 var teamId:String = "team" + playerState.skin;
                 if (PhaserGameModel.playersData[teamId] == null) {
                     PhaserGameModel.playersData[teamId] = getNewPlayerData(teamId, "", -1);

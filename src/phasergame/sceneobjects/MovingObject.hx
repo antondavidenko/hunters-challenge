@@ -37,7 +37,7 @@ class MovingObject {
         sprite.setSize(16, 16);
         sprite.body.offset.x = 8;
         sprite.body.offset.y = 8;
-        sprite.name = state.name;
+        sprite.name = state.id;
         sprite.depth = state.y;
         setAnimation(config.IDLE_POSE_ID);
         setLabel(state.label);

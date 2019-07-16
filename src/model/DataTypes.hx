@@ -36,7 +36,7 @@ typedef MovingObjectState = {
     var x:Int;
     var y:Int;
     var label:String;
-    var name:String;
+    var id:String;
     var control:String;
     var skin:Int;
 }

@@ -12,11 +12,15 @@
     "botHardTimeoutDelay": "750",
     "maxLvl": "5"
   },
+  "LocationAssets": {
+    "frameSize":"32",
+    "skins": "1",
+    "assetsList": [
+      {"id":"objects_small", "url":"assets/objects_small.png"},
+      {"id":"objects_tree", "url":"assets/objects_tree.png"}
+    ]
+  },
   "Location": {
-    "objectsSmallKey":"objects_small",
-    "objectsSmallAssets":"assets/objects_small.png",
-    "objectsTreeKey":"objects_tree",
-    "objectsTreeAssets":"assets/objects_tree.png",
     "objectsSmallAmount":"100",
     "objectsTreeAmount":"25",
     "objectsTreePositionRandomizer":"100",
@@ -36,8 +40,8 @@
     "pvpGameConfiguration": {
       "slots":[
         {"slotNum":"1", "charType":"horseman", "control":"mouse", "spawnPointId":"2", "skin":"1"},
-        {"slotNum":"2", "charType":"bowman", "control":"arrows", "spawnPointId":"3", "skin":"2"},
-        {"slotNum":"3", "charType":"mage", "control":"awsd", "spawnPointId":"4", "skin":"3"},
+        {"slotNum":"2", "charType":"bowman", "control":"keys_arrows", "spawnPointId":"3", "skin":"2"},
+        {"slotNum":"3", "charType":"mage", "control":"keys_awsd", "spawnPointId":"4", "skin":"3"},
         {"slotNum":"4", "charType":"swordman", "control":"none", "spawnPointId":"2", "skin":"2"},
         {"slotNum":"5", "charType":"swordman", "control":"none", "spawnPointId":"3", "skin":"2"},
         {"slotNum":"6", "charType":"swordman", "control":"none", "spawnPointId":"4", "skin":"2"}

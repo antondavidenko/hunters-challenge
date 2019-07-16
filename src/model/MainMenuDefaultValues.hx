@@ -45,8 +45,8 @@ class MainMenuDefaultValues {
             charType:config.charType,
             x:Std.parseInt(spawnXY[0]),
             y:Std.parseInt(spawnXY[1]),
-            label:'${prefix} ${config.slotNum}',
-            name:'p${config.slotNum}',
+            label:'label',
+            id:'p${config.slotNum}',
             control:config.control,
             skin:Std.parseInt(config.skin)
         };
