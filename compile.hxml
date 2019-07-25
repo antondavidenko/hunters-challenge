@@ -1,8 +1,0 @@
--js bin/js/main-javascript.js
--main Main
--cp src
--lib react
--lib msignal
--lib haxe-phaser3
--lib howlerjs
--D react_global

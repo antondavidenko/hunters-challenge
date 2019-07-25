@@ -1,0 +1,10 @@
+-js bin/index.js
+-main Main
+-cp src
+-lib react
+-lib redux
+-lib modular
+-lib msignal
+-lib haxe-phaser3
+-lib howlerjs
+-D react_hot
