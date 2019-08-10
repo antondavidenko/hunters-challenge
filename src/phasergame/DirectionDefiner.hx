@@ -1,10 +1,10 @@
 package phasergame;
 
-import model.ConfigTypes.GameplayConfig;
-import model.DefaultValues;
+import phasergame.model.ConfigTypes.GameplayConfig;
+import phasergame.model.DefaultValues;
 import phaser.input.keyboard.CursorKeys;
-import model.DataTypes.ControlType;
-import model.PhaserGameModel;
+import phasergame.model.DataTypes.ControlType;
+import phasergame.model.PhaserGameModel;
 import phasergame.sceneobjects.MovingObject;
 
 class DirectionDefiner {

@@ -1,12 +1,12 @@
 package phasergame.sceneobjects;
 
-import model.DefaultValues;
-import model.ConfigTypes.AssetsConfig;
+import phasergame.model.DefaultValues;
+import phasergame.model.ConfigTypes.AssetsConfig;
 import phaser.loader.filetypes.ImageFrameConfig;
-import model.DataTypes.ControlType;
-import model.DataTypes.PlayerData;
-import model.DataTypes.MovingObjectState;
-import model.PhaserGameModel;
+import phasergame.model.DataTypes.ControlType;
+import phasergame.model.DataTypes.PlayerData;
+import phasergame.model.DataTypes.MovingObjectState;
+import phasergame.model.PhaserGameModel;
 import phasergame.sceneobjects.MovingObject;
 
 class PlayersCollection {

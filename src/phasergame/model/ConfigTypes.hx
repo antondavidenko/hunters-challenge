@@ -1,6 +1,6 @@
-package model;
+package phasergame.model;
 
-import model.DataTypes.GameConfiguration;
+import phasergame.model.DataTypes.GameConfiguration;
 
 typedef GeneralConfig = {
     var localizationFile:String;

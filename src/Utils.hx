@@ -1,8 +1,16 @@
 package ;
 
-import model.Localization;
-import model.DataTypes.PlayerColor;
-import model.DefaultValues;
+import haxe.Json;
+import msignal.Signal.Signal1;
+import phasergame.model.Localization;
+import phasergame.model.DataTypes.PlayerColor;
+import phasergame.model.DefaultValues;
+
+class MainMenuActions
+{
+    public static var navigateToPage:Signal1<String> = new Signal1();
+    public static var startGame:Signal1<String> = new Signal1();
+}
 
 class Utils {
     static public function distanceBetween(x1:Float, y1:Float, x2:Float, y2:Float):Float {
@@ -47,6 +55,11 @@ class Loader {
 
     static private function onConfigLoad(data:String) {
         DefaultValues.setDataStorage(DataParser.parse(haxe.Json.parse(data).configsList));
+        loadFile('data/mainmenu_config.json',onMenuConfigLoad);
+    }
+
+    static private function onMenuConfigLoad(data:String) {
+        mainmenu.model.DefaultValues.setConfigFromFileData(Json.parse(data));
         loadFile(DefaultValues.getGeneralConfig().localizationFile, onLocalizationLoad);
     }
 

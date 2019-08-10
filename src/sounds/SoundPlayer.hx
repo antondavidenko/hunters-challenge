@@ -1,8 +1,8 @@
 package sounds;
 
+import Utils.MainMenuActions;
 import phasergame.PhaserGame.PhaserGameActions;
-import model.DataTypes.Page;
-import htmlcontrols.mainmenu.MainMenu.MainMenuActions;
+import phasergame.model.DataTypes.Page;
 import howler.Howl;
 
 class SoundPlayer {
@@ -45,7 +45,7 @@ class SoundPlayer {
         return options;
     }
 
-    private function onButtonClick(page:Page):Void {
+    private function onButtonClick(page:String):Void {
         sndClick.play();
     }
 

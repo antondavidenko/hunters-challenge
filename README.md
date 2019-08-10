@@ -2,6 +2,13 @@
 
 FUTURE IMPROVE PLAN
 
+REFACTOR: organize packages and configs based on modules/component:
+- system / system-api
+- phasergame
+- sidepanel
+- mainmenu
+- sound
+
 GAMEPLAY: 
 - different abilities dor each class = v 0.9
 

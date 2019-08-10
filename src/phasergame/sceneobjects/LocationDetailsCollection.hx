@@ -1,10 +1,10 @@
 package phasergame.sceneobjects;
 
-import model.ConfigTypes.AssetsConfig;
-import model.ConfigTypes.LocationConfig;
+import phasergame.model.ConfigTypes.AssetsConfig;
+import phasergame.model.ConfigTypes.LocationConfig;
 import phaser.physics.matter.Sprite;
 import phaser.loader.filetypes.ImageFrameConfig;
-import model.DefaultValues;
+import phasergame.model.DefaultValues;
 
 class LocationDetailsCollection {
 

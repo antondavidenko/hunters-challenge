@@ -1,12 +1,12 @@
 package phasergame.sceneobjects;
 
-import model.ConfigTypes.GameplayConfig;
-import model.ConfigTypes.AssetsConfig;
-import model.DefaultValues;
+import phasergame.model.ConfigTypes.GameplayConfig;
+import phasergame.model.ConfigTypes.AssetsConfig;
+import phasergame.model.DefaultValues;
 import phaser.loader.filetypes.ImageFrameConfig;
-import model.DataTypes.ControlType;
-import model.DataTypes.MovingObjectState;
-import model.PhaserGameModel;
+import phasergame.model.DataTypes.ControlType;
+import phasergame.model.DataTypes.MovingObjectState;
+import phasergame.model.PhaserGameModel;
 import phasergame.sceneobjects.MovingObject;
 
 class MobsCollection {

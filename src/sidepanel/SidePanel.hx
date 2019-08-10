@@ -1,6 +1,6 @@
-package htmlcontrols.sidepanel;
+package sidepanel;
 
-import model.DataTypes.MovingObjectState;
+import phasergame.model.DataTypes.MovingObjectState;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactComponent.ReactElement;
 import react.ReactMacro.jsx;

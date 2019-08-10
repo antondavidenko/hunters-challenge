@@ -1,11 +1,11 @@
 package phasergame.sceneobjects;
 
-import model.DefaultValues;
-import model.ConfigTypes.MovingObjectConfig;
+import phasergame.model.DefaultValues;
+import phasergame.model.ConfigTypes.MovingObjectConfig;
 import phaser.animations.types.GenerateFrameNumbers;
-import model.DataTypes.MovingObjectState;
+import phasergame.model.DataTypes.MovingObjectState;
 import phaser.gameobjects.Text;
-import model.PhaserGameModel;
+import phasergame.model.PhaserGameModel;
 import phaser.gameobjects.Sprite;
 
 class MovingObject {

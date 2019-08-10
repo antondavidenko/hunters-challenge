@@ -1,11 +1,11 @@
-package htmlcontrols;
+package sidepanel;
 
 import js.html.CSSStyleDeclaration;
 import phasergame.PhaserGame.PhaserGameActions;
-import model.DefaultValues;
-import htmlcontrols.sidepanel.SidePanel;
-import model.DataTypes.PlayerData;
-import model.PhaserGameModel;
+import phasergame.model.DefaultValues;
+import sidepanel.SidePanel;
+import phasergame.model.DataTypes.PlayerData;
+import phasergame.model.PhaserGameModel;
 import js.html.HtmlElement;
 import react.ReactMacro.jsx;
 import react.ReactDOM;

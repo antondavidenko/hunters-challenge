@@ -1,9 +1,9 @@
-package model;
+package phasergame.model;
 
-import model.DataTypes.GameConfiguration;
-import model.DataTypes.PlayerData;
-import model.DataTypes.MobData;
-import model.DataTypes.MovingObjectState;
+import phasergame.model.DataTypes.GameConfiguration;
+import phasergame.model.DataTypes.PlayerData;
+import phasergame.model.DataTypes.MobData;
+import phasergame.model.DataTypes.MovingObjectState;
 
 class PhaserGameModel {
     static public var playersStartConfig:Array<MovingObjectState> = [];

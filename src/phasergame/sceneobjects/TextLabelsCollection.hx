@@ -1,8 +1,8 @@
 package phasergame.sceneobjects;
 
 import phasergame.PhaserGame.PhaserGameActions;
-import model.PhaserGameModel;
-import model.DefaultValues;
+import phasergame.model.PhaserGameModel;
+import phasergame.model.DefaultValues;
 import phaser.gameobjects.Text;
 
 class TextLabelsCollection {

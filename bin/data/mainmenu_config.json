@@ -1,0 +1,52 @@
+{
+    "defaultPageId": "TEAMS",
+
+    "isFullScreenMode": false,
+
+    "imageClassesIdList" : ["SWORDMAN", "BOWMAN", "ELF", "MAGE", "HORSEMAN", "ASSASSIN"],
+
+    "allControlsList": [
+        "mainmenu_control_mouse",
+        "mainmenu_control_keys_arrows",
+        "mainmenu_control_keys_awsd",
+        "mainmenu_control_bot_simple",
+        "mainmenu_control_bot_hard",
+        "mainmenu_control_none"
+    ],
+
+    "showControlByItems": [
+        [0,3,4,5],
+        [1,3,4,5],
+        [2,3,4,5],
+        [3,4,5],
+        [3,4,5],
+        [3,4,5]
+    ],
+
+    "lobbiesByPageList": [
+        {"page":"PVP", "lobby": [
+          {"classId":5, "controlId":0, "color":"R"},
+          {"classId":2, "controlId":0, "color":"B"},
+          {"classId":4, "controlId":0, "color":"G"},
+          {"classId":1, "controlId":2, "color":"B"},
+          {"classId":1, "controlId":2, "color":"B"},
+          {"classId":1, "controlId":2, "color":"B"}
+        ]},
+        {"page":"PVE", "lobby": [
+            {"classId":5, "controlId":0, "color":"R"},
+            {"classId":1, "controlId":2, "color":"B"},
+            {"classId":1, "controlId":2, "color":"B"},
+            {"classId":1, "controlId":1, "color":"B"},
+            {"classId":1, "controlId":1, "color":"B"},
+            {"classId":3, "controlId":0, "color":"G"}
+        ]},
+        {"page":"TEAMS", "lobby": [
+            {"classId":5, "controlId":0, "color":"R"},
+            {"classId":1, "controlId":0, "color":"R"},
+            {"classId":3, "controlId":0, "color":"R"},
+            {"classId":6, "controlId":0, "color":"B"},
+            {"classId":4, "controlId":0, "color":"B"},
+            {"classId":2, "controlId":0, "color":"B"}
+        ]}
+    ]
+}

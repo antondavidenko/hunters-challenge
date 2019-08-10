@@ -1,7 +1,7 @@
-package htmlcontrols.mainmenu.lobby;
+package mainmenu.view.components;
 
-import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;
+import react.ReactComponent.ReactElement;
 import react.ReactMacro.jsx;
 
 typedef SelectInputProps = {

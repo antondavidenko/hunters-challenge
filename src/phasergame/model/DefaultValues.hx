@@ -1,11 +1,11 @@
-package model;
+package phasergame.model;
 
-import model.ConfigTypes.GameplayConfig;
-import model.ConfigTypes.LocationConfig;
-import model.ConfigTypes.GeneralConfig;
-import model.ConfigTypes.MovingObjectConfig;
-import model.ConfigTypes.AssetsConfig;
-import model.ConfigTypes.MainMenuConfig;
+import phasergame.model.ConfigTypes.GameplayConfig;
+import phasergame.model.ConfigTypes.LocationConfig;
+import phasergame.model.ConfigTypes.GeneralConfig;
+import phasergame.model.ConfigTypes.MovingObjectConfig;
+import phasergame.model.ConfigTypes.AssetsConfig;
+import phasergame.model.ConfigTypes.MainMenuConfig;
 
 class DefaultValues {
     static public var mobTypes:Array<String> = ["mob1lvl", "mob2lvl", "mob3lvl", "mob4lvl", "mob5lvl"];

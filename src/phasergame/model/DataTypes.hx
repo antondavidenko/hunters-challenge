@@ -1,4 +1,4 @@
-package model;
+package phasergame.model;
 
 enum Page {
     PVP;

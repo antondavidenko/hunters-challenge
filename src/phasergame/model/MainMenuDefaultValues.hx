@@ -1,11 +1,11 @@
-package model;
+package phasergame.model;
 
-import model.ConfigTypes.MainMenuConfig;
-import model.ConfigTypes.SlotConfig;
-import model.DataTypes.MovingObjectState;
-import model.DataTypes.Page;
-import model.DataTypes.GameConfiguration;
-import model.DataTypes.ControlType;
+import phasergame.model.ConfigTypes.MainMenuConfig;
+import phasergame.model.ConfigTypes.SlotConfig;
+import phasergame.model.DataTypes.MovingObjectState;
+import phasergame.model.DataTypes.Page;
+import phasergame.model.DataTypes.GameConfiguration;
+import phasergame.model.DataTypes.ControlType;
 
 class MainMenuDefaultValues {
 

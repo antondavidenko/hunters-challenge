@@ -1,4 +1,4 @@
-package model;
+package phasergame.model;
 
 class Localization {
     static private var localizationStorage:Map<String, String> = new Map();
