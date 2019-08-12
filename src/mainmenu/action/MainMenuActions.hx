@@ -2,7 +2,7 @@ package mainmenu.action;
 
 import mainmenu.model.DataTypes.Page;
 
-enum LobbyAction
+enum MainMenuActions
 {
     SetColor(id:String, colorId:String);
     SetControl(id:String, controlId:Int);

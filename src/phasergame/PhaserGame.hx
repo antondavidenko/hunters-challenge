@@ -1,9 +1,8 @@
 package phasergame;
 
-import msignal.Signal.Signal1;
+import phasergame.PublicAPI.PhaserGameSignals;
 import phasergame.sceneobjects.LocationDetailsCollection;
 import phasergame.sceneobjects.TextLabelsCollection;
-import msignal.Signal.Signal0;
 import phasergame.model.DefaultValues;
 import phasergame.CollisionDetector.CharackterAndMobData;
 import sidepanel.SidePanelControl;
@@ -12,13 +11,6 @@ import js.html.CanvasElement;
 import phasergame.sceneobjects.PlayersCollection;
 import phasergame.sceneobjects.MobsCollection;
 import phasergame.sceneobjects.Background;
-
-class PhaserGameActions {
-    public static var gameEnd:Signal0 = new Signal0();
-    public static var countUpFinish:Signal0 = new Signal0();
-    public static var countUpProgress:Signal1<Int> = new Signal1();
-    public static var mobSlayed:Signal1<Int> = new Signal1();
-}
 
 class PhaserGame {
     private var scene:PhaserScene;
@@ -77,7 +69,7 @@ class PhaserScene extends phaser.Scene {
         collisionDetector = new CollisionDetector(this);
         moverCharacters = new DirectionDefiner();
         this.sidePanelControl = sidePanelControl;
-        PhaserGameActions.countUpFinish.add(onGameStart);
+        PhaserGameSignals.countUpFinish.add(onGameStart);
     }
 
     public function preload() {
@@ -123,7 +115,7 @@ class PhaserScene extends phaser.Scene {
     private function onCharackterAndMobCollision(collisionMembers:CharackterAndMobData):Void {
         if (mobsCollection.onMobCollision(collisionMembers.mob)) {
             var mobLvl:Int = PhaserGameModel.mobsData[collisionMembers.mob].currentLevel;
-            PhaserGameActions.mobSlayed.dispatch(mobLvl);
+            PhaserGameSignals.mobSlayed.dispatch(mobLvl);
             playersCollection.onPlayerSlayMob(collisionMembers.charackter, mobLvl);
         }
     }
@@ -132,7 +124,7 @@ class PhaserScene extends phaser.Scene {
         var isGameEnd:Bool = PhaserGameModel.maxLvlInGame == PhaserGameModel.maxLvl;
 
         if (isGameEnd) {
-            PhaserGameActions.gameEnd.dispatch();
+            PhaserGameSignals.gameEnd.dispatch();
             textLabelsCollection.showEndGameMessage();
             this.physics.pause();
             moverCharacters.setPause(true);

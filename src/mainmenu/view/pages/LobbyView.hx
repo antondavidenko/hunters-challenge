@@ -1,5 +1,6 @@
 package mainmenu.view.pages;
 
+import mainmenu.PublicAPI.MainMenuSignals;
 import mainmenu.model.DataTypes.LobbyItemState;
 import react.ReactComponent;
 import react.ReactMacro.jsx;
@@ -28,6 +29,6 @@ class LobbyView extends ReactComponentOfProps<LobbyViewProps> {
     }
 
     function onPlayClicked():Void {
-        trace("PLAY PRESSED!!!");
+        MainMenuSignals.startGame.dispatch(props.list);
     }
 }

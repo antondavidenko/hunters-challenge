@@ -3,7 +3,7 @@ package mainmenu.view.components;
 import js.jquery.Event;
 import mainmenu.model.DefaultValues;
 import mainmenu.model.DataTypes.LobbyItemState;
-import mainmenu.action.LobbyAction;
+import mainmenu.action.MainMenuActions;
 import mainmenu.model.Lobby;
 import react.ReactComponent;
 import react.ReactMacro.jsx;
@@ -49,12 +49,12 @@ class LobbyItemView extends ReactComponentOfProps<LobbyItemItemProps> implements
     function onMinusClick() {
         var newClassId = props.item.classId - 1;
         newClassId = newClassId == 0 ? DefaultValues.imageClassesIdList.length : newClassId;
-        dispatch(LobbyAction.SetClass(props.item.id, newClassId));
+        dispatch(MainMenuActions.SetClass(props.item.id, newClassId));
     }
 
     function onPlusClick() {
         var newClassId = props.item.classId + 1;
         newClassId = newClassId > DefaultValues.imageClassesIdList.length ? 1 : newClassId;
-        dispatch(LobbyAction.SetClass(props.item.id, newClassId));
+        dispatch(MainMenuActions.SetClass(props.item.id, newClassId));
     }
 }

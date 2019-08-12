@@ -55,7 +55,6 @@ typedef MobData = {
 }
 
 typedef GameConfiguration = {
-    var slots:Array<MovingObjectState>;
     var screenMode:String;
     var showLabel:Bool;
     var baseExpGain:Float;

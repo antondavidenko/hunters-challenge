@@ -2,13 +2,13 @@ package mainmenu.model;
 
 import mainmenu.model.DataTypes.MainMenuState;
 import mainmenu.model.DataTypes.Page;
-import mainmenu.action.LobbyAction;
+import mainmenu.action.MainMenuActions;
 import js.Promise;
 import react.ReactUtil.copy;
 import redux.IReducer;
 import redux.StoreMethods;
 
-class Lobby implements IReducer<LobbyAction, MainMenuState> {
+class Lobby implements IReducer<MainMenuActions, MainMenuState> {
 
     public var initState:MainMenuState = {
         entries:[],
@@ -22,7 +22,7 @@ class Lobby implements IReducer<LobbyAction, MainMenuState> {
 
     public function new() {}
 
-    public function reduce(state:MainMenuState, action:LobbyAction):MainMenuState
+    public function reduce(state:MainMenuState, action:MainMenuActions):MainMenuState
     {
         ID = 0;
         return switch(action)

@@ -3,7 +3,6 @@
 FUTURE IMPROVE PLAN
 
 REFACTOR: organize packages and configs based on modules/component:
-- system / system-api
 - phasergame
 - sidepanel
 - mainmenu

@@ -1,11 +1,12 @@
 package mainmenu;
 
+import msignal.Signal.Signal1;
 import mainmenu.model.DataTypes.MainMenuState;
 import js.html.HtmlElement;
 import mainmenu.model.DefaultValues;
 import mainmenu.model.Lobby;
 import redux.Redux;
-import mainmenu.action.LobbyAction;
+import mainmenu.action.MainMenuActions;
 import mainmenu.view.MainMenuScreen;
 import js.Browser;
 import js.html.DivElement;
@@ -22,7 +23,7 @@ class MainMenuControl
         var store = createMainMenuStore();
         var root = cast js.Browser.document.getElementById('MainMenu');
         render(root, store);
-        store.dispatch(LobbyAction.SetPage(DefaultValues.getDefaultPage()));
+        store.dispatch(MainMenuActions.SetPage(DefaultValues.getDefaultPage()));
     }
 
     static public function createMainMenuStore():Store<MainMenuState>
@@ -30,7 +31,7 @@ class MainMenuControl
         var mainMenuState = new Lobby();
 
         var rootReducer = Redux.combineReducers({
-            mainMenuState: mapReducer(LobbyAction, mainMenuState)
+            mainMenuState: mapReducer(MainMenuActions, mainMenuState)
         });
 
         return createStore(rootReducer);

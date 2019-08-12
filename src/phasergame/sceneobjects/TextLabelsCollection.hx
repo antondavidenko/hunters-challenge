@@ -1,6 +1,6 @@
 package phasergame.sceneobjects;
 
-import phasergame.PhaserGame.PhaserGameActions;
+import phasergame.PublicAPI.PhaserGameSignals;
 import phasergame.model.PhaserGameModel;
 import phasergame.model.DefaultValues;
 import phaser.gameobjects.Text;
@@ -32,12 +32,12 @@ class TextLabelsCollection {
             if (countUpSmallLabels[countUpCounter] != null) {
                 setTextLabel(countUpSmall, countUpSmallLabels[countUpCounter]);
                 setTextLabel(countUpBig, countUpBigLabels[countUpCounter]);
-                PhaserGameActions.countUpProgress.dispatch(countUpCounter);
+                PhaserGameSignals.countUpProgress.dispatch(countUpCounter);
             } else {
                 timer.stop();
                 countUpSmall.visible = false;
                 countUpBig.visible = false;
-                PhaserGameActions.countUpFinish.dispatch();
+                PhaserGameSignals.countUpFinish.dispatch();
             }
             countUpCounter++;
         }

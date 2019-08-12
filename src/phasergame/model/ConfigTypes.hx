@@ -3,7 +3,6 @@ package phasergame.model;
 import phasergame.model.DataTypes.GameConfiguration;
 
 typedef GeneralConfig = {
-    var localizationFile:String;
     var phaserGameWidth:Int;
     var phaserGameHeight:Int;
 }
@@ -34,11 +33,10 @@ typedef PositionRange = {
 }
 
 typedef MainMenuConfig = {
-    var maxMainMenuSize:String;
     var spawnPoints:Array<String>;
-    var pvpGameConfiguration:Array<SlotConfig>;
-    var pveGameConfiguration:Array<SlotConfig>;
-    var teamsGameConfiguration:Array<SlotConfig>;
+    var pvpGameConfiguration:GameConfiguration;
+    var pveGameConfiguration:GameConfiguration;
+    var teamsGameConfiguration:GameConfiguration;
     var defaultGameConfiguration:GameConfiguration;
 }
 

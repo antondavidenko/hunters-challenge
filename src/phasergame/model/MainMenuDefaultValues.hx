@@ -11,7 +11,7 @@ class MainMenuDefaultValues {
 
     static public var gameConfigurationsData:Map<Page, GameConfiguration> = new Map<Page, GameConfiguration>();
     static public var page:Page = Page.PVE;
-    static private var spawnPoints:Array<String>;
+    static public var spawnPoints:Array<String>;
     static private var config:MainMenuConfig;
 
     static public function init():Void {
@@ -25,9 +25,12 @@ class MainMenuDefaultValues {
 
     static private function getGameConfiguration(preconfig:Dynamic):GameConfiguration {
         var configuration = Reflect.copy(config.defaultGameConfiguration);
-        configuration.slots = getSlotArray(preconfig.slots);
         configuration.mobAmount = Std.parseInt(preconfig.mobAmount);
         return configuration;
+    }
+
+    static public function getDefaultGameConfiguration():GameConfiguration {
+        return config.defaultGameConfiguration;
     }
 
     static private function getSlotArray(congigArray:Array<SlotConfig>):Array<MovingObjectState> {

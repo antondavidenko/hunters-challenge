@@ -1,7 +1,7 @@
 package sidepanel;
 
+import phasergame.PublicAPI.PhaserGameSignals;
 import js.html.CSSStyleDeclaration;
-import phasergame.PhaserGame.PhaserGameActions;
 import phasergame.model.DefaultValues;
 import sidepanel.SidePanel;
 import phasergame.model.DataTypes.PlayerData;
@@ -30,7 +30,7 @@ class SidePanelControl {
             jsx('<$SidePanel players=${PhaserGameModel.playersStartConfig}/>'),
             js.Browser.document.getElementById('sidePanel')
         );
-        PhaserGameActions.gameEnd.add(onEndGame);
+        PhaserGameSignals.gameEnd.add(onEndGame);
         restartButton = cast js.Browser.document.getElementById("restartButton");
     }
 

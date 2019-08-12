@@ -1,7 +1,7 @@
+import mainmenu.PublicAPI.MainMenuSignals;
 import mainmenu.MainMenuControl;
-import Utils.Loader;
+import Loader;
 import sounds.SoundPlayer;
-import phasergame.model.DataTypes.GameConfiguration;
 import phasergame.model.MainMenuDefaultValues;
 import sidepanel.SidePanelControl;
 import js.html.HtmlElement;
@@ -22,7 +22,7 @@ class Main {
     }
 
     public function new() {
-        Loader.loadConfig("./data/config.json", init);
+        Loader.loadAll(init);
     }
 
     public function init() {
@@ -33,6 +33,7 @@ class Main {
         sidePanelControl = new SidePanelControl();
         mainMenuControl = new MainMenuControl();
         phaserGame = new PhaserGame();
+        MainMenuSignals.startGame.add(onLogin);
         onResize();
     }
 
@@ -46,7 +47,7 @@ class Main {
         mainMenuControl.onResize(windowWidth, windowHeight);
     }
 
-    private function onLogin(configuration:GameConfiguration) {
+    private function onLogin(configuration:Dynamic) {
         PhaserGameModel.init(configuration);
         sidePanelControl.init();
         sidePanelControl.show();

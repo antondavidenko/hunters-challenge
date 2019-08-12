@@ -2,7 +2,7 @@ package mainmenu.view;
 
 import redux.react.IConnectedComponent;
 import haxe.web.Dispatch;
-import mainmenu.action.LobbyAction;
+import mainmenu.action.MainMenuActions;
 import mainmenu.model.DataTypes.Page;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactComponent.ReactElement;
@@ -33,15 +33,15 @@ class GameModes extends ReactComponentOfProps<GameModesProps> implements IConnec
     }
 
     function onPVPClicked(evt:js.html.Event):Void {
-        dispatch(LobbyAction.SetPage(Page.PVP));
+        dispatch(MainMenuActions.SetPage(Page.PVP));
     }
     function onPVEClicked(evt:js.html.Event):Void {
-        dispatch(LobbyAction.SetPage(Page.PVE));
+        dispatch(MainMenuActions.SetPage(Page.PVE));
     }
     function onTeamsClicked(evt:js.html.Event):Void {
-        dispatch(LobbyAction.SetPage(Page.TEAMS));
+        dispatch(MainMenuActions.SetPage(Page.TEAMS));
     }
     function onHelpClicked(evt:js.html.Event):Void {
-        dispatch(LobbyAction.SetPage(Page.HELP));
+        dispatch(MainMenuActions.SetPage(Page.HELP));
     }
 }

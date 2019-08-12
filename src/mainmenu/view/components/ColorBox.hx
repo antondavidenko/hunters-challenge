@@ -1,6 +1,6 @@
 package mainmenu.view.components;
 
-import mainmenu.action.LobbyAction;
+import mainmenu.action.MainMenuActions;
 import redux.react.IConnectedComponent;
 import react.ReactComponent.ReactElement;
 import react.ReactComponent.ReactComponentOfProps;
@@ -30,6 +30,6 @@ class ColorBox extends ReactComponentOfProps<ColorBoxProps> implements IConnecte
     }
 
     function onClick() {
-        dispatch(LobbyAction.SetColor(props.item.id, props.colorId));
+        dispatch(MainMenuActions.SetColor(props.item.id, props.colorId));
     }
 }

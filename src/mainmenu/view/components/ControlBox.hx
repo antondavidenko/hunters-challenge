@@ -1,6 +1,6 @@
 package mainmenu.view.components;
 
-import mainmenu.action.LobbyAction;
+import mainmenu.action.MainMenuActions;
 import mainmenu.model.DataTypes.LobbyItemState;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactComponent.ReactElement;
@@ -25,6 +25,6 @@ class ControlBox extends ReactComponentOfProps<ControlBoxProps> implements IConn
     }
 
     function onClick() {
-        dispatch(LobbyAction.SetControl(props.item.id, props.controlId));
+        dispatch(MainMenuActions.SetControl(props.item.id, props.controlId));
     }
 }
