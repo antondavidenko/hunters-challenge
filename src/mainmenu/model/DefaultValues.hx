@@ -24,7 +24,11 @@ class DefaultValues {
     }
 
     static public function getLobbyByPage(page:Page):Array<LobbyItemState> {
-        return config.lobbiesByPage[page];
+        if (config.lobbiesByPage.exists(page)) {
+            return config.lobbiesByPage[page];
+        } else {
+            return [];
+        }
     }
 
     static public var allControlsList:Array<String> = [

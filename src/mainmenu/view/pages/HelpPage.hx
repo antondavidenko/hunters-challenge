@@ -5,6 +5,7 @@ import react.ReactComponent.ReactElement;
 import react.ReactMacro.jsx;
 
 class HelpPage extends ReactComponentOfProps<Int> {
+
     public function new(props:Int):Void
     {
         super(props);

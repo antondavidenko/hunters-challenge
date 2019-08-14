@@ -5,6 +5,7 @@ import mainmenu.model.DataTypes.MainMenuState;
 import mainmenu.model.DataTypes.Page;
 import mainmenu.model.Lobby;
 import mainmenu.view.pages.LobbyView;
+import mainmenu.view.pages.HelpPage;
 import react.ReactComponent;
 import redux.react.IConnectedComponent;
 import react.ReactMacro.jsx;
@@ -15,7 +16,7 @@ class MainMenuScreen extends ReactComponentOfPropsAndState<Dynamic, Dynamic> imp
         super(props);
     }
 
-    function mapState(state:RootState, props:Dynamic):Dynamic {
+    public function mapState(state:RootState, props:Dynamic):Dynamic {
         return {
             list: state.mainMenuState.entries,
             page: state.mainMenuState.page
@@ -34,9 +35,17 @@ class MainMenuScreen extends ReactComponentOfPropsAndState<Dynamic, Dynamic> imp
                 <GameOptions />
             </td><td className="mainMenuGap">
             </td><td className="valignTop">
-                <LobbyView {...state} />
+                ${getPage()}
             </td>
             </tr></tbody></table>
         </div>');
+    }
+
+    private function getPage():ReactElement {
+        if (state.page!=Page.HELP) {
+            return jsx('<LobbyView {...state} />');
+        } else {
+            return jsx('<HelpPage />');
+        }
     }
 }
