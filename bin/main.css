@@ -37,7 +37,7 @@ button {
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
-    margin: 8px 0;
+    margin: 8px 0px 0px;
     border: none;
     cursor: pointer;
     width: 100%;
@@ -126,7 +126,7 @@ button:hover {
     padding-top: 13px;
     color: white;
     font-weight: bold;
-    margin: 8px 0;
+    margin: 8px 0px 0px;
 }
 
 .quarterWidth {

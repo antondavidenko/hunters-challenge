@@ -15,12 +15,12 @@ typedef GameModesProps = {
 class GameModes extends ReactComponentOfProps<GameModesProps> implements IConnectedComponent {
     public override function render():ReactElement
     {
-        return jsx('<table><tbody>
-        <tr><td>{showSwitcher("Local PVP", Page.PVP, onPVPClicked)}</td></tr>
-        <tr><td>{showSwitcher("Player vs bots", Page.PVE, onPVEClicked)}</td></tr>
-        <tr><td>{showSwitcher("TEAMS vs", Page.TEAMS, onTeamsClicked)}</td></tr>
-        <tr><td>{showSwitcher("HELP", Page.HELP, onHelpClicked)}</td></tr>
-        </tbody></table>');
+        return jsx('<div>
+        {showSwitcher("Local PVP", Page.PVP, onPVPClicked)}
+        {showSwitcher("Player vs bots", Page.PVE, onPVEClicked)}
+        {showSwitcher("TEAMS vs", Page.TEAMS, onTeamsClicked)}
+        {showSwitcher("HELP", Page.HELP, onHelpClicked)}
+        </div>');
     }
 
     function showSwitcher(pageName:String, page:Page, pageOnClick:js.html.Event->Void):ReactElement
