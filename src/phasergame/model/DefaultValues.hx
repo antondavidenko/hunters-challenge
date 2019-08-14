@@ -12,7 +12,7 @@ class DefaultValues {
 
     static private var dataStorage:Dynamic;
 
-    static public function setDataStorage(newDataStorage:Dynamic):Void {
+    static public function setData(newDataStorage:Dynamic):Void {
        dataStorage = newDataStorage;
     }
 

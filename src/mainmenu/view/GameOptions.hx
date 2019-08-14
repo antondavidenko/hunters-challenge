@@ -1,6 +1,6 @@
 package mainmenu.view;
 
-import phasergame.model.Localization;
+import Localization;
 import mainmenu.model.DefaultValues;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactComponent.ReactElement;

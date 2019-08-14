@@ -1,4 +1,4 @@
-{"configsList": {
+{
   "General": {
     "phaserGameWidth": 950,
     "phaserGameHeight": 654
@@ -84,4 +84,4 @@
       {"from": 337, "to":292, "result":8}
     ]
   }
-}}
+}

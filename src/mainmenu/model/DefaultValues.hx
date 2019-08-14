@@ -10,7 +10,7 @@ class DefaultValues {
 
     static private var config:MainMenuConfig;
 
-    static public function setConfigFromFileData(data:Dynamic):Void {
+    static public function setData(data:Dynamic):Void {
         config = data;
         var lobbiesByPageList:Array<Dynamic> = data.lobbiesByPageList;
         config.lobbiesByPage = new Map();
