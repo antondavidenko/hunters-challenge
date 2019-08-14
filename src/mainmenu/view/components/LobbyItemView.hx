@@ -16,7 +16,7 @@ typedef LobbyItemItemProps = {
 class LobbyItemView extends ReactComponentOfProps<LobbyItemItemProps> implements IConnectedComponent {
     override public function render() {
         var item:LobbyItemState = props.item;
-        var itemAvatarImageClassId = DefaultValues.imageClassesIdList[item.classId - 1];
+        var itemAvatarImageClassId = DefaultValues.getImageClassesById(item.classId - 1);
         var itemIngameImageClassId = '${itemAvatarImageClassId}_${item.color} ingameImage';
         var itemId:Int = Std.parseInt(item.id)-1;
 
@@ -27,7 +27,7 @@ class LobbyItemView extends ReactComponentOfProps<LobbyItemItemProps> implements
                 <div className="ingameImageHolder"><img className=$itemIngameImageClassId/></div>
                 <button className="classButton" onClick=$onPlusClick>&gt;</button>
 
-                ${renderControlsList(DefaultValues.showControlList[itemId])}
+                ${renderControlsList(DefaultValues.getControlListById(itemId))}
 
                 <ColorBox item=$item colorId="R" colorHex="#d03310"/>
                 <ColorBox item=$item colorId="G" colorHex="#50bb10"/>
@@ -36,9 +36,9 @@ class LobbyItemView extends ReactComponentOfProps<LobbyItemItemProps> implements
         ');
     }
 
-    function renderControlsList(list:Array<String>) {
+    function renderControlsList(list:Array<Int>) {
         return [for (i in 0...list.length)
-            jsx('<ControlBox item=${props.item} controlId=$i label=${list[i]}/>')
+            jsx('<ControlBox item=${props.item} controlId=$i label=${DefaultValues.getControlLabelById(list[i])}/>')
         ];
     }
 
@@ -48,13 +48,13 @@ class LobbyItemView extends ReactComponentOfProps<LobbyItemItemProps> implements
 
     function onMinusClick() {
         var newClassId = props.item.classId - 1;
-        newClassId = newClassId == 0 ? DefaultValues.imageClassesIdList.length : newClassId;
+        newClassId = newClassId == 0 ? DefaultValues.getImageClassesLength() : newClassId;
         dispatch(MainMenuActions.SetClass(props.item.id, newClassId));
     }
 
     function onPlusClick() {
         var newClassId = props.item.classId + 1;
-        newClassId = newClassId > DefaultValues.imageClassesIdList.length ? 1 : newClassId;
+        newClassId = newClassId > DefaultValues.getImageClassesLength() ? 1 : newClassId;
         dispatch(MainMenuActions.SetClass(props.item.id, newClassId));
     }
 }

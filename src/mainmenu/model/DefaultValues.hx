@@ -5,6 +5,7 @@ import mainmenu.model.DataTypes.LobbyItemState;
 import mainmenu.model.DataTypes.Page;
 
 class DefaultValues {
+
     static public var maxMainMenuSize:String = "622";
     static public var screenMode:String = "Fullscreen";
 
@@ -31,43 +32,19 @@ class DefaultValues {
         }
     }
 
-    static public var allControlsList:Array<String> = [
-        "PLAYER MOUSE",
-        "PLAYER ARROWS",
-        "PLAYER AWSD",
-        "BOT HARD",
-        "BOT EASY",
-        "NONE"];
+    static public function getImageClassesById(id:Int):String {
+        return config.imageClassesIdList[id];
+    }
 
-    static public var imageClassesIdList:Array<String> = ["SWORDMAN", "BOWMAN", "ELF", "MAGE", "HORSEMAN", "ASSASSIN"];
+    static public function getImageClassesLength():Int {
+        return config.imageClassesIdList.length;
+    }
 
-    static public var showControlList:Array<Array<String>> =
-    [[
-        allControlsList[0],
-        allControlsList[3],
-        allControlsList[4],
-        allControlsList[5]
-    ],[
-        allControlsList[1],
-        allControlsList[3],
-        allControlsList[4],
-        allControlsList[5]
-    ],[
-        allControlsList[2],
-        allControlsList[3],
-        allControlsList[4],
-        allControlsList[5]
-    ],[
-        allControlsList[3],
-        allControlsList[4],
-        allControlsList[5]
-    ],[
-        allControlsList[3],
-        allControlsList[4],
-        allControlsList[5]
-    ],[
-        allControlsList[3],
-        allControlsList[4],
-        allControlsList[5]
-    ]];
+    static public function getControlListById(id:Int):Array<Int> {
+        return config.showControlByItems[id];
+    }
+
+    static public function getControlLabelById(id:Int):String {
+        return Localization.get(config.allControlsList[id]);
+    }
 }
