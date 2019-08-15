@@ -47,4 +47,8 @@ class DefaultValues {
     static public function getControlLabelById(id:Int):String {
         return Localization.get(config.allControlsList[id]);
     }
+
+    static public function getFullscreen():Bool {
+        return config.isFullScreenMode;
+    }
 }

@@ -12,7 +12,8 @@ class Lobby implements IReducer<MainMenuActions, MainMenuState> {
 
     public var initState:MainMenuState = {
         entries:[],
-        page:DefaultValues.getDefaultPage()
+        page: DefaultValues.getDefaultPage(),
+        fullscreen: DefaultValues.getFullscreen()
     };
 
     public var store:StoreMethods<MainMenuState>;
@@ -22,11 +23,10 @@ class Lobby implements IReducer<MainMenuActions, MainMenuState> {
 
     public function new() {}
 
-    public function reduce(state:MainMenuState, action:MainMenuActions):MainMenuState
-    {
+    public function reduce(state:MainMenuState, action:MainMenuActions):MainMenuState {
         ID = 0;
-        return switch(action)
-        {
+        return switch(action) {
+
             case SetColor(id, color): {
                 copy(state, {
                     entries: [
@@ -76,14 +76,24 @@ class Lobby implements IReducer<MainMenuActions, MainMenuState> {
             }
 
             case SetPage(page): {
-                page: page,
-                entries: [
-                    for (item in DefaultValues.getLobbyByPage(page)) {
-                        item.id = '${++ID}';
-                        item;
-                    }
-                ]
+                copy(state, {
+                    page: page,
+                    entries: [
+                        for (item in DefaultValues.getLobbyByPage(page)) {
+                            item.id = '${++ID}';
+                            item;
+                        }
+                    ]
+                });
             }
+
+            case SetFullscreen(isFullScreen): {
+                copy(state, {
+                    fullscreen: isFullScreen
+                });
+            }
+
         }
     }
+
 }

@@ -5,10 +5,15 @@ import mainmenu.model.DefaultValues;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactComponent.ReactElement;
 import react.ReactMacro.jsx;
-import mainmenu.view.components.SelectInput;
+import mainmenu.view.components.ScreenBox;
 
-class GameOptions extends ReactComponentOfProps<Int> {
-    public function new(props:Int):Void
+typedef GameOptionsProps = {
+    fullscreen:Bool,
+}
+
+class GameOptions extends ReactComponentOfProps<GameOptionsProps> {
+
+    public function new(props:GameOptionsProps):Void
     {
         super(props);
     }
@@ -21,19 +26,11 @@ class GameOptions extends ReactComponentOfProps<Int> {
         </tr>
         <tr>
             <td>
-            <SelectInput className="fifthWidth" defaultValue="${this.getDefaultScreenOption()}" id="modeSwitcher" options=${this.getScreenOptions()}/>
+            <ScreenBox selectedValue=${props.fullscreen} boxValue={false} label={Localization.get("mainmenu_options_windowed")}/>
+            <ScreenBox selectedValue=${props.fullscreen} boxValue={true} label={Localization.get("mainmenu_options_fullscreen")}/>
             </td>
         </tr>
         </tbody></table>');
     }
 
-    function getScreenOptions():Array<String> { return [
-        Localization.get("mainmenu_options_fullscreen"),
-        Localization.get("mainmenu_options_windowed")];
-    }
-
-    function getDefaultScreenOption():String {
-        var screenMode:String = DefaultValues.screenMode;
-        return (screenMode == "Fullscreen")?"Fullscreen":"Windowed";
-    }
 }

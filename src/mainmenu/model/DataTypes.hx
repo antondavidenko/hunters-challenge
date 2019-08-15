@@ -10,7 +10,8 @@ abstract Page(String) {
 
 typedef MainMenuState = {
     entries:Array<LobbyItemState>,
-    page:Page
+    page:Page,
+    fullscreen:Bool
 }
 
 typedef LobbyItemState = {

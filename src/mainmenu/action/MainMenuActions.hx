@@ -8,4 +8,5 @@ enum MainMenuActions
     SetControl(id:String, controlId:Int);
     SetClass(id:String, classId:Int);
     SetPage(pageId:Page);
+    SetFullscreen(isFullScreen:Bool);
 }

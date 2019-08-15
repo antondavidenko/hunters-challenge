@@ -19,7 +19,8 @@ class MainMenuScreen extends ReactComponentOfPropsAndState<Dynamic, Dynamic> imp
     public function mapState(state:RootState, props:Dynamic):Dynamic {
         return {
             list: state.mainMenuState.entries,
-            page: state.mainMenuState.page
+            page: state.mainMenuState.page,
+            fullscreen: state.mainMenuState.fullscreen
         }
     }
 
@@ -32,7 +33,7 @@ class MainMenuScreen extends ReactComponentOfPropsAndState<Dynamic, Dynamic> imp
                 <h2>GAME MODES</h2>
                 <GameModes {...state} dispatch=$dispatch />
                 <h2>OPTIONS</h2>
-                <GameOptions />
+                <GameOptions fullscreen=${state.fullscreen}/>
             </td><td className="mainMenuGap">
             </td><td className="valignTop">
                 ${getPage()}
