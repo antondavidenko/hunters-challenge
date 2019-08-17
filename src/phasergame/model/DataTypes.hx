@@ -55,7 +55,6 @@ typedef MobData = {
 }
 
 typedef GameConfiguration = {
-    var screenMode:String;
     var showLabel:Bool;
     var baseExpGain:Float;
     var mobAmount:Int;

@@ -1,17 +1,16 @@
+import phasergame.model.PhaserGameModel;
+import mainmenu.PublicAPI.MainMenuStateOutcomingDTO;
 import mainmenu.PublicAPI.MainMenuSignals;
 import mainmenu.MainMenuControl;
 import Loader;
 import sounds.SoundPlayer;
-import phasergame.model.MainMenuDefaultValues;
 import sidepanel.SidePanelControl;
 import js.html.HtmlElement;
-import phasergame.model.PhaserGameModel;
 import phasergame.PhaserGame;
 
 class Main {
 
     private var HTML5game:HtmlElement;
-
     private var phaserGame:PhaserGame;
     private var sidePanelControl:SidePanelControl;
     private var mainMenuControl:MainMenuControl;
@@ -26,7 +25,6 @@ class Main {
     }
 
     public function init() {
-        MainMenuDefaultValues.init();
         soundPlayer = new SoundPlayer();
         HTML5game = cast js.Browser.document.getElementById("HTML5game");
         js.Browser.window.addEventListener("resize", onResize);
@@ -47,14 +45,14 @@ class Main {
         mainMenuControl.onResize(windowWidth, windowHeight);
     }
 
-    private function onLogin(configuration:Dynamic) {
-        PhaserGameModel.init(configuration);
+    private function onLogin(configuration:MainMenuStateOutcomingDTO) {
+        PhaserGameModel.init(GameConfigurationConverter.convertMainMenuExportState(configuration));
         sidePanelControl.init();
         sidePanelControl.show();
         mainMenuControl.hide();
         phaserGame.init(sidePanelControl);
         phaserGame.show();
-        if (PhaserGameModel.screenMode == "Fullscreen") {
+        if (PhaserGameModel.isFullscreen) {
             HTML5game.requestFullscreen();
         }
     }

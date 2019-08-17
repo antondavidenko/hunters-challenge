@@ -1,16 +1,20 @@
 {
+
   "General": {
     "phaserGameWidth": 950,
     "phaserGameHeight": 654
   },
+
   "Gameplay": {
     "mobSpeeds": [100, 5, 25, 300, 300],
     "maxMobLvlId": 4,
     "mobTimeoutDelay": 1000,
     "botSimpleTimeoutDelay": 1000,
     "botHardTimeoutDelay": 750,
+    "spawnPoints" : ["200,300","300,300","400,300","500,300","600,300","700,300"],
     "maxLvl": 5
   },
+
   "LocationAssets": {
     "frameSize": 32,
     "skins": 1,
@@ -19,32 +23,33 @@
       {"id":"objects_tree", "url":"assets/objects_tree.png"}
     ]
   },
+
   "Location": {
     "objectsSmallAmount": 100,
     "objectsTreeAmount": 25,
     "objectsTreePositionRandomizer":"100",
     "forestPoints": ["100,100", "300,100", "500,100", "700,100", "100,500", "300,500", "500,500", "700, 500"]
   },
-  "MainMenu": {
-    "defaultGameConfiguration": {
-      "screenMode":"Windowed",
+
+  "GameConfigurationList": [
+    {"profile": "default", "data": {
       "showLabel": true,
       "baseExpGain": 25,
       "teamMode": false,
       "mobAmount": 5
-    },
-    "spawnPoints" : ["200,300","300,300","400,300","500,300","600,300","700,300"],
-    "pvpGameConfiguration": {
+    }},
+    {"profile": "PVP", "data": {
       "mobAmount":2
-    },
-    "pveGameConfiguration": {
+    }},
+    {"profile": "PVE", "data": {
       "mobAmount":3
-    },
-    "teamsGameConfiguration": {
+    }},
+    {"profile": "TEAMS", "data": {
       "teamMode":true,
       "mobAmount":3
-    }
-  },
+    }}
+  ],
+
   "MobsAssets": {
     "frameSize":32,
     "skins": 1,
@@ -56,6 +61,7 @@
       {"id":"mob5lvl", "url":"assets/mob5lvl.png"}
     ]
   },
+
   "PlayersAssets": {
     "frameSize":32,
     "skins": 3,
@@ -68,6 +74,7 @@
       {"id":"assassin", "url":"assets/char_assassin.png"}
     ]
   },
+
   "MovingObjectConfig": {
     "MIN_DISTANCE": 3,
     "IDLE_POSE_ID": 1,
@@ -84,4 +91,5 @@
       {"from": 337, "to":292, "result":8}
     ]
   }
+
 }

@@ -1,4 +1,5 @@
 {
+
     "defaultPageId": "TEAMS",
 
     "isFullScreenMode": false,
@@ -49,4 +50,5 @@
             {"classId":2, "controlId":0, "color":"B"}
         ]}
     ]
+
 }

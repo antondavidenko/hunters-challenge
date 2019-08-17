@@ -1,5 +1,7 @@
 package mainmenu.view;
 
+import mainmenu.PublicAPI.MainMenuStateOutcomingDTO;
+import mainmenu.PublicAPI.MainMenuSignals;
 import mainmenu.model.DataTypes.RootState;
 import mainmenu.model.DataTypes.MainMenuState;
 import mainmenu.model.DataTypes.Page;
@@ -44,9 +46,13 @@ class MainMenuScreen extends ReactComponentOfPropsAndState<Dynamic, Dynamic> imp
 
     private function getPage():ReactElement {
         if (state.page!=Page.HELP) {
-            return jsx('<LobbyView {...state} />');
+            return jsx('<LobbyView {...state} onPlayClicked="$onPlayClicked"/>');
         } else {
             return jsx('<HelpPage />');
         }
+    }
+
+    function onPlayClicked():Void {
+        MainMenuSignals.startGame.dispatch(new MainMenuStateOutcomingDTO(state.list, state.page, state.fullscreen));
     }
 }

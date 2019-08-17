@@ -1,7 +1,5 @@
 package phasergame.model;
 
-import phasergame.model.DataTypes.GameConfiguration;
-
 typedef GeneralConfig = {
     var phaserGameWidth:Int;
     var phaserGameHeight:Int;
@@ -32,14 +30,6 @@ typedef PositionRange = {
     var result:Int;
 }
 
-typedef MainMenuConfig = {
-    var spawnPoints:Array<String>;
-    var pvpGameConfiguration:GameConfiguration;
-    var pveGameConfiguration:GameConfiguration;
-    var teamsGameConfiguration:GameConfiguration;
-    var defaultGameConfiguration:GameConfiguration;
-}
-
 typedef SlotConfig = {
     var slotNum:String;
     var charType:String;
@@ -62,4 +52,5 @@ typedef GameplayConfig = {
     var botSimpleTimeoutDelay:Int;
     var botHardTimeoutDelay:Int;
     var maxLvl:Int;
+    var spawnPoints:Array<String>;
 }

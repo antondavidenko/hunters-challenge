@@ -1,23 +1,22 @@
 package mainmenu.view.pages;
 
-import mainmenu.PublicAPI.MainMenuSignals;
 import mainmenu.model.DataTypes.LobbyItemState;
 import react.ReactComponent;
 import react.ReactMacro.jsx;
-import redux.Redux.Dispatch;
 import mainmenu.view.components.LobbyItemView;
 
 typedef LobbyViewProps = {
     list: Array<LobbyItemState>,
-    ?dispatch: Dispatch
+    onPlayClicked: Dynamic->Void
 }
 
 class LobbyView extends ReactComponentOfProps<LobbyViewProps> {
+
     override public function render() {
         return jsx('
             <div>
                 ${renderList()}
-                <button id="loginButton" onClick="$onPlayClicked">PLAY</button>
+                <button id="loginButton" onClick="${props.onPlayClicked}">PLAY</button>
             </div>
         ');
     }
@@ -28,7 +27,4 @@ class LobbyView extends ReactComponentOfProps<LobbyViewProps> {
         ];
     }
 
-    function onPlayClicked():Void {
-        MainMenuSignals.startGame.dispatch(props.list);
-    }
 }
