@@ -1,6 +1,6 @@
 package mainmenu.view;
 
-import Localization;
+import common.Localization;
 import mainmenu.model.DefaultValues;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactComponent.ReactElement;
@@ -22,12 +22,12 @@ class GameOptions extends ReactComponentOfProps<GameOptionsProps> {
     {
         return jsx('<table><tbody>
         <tr>
-            <th className="fifthWidth"><b>{Localization.get("mainmenu_options_screenMode")}</b></th>
+            <th className="fifthWidth"><b>{common.Localization.get("mainmenu_options_screenMode")}</b></th>
         </tr>
         <tr>
             <td>
-            <ScreenBox selectedValue=${props.fullscreen} boxValue={false} label={Localization.get("mainmenu_options_windowed")}/>
-            <ScreenBox selectedValue=${props.fullscreen} boxValue={true} label={Localization.get("mainmenu_options_fullscreen")}/>
+            <ScreenBox selectedValue=${props.fullscreen} boxValue={false} label={common.Localization.get("mainmenu_options_windowed")}/>
+            <ScreenBox selectedValue=${props.fullscreen} boxValue={true} label={common.Localization.get("mainmenu_options_fullscreen")}/>
             </td>
         </tr>
         </tbody></table>');

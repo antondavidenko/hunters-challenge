@@ -22,10 +22,16 @@
     "mainmenu_options_fullscreen": "Fullscreen",
     "mainmenu_options_windowed": "Windowed",
 
-    "mainmenu_control_mouse": "PLAYER MOUSE",
-    "mainmenu_control_keys_arrows": "PLAYER ARROWS",
-    "mainmenu_control_keys_awsd": "PLAYER AWSD",
-    "mainmenu_control_bot_simple": "BOT HARD",
-    "mainmenu_control_bot_hard": "BOT EASYE",
-    "mainmenu_control_none": "NONE"
+    "mainmenu_control_mouse": "PLAYER\nMOUSE",
+    "mainmenu_control_keys_arrows": "PLAYER\nARROWS",
+    "mainmenu_control_keys_awsd": "PLAYER\nAWSD",
+    "mainmenu_control_bot_simple": "BOT\nHARD",
+    "mainmenu_control_bot_hard": "BOT\nEASE",
+    "mainmenu_control_none": "NONE",
+
+    "ingamelabel_mouse": "MOUSE",
+    "ingamelabel_keys_arrows": "ARROWS",
+    "ingamelabel_keys_awsd": "AWSD",
+    "ingamelabel_bot_simple": "HARD",
+    "ingamelabel_bot_hard": "EASE"
 }}

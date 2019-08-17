@@ -1,8 +1,9 @@
+import common.GameConfigurationConverter;
 import phasergame.model.PhaserGameModel;
 import mainmenu.PublicAPI.MainMenuStateOutcomingDTO;
 import mainmenu.PublicAPI.MainMenuSignals;
 import mainmenu.MainMenuControl;
-import Loader;
+import common.Loader;
 import sounds.SoundPlayer;
 import sidepanel.SidePanelControl;
 import js.html.HtmlElement;

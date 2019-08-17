@@ -1,6 +1,8 @@
+package common;
+
 import js.Promise;
 import haxe.Json;
-import Localization;
+import common.Localization;
 
 class Loader {
 

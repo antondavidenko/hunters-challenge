@@ -1,5 +1,6 @@
 package mainmenu.model;
 
+import common.Localization;
 import mainmenu.model.ConfigTypes.MainMenuConfig;
 import mainmenu.model.DataTypes.LobbyItemState;
 import mainmenu.model.DataTypes.Page;

@@ -1,3 +1,5 @@
+package common;
+
 class Localization {
 
     static private var localizationStorage:Map<String, String> = new Map();

@@ -2,11 +2,9 @@
 
 FUTURE IMPROVE PLAN
 
-REFACTOR: organize packages and configs based on modules/component:
-- phasergame
-- sidepanel
-- mainmenu
-- sound
+README: 
+- add instructions and descriptions
+- add developers and repositories who inspire and support me
 
 GAMEPLAY: 
 - different abilities dor each class = v 0.9
@@ -23,7 +21,6 @@ GAME LOOP:
 - achievements \ missions (save progress in cookies) = v 0.9
 
 OPTIONS:
-- re-design character slot to make it even more game-like = v 0.8
 - add sound option (maybe volume) = v 0.9
 - add localization = v 0.9
 - save options/menu/progress in cookies = ???
