@@ -40,6 +40,7 @@ class PlayersCollection {
             var playerState:MovingObjectState = PhaserGameModel.playersStartConfig[i];
             if (playerState != null && playerState.control != ControlType.NONE) {
                 var player:MovingObject = preparePlayerByConfig(playerState);
+                player.setSpeed(DefaultValues.getGameplayConfig().playersSpeed);
                 PhaserGameModel.playersData[playerState.id] = getNewPlayerData(playerState.label, playerState.control, playerState.skin, playerState.charType);
                 var teamId:String = "team" + playerState.skin;
                 if (PhaserGameModel.playersData[teamId] == null) {

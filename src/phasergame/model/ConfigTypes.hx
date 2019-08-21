@@ -47,6 +47,7 @@ typedef LocationConfig = {
 
 typedef GameplayConfig = {
     var mobSpeeds:Array<Int>;
+    var playersSpeed:Int;
     var maxMobLvlId:Int;
     var mobTimeoutDelay:Int;
     var botSimpleTimeoutDelay:Int;
