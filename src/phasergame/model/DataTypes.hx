@@ -42,6 +42,7 @@ typedef MovingObjectState = {
 }
 
 typedef PlayerData = {
+    var classId:String;
     var slayedCounter:Int;
     var expGained:Float;
     var currentLevel:Int;

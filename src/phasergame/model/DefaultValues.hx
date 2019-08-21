@@ -8,6 +8,7 @@ import phasergame.model.ConfigTypes.MovingObjectConfig;
 import phasergame.model.ConfigTypes.AssetsConfig;
 
 class DefaultValues {
+    static public inline var TEAM_SUFFIX:String = "team";
     static public var mobTypes:Array<String> = ["mob1lvl", "mob2lvl", "mob3lvl", "mob4lvl", "mob5lvl"];
     static private inline var DEFAULT_PROFILE:String = "default";
     static private var gameConfigurationList:Map<String, GameConfiguration> = new Map();

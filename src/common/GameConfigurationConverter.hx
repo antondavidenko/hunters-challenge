@@ -8,7 +8,7 @@ import mainmenu.PublicAPI.MainMenuStateOutcomingDTO;
 
 class GameConfigurationConverter {
 
-    public static function convertMainMenuExportState(config:MainMenuStateOutcomingDTO):GameConfigurationIncomingDTO {
+    public static function convertMainMenuStateOutcomingDTO(config:MainMenuStateOutcomingDTO):GameConfigurationIncomingDTO {
         var playersStartConfig:Array<MovingObjectState> = [];
         for (slot in config.entries) {
             playersStartConfig.push(dataConverter(slot));

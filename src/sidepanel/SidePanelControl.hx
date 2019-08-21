@@ -1,11 +1,9 @@
 package sidepanel;
 
+import sidepanel.PublicAPI.SidePanelStateIncomingDTO;
 import phasergame.PublicAPI.PhaserGameSignals;
 import js.html.CSSStyleDeclaration;
-import phasergame.model.DefaultValues;
-import sidepanel.SidePanel;
-import phasergame.model.DataTypes.PlayerData;
-import phasergame.model.PhaserGameModel;
+import sidepanel.view.SidePanel;
 import js.html.HtmlElement;
 import react.ReactMacro.jsx;
 import react.ReactDOM;
@@ -26,15 +24,18 @@ class SidePanelControl {
     }
 
     public function init() {
-        ReactDOM.render(
+/*        ReactDOM.render(
             jsx('<$SidePanel players=${PhaserGameModel.playersStartConfig}/>'),
             js.Browser.document.getElementById('sidePanel')
         );
+*/
         PhaserGameSignals.gameEnd.add(onEndGame);
         restartButton = cast js.Browser.document.getElementById("restartButton");
     }
 
-    public function updateView():Void {
+    public function updateView(state:SidePanelStateIncomingDTO):Void {
+        trace(state);
+/*
         for (i in 0...SidePanelData.length) {
             if (elementIsExist('sidePanel_name${i}')) {
                 mapDataToHTML('sidePanel_name${i}', SidePanelData[i].labels, i);
@@ -43,6 +44,7 @@ class SidePanelControl {
                 break;
             }
         }
+*/
     }
 
     private function elementIsExist(htmlId:String):Bool {
@@ -64,7 +66,7 @@ class SidePanelControl {
     }
 
     public function updateData():Void {
-        SidePanelData = [];
+ /*       SidePanelData = [];
         for (data in PhaserGameModel.playersData) {
             if (PhaserGameModel.teamMode && data.label.indexOf("team")>=0) {
                 SidePanelData.push({ labels : getLabelValueByPlayerData(data), progress : getProgressString(data)});
@@ -72,9 +74,10 @@ class SidePanelControl {
                 SidePanelData.push({ labels : getLabelValueByPlayerData(data), progress : getProgressString(data)});
             }
         }
+*/
     }
 
-    private function getLabelValueByPlayerData(data:PlayerData):String {
+    private function getLabelValueByPlayerData(data:Dynamic):String {
         if (data!= null) {
             return '${data.label} : mob slayed=${data.slayedCounter} lvl: ${data.currentLevel}';
         } else {
@@ -82,13 +85,13 @@ class SidePanelControl {
         }
     }
 
-    private function getProgressString(data:PlayerData):Int {
-        if (data!= null) {
+    private function getProgressString(data:Dynamic):Int {
+/*        if (data!= null) {
             var progress:Int = ((data.currentLevel-1)*25) + Std.int(data.expGained/5);
             return progress;
         } else {
-            return 0;
-        }
+*/            return 0;
+//        }
     }
 
     public function sortData():Void {
@@ -102,14 +105,14 @@ class SidePanelControl {
     public function update():Void {
         updateData();
         sortData();
-        updateView();
+//        updateView();
     }
 
     public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
-        var computedStyle:CSSStyleDeclaration = js.Browser.window.getComputedStyle(sidePanel);
-        var padding:Int = Std.parseInt(computedStyle.padding);
-        sidePanel.style.width = Std.int(windowWidth - DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer - padding*2) + 'px';
-        sidePanel.style.height = Std.int(DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer) + 'px';
+//        var computedStyle:CSSStyleDeclaration = js.Browser.window.getComputedStyle(sidePanel);
+//        var padding:Int = Std.parseInt(computedStyle.padding);
+//        sidePanel.style.width = Std.int(windowWidth - DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer - padding*2) + 'px';
+//        sidePanel.style.height = Std.int(DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer) + 'px';
     }
 
     public function show():Void {

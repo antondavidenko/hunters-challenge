@@ -1,5 +1,6 @@
 package phasergame;
 
+import phasergame.PublicAPI.GameStateOutcomingDTO;
 import phasergame.PublicAPI.PhaserGameSignals;
 import phasergame.sceneobjects.LocationDetailsCollection;
 import phasergame.sceneobjects.TextLabelsCollection;
@@ -21,8 +22,8 @@ class PhaserGame {
         gameCanvas = cast js.Browser.document.getElementById("gameCanvas");
     }
 
-    public function init(sidePanelControl:SidePanelControl) {
-        scene = new PhaserScene(sidePanelControl);
+    public function init() {
+        scene = new PhaserScene();
         game = new phaser.Game({
             width: DefaultValues.getGeneralConfig().phaserGameWidth,
             height: DefaultValues.getGeneralConfig().phaserGameHeight,
@@ -53,13 +54,12 @@ class PhaserScene extends phaser.Scene {
     private var textLabelsCollection:TextLabelsCollection;
     private var locationDetailsCollection:LocationDetailsCollection;
 
-    private var sidePanelControl:SidePanelControl;
     private var collisionDetector:CollisionDetector;
     private var moverCharacters:DirectionDefiner;
 
     private var isPaused:Bool = false;
 
-    public function new(sidePanelControl:SidePanelControl) {
+    public function new() {
         super({});
         background = new Background(this);
         playersCollection = new PlayersCollection(this);
@@ -68,7 +68,6 @@ class PhaserScene extends phaser.Scene {
         locationDetailsCollection = new LocationDetailsCollection(this);
         collisionDetector = new CollisionDetector(this);
         moverCharacters = new DirectionDefiner();
-        this.sidePanelControl = sidePanelControl;
         PhaserGameSignals.countUpFinish.add(onGameStart);
     }
 
@@ -107,7 +106,6 @@ class PhaserScene extends phaser.Scene {
             moverCharacters.update();
             playersCollection.update(time, delta);
             mobsCollection.update(time, delta);
-            sidePanelControl.update();
             checkGameEndCreteria();
         }
     }
@@ -117,6 +115,7 @@ class PhaserScene extends phaser.Scene {
             var mobLvl:Int = PhaserGameModel.mobsData[collisionMembers.mob].currentLevel;
             PhaserGameSignals.mobSlayed.dispatch(mobLvl);
             playersCollection.onPlayerSlayMob(collisionMembers.charackter, mobLvl);
+            PhaserGameSignals.gameStateUpdate.dispatch(new GameStateOutcomingDTO());
         }
     }
 

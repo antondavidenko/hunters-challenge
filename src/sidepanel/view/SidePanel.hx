@@ -1,12 +1,11 @@
-package sidepanel;
+package sidepanel.view;
 
-import phasergame.model.DataTypes.MovingObjectState;
 import react.ReactComponent.ReactComponentOfProps;
 import react.ReactComponent.ReactElement;
 import react.ReactMacro.jsx;
 
 typedef SidePanelProps = {
-    var players:Array<MovingObjectState>;
+    var players:Array<Dynamic>;
 }
 
 class SidePanel extends ReactComponentOfProps<SidePanelProps> {

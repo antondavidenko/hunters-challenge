@@ -1,3 +1,6 @@
+import common.SidePanelStateConverter;
+import phasergame.PublicAPI.GameStateOutcomingDTO;
+import phasergame.PublicAPI.PhaserGameSignals;
 import common.GameConfigurationConverter;
 import phasergame.model.PhaserGameModel;
 import mainmenu.PublicAPI.MainMenuStateOutcomingDTO;
@@ -33,6 +36,7 @@ class Main {
         mainMenuControl = new MainMenuControl();
         phaserGame = new PhaserGame();
         MainMenuSignals.startGame.add(onLogin);
+        PhaserGameSignals.gameStateUpdate.add(onGameStateUpdate);
         onResize();
     }
 
@@ -47,14 +51,19 @@ class Main {
     }
 
     private function onLogin(configuration:MainMenuStateOutcomingDTO) {
-        PhaserGameModel.init(GameConfigurationConverter.convertMainMenuExportState(configuration));
+        PhaserGameModel.init(GameConfigurationConverter.convertMainMenuStateOutcomingDTO(configuration));
         sidePanelControl.init();
         sidePanelControl.show();
         mainMenuControl.hide();
-        phaserGame.init(sidePanelControl);
+        phaserGame.init();
         phaserGame.show();
         if (PhaserGameModel.isFullscreen) {
             HTML5game.requestFullscreen();
         }
     }
+
+    private function onGameStateUpdate(state:GameStateOutcomingDTO):Void {
+        sidePanelControl.updateView(SidePanelStateConverter.convertGameStateOutcomingDTO(state));
+    }
+
 }

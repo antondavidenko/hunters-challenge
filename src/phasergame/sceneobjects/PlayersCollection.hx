@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import mainmenu.model.DefaultValues;
 import phasergame.model.DefaultValues;
 import phasergame.model.ConfigTypes.AssetsConfig;
 import phaser.loader.filetypes.ImageFrameConfig;
@@ -39,24 +40,25 @@ class PlayersCollection {
             var playerState:MovingObjectState = PhaserGameModel.playersStartConfig[i];
             if (playerState != null && playerState.control != ControlType.NONE) {
                 var player:MovingObject = preparePlayerByConfig(playerState);
-                PhaserGameModel.playersData[playerState.id] = getNewPlayerData(playerState.label, playerState.control, playerState.skin);
+                PhaserGameModel.playersData[playerState.id] = getNewPlayerData(playerState.label, playerState.control, playerState.skin, playerState.charType);
                 var teamId:String = "team" + playerState.skin;
                 if (PhaserGameModel.playersData[teamId] == null) {
-                    PhaserGameModel.playersData[teamId] = getNewPlayerData(teamId, "", -1);
+                    PhaserGameModel.playersData[teamId] = getNewPlayerData(teamId, "", -1, "team");
                 }
             }
         }
         onReadyToMove(allPlayersList);
     }
 
-    private function getNewPlayerData(label:String, control:String, skin:Int):PlayerData {
+    private function getNewPlayerData(label:String, control:String, skin:Int, classId:String):PlayerData {
         return{
             slayedCounter: 0,
             expGained: 0,
             currentLevel: 1,
             label: label,
             control: control,
-            teamId: skin
+            teamId: skin,
+            classId: classId
         };
     }
 
@@ -84,7 +86,7 @@ class PlayersCollection {
             player.releaseCollisionState();
         });
         if (PhaserGameModel.teamMode) {
-            var teamData:PlayerData =  PhaserGameModel.playersData["team" + PhaserGameModel.playersData[playerId].teamId];
+            var teamData:PlayerData =  PhaserGameModel.playersData[DefaultValues.TEAM_SUFFIX + PhaserGameModel.playersData[playerId].teamId];
             updatePlayerDataOnMobSlayed(teamData, mobLvl);
         } else {
             updatePlayerDataOnMobSlayed(PhaserGameModel.playersData[playerId], mobLvl);
@@ -96,7 +98,7 @@ class PlayersCollection {
         playerData.expGained += PhaserGameModel.baseExpGain * mobLvl / playerData.currentLevel;
         if (playerData.expGained >= 100) {
             playerData.currentLevel++;
-            playerData.expGained = 0;
+            playerData.expGained -= 100;
             if (playerData.currentLevel > PhaserGameModel.maxLvlInGame) {
                 PhaserGameModel.maxLvlInGame = playerData.currentLevel;
                 PhaserGameModel.leaderPlayerLabel = playerData.label;
