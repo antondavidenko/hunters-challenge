@@ -29,6 +29,5 @@ GRAPHICS:
 - add exp visual number effect when mob is slayed = v 0.8
 
 UI:
-- use images avatars for classes and player presentation + correct color on BG = v 0.8
 - different panel or no panel for no wide screens = v 0.9
 - improve graphics to targeting full HD resolution = v 0.9

@@ -98,6 +98,7 @@ class PhaserScene extends phaser.Scene {
         moverCharacters.setCursor(this.input.keyboard.createCursorKeys());
         textLabelsCollection.showCountUpMessage();
         this.physics.pause();
+        PhaserGameSignals.gameStateUpdate.dispatch(new GameStateOutcomingDTO());
     }
 
     override public function update(time:Float, delta:Float):Void {

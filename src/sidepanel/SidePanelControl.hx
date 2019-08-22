@@ -1,5 +1,6 @@
 package sidepanel;
 
+import sidepanel.model.DataTypes.SidePanelItem;
 import sidepanel.PublicAPI.SidePanelStateIncomingDTO;
 import phasergame.PublicAPI.PhaserGameSignals;
 import js.html.CSSStyleDeclaration;
@@ -8,14 +9,9 @@ import js.html.HtmlElement;
 import react.ReactMacro.jsx;
 import react.ReactDOM;
 
-typedef SidePanelDataFormat = {
-    var labels:String;
-    var progress:Int;
-}
-
 class SidePanelControl {
 
-    var SidePanelData:Array<SidePanelDataFormat> = [];
+    var SidePanelData:Array<SidePanelItem> = [];
     private var sidePanel:HtmlElement;
     private var restartButton:HtmlElement;
 
@@ -23,89 +19,31 @@ class SidePanelControl {
         sidePanel = cast js.Browser.document.getElementById("sidePanel");
     }
 
-    public function init() {
-/*        ReactDOM.render(
-            jsx('<$SidePanel players=${PhaserGameModel.playersStartConfig}/>'),
-            js.Browser.document.getElementById('sidePanel')
-        );
-*/
+    public function init():Void {
+        render();
         PhaserGameSignals.gameEnd.add(onEndGame);
         restartButton = cast js.Browser.document.getElementById("restartButton");
     }
 
+    private function render():Void {
+        ReactDOM.render(
+            jsx('<$SidePanel itemsList=${SidePanelData}/>'),
+            js.Browser.document.getElementById('sidePanel')
+        );
+    }
+
     public function updateView(state:SidePanelStateIncomingDTO):Void {
-        trace(state);
-/*
-        for (i in 0...SidePanelData.length) {
-            if (elementIsExist('sidePanel_name${i}')) {
-                mapDataToHTML('sidePanel_name${i}', SidePanelData[i].labels, i);
-                mapProgressToHTML('sidePanel_Player${i}progress', SidePanelData[i].progress+"%");
-            } else {
-                break;
-            }
-        }
-*/
-    }
-
-    private function elementIsExist(htmlId:String):Bool {
-        return cast js.Browser.document.getElementById(htmlId) != null;
-    }
-
-    private function mapDataToHTML(htmlId:String, data:String, id:Int):Void {
-        var nameHtml:HtmlElement = cast js.Browser.document.getElementById(htmlId);
-        nameHtml.innerHTML = '<b>${data}</b>';
-        if (data == "") {
-            var panelHtml:HtmlElement = cast js.Browser.document.getElementById("sidePanel_playerPanelId"+id);
-            panelHtml.style.display = "none";
-        }
-    }
-
-    private function mapProgressToHTML(htmlId:String, data:String):Void {
-        var progressHtml:HtmlElement = cast js.Browser.document.getElementById(htmlId);
-        progressHtml.style.width = data;
-    }
-
-    public function updateData():Void {
- /*       SidePanelData = [];
-        for (data in PhaserGameModel.playersData) {
-            if (PhaserGameModel.teamMode && data.label.indexOf("team")>=0) {
-                SidePanelData.push({ labels : getLabelValueByPlayerData(data), progress : getProgressString(data)});
-            } if (!PhaserGameModel.teamMode && data.label.indexOf("team")==-1) {
-                SidePanelData.push({ labels : getLabelValueByPlayerData(data), progress : getProgressString(data)});
-            }
-        }
-*/
-    }
-
-    private function getLabelValueByPlayerData(data:Dynamic):String {
-        if (data!= null) {
-            return '${data.label} : mob slayed=${data.slayedCounter} lvl: ${data.currentLevel}';
-        } else {
-            return "";
-        }
-    }
-
-    private function getProgressString(data:Dynamic):Int {
-/*        if (data!= null) {
-            var progress:Int = ((data.currentLevel-1)*25) + Std.int(data.expGained/5);
-            return progress;
-        } else {
-*/            return 0;
-//        }
+        SidePanelData = state.items;
+        sortData();
+        render();
     }
 
     public function sortData():Void {
         SidePanelData.sort(function(a, b) {
-            if(a.progress < b.progress) return 1;
-            else if(a.progress > b.progress) return -1;
+            if (a.progress < b.progress) return 1;
+            else if (a.progress > b.progress) return -1;
             else return 0;
         });
-    }
-
-    public function update():Void {
-        updateData();
-        sortData();
-//        updateView();
     }
 
     public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
