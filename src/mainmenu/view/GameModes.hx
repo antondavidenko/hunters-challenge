@@ -1,5 +1,6 @@
 package mainmenu.view;
 
+import mainmenu.PublicAPI.MainMenuSignals;
 import redux.react.IConnectedComponent;
 import haxe.web.Dispatch;
 import mainmenu.action.MainMenuActions;
@@ -13,6 +14,7 @@ typedef GameModesProps = {
 }
 
 class GameModes extends ReactComponentOfProps<GameModesProps> implements IConnectedComponent {
+
     public override function render():ReactElement
     {
         return jsx('<div>
@@ -33,15 +35,23 @@ class GameModes extends ReactComponentOfProps<GameModesProps> implements IConnec
     }
 
     function onPVPClicked(evt:js.html.Event):Void {
+        MainMenuSignals.uiCkick.dispatch();
         dispatch(MainMenuActions.SetPage(Page.PVP));
     }
+
     function onPVEClicked(evt:js.html.Event):Void {
+        MainMenuSignals.uiCkick.dispatch();
         dispatch(MainMenuActions.SetPage(Page.PVE));
     }
+
     function onTeamsClicked(evt:js.html.Event):Void {
+        MainMenuSignals.uiCkick.dispatch();
         dispatch(MainMenuActions.SetPage(Page.TEAMS));
     }
+
     function onHelpClicked(evt:js.html.Event):Void {
+        MainMenuSignals.uiCkick.dispatch();
         dispatch(MainMenuActions.SetPage(Page.HELP));
     }
+
 }

@@ -53,6 +53,7 @@ class MainMenuScreen extends ReactComponentOfPropsAndState<Dynamic, Dynamic> imp
     }
 
     function onPlayClicked():Void {
+        MainMenuSignals.uiCkick.dispatch();
         MainMenuSignals.startGame.dispatch(new MainMenuStateOutcomingDTO(state.list, state.page, state.fullscreen));
     }
 }

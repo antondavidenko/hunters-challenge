@@ -28,8 +28,7 @@ class SoundPlayer {
         var countGO:Howl = new Howl(getOptionByFlieName("count_GO.mp3"));
         countUpList = [count1, count2, count3, countGO];
 
-        MainMenuSignals.navigateToPage.add(onButtonClick);
-        MainMenuSignals.startGame.add(onButtonClick);
+        MainMenuSignals.uiCkick.add(onButtonClick);
         PhaserGameSignals.countUpFinish.add(onCountUpFinish);
         PhaserGameSignals.countUpProgress.add(onCountUpProgress);
         PhaserGameSignals.gameEnd.add(onEndGame);
@@ -44,7 +43,7 @@ class SoundPlayer {
         return options;
     }
 
-    private function onButtonClick(e:Dynamic):Void {
+    private function onButtonClick():Void {
         sndClick.play();
     }
 

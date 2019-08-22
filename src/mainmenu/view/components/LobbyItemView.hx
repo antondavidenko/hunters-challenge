@@ -1,5 +1,6 @@
 package mainmenu.view.components;
 
+import mainmenu.PublicAPI.MainMenuSignals;
 import js.jquery.Event;
 import mainmenu.model.DefaultValues;
 import mainmenu.model.DataTypes.LobbyItemState;
@@ -47,12 +48,14 @@ class LobbyItemView extends ReactComponentOfProps<LobbyItemItemProps> implements
     }
 
     function onMinusClick() {
+        MainMenuSignals.uiCkick.dispatch();
         var newClassId = props.item.classId - 1;
         newClassId = newClassId == 0 ? DefaultValues.getImageClassesLength() : newClassId;
         dispatch(MainMenuActions.SetClass(props.item.id, newClassId));
     }
 
     function onPlusClick() {
+        MainMenuSignals.uiCkick.dispatch();
         var newClassId = props.item.classId + 1;
         newClassId = newClassId > DefaultValues.getImageClassesLength() ? 1 : newClassId;
         dispatch(MainMenuActions.SetClass(props.item.id, newClassId));

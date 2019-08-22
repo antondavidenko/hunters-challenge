@@ -1,5 +1,6 @@
 package mainmenu.view.components;
 
+import mainmenu.PublicAPI.MainMenuSignals;
 import mainmenu.action.MainMenuActions;
 import redux.react.IConnectedComponent;
 import react.ReactComponent.ReactElement;
@@ -30,6 +31,7 @@ class ColorBox extends ReactComponentOfProps<ColorBoxProps> implements IConnecte
     }
 
     function onClick() {
+        MainMenuSignals.uiCkick.dispatch();
         dispatch(MainMenuActions.SetColor(props.item.id, props.colorId));
     }
 }
