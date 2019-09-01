@@ -25,7 +25,7 @@ class SidePanelStateConverter {
             var sidePanelItem:SidePanelItem = {
                 label: getLabel(item),
                 classImageId: item.classId,
-                colorImageId: getColorId(item),//Std.string(item.teamId),
+                colorImageId: getColorId(item),
                 progress: getProgress(item)
             }
             sidePanelitemsList.push(sidePanelItem);
