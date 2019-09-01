@@ -1,5 +1,6 @@
 package sidepanel;
 
+import sidepanel.model.DefaultValues;
 import sidepanel.model.DataTypes.SidePanelItem;
 import sidepanel.PublicAPI.SidePanelStateIncomingDTO;
 import phasergame.PublicAPI.PhaserGameSignals;
@@ -47,10 +48,10 @@ class SidePanelControl {
     }
 
     public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
-//        var computedStyle:CSSStyleDeclaration = js.Browser.window.getComputedStyle(sidePanel);
-//        var padding:Int = Std.parseInt(computedStyle.padding);
-//        sidePanel.style.width = Std.int(windowWidth - DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer - padding*2) + 'px';
-//        sidePanel.style.height = Std.int(DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer) + 'px';
+        var computedStyle:CSSStyleDeclaration = js.Browser.window.getComputedStyle(sidePanel);
+        var padding:Int = Std.parseInt(computedStyle.padding);
+        sidePanel.style.width = Std.int(windowWidth - DefaultValues.phaserGameWidth * multiplayer - padding*2) + 'px';
+        sidePanel.style.height = Std.int(DefaultValues.phaserGameHeight * multiplayer) + 'px';
     }
 
     public function show():Void {
@@ -60,4 +61,5 @@ class SidePanelControl {
     private function onEndGame():Void {
         restartButton.style.display = "block";
     }
+
 }

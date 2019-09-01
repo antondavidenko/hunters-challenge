@@ -53,6 +53,23 @@ button:hover {
   background-color: #333;
 }
 
+.expBarSectionContainer {
+  display: inline-flex;
+  width: 100%;
+}
+
+.expBarSection {
+  height: 9px;
+  width: 20%;
+  border: 1px solid #ddd;
+}
+
+.sidePanelLabel {
+  display: inline-flex;
+  margin: 0px 2px;
+  font-weight: bold;
+}
+
 .menuSlot {
   background-color: #ddd;
   margin-top: 8px;
@@ -62,13 +79,8 @@ button:hover {
   border: 2px solid #555;
 }
 
-.Player1progress { width: 10%; }
-.Player2progress { width: 20%; }
-.Player3progress { width: 30%; }
-.Player4progress { width: 40%; }
-.Player5progress { width: 50%; }
-
 .expBarBgProgress {
+  margin-bottom: -13px;
   height: 100%;
   background-color: #4ad650;
 }
