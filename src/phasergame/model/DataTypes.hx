@@ -61,3 +61,9 @@ typedef GameConfiguration = {
     var mobAmount:Int;
     var teamMode:Bool;
 }
+
+typedef ExpGainPoint = {
+    var x:Int;
+    var y:Int;
+    var exp:Int;
+}

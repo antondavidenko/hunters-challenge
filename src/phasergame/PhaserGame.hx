@@ -1,5 +1,6 @@
 package phasergame;
 
+import phasergame.model.DataTypes.ExpGainPoint;
 import phasergame.PublicAPI.GameStateOutcomingDTO;
 import phasergame.PublicAPI.PhaserGameSignals;
 import phasergame.sceneobjects.LocationDetailsCollection;
@@ -115,7 +116,8 @@ class PhaserScene extends phaser.Scene {
         if (mobsCollection.onMobCollision(collisionMembers.mob)) {
             var mobLvl:Int = PhaserGameModel.mobsData[collisionMembers.mob].currentLevel;
             PhaserGameSignals.mobSlayed.dispatch(mobLvl);
-            playersCollection.onPlayerSlayMob(collisionMembers.charackter, mobLvl);
+            var expGainPoint:ExpGainPoint = playersCollection.onPlayerSlayMob(collisionMembers.charackter, mobLvl);
+            textLabelsCollection.showGetExpMessage(expGainPoint);
             PhaserGameSignals.gameStateUpdate.dispatch(new GameStateOutcomingDTO());
         }
     }

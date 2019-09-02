@@ -25,9 +25,6 @@ OPTIONS:
 - add localization = v 0.9
 - save options/menu/progress in cookies = ???
 
-GRAPHICS:
-- add exp visual number effect when mob is slayed = v 0.8
-
 UI:
 - different panel or no panel for no wide screens = v 0.9
 - improve graphics to targeting full HD resolution = v 0.9

@@ -1,5 +1,6 @@
 package phasergame.sceneobjects;
 
+import phasergame.model.DataTypes.ExpGainPoint;
 import mainmenu.model.DefaultValues;
 import phasergame.model.DefaultValues;
 import phasergame.model.ConfigTypes.AssetsConfig;
@@ -79,8 +80,9 @@ class PlayersCollection {
         return allPlayersList;
     }
 
-    public function onPlayerSlayMob(playerId:String, mobLvl:Int):Void {
+    public function onPlayerSlayMob(playerId:String, mobLvl:Int):ExpGainPoint {
         PhaserGameModel.totalMobSlayedCounter++;
+        var exp:Int;
         var player:MovingObject = findPlayerById(playerId);
         player.setCollisionState(function(player:MovingObject){
             player.setIdle();
@@ -88,15 +90,17 @@ class PlayersCollection {
         });
         if (PhaserGameModel.teamMode) {
             var teamData:PlayerData =  PhaserGameModel.playersData[DefaultValues.TEAM_SUFFIX + PhaserGameModel.playersData[playerId].teamId];
-            updatePlayerDataOnMobSlayed(teamData, mobLvl);
+            exp = updatePlayerDataOnMobSlayed(teamData, mobLvl);
         } else {
-            updatePlayerDataOnMobSlayed(PhaserGameModel.playersData[playerId], mobLvl);
+            exp = updatePlayerDataOnMobSlayed(PhaserGameModel.playersData[playerId], mobLvl);
         }
+        return {x:Std.int(player.getPhysicBody().x), y:Std.int(player.getPhysicBody().y), exp:exp};
     }
 
-    private function updatePlayerDataOnMobSlayed(playerData:PlayerData, mobLvl:Int):Void {
+    private function updatePlayerDataOnMobSlayed(playerData:PlayerData, mobLvl:Int):Int {
         playerData.slayedCounter++;
-        playerData.expGained += PhaserGameModel.baseExpGain * mobLvl / playerData.currentLevel;
+        var expGainedNow:Int = Std.int(PhaserGameModel.baseExpGain * mobLvl / playerData.currentLevel);
+        playerData.expGained += expGainedNow;
         if (playerData.expGained >= 100) {
             playerData.currentLevel++;
             playerData.expGained -= 100;
@@ -105,6 +109,7 @@ class PlayersCollection {
                 PhaserGameModel.leaderPlayerLabel = playerData.label;
             }
         }
+        return expGainedNow;
     }
 
     private function findPlayerById(playerId:String):MovingObject {
