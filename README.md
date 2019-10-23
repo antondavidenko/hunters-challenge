@@ -2,10 +2,10 @@
 
 ## Overview
 
-This is a simple game demonstrating multi modular (component) interaction in Haxe:
+This is a simple game demonstrating multi modular (component) interaction architecture in Haxe:
 - GAME : Phaser
-- GAME INFO PANEL : React
-- GAME MENU : React+Redux
+- SIDE PANEL : React
+- MAIN MENU : React+Redux
 - SOUNDS : HOWLERJS
 
 RUN DEMO: http://antondavidenko.com/games/arpg_v8/
@@ -64,8 +64,8 @@ assets preprocessors.
 
 ## THANKS
 
-Manu thanks to: https://github.com/elsassph
+- Many thanks to: https://github.com/elsassph
 All my work on this game including even this file based on his samples )
 
-Also great thanks to: https://github.com/sebbernery
+- Great thanks to: https://github.com/sebbernery
 His phaser 3 lib for HAXE and samples was first I begin with on this game.
