@@ -1,6 +1,6 @@
 package mainmenu.view;
 
-import mainmenu.PublicAPI.MainMenuSignals;
+import mainmenu.api.MainMenuPort;
 import redux.react.IConnectedComponent;
 import haxe.web.Dispatch;
 import mainmenu.action.MainMenuActions;
@@ -35,22 +35,22 @@ class GameModes extends ReactComponentOfProps<GameModesProps> implements IConnec
     }
 
     function onPVPClicked(evt:js.html.Event):Void {
-        MainMenuSignals.uiCkick.dispatch();
+        MainMenuPort.doUiCkick();
         dispatch(MainMenuActions.SetPage(Page.PVP));
     }
 
     function onPVEClicked(evt:js.html.Event):Void {
-        MainMenuSignals.uiCkick.dispatch();
+        MainMenuPort.doUiCkick();
         dispatch(MainMenuActions.SetPage(Page.PVE));
     }
 
     function onTeamsClicked(evt:js.html.Event):Void {
-        MainMenuSignals.uiCkick.dispatch();
+        MainMenuPort.doUiCkick();
         dispatch(MainMenuActions.SetPage(Page.TEAMS));
     }
 
     function onHelpClicked(evt:js.html.Event):Void {
-        MainMenuSignals.uiCkick.dispatch();
+        MainMenuPort.doUiCkick();
         dispatch(MainMenuActions.SetPage(Page.HELP));
     }
 

@@ -1,7 +1,7 @@
 package phasergame.sceneobjects;
 
+import phasergame.api.PhaserGamePort;
 import phasergame.model.DataTypes.ExpGainPoint;
-import phasergame.PublicAPI.PhaserGameSignals;
 import phasergame.model.PhaserGameModel;
 import phasergame.model.DefaultValues;
 import phaser.gameobjects.Text;
@@ -34,12 +34,12 @@ class TextLabelsCollection {
             if (countUpSmallLabels[countUpCounter] != null) {
                 setTextLabel(countUpSmall, countUpSmallLabels[countUpCounter]);
                 setTextLabel(countUpBig, countUpBigLabels[countUpCounter]);
-                PhaserGameSignals.countUpProgress.dispatch(countUpCounter);
+                PhaserGamePort.doCountUpProgress(countUpCounter);
             } else {
                 timer.stop();
                 countUpSmall.visible = false;
                 countUpBig.visible = false;
-                PhaserGameSignals.countUpFinish.dispatch();
+                PhaserGamePort.doCountUpFinish();
             }
             countUpCounter++;
         }

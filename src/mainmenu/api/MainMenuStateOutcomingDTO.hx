@@ -1,10 +1,7 @@
-package mainmenu;
+package mainmenu.api;
 
-import msignal.Signal.Signal0;
 import mainmenu.model.DataTypes.Page;
 import mainmenu.model.DataTypes.LobbyItemState;
-import msignal.Signal.Signal1;
-
 class MainMenuStateOutcomingDTO {
 
     public var entries:Array<LobbyItemState>;
@@ -17,10 +14,4 @@ class MainMenuStateOutcomingDTO {
         this.isFullscreen = isFullscreen;
     }
 
-}
-
-class MainMenuSignals
-{
-    public static var uiCkick:Signal0 = new Signal0();
-    public static var startGame:Signal1<MainMenuStateOutcomingDTO> = new Signal1();
 }

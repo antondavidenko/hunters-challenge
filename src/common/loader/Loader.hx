@@ -1,5 +1,7 @@
-package common;
+package common.loader;
 
+import phasergame.api.PhaserGamePort.PhaserGamePort;
+import mainmenu.api.MainMenuPort.MainMenuPort;
 import js.Promise;
 import haxe.Json;
 import common.Localization;
@@ -12,8 +14,8 @@ class Loader {
 
     static public function loadAll(onLoad:Void -> Void) {
         Promise.all([
-            loadFile(PHASERGAME_CONFIG_JSON, phasergame.model.DefaultValues.setData),
-            loadFile(MAINMENU_CONFIG_JSON, mainmenu.model.DefaultValues.setData),
+            loadFile(PHASERGAME_CONFIG_JSON, PhaserGamePort.setData),
+            loadFile(MAINMENU_CONFIG_JSON, MainMenuPort.setData),
             loadFile(LOCALIZATION_JSON, Localization.setData)
         ]).then( function(p:Dynamic) {
             onLoad();

@@ -1,10 +1,10 @@
-package common;
+package common.converters;
 
-import phasergame.model.DataTypes.MovingObjectState;
+import phasergame.api.GameConfigurationIncomingDTO;
+import mainmenu.api.MainMenuStateOutcomingDTO;
 import phasergame.model.DataTypes.ControlType;
+import phasergame.model.DataTypes.MovingObjectState;
 import phasergame.model.DefaultValues;
-import phasergame.PublicAPI.GameConfigurationIncomingDTO;
-import mainmenu.PublicAPI.MainMenuStateOutcomingDTO;
 
 class GameConfigurationConverter {
 

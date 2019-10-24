@@ -1,7 +1,7 @@
 package mainmenu.view;
 
-import mainmenu.PublicAPI.MainMenuStateOutcomingDTO;
-import mainmenu.PublicAPI.MainMenuSignals;
+import mainmenu.api.MainMenuPort;
+import mainmenu.api.MainMenuStateOutcomingDTO;
 import mainmenu.model.DataTypes.RootState;
 import mainmenu.model.DataTypes.MainMenuState;
 import mainmenu.model.DataTypes.Page;
@@ -53,7 +53,7 @@ class MainMenuScreen extends ReactComponentOfPropsAndState<Dynamic, Dynamic> imp
     }
 
     function onPlayClicked():Void {
-        MainMenuSignals.uiCkick.dispatch();
-        MainMenuSignals.startGame.dispatch(new MainMenuStateOutcomingDTO(state.list, state.page, state.fullscreen));
+        MainMenuPort.doUiCkick();
+        MainMenuPort.doStartGame(new MainMenuStateOutcomingDTO(state.list, state.page, state.fullscreen));
     }
 }

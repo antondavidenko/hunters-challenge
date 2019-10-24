@@ -1,6 +1,6 @@
 package phasergame.model;
 
-import phasergame.PublicAPI.GameConfigurationIncomingDTO;
+import phasergame.api.GameConfigurationIncomingDTO;
 import phasergame.model.DataTypes.PlayerData;
 import phasergame.model.DataTypes.MobData;
 import phasergame.model.DataTypes.MovingObjectState;

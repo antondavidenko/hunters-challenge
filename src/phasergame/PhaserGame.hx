@@ -1,8 +1,8 @@
 package phasergame;
 
+import phasergame.api.GameStateOutcomingDTO;
+import phasergame.api.PhaserGamePort;
 import phasergame.model.DataTypes.ExpGainPoint;
-import phasergame.PublicAPI.GameStateOutcomingDTO;
-import phasergame.PublicAPI.PhaserGameSignals;
 import phasergame.sceneobjects.LocationDetailsCollection;
 import phasergame.sceneobjects.TextLabelsCollection;
 import phasergame.model.DefaultValues;
@@ -69,7 +69,7 @@ class PhaserScene extends phaser.Scene {
         locationDetailsCollection = new LocationDetailsCollection(this);
         collisionDetector = new CollisionDetector(this);
         moverCharacters = new DirectionDefiner();
-        PhaserGameSignals.countUpFinish.add(onGameStart);
+        PhaserGamePort.onCountUpFinish(onGameStart);
     }
 
     public function preload() {
@@ -99,7 +99,7 @@ class PhaserScene extends phaser.Scene {
         moverCharacters.setCursor(this.input.keyboard.createCursorKeys());
         textLabelsCollection.showCountUpMessage();
         this.physics.pause();
-        PhaserGameSignals.gameStateUpdate.dispatch(new GameStateOutcomingDTO());
+        PhaserGamePort.doGameStateUpdate(new GameStateOutcomingDTO());
     }
 
     override public function update(time:Float, delta:Float):Void {
@@ -115,10 +115,10 @@ class PhaserScene extends phaser.Scene {
     private function onCharackterAndMobCollision(collisionMembers:CharackterAndMobData):Void {
         if (mobsCollection.onMobCollision(collisionMembers.mob)) {
             var mobLvl:Int = PhaserGameModel.mobsData[collisionMembers.mob].currentLevel;
-            PhaserGameSignals.mobSlayed.dispatch(mobLvl);
+            PhaserGamePort.doMobSlayed(mobLvl);
             var expGainPoint:ExpGainPoint = playersCollection.onPlayerSlayMob(collisionMembers.charackter, mobLvl);
             textLabelsCollection.showGetExpMessage(expGainPoint);
-            PhaserGameSignals.gameStateUpdate.dispatch(new GameStateOutcomingDTO());
+            PhaserGamePort.doGameStateUpdate(new GameStateOutcomingDTO());
         }
     }
 
@@ -126,7 +126,7 @@ class PhaserScene extends phaser.Scene {
         var isGameEnd:Bool = PhaserGameModel.maxLvlInGame == PhaserGameModel.maxLvl;
 
         if (isGameEnd) {
-            PhaserGameSignals.gameEnd.dispatch();
+            PhaserGamePort.doGameEnd();
             textLabelsCollection.showEndGameMessage();
             this.physics.pause();
             moverCharacters.setPause(true);

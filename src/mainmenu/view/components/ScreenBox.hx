@@ -1,6 +1,6 @@
 package mainmenu.view.components;
 
-import mainmenu.PublicAPI.MainMenuSignals;
+import mainmenu.api.MainMenuPort;
 import mainmenu.action.MainMenuActions;
 import redux.react.IConnectedComponent;
 import react.ReactComponent.ReactComponentOfProps;
@@ -25,7 +25,7 @@ class ScreenBox extends ReactComponentOfProps<ScreenBoxProps> implements IConnec
     }
 
     function onClick() {
-        MainMenuSignals.uiCkick.dispatch();
+        MainMenuPort.doUiCkick();
         dispatch(MainMenuActions.SetFullscreen(props.boxValue));
     }
 }

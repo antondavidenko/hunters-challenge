@@ -1,7 +1,7 @@
 package sounds;
 
-import mainmenu.PublicAPI.MainMenuSignals;
-import phasergame.PublicAPI.PhaserGameSignals;
+import mainmenu.api.MainMenuPort;
+import phasergame.api.PhaserGamePort;
 import howler.Howl;
 
 class SoundPlayer {
@@ -28,11 +28,11 @@ class SoundPlayer {
         var countGO:Howl = new Howl(getOptionByFlieName("count_GO.mp3"));
         countUpList = [count1, count2, count3, countGO];
 
-        MainMenuSignals.uiCkick.add(onButtonClick);
-        PhaserGameSignals.countUpFinish.add(onCountUpFinish);
-        PhaserGameSignals.countUpProgress.add(onCountUpProgress);
-        PhaserGameSignals.gameEnd.add(onEndGame);
-        PhaserGameSignals.mobSlayed.add(onMobSlayed);
+        MainMenuPort.onUiCkick(onButtonClick);
+        PhaserGamePort.onCountUpFinish(onCountUpFinish);
+        PhaserGamePort.onCountUpProgress(onCountUpProgress);
+        PhaserGamePort.onGameEnd(onEndGame);
+        PhaserGamePort.onMobSlayed(onMobSlayed);
     }
 
     private function getOptionByFlieName(fileName:String):HowlOptions {

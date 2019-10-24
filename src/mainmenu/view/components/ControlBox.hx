@@ -1,6 +1,6 @@
 package mainmenu.view.components;
 
-import mainmenu.PublicAPI.MainMenuSignals;
+import mainmenu.api.MainMenuPort;
 import mainmenu.action.MainMenuActions;
 import mainmenu.model.DataTypes.LobbyItemState;
 import react.ReactComponent.ReactComponentOfProps;
@@ -26,7 +26,7 @@ class ControlBox extends ReactComponentOfProps<ControlBoxProps> implements IConn
     }
 
     function onClick() {
-        MainMenuSignals.uiCkick.dispatch();
+        MainMenuPort.doUiCkick();
         dispatch(MainMenuActions.SetControl(props.item.id, props.controlId));
     }
 }

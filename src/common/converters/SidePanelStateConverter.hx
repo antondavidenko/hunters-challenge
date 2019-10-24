@@ -1,9 +1,9 @@
-package common;
+package common.converters;
 
+import phasergame.api.GameStateOutcomingDTO;
 import phasergame.model.DataTypes.PlayerData;
 import sidepanel.model.DataTypes.SidePanelItem;
 import sidepanel.PublicAPI.SidePanelStateIncomingDTO;
-import phasergame.PublicAPI.GameStateOutcomingDTO;
 
 class SidePanelStateConverter {
 

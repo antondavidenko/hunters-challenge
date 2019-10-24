@@ -1,12 +1,12 @@
-import common.SidePanelStateConverter;
-import phasergame.PublicAPI.GameStateOutcomingDTO;
-import phasergame.PublicAPI.PhaserGameSignals;
-import common.GameConfigurationConverter;
+import phasergame.api.PhaserGamePort;
+import phasergame.api.GameStateOutcomingDTO;
+import mainmenu.api.MainMenuPort;
+import mainmenu.api.MainMenuStateOutcomingDTO;
+import common.converters.SidePanelStateConverter;
+import common.converters.GameConfigurationConverter;
 import phasergame.model.PhaserGameModel;
-import mainmenu.PublicAPI.MainMenuStateOutcomingDTO;
-import mainmenu.PublicAPI.MainMenuSignals;
 import mainmenu.MainMenuControl;
-import common.Loader;
+import common.loader.Loader;
 import sounds.SoundPlayer;
 import sidepanel.SidePanelControl;
 import js.html.HtmlElement;
@@ -35,8 +35,8 @@ class Main {
         sidePanelControl = new SidePanelControl();
         mainMenuControl = new MainMenuControl();
         phaserGame = new PhaserGame();
-        MainMenuSignals.startGame.add(onLogin);
-        PhaserGameSignals.gameStateUpdate.add(onGameStateUpdate);
+        MainMenuPort.onStartGame(onLogin);
+        PhaserGamePort.onGameStateUpdate(onGameStateUpdate);
         onResize();
     }
 
@@ -50,7 +50,7 @@ class Main {
         mainMenuControl.onResize(windowWidth, windowHeight);
     }
 
-    private function onLogin(configuration:MainMenuStateOutcomingDTO) {
+    private function onLogin(configuration:MainMenuStateOutcomingDTO):Void {
         PhaserGameModel.init(GameConfigurationConverter.convertMainMenuStateOutcomingDTO(configuration));
         sidePanelControl.init();
         sidePanelControl.show();

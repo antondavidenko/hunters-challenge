@@ -1,9 +1,9 @@
 package sidepanel;
 
+import phasergame.api.PhaserGamePort;
 import sidepanel.model.DefaultValues;
 import sidepanel.model.DataTypes.SidePanelItem;
 import sidepanel.PublicAPI.SidePanelStateIncomingDTO;
-import phasergame.PublicAPI.PhaserGameSignals;
 import js.html.CSSStyleDeclaration;
 import sidepanel.view.SidePanel;
 import js.html.HtmlElement;
@@ -22,7 +22,7 @@ class SidePanelControl {
 
     public function init():Void {
         render();
-        PhaserGameSignals.gameEnd.add(onEndGame);
+        PhaserGamePort.onGameEnd(onEndGame);
         restartButton = cast js.Browser.document.getElementById("restartButton");
     }
 
