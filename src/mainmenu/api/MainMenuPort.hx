@@ -8,6 +8,16 @@ class MainMenuPort {
     private static var uiCkick:Signal0 = new Signal0();
     private static var startGame:Signal1<MainMenuStateOutcomingDTO> = new Signal1();
 
+    private static var mainMenuControl:MainMenuControl;
+
+    static public function executeStart():Void {
+        mainMenuControl = new MainMenuControl();
+    }
+
+    static public function executeHide():Void {
+        mainMenuControl.hide();
+    }
+
     static public function setData(data:Dynamic):Void {
         mainmenu.model.DefaultValues.setData(data);
     }

@@ -1,5 +1,6 @@
 package phasergame.api;
 
+import phasergame.model.PhaserGameModel;
 import msignal.Signal.Signal1;
 import msignal.Signal.Signal0;
 
@@ -10,6 +11,18 @@ class PhaserGamePort {
     private static var countUpProgress:Signal1<Int> = new Signal1();
     private static var mobSlayed:Signal1<Int> = new Signal1();
     private static var gameStateUpdate:Signal1<GameStateOutcomingDTO> = new Signal1();
+
+    private static var phaserGame:PhaserGame;
+
+    static public function executeStart():Void {
+        phaserGame = new PhaserGame();
+    }
+
+    static public function executeStartGame(config:GameConfigurationIncomingDTO):Void {
+        PhaserGameModel.init(config);
+        phaserGame.init();
+        phaserGame.show();
+    }
 
     static public function setData(data:Dynamic):Void {
         phasergame.model.DefaultValues.setData(data);

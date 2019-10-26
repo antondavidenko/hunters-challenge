@@ -1,4 +1,4 @@
-package sidepanel;
+package sidepanel.api;
 
 import sidepanel.model.DataTypes.SidePanelItem;
 

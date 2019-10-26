@@ -7,7 +7,6 @@ import phasergame.sceneobjects.LocationDetailsCollection;
 import phasergame.sceneobjects.TextLabelsCollection;
 import phasergame.model.DefaultValues;
 import phasergame.CollisionDetector.CharackterAndMobData;
-import sidepanel.SidePanelControl;
 import phasergame.model.PhaserGameModel;
 import js.html.CanvasElement;
 import phasergame.sceneobjects.PlayersCollection;
@@ -32,14 +31,6 @@ class PhaserGame {
             scene: scene,
             physics: {"default": "arcade", "arcade": { "debug": false }},
         });
-    }
-
-    public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
-        gameCanvas.style.height = Std.int(DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer) + 'px';
-        gameCanvas.style.width = Std.int(DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer) + 'px';
-        gameCanvas.style.position = 'absolute';
-        gameCanvas.style.left = (windowWidth - DefaultValues.getGeneralConfig().phaserGameWidth * multiplayer) + 'px';
-        gameCanvas.style.top = ((windowHeight - DefaultValues.getGeneralConfig().phaserGameHeight * multiplayer) / 2) + 'px';
     }
 
     public function show():Void {

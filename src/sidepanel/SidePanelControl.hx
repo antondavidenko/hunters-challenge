@@ -1,10 +1,8 @@
 package sidepanel;
 
 import phasergame.api.PhaserGamePort;
-import sidepanel.model.DefaultValues;
 import sidepanel.model.DataTypes.SidePanelItem;
-import sidepanel.PublicAPI.SidePanelStateIncomingDTO;
-import js.html.CSSStyleDeclaration;
+import sidepanel.api.SidePanelStateIncomingDTO;
 import sidepanel.view.SidePanel;
 import js.html.HtmlElement;
 import react.ReactMacro.jsx;
@@ -45,13 +43,6 @@ class SidePanelControl {
             else if (a.progress > b.progress) return -1;
             else return 0;
         });
-    }
-
-    public function onResize(windowWidth:Int, windowHeight:Int, multiplayer:Float):Void {
-        var computedStyle:CSSStyleDeclaration = js.Browser.window.getComputedStyle(sidePanel);
-        var padding:Int = Std.parseInt(computedStyle.padding);
-        sidePanel.style.width = Std.int(windowWidth - DefaultValues.phaserGameWidth * multiplayer - padding*2) + 'px';
-        sidePanel.style.height = Std.int(DefaultValues.phaserGameHeight * multiplayer) + 'px';
     }
 
     public function show():Void {

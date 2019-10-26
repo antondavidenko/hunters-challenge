@@ -46,13 +46,6 @@ class MainMenuControl
         '), root);
     }
 
-    public function onResize(windowWidth:Int, windowHeight:Int):Void {
-        var maxMainMenuSize:Int = Std.parseInt(DefaultValues.maxMainMenuSize);
-        var loginPanel:HtmlElement;
-        loginPanel = cast js.Browser.document.getElementById("loginPanel");
-        loginPanel.style.marginTop = (windowHeight - maxMainMenuSize)/2 + 'px';
-    }
-
     public function hide():Void {
         var loginPanel:HtmlElement;
         loginPanel = cast js.Browser.document.getElementById("loginPanel");
